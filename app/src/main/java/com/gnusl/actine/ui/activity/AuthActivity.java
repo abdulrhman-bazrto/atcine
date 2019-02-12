@@ -44,7 +44,7 @@ public class AuthActivity extends AppCompatActivity {
             case LoginFragment:
 
                 mCurrentFragment = LoginFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
                 transaction.commit();
 
                 break;
