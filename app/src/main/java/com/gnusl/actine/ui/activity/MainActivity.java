@@ -9,9 +9,10 @@ import android.view.View;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.ui.enums.FragmentTags;
+import com.gnusl.actine.ui.fragment.HomeFragment;
 import com.gnusl.actine.ui.fragment.LoginFragment;
 
-public class AuthActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     private Fragment mCurrentFragment;
 
@@ -26,9 +27,10 @@ public class AuthActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 //                | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        setContentView(R.layout.activity_auth_activiy);
 
-        replaceFragment(FragmentTags.LoginFragment);
+        setContentView(R.layout.activity_main);
+
+        replaceFragment(FragmentTags.HomeFragment);
 
     }
 
@@ -41,19 +43,13 @@ public class AuthActivity extends AppCompatActivity {
         switch (fragmentTags) {
 
 
-            case LoginFragment:
+            case HomeFragment:
 
-                mCurrentFragment = LoginFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
+                mCurrentFragment = HomeFragment.newInstance();
+                transaction.replace(R.id.frame_container_main, mCurrentFragment);
                 transaction.commit();
 
                 break;
-
-//            case RegisterFragment:
-//                mCurrentFragment = RegisterFragment.newInstance();
-//                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
-//                transaction.commit();
-//                break;
         }
     }
 
@@ -65,4 +61,5 @@ public class AuthActivity extends AppCompatActivity {
 
         }
     }
+
 }

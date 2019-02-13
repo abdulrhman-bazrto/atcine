@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.gnusl.actine.R;
+import com.gnusl.actine.ui.activity.MainActivity;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
@@ -63,10 +64,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.btn_login: {
-//                ChatService.initiliazeService(getActivity());
-//                break;
-//            }
+            case R.id.btn_login: {
+                if (getActivity() != null) {
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                }
+                break;
+            }
         }
     }
 
