@@ -1,4 +1,4 @@
-package com.gnusl.actine.ui.enums;
+package com.gnusl.actine.enums;
 
 public enum FragmentTags {
 

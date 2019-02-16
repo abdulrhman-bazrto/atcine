@@ -8,9 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.ui.enums.FragmentTags;
+import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.fragment.HomeFragment;
-import com.gnusl.actine.ui.fragment.LoginFragment;
 
 public class MainActivity extends AppCompatActivity {
 

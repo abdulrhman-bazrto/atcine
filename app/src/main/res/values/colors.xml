@@ -19,4 +19,8 @@
     <color name="black">#000</color>
 
     <color name="bg_edit_text">#d3781515</color>
+
+    <color name="transparent">#00000000</color>
+
+
 </resources>

@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.custom.FeaturesPriceRow;
 
 
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -148,7 +147,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             la_cancel.setVisibility(View.GONE);
             la_devices.setVisibility(View.GONE);
             la_price.setVisibility(View.VISIBLE);
+
+            initilizePriceLayout();
         }
+    }
+
+    private void initilizePriceLayout() {
+        FeaturesPriceRow hdAvailable, ultraHdAvailable, screenCount, devicesAvailable, unlimited, cancel, free;
+        hdAvailable = inflatedView.findViewById(R.id.fpr_hd_available);
+        hdAvailable.setData("HD available", false, true, true);
+        ultraHdAvailable = inflatedView.findViewById(R.id.fpr_ultra_hd_available);
+        ultraHdAvailable.setData("Ultra HD available", false, false, true);
+        screenCount = inflatedView.findViewById(R.id.fpr_screen_count);
+        screenCount.setData("Screens you can watch on at the same time", true, true, true);
+        devicesAvailable = inflatedView.findViewById(R.id.fpr_devices_available);
+        devicesAvailable.setData("Watch on your laptop, TV, phone and tablet", true, true, true);
+        unlimited = inflatedView.findViewById(R.id.fpr_unlimited);
+        unlimited.setData("Unlimited movies and TV shows", true, true, true);
+        cancel = inflatedView.findViewById(R.id.fpr_cancel_any_time);
+        cancel.setData("Cancel any time", true, true, true);
+        free = inflatedView.findViewById(R.id.fpr_first_month_free);
+        free.setData("First month free", true, true, true);
+
+
     }
 
 
