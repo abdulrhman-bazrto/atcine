@@ -1,214 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context=".ui.fragment.LoginFragment">
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+    android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@drawable/bg_main"
-        app:layout_constraintBottom_toTopOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_watch_the_cinema"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:gravity="center"
-        android:text="Watch the cinema"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/black"
+        tools:context=".ui.fragment.HomeFragment">
 
-    <TextView
-        android:id="@+id/tv_in_your_home"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="in your home"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_watch_the_cinema" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="280dp" />
 
-    <TextView
-        android:id="@+id/tv_see_whats_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="See what's next"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/guideline" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/bg_main"
+            app:layout_constraintBottom_toTopOf="@+id/guideline"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_watch_any_where"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Watch anywhere. cancel anytime"
-        android:textColor="@color/white"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_see_whats_next" />
+        <TextView
+            android:id="@+id/tv_watch_the_cinema"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:text="Watch the cinema"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btn_join_free"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_button_main"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:text="Join Free for a Month"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_watch_any_where" />
+        <TextView
+            android:id="@+id/tv_in_your_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="in your home"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_watch_the_cinema" />
 
+        <TextView
+            android:id="@+id/tv_see_whats_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="See what's next"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideline" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline1"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.33" />
+        <TextView
+            android:id="@+id/tv_watch_any_where"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Watch anywhere. cancel anytime"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_see_whats_next" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="1dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.66" />
-
-    <TextView
-        android:id="@+id/tv_cancel"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
-        android:background="@color/dark_gray"
-        android:drawableTop="@drawable/icon_cancel_grey"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:text="Cancel"
-        android:textColor="@color/dark_light_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
-
-    <ImageView
-        android:id="@+id/iv_cancel_arrow"
-        android:layout_width="24dp"
-        android:layout_height="12dp"
-        android:src="@drawable/icon_down_red"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/tv_cancel"
-        app:layout_constraintStart_toStartOf="@+id/tv_cancel"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cancel" />
-
-    <TextView
-        android:id="@+id/tv_devices"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="5dp"
-        android:background="@color/dark_gray"
-        android:drawableTop="@drawable/icon_devices_grey"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:text="Devices"
-        android:textColor="@color/dark_light_gray"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toEndOf="@+id/guideline1"
-        app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
-
-    <ImageView
-        android:id="@+id/iv_devices_arrow"
-        android:layout_width="24dp"
-        android:layout_height="12dp"
-        android:src="@drawable/icon_down_red"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/tv_devices"
-        app:layout_constraintStart_toStartOf="@+id/tv_devices"
-        app:layout_constraintTop_toBottomOf="@+id/tv_devices" />
+        <Button
+            android:id="@+id/btn_join_free"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_button_main"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Join Free for a Month"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_watch_any_where" />
 
 
-    <TextView
-        android:id="@+id/tv_price"
-        android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="5dp"
-        android:background="@color/dark_gray"
-        android:drawableTop="@drawable/icon_price_grey"
-        android:gravity="center"
-        android:paddingTop="10dp"
-        android:text="Price"
-        android:textColor="@color/dark_light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline1"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.33" />
 
-    <ImageView
-        android:id="@+id/iv_price_arrow"
-        android:layout_width="24dp"
-        android:layout_height="12dp"
-        android:src="@drawable/icon_down_red"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@+id/tv_price"
-        app:layout_constraintStart_toStartOf="@+id/tv_price"
-        app:layout_constraintTop_toBottomOf="@+id/tv_price" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.66" />
+
+        <TextView
+            android:id="@+id/tv_cancel"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="30dp"
+            android:background="@color/dark_gray"
+            android:drawableTop="@drawable/icon_cancel_grey"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Cancel"
+            android:textColor="@color/dark_light_gray"
+            app:layout_constraintEnd_toStartOf="@+id/guideline1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
+
+        <ImageView
+            android:id="@+id/iv_cancel_arrow"
+            android:layout_width="24dp"
+            android:layout_height="12dp"
+            android:src="@drawable/icon_down_red"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_cancel"
+            app:layout_constraintStart_toStartOf="@+id/tv_cancel"
+            app:layout_constraintTop_toBottomOf="@+id/tv_cancel" />
+
+        <TextView
+            android:id="@+id/tv_devices"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/dark_gray"
+            android:drawableTop="@drawable/icon_devices_grey"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Devices"
+            android:textColor="@color/dark_light_gray"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toEndOf="@+id/guideline1"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
+
+        <ImageView
+            android:id="@+id/iv_devices_arrow"
+            android:layout_width="24dp"
+            android:layout_height="12dp"
+            android:src="@drawable/icon_down_red"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_devices"
+            app:layout_constraintStart_toStartOf="@+id/tv_devices"
+            app:layout_constraintTop_toBottomOf="@+id/tv_devices" />
 
 
-    <TextView
-        android:id="@+id/tv_btn_desc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="5dp"
-        android:gravity="center"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_devices" />
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="5dp"
+            android:background="@color/dark_gray"
+            android:drawableTop="@drawable/icon_price_grey"
+            android:gravity="center"
+            android:paddingTop="10dp"
+            android:text="Price"
+            android:textColor="@color/dark_light_gray"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideline2"
+            app:layout_constraintTop_toBottomOf="@+id/btn_join_free" />
 
-    <Button
-        android:id="@+id/btn_join_free1"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/bg_button_main"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:text="Join Free for a Month"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_btn_desc" />
+        <ImageView
+            android:id="@+id/iv_price_arrow"
+            android:layout_width="24dp"
+            android:layout_height="12dp"
+            android:src="@drawable/icon_down_red"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tv_price"
+            app:layout_constraintStart_toStartOf="@+id/tv_price"
+            app:layout_constraintTop_toBottomOf="@+id/tv_price" />
 
-</android.support.constraint.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_btn_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="5dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_devices" />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_of_layouts"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/tv_btn_desc">
+
+
+            <include
+                android:id="@+id/layout_cancel"
+                layout="@layout/layout_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                android:id="@+id/layout_devices"
+                layout="@layout/layout_devices"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <include
+                android:id="@+id/layout_price"
+                layout="@layout/layout_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_join_free1"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/bg_button_main"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="Join Free for a Month"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cl_of_layouts" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

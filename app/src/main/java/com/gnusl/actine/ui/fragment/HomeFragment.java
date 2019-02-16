@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private TextView tvPrice, tvDevices, tvCancel, tvBtnDesc;
     private ImageView tvPriceArrow, tvDevicesArrow, tvCancelArrow;
+    private View la_cancel, la_devices, la_price;
 
     boolean isPriceSelected = false, isDevicesSelected = false, isCancelSelected = true;
 
@@ -66,6 +67,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         tvPriceArrow = inflatedView.findViewById(R.id.iv_price_arrow);
         tvDevicesArrow = inflatedView.findViewById(R.id.iv_devices_arrow);
 
+        la_cancel = inflatedView.findViewById(R.id.layout_cancel);
+        la_devices = inflatedView.findViewById(R.id.layout_devices);
+        la_price = inflatedView.findViewById(R.id.layout_price);
+
         lightSelected();
 
         tvCancel.setOnClickListener(this);
@@ -93,6 +98,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             tvDevicesArrow.setVisibility(View.GONE);
             tvPriceArrow.setVisibility(View.GONE);
 
+            la_cancel.setVisibility(View.VISIBLE);
+            la_devices.setVisibility(View.GONE);
+            la_price.setVisibility(View.GONE);
+
 
         } else if (isDevicesSelected) {
             tvDevices.setTextColor(getResources().getColor(R.color.white));
@@ -113,6 +122,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             tvDevicesArrow.setVisibility(View.VISIBLE);
             tvPriceArrow.setVisibility(View.GONE);
 
+            la_cancel.setVisibility(View.GONE);
+            la_devices.setVisibility(View.VISIBLE);
+            la_price.setVisibility(View.GONE);
+
         } else if (isPriceSelected) {
             tvPrice.setTextColor(getResources().getColor(R.color.white));
             tvPrice.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_price_white), null, null);
@@ -131,6 +144,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             tvCancelArrow.setVisibility(View.GONE);
             tvDevicesArrow.setVisibility(View.GONE);
             tvPriceArrow.setVisibility(View.VISIBLE);
+
+            la_cancel.setVisibility(View.GONE);
+            la_devices.setVisibility(View.GONE);
+            la_price.setVisibility(View.VISIBLE);
         }
     }
 
