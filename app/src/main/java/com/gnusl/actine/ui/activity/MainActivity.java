@@ -1,15 +1,14 @@
 package com.gnusl.actine.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
-import com.gnusl.actine.ui.fragment.HomeFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
         switch (fragmentTags) {
 
 
-            case HomeFragment:
-
-                mCurrentFragment = HomeFragment.newInstance();
-                transaction.replace(R.id.frame_container_main, mCurrentFragment);
-                transaction.commit();
-
-                break;
         }
     }
 
@@ -58,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
 
+        } else {
+            super.onBackPressed();
         }
     }
 

@@ -1,35 +1,37 @@
 package com.gnusl.actine.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.custom.FeaturesPriceRow;
 
 
-public class HomeFragment extends Fragment implements View.OnClickListener {
+public class GuestFragment extends Fragment implements View.OnClickListener {
 
     private View inflatedView;
 
     private TextView tvPrice, tvDevices, tvCancel, tvBtnDesc;
     private ImageView tvPriceArrow, tvDevicesArrow, tvCancelArrow;
     private View la_cancel, la_devices, la_price;
+    private Button btnJoinFree;
 
     boolean isPriceSelected = false, isDevicesSelected = false, isCancelSelected = true;
 
-    public HomeFragment() {
+    public GuestFragment() {
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static GuestFragment newInstance() {
+        GuestFragment fragment = new GuestFragment();
         Bundle args = new Bundle();
 
 
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
+            inflatedView = inflater.inflate(R.layout.fragment_guest, container, false);
             isDevicesSelected = true;
             init();
         }
@@ -57,6 +59,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init() {
+
+        btnJoinFree = inflatedView.findViewById(R.id.btn_join_free);
+
         tvCancel = inflatedView.findViewById(R.id.tv_cancel);
         tvDevices = inflatedView.findViewById(R.id.tv_devices);
         tvPrice = inflatedView.findViewById(R.id.tv_price);
@@ -75,6 +80,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         tvCancel.setOnClickListener(this);
         tvDevices.setOnClickListener(this);
         tvPrice.setOnClickListener(this);
+
+        btnJoinFree.setOnClickListener(this);
     }
 
     private void lightSelected() {
@@ -176,9 +183,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_login: {
+            case R.id.btn_join_free: {
                 if (getActivity() != null) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
                 }
                 break;
             }

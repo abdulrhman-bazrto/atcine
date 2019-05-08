@@ -9,6 +9,8 @@
 
     <color name="main_red_color">#AF1116</color>
 
+    <color name="planUnSelectColor">#EA9F9F</color>
+
     <color name="white">#ffffff</color>
 
     <color name="gray">#afabab</color>

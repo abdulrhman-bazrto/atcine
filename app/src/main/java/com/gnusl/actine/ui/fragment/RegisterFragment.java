@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
@@ -14,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
@@ -27,8 +25,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     View inflatedView;
 
-    private Button loginButton;
-    private EditText username, password, confirmPassword;
+    private Button btnGotoStep2, btnGotoStep3, btnPayment;
+    private View viewStep1, viewStep2, viewStep3;
+
     private TextView tvAlreadyUser;
 
 
@@ -63,11 +62,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     }
 
     private void init() {
-        loginButton = inflatedView.findViewById(R.id.btn_register);
-        username = inflatedView.findViewById(R.id.et_username);
-        password = inflatedView.findViewById(R.id.et_password);
-        confirmPassword = inflatedView.findViewById(R.id.et_password_confirm);
+
+        viewStep1 = inflatedView.findViewById(R.id.sv_step1);
+        viewStep2 = inflatedView.findViewById(R.id.ll_step2);
+        viewStep3 = inflatedView.findViewById(R.id.cl_step3);
+
+        btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
+        btnGotoStep3 = inflatedView.findViewById(R.id.btn_register);
+        btnPayment = inflatedView.findViewById(R.id.btn_start_membership);
+
         tvAlreadyUser = inflatedView.findViewById(R.id.tv_already_user);
+
+        btnGotoStep2.setOnClickListener(this);
+        btnGotoStep3.setOnClickListener(this);
+        btnPayment.setOnClickListener(this);
 
         SpannableString ss = new SpannableString(tvAlreadyUser.getText().toString());
         ClickableSpan span1 = new ClickableSpan() {
@@ -86,16 +94,28 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         tvAlreadyUser.setMovementMethod(LinkMovementMethod.getInstance());
         tvAlreadyUser.setText(ss);
 
-        loginButton.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_login: {
+            case R.id.btn_goto_step2: {
+                viewStep1.setVisibility(View.GONE);
+                viewStep2.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.btn_register: {
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.btn_start_membership: {
                 if (getActivity() != null) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    if (getActivity() != null) {
+                        startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
+                    }
                 }
                 break;
             }

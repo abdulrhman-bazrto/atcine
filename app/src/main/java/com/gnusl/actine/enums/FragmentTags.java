@@ -4,7 +4,8 @@ public enum FragmentTags {
 
     LoginFragment(0),
     RegisterFragment(1),
-    HomeFragment(2),
+    GuestFragment(2),
+    HomeFragment(3),
     ;
 
 

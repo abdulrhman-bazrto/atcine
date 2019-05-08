@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.01" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline1"
@@ -30,13 +30,15 @@
 
     <TextView
         android:id="@+id/tv_basic"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/bg_plan_selected"
+        android:gravity="center"
         android:src="@drawable/icon_check"
         android:text="Basic"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,9 +46,11 @@
 
     <TextView
         android:id="@+id/tv_standard"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/bg_plan_unselected"
+        android:gravity="center"
         android:src="@drawable/icon_check"
         android:text="Standard"
         android:textColor="@color/white"
@@ -58,9 +62,11 @@
 
     <TextView
         android:id="@+id/tv_premium"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
+        android:layout_width="110dp"
+        android:layout_height="50dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/bg_plan_unselected"
+        android:gravity="center"
         android:src="@drawable/icon_check"
         android:text="Premium"
         android:textColor="@color/white"
@@ -76,7 +82,7 @@
         android:layout_height="24dp"
         android:layout_marginTop="30dp"
         android:src="@drawable/icon_check"
-        android:text="Monthly price after free month ends on 3/8/2019"
+        android:text="Monthly price"
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -104,7 +110,7 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_check"
         android:text="USD 9.99"
-        android:textColor="@color/main_red_color"
+        android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/guideline"
@@ -118,7 +124,7 @@
         android:layout_marginTop="10dp"
         android:src="@drawable/icon_check"
         android:text="USD 11.99"
-        android:textColor="@color/main_red_color"
+        android:textColor="@color/white"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

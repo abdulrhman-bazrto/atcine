@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.ui.fragment.GuestFragment;
 import com.gnusl.actine.ui.fragment.LoginFragment;
 import com.gnusl.actine.ui.fragment.RegisterFragment;
 
@@ -28,7 +29,7 @@ public class AuthActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_auth_activiy);
 
-        replaceFragment(FragmentTags.RegisterFragment);
+        replaceFragment(FragmentTags.GuestFragment);
 
     }
 
@@ -40,11 +41,18 @@ public class AuthActivity extends AppCompatActivity {
 
         switch (fragmentTags) {
 
+            case GuestFragment:
+
+                mCurrentFragment = GuestFragment.newInstance();
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
+                transaction.commit();
+
+                break;
 
             case LoginFragment:
 
                 mCurrentFragment = LoginFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
                 transaction.commit();
 
                 break;
