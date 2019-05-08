@@ -1,9 +1,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
-    <solid android:color="@color/bg_edit_text" />
+    <gradient
+        android:endColor="@color/gradient_end_color"
+        android:startColor="@color/gradient_start_color" />
     <stroke
         android:width="0.5dp"
-        android:color="@color/gray" />
+        android:color="@color/black" />
 
     <corners android:radius="16dp" />
 

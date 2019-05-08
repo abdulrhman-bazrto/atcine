@@ -3,7 +3,8 @@ package com.gnusl.actine.enums;
 public enum FragmentTags {
 
     LoginFragment(0),
-    HomeFragment(1),
+    RegisterFragment(1),
+    HomeFragment(2),
     ;
 
 
