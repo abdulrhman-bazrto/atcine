@@ -4,32 +4,67 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatImageView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
+import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider {
 
     private Fragment mCurrentFragment;
+    private MainFragmentPagerAdapter pagerAdapter;
+    private ViewPager vpHome;
+    private SmartTabLayout tlHome;
+    private int selectedPosition;
+    private FragmentTags selectedFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        View decorView = getWindow().getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-
         setContentView(R.layout.activity_main);
+
+        init();
 
         replaceFragment(FragmentTags.HomeFragment);
 
+    }
+
+    private void init() {
+
+        findViews();
+
+        // pager
+        pagerAdapter = new MainFragmentPagerAdapter(this, getSupportFragmentManager());
+        vpHome.setAdapter(pagerAdapter);
+        tlHome.setCustomTabView(this);
+        tlHome.setViewPager(vpHome);
+        //default state is home fragment
+        setFragmentView(0);
+        selectedPosition = 0;
+        tlHome.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
+            @Override
+            public void onTabClicked(int position) {
+                // set fragment view
+                setFragmentView(position);
+                selectedPosition = position;
+
+            }
+        });
+    }
+
+    private void findViews() {
+        tlHome = findViewById(R.id.tl_home);
+        vpHome = findViewById(R.id.vp_home);
     }
 
     public void replaceFragment(FragmentTags fragmentTags) {
@@ -42,6 +77,128 @@ public class MainActivity extends AppCompatActivity {
 
 
         }
+    }
+
+    private void setFragmentView(int position) {
+        this.selectedFragment = getFragmentTagByPosition(position);
+        if (vpHome != null)
+            vpHome.setCurrentItem(position);
+
+        View defaultView = tlHome.getTabAt(selectedPosition);
+        AppCompatImageView ivIcon = defaultView.findViewById(R.id.iv_icon);
+        TextView tvTitle = defaultView.findViewById(R.id.tv_title);
+        switch (selectedPosition) {
+            case 0:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_home_gray));
+                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+                break;
+            case 1:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_search_gray));
+                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+                break;
+            case 2:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
+                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+                break;
+            case 3:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_gray));
+                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+                break;
+            case 4:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_gray));
+                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+
+                break;
+        }
+        selectedPosition = position;
+        View view = tlHome.getTabAt(position);
+        if (view != null) {
+            AppCompatImageView icon = view.findViewById(R.id.iv_icon);
+            TextView title = view.findViewById(R.id.tv_title);
+            switch (position) {
+                case 0:
+                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_home_white));
+                    title.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case 1:
+                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_search_white));
+                    title.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case 2:
+                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_white));
+                    title.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case 3:
+                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_white));
+                    title.setTextColor(getResources().getColor(R.color.white));
+                    break;
+                case 4:
+                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_white));
+                    title.setTextColor(getResources().getColor(R.color.white));
+                    break;
+            }
+        }
+    }
+
+    private FragmentTags getFragmentTagByPosition(int position) {
+
+        switch (position) {
+
+            case 0:
+                return FragmentTags.HomeFragment;
+
+            case 1:
+                return FragmentTags.SearchFragment;
+
+            case 2:
+                return FragmentTags.ComingSoonFragment;
+
+            case 3:
+                return FragmentTags.DownloadsFragment;
+
+            default:
+                return FragmentTags.MoreFragment;
+        }
+    }
+
+    @Override
+    public View createTabView(ViewGroup container, int position, PagerAdapter adapter) {
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View inflatedView = inflater.inflate(R.layout.item_custom_tab_view, container, false);
+
+        AppCompatImageView ivIcon = inflatedView.findViewById(R.id.iv_icon);
+        TextView tvTitle = inflatedView.findViewById(R.id.tv_title);
+
+        switch (position) {
+            case 0:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_home_gray));
+                tvTitle.setText("Home");
+                break;
+
+            case 1:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_search_gray));
+                tvTitle.setText("Search");
+                break;
+
+            case 2:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
+                tvTitle.setText("Coming Soon");
+                break;
+
+            case 3:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_gray));
+                tvTitle.setText("Download");
+                break;
+
+            case 4:
+                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_gray));
+                tvTitle.setText("More");
+                break;
+
+        }
+
+        return inflatedView;
     }
 
     @Override
