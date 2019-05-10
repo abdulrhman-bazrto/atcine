@@ -3,7 +3,6 @@ package com.gnusl.actine.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,22 +12,19 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.ui.activity.MainActivity;
-import com.gnusl.actine.ui.adapter.HomeAdapter;
 
 
-public class HomeFragment extends Fragment implements HomeMovieClick {
+public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
 
     View inflatedView;
 
-    private RecyclerView rvHome;
-    private HomeAdapter homeAdapter;
+    private RecyclerView rvShowDetails;
 
-
-    public HomeFragment() {
+    public ShowDetailsFragment() {
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static ShowDetailsFragment newInstance() {
+        ShowDetailsFragment fragment = new ShowDetailsFragment();
         Bundle args = new Bundle();
 
 
@@ -48,7 +44,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
+            inflatedView = inflater.inflate(R.layout.fragment_show_details, container, false);
             init();
         }
         return inflatedView;
@@ -58,20 +54,11 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
 
         findViews();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-
-        layoutManager.setInitialPrefetchItemCount(3);
-
-        rvHome.setLayoutManager(layoutManager);
-
-        homeAdapter = new HomeAdapter(getActivity(), this);
-
-        rvHome.setAdapter(homeAdapter);
 
     }
 
     private void findViews() {
-        rvHome = inflatedView.findViewById(R.id.rv_home);
+        rvShowDetails = inflatedView.findViewById(R.id.rv_show_details);
 
     }
 

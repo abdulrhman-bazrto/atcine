@@ -3,7 +3,6 @@ package com.gnusl.actine.ui.activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +15,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
+import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider {
@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         setContentView(R.layout.activity_main);
 
         init();
-
-        replaceFragment(FragmentTags.HomeFragment);
 
     }
 
@@ -65,18 +63,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     private void findViews() {
         tlHome = findViewById(R.id.tl_home);
         vpHome = findViewById(R.id.vp_home);
-    }
-
-    public void replaceFragment(FragmentTags fragmentTags) {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-
-        switch (fragmentTags) {
-
-
-        }
     }
 
     private void setFragmentView(int position) {
@@ -145,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         switch (position) {
 
             case 0:
-                return FragmentTags.HomeFragment;
+                return FragmentTags.HomeContainerFragment;
 
             case 1:
                 return FragmentTags.SearchFragment;
@@ -201,14 +187,20 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         return inflatedView;
     }
 
+    public Fragment getmCurrentFragment() {
+        return pagerAdapter.getCurrentFragment();
+    }
+
     @Override
     public void onBackPressed() {
-        FragmentManager fm = getSupportFragmentManager();
-        if (fm.getBackStackEntryCount() > 0) {
-            fm.popBackStack();
-
-        } else {
-            super.onBackPressed();
+        Fragment fragment = getmCurrentFragment();
+        if (fragment instanceof HomeContainerFragment) {
+            FragmentManager fm = fragment.getChildFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

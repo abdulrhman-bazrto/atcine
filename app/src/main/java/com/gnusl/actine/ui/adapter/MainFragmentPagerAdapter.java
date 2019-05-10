@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
@@ -21,7 +23,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new Fragment();
+            return HomeContainerFragment.newInstance();
         } else if (position == 1) {
             return new Fragment();
         } else if (position == 2) {

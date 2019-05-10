@@ -9,7 +9,10 @@ public enum FragmentTags {
     SearchFragment(4),
     ComingSoonFragment(5),
     DownloadsFragment(6),
-    MoreFragment(7);
+    MoreFragment(7),
+    HomeContainerFragment(8),
+    ShowDetailsFragment(9),
+    ;
 
 
     int type;
