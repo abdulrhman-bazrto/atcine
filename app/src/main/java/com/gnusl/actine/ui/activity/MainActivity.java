@@ -15,9 +15,8 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
-import com.gnusl.actine.ui.custom.CustomAppBar;
-import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider {
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     private SmartTabLayout tlHome;
     private int selectedPosition;
     private FragmentTags selectedFragment;
-    private CustomAppBar cubHome;
-    private CustomAppBarWithBack cubHomeWithBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,21 +58,12 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             }
         });
 
-
-        cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
-
     }
 
     private void findViews() {
         tlHome = findViewById(R.id.tl_home);
         vpHome = findViewById(R.id.vp_home);
-        cubHome = findViewById(R.id.cub_home);
-        cubHomeWithBack = findViewById(R.id.cub_home_with_back);
+
     }
 
     private void setFragmentView(int position) {
@@ -204,15 +192,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         return pagerAdapter.getCurrentFragment();
     }
 
-    public void showBackAppBar() {
-        cubHomeWithBack.setVisibility(View.VISIBLE);
-        cubHome.setVisibility(View.INVISIBLE);
-    }
-
-    public void showHomeAppBar() {
-        cubHomeWithBack.setVisibility(View.INVISIBLE);
-        cubHome.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void onBackPressed() {
@@ -223,6 +202,14 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 fm.popBackStack();
             } else {
                 super.onBackPressed();
+            }
+        }
+        if (fragment instanceof SearchContainerFragment) {
+            FragmentManager fm = fragment.getChildFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else {
+                setFragmentView(0);
             }
         }
     }

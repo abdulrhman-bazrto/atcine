@@ -12,6 +12,7 @@ public enum FragmentTags {
     MoreFragment(7),
     HomeContainerFragment(8),
     ShowDetailsFragment(9),
+    SearchResultFragment(10),
     ;
 
 

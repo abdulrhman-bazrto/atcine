@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 
 
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
@@ -25,7 +26,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         if (position == 0) {
             return HomeContainerFragment.newInstance();
         } else if (position == 1) {
-            return new Fragment();
+            return SearchContainerFragment.newInstance();
         } else if (position == 2) {
             return new Fragment();
         } else if (position == 3) {

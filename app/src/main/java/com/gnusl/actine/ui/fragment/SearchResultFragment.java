@@ -3,7 +3,7 @@ package com.gnusl.actine.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +13,21 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.ui.activity.MainActivity;
-import com.gnusl.actine.ui.adapter.HomeAdapter;
-import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 
 
-public class HomeFragment extends Fragment implements HomeMovieClick {
+public class SearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick {
 
     View inflatedView;
 
-    private RecyclerView rvHome;
-    private HomeAdapter homeAdapter;
-    private CustomAppBar cubHome;
+    RecyclerView rvSearchResult;
+    private MovieMoreLikeAdapter movieMoreLikeAdapter;
 
-
-    public HomeFragment() {
+    public SearchResultFragment() {
     }
 
-    public static HomeFragment newInstance() {
-        HomeFragment fragment = new HomeFragment();
+    public static SearchResultFragment newInstance() {
+        SearchResultFragment fragment = new SearchResultFragment();
         Bundle args = new Bundle();
 
 
@@ -50,10 +47,9 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
+            inflatedView = inflater.inflate(R.layout.fragment_search_result, container, false);
             init();
         }
-
         return inflatedView;
     }
 
@@ -61,31 +57,35 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
 
         findViews();
 
-        rvHome.setNestedScrollingEnabled(true);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
-        layoutManager.setInitialPrefetchItemCount(3);
+        rvSearchResult.setLayoutManager(gridLayoutManager);
 
-        rvHome.setLayoutManager(layoutManager);
+        rvSearchResult.setAdapter(movieMoreLikeAdapter);
 
-        homeAdapter = new HomeAdapter(getActivity(), this);
-
-        rvHome.setAdapter(homeAdapter);
 
     }
 
     private void findViews() {
-        rvHome = inflatedView.findViewById(R.id.rv_home);
-        cubHome = inflatedView.findViewById(R.id.cub_home);
+        rvSearchResult = inflatedView.findViewById(R.id.rv_search_result);
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+        }
     }
 
     @Override
     public void onClickMovie() {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof HomeContainerFragment) {
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
+            if (fragment instanceof SearchContainerFragment) {
+                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
             }
         }
     }

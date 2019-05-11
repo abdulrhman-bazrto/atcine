@@ -14,6 +14,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
+import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 
 
 public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
@@ -21,6 +22,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
     View inflatedView;
 
     private RecyclerView rvShowDetails;
+    private CustomAppBarWithBack cubHomeWithBack;
 
     public ShowDetailsFragment() {
     }
@@ -49,9 +51,6 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
             inflatedView = inflater.inflate(R.layout.fragment_show_details, container, false);
             init();
         }
-        if (getActivity() != null) {
-            ((MainActivity) getActivity()).showBackAppBar();
-        }
         return inflatedView;
     }
 
@@ -71,6 +70,14 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
 
     private void findViews() {
         rvShowDetails = inflatedView.findViewById(R.id.rv_show_details);
+        cubHomeWithBack = inflatedView.findViewById(R.id.cub_home_with_back);
+
+        cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
     }
 
@@ -80,6 +87,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
                 ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
+            } else if (fragment instanceof SearchContainerFragment) {
+                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
             }
         }
     }

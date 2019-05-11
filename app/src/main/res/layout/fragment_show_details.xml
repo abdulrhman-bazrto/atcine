@@ -7,9 +7,20 @@
     android:background="@color/black"
     tools:context=".ui.fragment.ShowDetailsFragment">
 
+    <com.gnusl.actine.ui.custom.CustomAppBarWithBack
+        android:id="@+id/cub_home_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <include
         android:id="@+id/l_show_details"
-        layout="@layout/layout_movie_details" />
+        layout="@layout/layout_movie_details"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toBottomOf="@+id/cub_home_with_back" />
 
     <TextView
         android:id="@+id/tv_more_like_this"

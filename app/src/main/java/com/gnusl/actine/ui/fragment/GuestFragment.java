@@ -23,7 +23,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
     private TextView tvPrice, tvDevices, tvCancel, tvBtnDesc;
     private ImageView tvPriceArrow, tvDevicesArrow, tvCancelArrow;
     private View la_cancel, la_devices, la_price;
-    private Button btnJoinFree;
+    private Button btnJoinFree, btnJoinFree1;
 
     boolean isPriceSelected = false, isDevicesSelected = false, isCancelSelected = true;
 
@@ -61,6 +61,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
     private void init() {
 
         btnJoinFree = inflatedView.findViewById(R.id.btn_join_free);
+        btnJoinFree1 = inflatedView.findViewById(R.id.btn_join_free1);
 
         tvCancel = inflatedView.findViewById(R.id.tv_cancel);
         tvDevices = inflatedView.findViewById(R.id.tv_devices);
@@ -82,6 +83,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
         tvPrice.setOnClickListener(this);
 
         btnJoinFree.setOnClickListener(this);
+        btnJoinFree1.setOnClickListener(this);
     }
 
     private void lightSelected() {
@@ -183,7 +185,8 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_join_free: {
+            case R.id.btn_join_free:
+            case R.id.btn_join_free1: {
                 if (getActivity() != null) {
                     ((AuthActivity) getActivity()).replaceFragment(FragmentTags.RegisterFragment);
                 }
