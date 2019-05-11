@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.gnusl.actine.ui.fragment.ComingSoonContainerFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 
@@ -28,7 +29,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 1) {
             return SearchContainerFragment.newInstance();
         } else if (position == 2) {
-            return new Fragment();
+            return ComingSoonContainerFragment.newInstance();
         } else if (position == 3) {
             return new Fragment();
         } else
