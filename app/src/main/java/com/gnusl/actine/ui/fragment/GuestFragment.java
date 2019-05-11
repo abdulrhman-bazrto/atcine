@@ -185,7 +185,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.btn_join_free: {
                 if (getActivity() != null) {
-                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.RegisterFragment);
                 }
                 break;
             }

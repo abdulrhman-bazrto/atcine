@@ -52,8 +52,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
             init();
         }
 
-        if (getActivity() != null){
-            ((MainActivity)getActivity()).showHomeAppBar();
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).showHomeAppBar();
         }
 
         return inflatedView;
@@ -62,6 +62,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
     private void init() {
 
         findViews();
+
+        rvHome.setNestedScrollingEnabled(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 

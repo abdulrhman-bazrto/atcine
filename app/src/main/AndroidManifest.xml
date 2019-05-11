@@ -18,7 +18,9 @@
             </intent-filter>
 
         </activity>
-        <activity android:name=".ui.activity.AuthActivity" />
+        <activity
+            android:name=".ui.activity.AuthActivity"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:theme="@style/AppTheme1">

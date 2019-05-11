@@ -19,6 +19,7 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.custom.CustomAppBarRegister;
 
 
 public class RegisterFragment extends Fragment implements View.OnClickListener {
@@ -29,6 +30,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     private View viewStep1, viewStep2, viewStep3;
 
     private TextView tvAlreadyUser;
+    private CustomAppBarRegister cubRegister;
 
 
     public RegisterFragment() {
@@ -63,19 +65,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
 
-        viewStep1 = inflatedView.findViewById(R.id.sv_step1);
-        viewStep2 = inflatedView.findViewById(R.id.ll_step2);
-        viewStep3 = inflatedView.findViewById(R.id.cl_step3);
+        findViews();
 
-        btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
-        btnGotoStep3 = inflatedView.findViewById(R.id.btn_register);
-        btnPayment = inflatedView.findViewById(R.id.btn_start_membership);
-
-        tvAlreadyUser = inflatedView.findViewById(R.id.tv_already_user);
 
         btnGotoStep2.setOnClickListener(this);
         btnGotoStep3.setOnClickListener(this);
         btnPayment.setOnClickListener(this);
+        cubRegister.getBtnLogin().setOnClickListener(this);
 
         SpannableString ss = new SpannableString(tvAlreadyUser.getText().toString());
         ClickableSpan span1 = new ClickableSpan() {
@@ -96,6 +92,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    private void findViews() {
+        viewStep1 = inflatedView.findViewById(R.id.sv_step1);
+        viewStep2 = inflatedView.findViewById(R.id.ll_step2);
+        viewStep3 = inflatedView.findViewById(R.id.cl_step3);
+
+        btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
+        btnGotoStep3 = inflatedView.findViewById(R.id.btn_register);
+        btnPayment = inflatedView.findViewById(R.id.btn_start_membership);
+
+        tvAlreadyUser = inflatedView.findViewById(R.id.tv_already_user);
+
+        cubRegister = inflatedView.findViewById(R.id.cub_register);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -112,10 +122,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
             case R.id.btn_start_membership: {
                 if (getActivity() != null) {
-                    if (getActivity() != null) {
-                        startActivity(new Intent(getActivity(), MainActivity.class));
-                        getActivity().finish();
-                    }
+                    startActivity(new Intent(getActivity(), MainActivity.class));
+                    getActivity().finish();
+                }
+                break;
+            }
+            case R.id.btn_login: {
+                if (getActivity() != null) {
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
                 }
                 break;
             }
