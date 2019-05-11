@@ -3,7 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <!--<color name="colorPrimaryDark">#f1262626</color>-->
     <color name="colorPrimaryDark">#000</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#fff</color>
 
     <color name="gradient_start_color">#C02026</color>
     <color name="gradient_end_color">#510000</color>

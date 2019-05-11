@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
+import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
@@ -211,6 +212,9 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             } else {
                 setFragmentView(0);
             }
+        }
+        if (fragment instanceof DownloadFragment) {
+            return;
         }
     }
 
