@@ -3,6 +3,7 @@ package com.gnusl.actine.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 
 
 public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
@@ -47,6 +49,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
             inflatedView = inflater.inflate(R.layout.fragment_show_details, container, false);
             init();
         }
+        if (getActivity() != null) {
+            ((MainActivity) getActivity()).showBackAppBar();
+        }
         return inflatedView;
     }
 
@@ -54,6 +59,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick {
 
         findViews();
 
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+
+        rvShowDetails.setLayoutManager(gridLayoutManager);
+
+        MovieMoreLikeAdapter movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
+
+        rvShowDetails.setAdapter(movieMoreLikeAdapter);
 
     }
 

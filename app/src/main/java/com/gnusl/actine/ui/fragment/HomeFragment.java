@@ -51,6 +51,11 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
             inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
             init();
         }
+
+        if (getActivity() != null){
+            ((MainActivity)getActivity()).showHomeAppBar();
+        }
+
         return inflatedView;
     }
 

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
+import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     private SmartTabLayout tlHome;
     private int selectedPosition;
     private FragmentTags selectedFragment;
+    private CustomAppBar cubHome;
+    private CustomAppBarWithBack cubHomeWithBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +45,37 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
         findViews();
 
-        // pager
         pagerAdapter = new MainFragmentPagerAdapter(this, getSupportFragmentManager());
         vpHome.setAdapter(pagerAdapter);
         tlHome.setCustomTabView(this);
         tlHome.setViewPager(vpHome);
+
         //default state is home fragment
         setFragmentView(0);
         selectedPosition = 0;
         tlHome.setOnTabClickListener(new SmartTabLayout.OnTabClickListener() {
             @Override
             public void onTabClicked(int position) {
-                // set fragment view
                 setFragmentView(position);
                 selectedPosition = position;
-
             }
         });
+
+
+        cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
     }
 
     private void findViews() {
         tlHome = findViewById(R.id.tl_home);
         vpHome = findViewById(R.id.vp_home);
+        cubHome = findViewById(R.id.cub_home);
+        cubHomeWithBack = findViewById(R.id.cub_home_with_back);
     }
 
     private void setFragmentView(int position) {
@@ -189,6 +202,16 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     public Fragment getmCurrentFragment() {
         return pagerAdapter.getCurrentFragment();
+    }
+
+    public void showBackAppBar() {
+        cubHomeWithBack.setVisibility(View.VISIBLE);
+        cubHome.setVisibility(View.INVISIBLE);
+    }
+
+    public void showHomeAppBar() {
+        cubHomeWithBack.setVisibility(View.INVISIBLE);
+        cubHome.setVisibility(View.VISIBLE);
     }
 
     @Override
