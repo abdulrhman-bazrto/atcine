@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.gnusl.actine.ui.fragment.ComingSoonContainerFragment;
 import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 
 
@@ -34,7 +36,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         } else if (position == 3) {
             return DownloadFragment.newInstance();
         } else
-            return new Fragment();
+            return MoreContainerFragment.newInstance();
     }
 
     // This determines the number of tabs
@@ -52,7 +54,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public void setPrimaryItem(ViewGroup container, int position, Object object) {
+    public void setPrimaryItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (getCurrentFragment() != object) {
             mCurrentFragment = ((Fragment) object);
         }

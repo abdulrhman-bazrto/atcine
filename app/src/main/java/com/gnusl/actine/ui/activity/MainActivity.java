@@ -17,6 +17,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
 import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
@@ -206,6 +207,14 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             }
         }
         if (fragment instanceof SearchContainerFragment) {
+            FragmentManager fm = fragment.getChildFragmentManager();
+            if (fm.getBackStackEntryCount() > 0) {
+                fm.popBackStack();
+            } else {
+                setFragmentView(0);
+            }
+        }
+        if (fragment instanceof MoreContainerFragment) {
             FragmentManager fm = fragment.getChildFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();

@@ -5,6 +5,7 @@ import android.support.constraint.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.gnusl.actine.R;
 
@@ -12,6 +13,7 @@ import com.gnusl.actine.R;
 public class CustomAppBarWithBack extends ConstraintLayout {
 
     ImageView ivBack;
+    TextView tvTitle;
 
     public CustomAppBarWithBack(Context context) {
         super(context);
@@ -35,9 +37,15 @@ public class CustomAppBarWithBack extends ConstraintLayout {
 
         ivBack = findViewById(R.id.iv_back);
 
+        tvTitle = findViewById(R.id.tv_title);
+
     }
 
     public ImageView getIvBack() {
         return ivBack;
+    }
+
+    public TextView getTvTitle() {
+        return tvTitle;
     }
 }

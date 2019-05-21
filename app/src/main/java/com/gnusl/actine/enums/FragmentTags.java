@@ -13,6 +13,10 @@ public enum FragmentTags {
     HomeContainerFragment(8),
     ShowDetailsFragment(9),
     SearchResultFragment(10),
+    EditNewProfileFragment(11),
+    ManageProfileFragment(12),
+    MyListFragment(13),
+    HelpFragment(14),
     ;
 
 

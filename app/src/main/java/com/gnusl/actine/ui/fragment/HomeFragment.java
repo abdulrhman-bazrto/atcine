@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
 
         findViews();
 
-        rvHome.setNestedScrollingEnabled(true);
+        rvHome.setNestedScrollingEnabled(false);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
