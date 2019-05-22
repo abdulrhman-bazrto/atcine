@@ -17,6 +17,7 @@ public enum FragmentTags {
     ManageProfileFragment(12),
     MyListFragment(13),
     HelpFragment(14),
+    AppSettingsFragment(15),
     ;
 
 

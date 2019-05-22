@@ -32,7 +32,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private Button btnManageProfile;
 
-    private TextView tvMyList, tvHelp, tvLogout;
+    private TextView tvMyList, tvHelp, tvLogout,tvAppSetting;
 
     public MoreFragment() {
     }
@@ -71,11 +71,13 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         tvMyList = inflatedView.findViewById(R.id.tv_my_list);
         tvHelp = inflatedView.findViewById(R.id.tv_help);
         tvLogout = inflatedView.findViewById(R.id.tv_logout);
+        tvAppSetting = inflatedView.findViewById(R.id.tv_app_setting);
 
         btnManageProfile.setOnClickListener(this);
         tvMyList.setOnClickListener(this);
         tvHelp.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
+        tvAppSetting.setOnClickListener(this);
 
         profilesAdapter = new ProfilesAdapter(getActivity(), this);
 
@@ -113,6 +115,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
                         ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpFragment);
+                    }
+                }
+                break;
+            } case R.id.tv_app_setting: {
+                if (getActivity() != null) {
+                    Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+                    if (fragment instanceof MoreContainerFragment) {
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.AppSettingsFragment);
                     }
                 }
                 break;

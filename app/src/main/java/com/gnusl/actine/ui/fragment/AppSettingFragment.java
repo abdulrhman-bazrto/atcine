@@ -8,20 +8,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 
 
-public class HelpFragment extends Fragment implements View.OnClickListener {
+public class AppSettingFragment extends Fragment implements View.OnClickListener {
 
     View inflatedView;
 
-    private CustomAppBarWithBack cubHelpWithBack;
 
-    public HelpFragment() {
+    public AppSettingFragment() {
     }
 
-    public static HelpFragment newInstance() {
-        HelpFragment fragment = new HelpFragment();
+    public static AppSettingFragment newInstance() {
+        AppSettingFragment fragment = new AppSettingFragment();
         Bundle args = new Bundle();
 
 
@@ -41,7 +39,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_help, container, false);
+            inflatedView = inflater.inflate(R.layout.fragment_app_settings, container, false);
             init();
         }
         return inflatedView;
@@ -49,16 +47,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
 
-        cubHelpWithBack = inflatedView.findViewById(R.id.cub_help_with_back);
-
-        cubHelpWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-
-        cubHelpWithBack.getTvTitle().setText("Help");
 
     }
 

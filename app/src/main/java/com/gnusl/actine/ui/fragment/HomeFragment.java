@@ -11,19 +11,22 @@ import android.view.ViewGroup;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.ui.custom.SelectGenresView;
 
 
-public class HomeFragment extends Fragment implements HomeMovieClick {
+public class HomeFragment extends Fragment implements HomeMovieClick, GenresClickEvents {
 
     View inflatedView;
 
     private RecyclerView rvHome;
     private HomeAdapter homeAdapter;
     private CustomAppBar cubHome;
+    private SelectGenresView sgvHome;
 
 
     public HomeFragment() {
@@ -60,6 +63,13 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
     private void init() {
 
         findViews();
+        sgvHome.setClickListener(this);
+        cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sgvHome.setVisibility(View.VISIBLE);
+            }
+        });
 
         rvHome.setNestedScrollingEnabled(false);
 
@@ -78,6 +88,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
     private void findViews() {
         rvHome = inflatedView.findViewById(R.id.rv_home);
         cubHome = inflatedView.findViewById(R.id.cub_home);
+        sgvHome = inflatedView.findViewById(R.id.sgv_home);
+
     }
 
     @Override
@@ -88,5 +100,16 @@ public class HomeFragment extends Fragment implements HomeMovieClick {
                 ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
             }
         }
+    }
+
+    @Override
+    public void onSelectGenres(String genres) {
+        cubHome.getSpGenres().setText(genres);
+        sgvHome.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onCloseGenres() {
+        sgvHome.setVisibility(View.GONE);
     }
 }
