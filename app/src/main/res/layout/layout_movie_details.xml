@@ -21,6 +21,15 @@
         app:layout_constraintBottom_toBottomOf="@+id/iv_movie_image"
         app:layout_constraintTop_toBottomOf="@+id/iv_movie_image" />
 
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_movie_image"
+        app:layout_constraintEnd_toEndOf="@+id/iv_movie_image"
+        app:layout_constraintStart_toStartOf="@+id/iv_movie_image"
+        app:layout_constraintTop_toTopOf="@+id/iv_movie_image"
+        app:srcCompat="@drawable/icon_play2" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_details_actions"
         android:layout_width="match_parent"
@@ -95,13 +104,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/btn_reactions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:drawableStart="@drawable/icon_rate"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
-            android:text="Rate"
+            android:drawablePadding="5dp"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text="Reactions"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -197,9 +208,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="5dp"
         android:text="Ken jeong you complete me"
         android:textColor="@color/white"
-        android:layout_marginBottom="5dp"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/tv_match"
         app:layout_constraintStart_toStartOf="parent" />
