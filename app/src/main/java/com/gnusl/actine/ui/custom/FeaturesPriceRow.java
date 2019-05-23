@@ -80,4 +80,16 @@ public class FeaturesPriceRow extends ConstraintLayout {
         else
             this.ivInPremium.setImageResource(R.drawable.icon_cancel_grey);
     }
+
+    public ImageView getIvInBasic() {
+        return ivInBasic;
+    }
+
+    public ImageView getIvInPremium() {
+        return ivInPremium;
+    }
+
+    public ImageView getIvInStandard() {
+        return ivInStandard;
+    }
 }

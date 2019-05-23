@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,12 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ProfileClick;
+import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.ProfilesAdapter;
 
@@ -32,7 +33,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private Button btnManageProfile;
 
-    private TextView tvMyList, tvHelp, tvLogout,tvAppSetting;
+    private TextView tvMyList, tvHelp, tvLogout, tvAppSetting;
 
     public MoreFragment() {
     }
@@ -118,7 +119,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                     }
                 }
                 break;
-            } case R.id.tv_app_setting: {
+            }
+            case R.id.tv_app_setting: {
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
@@ -128,7 +130,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 break;
             }
             case R.id.tv_logout: {
-               showLogoutDialog();
+                showLogoutDialog();
                 break;
             }
         }
@@ -141,6 +143,23 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
             logoutDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         logoutDialog.setContentView(R.layout.dialog_logout);
         logoutDialog.setCancelable(true);
+
+        logoutDialog.findViewById(R.id.btn_sign_out).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+                startActivity(new Intent(getActivity(), AuthActivity.class));
+                getActivity().finish();
+            }
+        });
+
+        logoutDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog.dismiss();
+            }
+        });
+
         logoutDialog.show();
     }
 

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.gnusl.actine.R;
 
@@ -45,12 +46,22 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
+        Button btnRemindMe;
+
         MovieListViewHolder(View itemView) {
             super(itemView);
+            btnRemindMe = itemView.findViewById(R.id.btn_remind_me);
         }
 
         public void bind() {
 
+            btnRemindMe.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    btnRemindMe.setBackgroundResource(R.drawable.bg_btn_remind_me);
+                    btnRemindMe.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                }
+            });
         }
     }
 }

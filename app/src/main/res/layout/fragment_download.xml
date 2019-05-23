@@ -62,8 +62,8 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_download_list"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_profile_image"
@@ -71,6 +71,7 @@
             android:layout_height="50dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="40dp"
+            android:src="@drawable/delete_3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -79,6 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Ahmed"
+            android:layout_marginStart="20dp"
             android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="@+id/iv_profile_image"

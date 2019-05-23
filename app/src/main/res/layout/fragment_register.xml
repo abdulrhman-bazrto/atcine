@@ -14,6 +14,88 @@
         android:layout_height="35dp"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--step 0.5-->
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_step_0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_check1" />
+
+        <TextView
+            android:id="@+id/tv_step_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="Step 1 of 3"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_check" />
+
+        <TextView
+            android:id="@+id/tv_choose_your_plan_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:text="Choose your plan."
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_step_0" />
+
+        <TextView
+            android:id="@+id/tv_no_commitment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:text="No commitments, cancel anytime."
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_choose_your_plan_" />
+
+        <Button
+            android:id="@+id/btn_goto_step1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_button_main"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="See the Plans"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_no_commitment" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
     <!--step 1-->
 
     <ScrollView
@@ -21,7 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cub_register">
 
@@ -92,7 +174,92 @@
                 app:layout_constraintTop_toBottomOf="@+id/l_chose_plan" />
 
         </android.support.constraint.ConstraintLayout>
+
     </ScrollView>
+
+    <!--step 1.5-->
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_step_1half5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/iv_devices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_devices_grey_150" />
+
+        <TextView
+            android:id="@+id/tv_step_1half5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:text="Step 2 of 3"
+            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_devices" />
+
+        <TextView
+            android:id="@+id/tv_create_your_account_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:text="Create your account"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_step_1half5" />
+
+        <TextView
+            android:id="@+id/tv_use_your_email_"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:text="Use your email and create password to watch Atcine on any Device at any time."
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_create_your_account_" />
+
+        <Button
+            android:id="@+id/btn_goto_step2half"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_button_main"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="Continue"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_use_your_email_" />
+
+
+    </android.support.constraint.ConstraintLayout>
 
     <!--step 2-->
 
@@ -286,54 +453,129 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_cancel_before" />
 
-        <EditText
-            android:id="@+id/et_credit_or_debit"
+        <TextView
+            android:id="@+id/tv_credit_or_debit"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="25dp"
             android:background="@drawable/bg_edit_text_register"
             android:drawableEnd="@drawable/icon_arrow_right"
-            android:hint="Card or Debit Card"
-            android:inputType="textPassword"
+            android:gravity="center_vertical"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:text="Card or Debit Card"
+            android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_cancel_online" />
 
-        <EditText
-            android:id="@+id/et_paypal"
+        <TextView
+            android:id="@+id/tv_paypal"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="15dp"
             android:background="@drawable/bg_edit_text_register"
             android:drawableEnd="@drawable/icon_arrow_right"
+            android:gravity="center_vertical"
             android:hint="PayPal"
-            android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/gray"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_credit_or_debit" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_credit_or_debit" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--step pay pal-->
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_step_pay_pal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+
+        <TextView
+            android:id="@+id/tv_step_pay_pal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="STEP 3 OF 3"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_setup_payment_pay_pal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setup your PayPal"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_step_pay_pal" />
+
+        <TextView
+            android:id="@+id/tv_your_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="your plan \nUUnlimted Streaming in HD and Ultra HD \nat 11.99$ am month after trial."
+            android:textColor="@color/gray2"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setup_payment_pay_pal" />
+
+        <TextView
+            android:id="@+id/tv_change_plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_your_plan"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_to_finish_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="To finish sign-up, click the below button and login into PayPal using your email and password."
+            android:textColor="@color/gray2"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_your_plan" />
 
         <Button
             android:id="@+id/btn_start_membership"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:background="@drawable/bg_button_main"
-            android:hint="Start Membership"
+            android:hint="continue to PayPal"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_paypal" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up" />
 
     </android.support.constraint.ConstraintLayout>
 

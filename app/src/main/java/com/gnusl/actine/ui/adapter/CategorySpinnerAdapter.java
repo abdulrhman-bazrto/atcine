@@ -47,10 +47,12 @@ public class CategorySpinnerAdapter extends ArrayAdapter<String> {
 
     private View createItemView(int position, View convertView, ViewGroup parent, boolean isDropDown) {
         final View view = mInflater.inflate(mResource, parent, false);
-
-        if (!isDropDown)
-            view.setBackgroundResource(R.color.transparent);
         TextView tvStatusText = view.findViewById(R.id.tv_category_name);
+        if (!isDropDown) {
+            view.setBackgroundResource(R.color.transparent);
+            tvStatusText.setCompoundDrawablesWithIntrinsicBounds(null, null, mContext.getResources().getDrawable(R.drawable.icon_arrow_drop_down), null);
+        }
+
         tvStatusText.setText(items.get(position).getText());
 
 

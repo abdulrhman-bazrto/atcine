@@ -26,10 +26,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     View inflatedView;
 
-    private Button btnGotoStep2, btnGotoStep3, btnPayment;
-    private View viewStep1, viewStep2, viewStep3;
+    private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment;
+    private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, tvChangePlan;
 
-    private TextView tvAlreadyUser;
+    private TextView tvAlreadyUser, tvPaypal, tvCreditOrDebit;
     private CustomAppBarRegister cubRegister;
 
 
@@ -68,10 +68,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         findViews();
 
 
+        btnGotoStep1.setOnClickListener(this);
         btnGotoStep2.setOnClickListener(this);
         btnGotoStep3.setOnClickListener(this);
+        btnGotoStep2half.setOnClickListener(this);
         btnPayment.setOnClickListener(this);
         cubRegister.getBtnLogin().setOnClickListener(this);
+        tvPaypal.setOnClickListener(this);
+        tvCreditOrDebit.setOnClickListener(this);
+        tvChangePlan.setOnClickListener(this);
 
         SpannableString ss = new SpannableString(tvAlreadyUser.getText().toString());
         ClickableSpan span1 = new ClickableSpan() {
@@ -96,12 +101,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         viewStep1 = inflatedView.findViewById(R.id.sv_step1);
         viewStep2 = inflatedView.findViewById(R.id.ll_step2);
         viewStep3 = inflatedView.findViewById(R.id.cl_step3);
+        viewStep0 = inflatedView.findViewById(R.id.cl_step_0);
+        viewStep1half5 = inflatedView.findViewById(R.id.cl_step_1half5);
+        viewStepPayPal = inflatedView.findViewById(R.id.cl_step_pay_pal);
+        tvChangePlan = inflatedView.findViewById(R.id.tv_change_plan);
 
+        btnGotoStep1 = inflatedView.findViewById(R.id.btn_goto_step1);
         btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
         btnGotoStep3 = inflatedView.findViewById(R.id.btn_register);
+        btnGotoStep2half = inflatedView.findViewById(R.id.btn_goto_step2half);
         btnPayment = inflatedView.findViewById(R.id.btn_start_membership);
 
         tvAlreadyUser = inflatedView.findViewById(R.id.tv_already_user);
+        tvCreditOrDebit = inflatedView.findViewById(R.id.tv_credit_or_debit);
+        tvPaypal = inflatedView.findViewById(R.id.tv_paypal);
 
         cubRegister = inflatedView.findViewById(R.id.cub_register);
     }
@@ -110,14 +123,65 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.btn_goto_step1: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.VISIBLE);
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.GONE);
+                viewStep1half5.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.GONE);
+                break;
+            }
             case R.id.btn_goto_step2: {
+                viewStep0.setVisibility(View.GONE);
                 viewStep1.setVisibility(View.GONE);
+                viewStep1half5.setVisibility(View.VISIBLE);
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.GONE);
+                break;
+            }
+            case R.id.btn_goto_step2half: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.GONE);
+                viewStep1half5.setVisibility(View.GONE);
                 viewStep2.setVisibility(View.VISIBLE);
+                viewStep3.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.GONE);
                 break;
             }
             case R.id.btn_register: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.GONE);
                 viewStep2.setVisibility(View.GONE);
                 viewStep3.setVisibility(View.VISIBLE);
+                viewStep1half5.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.GONE);
+                break;
+            }
+            case R.id.tv_credit_or_debit: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.GONE);
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.tv_paypal: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.GONE);
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.GONE);
+                viewStep1half5.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.tv_change_plan: {
+                viewStep0.setVisibility(View.GONE);
+                viewStep1.setVisibility(View.VISIBLE);
+                viewStep2.setVisibility(View.GONE);
+                viewStep3.setVisibility(View.GONE);
+                viewStep1half5.setVisibility(View.GONE);
+                viewStepPayPal.setVisibility(View.GONE);
                 break;
             }
             case R.id.btn_start_membership: {
