@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,16 +16,28 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.ProfileClick;
+import com.gnusl.actine.model.Profile;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.ProfilesAdapter;
+import com.gnusl.actine.util.Constants;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MoreFragment extends Fragment implements View.OnClickListener, ProfileClick {
+public class MoreFragment extends Fragment implements View.OnClickListener, ProfileClick, ConnectionDelegate {
 
     View inflatedView;
 
@@ -67,6 +80,21 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private void init() {
 
+        DataLoader.getRequest(Urls.Profiles.getLink(), this);
+
+        findViews();
+
+        profilesAdapter = new ProfilesAdapter(getActivity(), this);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+
+        rvProfiles.setLayoutManager(layoutManager);
+
+        rvProfiles.setAdapter(profilesAdapter);
+
+    }
+
+    private void findViews() {
         rvProfiles = inflatedView.findViewById(R.id.rv_profiles);
         btnManageProfile = inflatedView.findViewById(R.id.btn_manage_profile);
         tvMyList = inflatedView.findViewById(R.id.tv_my_list);
@@ -79,14 +107,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         tvHelp.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
         tvAppSetting.setOnClickListener(this);
-
-        profilesAdapter = new ProfilesAdapter(getActivity(), this);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-
-        rvProfiles.setLayoutManager(layoutManager);
-
-        rvProfiles.setAdapter(profilesAdapter);
     }
 
 
@@ -97,7 +117,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
-                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ManageProfileFragment);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList(Constants.ManageProfilesExtra.getConst(), (ArrayList<? extends Parcelable>) profilesAdapter.getList());
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ManageProfileFragment, bundle);
                     }
                 }
                 break;
@@ -106,7 +128,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
-                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.MyListFragment);
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.MyListFragment, null);
                     }
                 }
                 break;
@@ -115,7 +137,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
-                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpFragment);
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpFragment, null);
                     }
                 }
                 break;
@@ -124,7 +146,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
-                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.AppSettingsFragment);
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.AppSettingsFragment, null);
                     }
                 }
                 break;
@@ -164,12 +186,38 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
     }
 
     @Override
-    public void onClickProfile() {
+    public void onClickProfile(Profile profile) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.EditNewProfileExtra.getConst(), profile);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle);
             }
         }
+    }
+
+    @Override
+    public void onConnectionError(int code, String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+        if (jsonObject.has("profiles")) {
+            List<Profile> profiles = Profile.newList(jsonObject.optJSONArray("profiles"));
+            profilesAdapter.setList(profiles);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DataLoader.getRequest(Urls.Profiles.getLink(), this);
     }
 }

@@ -88,6 +88,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/btn_add_to_my_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
@@ -157,7 +158,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
-        android:id="@+id/show_caption"
+        android:id="@+id/tv_show_caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -177,7 +178,7 @@
         android:layout_marginEnd="10dp"
         android:text="80% Match"
         android:textColor="@color/main_red_color"
-        app:layout_constraintBottom_toTopOf="@+id/show_caption"
+        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
@@ -188,7 +189,7 @@
         android:layout_marginEnd="10dp"
         android:text="2019"
         android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/show_caption"
+        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
         app:layout_constraintStart_toEndOf="@+id/tv_match" />
 
     <TextView
@@ -199,7 +200,7 @@
         android:layout_marginEnd="10dp"
         android:text="2h 20m"
         android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/show_caption"
+        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
         app:layout_constraintStart_toEndOf="@+id/tv_year" />
 
     <TextView

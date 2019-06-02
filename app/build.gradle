@@ -27,4 +27,12 @@ dependencies {
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
     // circle image view
     implementation 'de.hdodenhof:circleimageview:2.1.0'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
+    // apple progress bar
+    implementation 'com.kaopiz:kprogresshud:1.2.0'
+    // picasso
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    // crop images
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+    implementation 'com.iceteck.silicompressorr:silicompressor:2.0'
 }

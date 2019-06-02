@@ -50,10 +50,10 @@ public class MoreContainerFragment extends Fragment {
     }
 
     private void init() {
-        replaceFragment(FragmentTags.MoreFragment);
+        replaceFragment(FragmentTags.MoreFragment,null);
     }
 
-    public void replaceFragment(FragmentTags fragmentTags) {
+    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
 
         // init manager
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -71,14 +71,14 @@ public class MoreContainerFragment extends Fragment {
                 break;
             case EditNewProfileFragment:
 
-                mCurrentFragment = EditNewProfileFragment.newInstance();
+                mCurrentFragment = EditNewProfileFragment.newInstance(bundle);
                 transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;
             case ManageProfileFragment:
 
-                mCurrentFragment = ManageProfileFragment.newInstance();
+                mCurrentFragment = ManageProfileFragment.newInstance(bundle);
                 transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
@@ -92,7 +92,7 @@ public class MoreContainerFragment extends Fragment {
                 break;
             case ShowDetailsFragment:
 
-                mCurrentFragment = ShowDetailsFragment.newInstance();
+                mCurrentFragment = ShowDetailsFragment.newInstance(null);
                 transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 

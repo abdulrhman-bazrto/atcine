@@ -50,10 +50,10 @@ public class HomeContainerFragment extends Fragment {
     }
 
     private void init() {
-        replaceFragment(FragmentTags.HomeFragment);
+        replaceFragment(FragmentTags.HomeFragment, null);
     }
 
-    public void replaceFragment(FragmentTags fragmentTags) {
+    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
 
         // init manager
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -71,7 +71,7 @@ public class HomeContainerFragment extends Fragment {
                 break;
             case ShowDetailsFragment:
 
-                mCurrentFragment = ShowDetailsFragment.newInstance();
+                mCurrentFragment = ShowDetailsFragment.newInstance(bundle);
                 transaction.replace(R.id.frame_container_home, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 

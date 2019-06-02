@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ProfileClick;
+import com.gnusl.actine.model.Profile;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> imageList = new ArrayList<>();
+    private List<Profile> profiles = new ArrayList<>();
     private Context mContext;
     private ProfileClick profileClick;
 
@@ -59,22 +61,27 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-//        if (imageList.size() == 0)
-//            return 1;
-//        else
-//            return imageList.size() + 1;
-        return 4;
+        if (profiles.size() == 0)
+            return 1;
+        else
+            return profiles.size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-//        if (imageList.size() == 0)
-//            return HOLDER_ADD_PROFILE;
-//        else
-        if (position == imageList.size())
+        if (position == 0)
             return HOLDER_ADD_PROFILE;
         else
             return HOLDER_PROFILE;
+    }
+
+    public void setList(List<Profile> profiles) {
+        this.profiles = profiles;
+        notifyDataSetChanged();
+    }
+
+    public List<Profile> getList() {
+        return profiles;
     }
 
     class ProfileViewHolder extends RecyclerView.ViewHolder {
@@ -91,10 +98,16 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public void bind() {
 
+            final Profile profile = profiles.get(getAdapterPosition() - 1);
+
+            tvProfileName.setText(profile.getName());
+
+            Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile();
+                    profileClick.onClickProfile(profile);
                 }
             });
 
@@ -113,7 +126,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile();
+                    profileClick.onClickProfile(null);
                 }
             });
         }

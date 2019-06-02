@@ -1,6 +1,8 @@
 package com.gnusl.actine.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
@@ -227,4 +229,10 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+        if (pagerAdapter.getCurrentFragment() instanceof MoreContainerFragment)
+            ((MoreContainerFragment) pagerAdapter.getCurrentFragment()).getCurrentFragment().onActivityResult(requestCode, resultCode, data);
+    }
 }

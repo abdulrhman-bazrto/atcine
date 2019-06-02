@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ACTINE</string>
+    <string name="hint_mobile_or_email">Enter Email or Mobile</string>
+    <string name="hint_empty_password">Enter Password</string>
+    <string name="please_wait">Please wait</string>
+    <string name="hint_empty">can\'t be empty</string>
 </resources>

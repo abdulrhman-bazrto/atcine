@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Movie;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 
@@ -81,7 +82,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     }
 
     @Override
-    public void onClickMovie() {
+    public void onClickMovie(Movie movie) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof SearchContainerFragment) {

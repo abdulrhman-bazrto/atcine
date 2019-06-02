@@ -12,9 +12,11 @@ import android.view.ViewGroup;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Movie;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.util.Constants;
 
 
 public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick {
@@ -90,11 +92,13 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     }
 
     @Override
-    public void onClickMovie() {
+    public void onClickMovie(Movie movie) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             }
         }
     }

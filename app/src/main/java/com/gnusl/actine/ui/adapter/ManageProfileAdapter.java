@@ -11,20 +11,22 @@ import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ProfileClick;
+import com.gnusl.actine.model.Profile;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private List<String> imageList = new ArrayList<>();
+    private List<Profile> profiles;
     private Context mContext;
     private ProfileClick profileClick;
 
 
-    public ManageProfileAdapter(Context context, ProfileClick profileClick) {
+    public ManageProfileAdapter(Context context, List<Profile> profiles, ProfileClick profileClick) {
         this.mContext = context;
+        this.profiles = profiles;
         this.profileClick = profileClick;
     }
 
@@ -35,8 +37,8 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
 
-            view = inflater.inflate(R.layout.item_profile, parent, false);
-            return new ManageProfileAdapter.ProfileViewHolder(view);
+        view = inflater.inflate(R.layout.item_profile, parent, false);
+        return new ManageProfileAdapter.ProfileViewHolder(view);
     }
 
     @Override
@@ -50,7 +52,12 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return 8;
+        return profiles.size();
+    }
+
+    public void setList(List<Profile> profiles) {
+        this.profiles = profiles;
+        notifyDataSetChanged();
     }
 
     class ProfileViewHolder extends RecyclerView.ViewHolder {
@@ -67,10 +74,16 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         public void bind() {
 
+            final Profile profile = profiles.get(getAdapterPosition());
+
+            tvProfileName.setText(profile.getName());
+
+            Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile();
+                    profileClick.onClickProfile(profiles.get(getAdapterPosition()));
                 }
             });
 

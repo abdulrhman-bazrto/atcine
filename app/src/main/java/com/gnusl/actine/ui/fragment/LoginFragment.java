@@ -15,20 +15,33 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.model.User;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
-public class LoginFragment extends Fragment implements View.OnClickListener {
+public class LoginFragment extends Fragment implements View.OnClickListener, ConnectionDelegate {
 
     View inflatedView;
 
-    private Button loginButton;
-    private EditText username, password;
+    private Button btnLogin;
+    private EditText etEmailPhone, etPassword;
     private TextView tvSignUp;
+    private KProgressHUD progressHUD;
 
 
     public LoginFragment() {
@@ -65,11 +78,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         tvSignUp = inflatedView.findViewById(R.id.tv_sign_up);
 
-        loginButton = inflatedView.findViewById(R.id.btn_login);
-        username = inflatedView.findViewById(R.id.et_username);
-        password = inflatedView.findViewById(R.id.et_password);
+        btnLogin = inflatedView.findViewById(R.id.btn_login);
+        etEmailPhone = inflatedView.findViewById(R.id.et_email_phone);
+        etPassword = inflatedView.findViewById(R.id.et_password);
 
-        loginButton.setOnClickListener(this);
+        btnLogin.setOnClickListener(this);
 
 
         SpannableString ss = new SpannableString(tvSignUp.getText().toString());
@@ -96,13 +109,70 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login: {
-                if (getActivity() != null) {
-                    startActivity(new Intent(getActivity(), MainActivity.class));
-                    getActivity().finish();
+                if (valid()) {
+                    progressHUD = KProgressHUD.create(getActivity())
+                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                            .setLabel(getString(R.string.please_wait))
+                            .setMaxProgress(100)
+                            .show();
+                    sendLoginRequest();
                 }
                 break;
             }
         }
     }
 
+    private boolean valid() {
+        if (etEmailPhone.getText().toString().trim().isEmpty()) {
+            etEmailPhone.setError(getString(R.string.hint_mobile_or_email));
+            return false;
+        }
+        if (etPassword.getText().toString().trim().isEmpty()) {
+            etPassword.setError(getString(R.string.hint_empty_password));
+            return false;
+        }
+        return true;
+    }
+
+    private void sendLoginRequest() {
+        HashMap<String, String> body = new HashMap<>();
+        if (etEmailPhone.getText().toString().contains("@"))
+            body.put("email_mobile", etEmailPhone.getText().toString());
+        else
+            body.put("email_mobile", etEmailPhone.getText().toString());
+        body.put("password", etPassword.getText().toString());
+
+        DataLoader.postRequest(Urls.Login, body, this);
+
+    }
+
+    @Override
+    public void onConnectionError(int code, String message) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+        if (jsonObject.has("user")) {
+            SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+        }
+        if (jsonObject.has("token")) {
+            SharedPreferencesUtils.saveToken(jsonObject.optString("token"));
+        }
+        if (getActivity() != null) {
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
+        }
+    }
 }

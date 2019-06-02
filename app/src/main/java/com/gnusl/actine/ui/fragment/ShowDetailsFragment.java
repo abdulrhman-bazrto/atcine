@@ -10,38 +10,55 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.util.Constants;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener {
+public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate {
 
     View inflatedView;
 
-    private RecyclerView rvShowDetails;
+    private RecyclerView rvSuggest;
     private CustomAppBarWithBack cubHomeWithBack;
     private Button btnReactions;
     private View clMoreLikeThis, clReactions;
     private RecyclerView rvComments;
     private CommentsAdapter commentsAdapter;
+    private MovieMoreLikeAdapter movieMoreLikeAdapter;
+
+    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption;
+    private ImageView ivShowCover;
+    private Button btnAddToMyList;
+
+    private Movie movie;
 
     public ShowDetailsFragment() {
     }
 
-    public static ShowDetailsFragment newInstance() {
+    public static ShowDetailsFragment newInstance(Bundle bundle) {
         ShowDetailsFragment fragment = new ShowDetailsFragment();
-        Bundle args = new Bundle();
-
-
-        fragment.setArguments(args);
+        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -49,7 +66,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            movie = (Movie) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
         }
     }
 
@@ -67,15 +84,28 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         findViews();
 
+        tvShowTitle.setText(movie.getTitle());
+        tvYear.setText(String.valueOf(movie.getYear()));
+        tvWatchTime.setText(movie.getWatchTime());
+        tvShowCaption.setText(movie.getDescription());
+        Picasso.with(getActivity()).load(movie.getCoverImageUrl()).into(ivShowCover);
+        if (movie.getIsFavourite()) {
+            btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+        }
+
+        btnAddToMyList.setOnClickListener(this);
+
+        getRelatedShows();
+
         btnReactions.setOnClickListener(this);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
-        rvShowDetails.setLayoutManager(gridLayoutManager);
+        rvSuggest.setLayoutManager(gridLayoutManager);
 
-        MovieMoreLikeAdapter movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
 
-        rvShowDetails.setAdapter(movieMoreLikeAdapter);
+        rvSuggest.setAdapter(movieMoreLikeAdapter);
 
 
         commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<String>());
@@ -88,13 +118,25 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     }
 
+    private void getRelatedShows() {
+
+        DataLoader.getRequest(Urls.MovieSuggest.getLink().replaceAll("%id%", String.valueOf(movie.getId())), this);
+    }
+
     private void findViews() {
-        rvShowDetails = inflatedView.findViewById(R.id.rv_show_details);
+        rvSuggest = inflatedView.findViewById(R.id.rv_suggest);
         cubHomeWithBack = inflatedView.findViewById(R.id.cub_home_with_back);
         btnReactions = inflatedView.findViewById(R.id.btn_reactions);
         clMoreLikeThis = inflatedView.findViewById(R.id.cl_more_like_this);
         clReactions = inflatedView.findViewById(R.id.cl_reactions);
         rvComments = inflatedView.findViewById(R.id.rv_comments);
+
+        tvShowTitle = inflatedView.findViewById(R.id.tv_show_title);
+        tvShowCaption = inflatedView.findViewById(R.id.tv_show_caption);
+        tvYear = inflatedView.findViewById(R.id.tv_year);
+        tvWatchTime = inflatedView.findViewById(R.id.tv_watch_time);
+        ivShowCover = inflatedView.findViewById(R.id.iv_movie_image);
+        btnAddToMyList = inflatedView.findViewById(R.id.btn_add_to_my_list);
 
         cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,11 +148,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     }
 
     @Override
-    public void onClickMovie() {
+    public void onClickMovie(Movie movie) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             } else if (fragment instanceof SearchContainerFragment) {
                 ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
             }
@@ -130,6 +174,52 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 }
                 break;
             }
+            case R.id.btn_add_to_my_list: {
+                sendFavoriteRequest();
+                break;
+            }
         }
+    }
+
+    private void sendFavoriteRequest() {
+
+        DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(movie.getId())), new ConnectionDelegate() {
+            @Override
+            public void onConnectionError(int code, String message) {
+
+            }
+
+            @Override
+            public void onConnectionError(ANError anError) {
+
+            }
+
+            @Override
+            public void onConnectionSuccess(JSONObject jsonObject) {
+                if (jsonObject.optString("status").equalsIgnoreCase("added")) {
+                    movie.setIsFavourite(true);
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                } else {
+                    movie.setIsFavourite(false);
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onConnectionError(int code, String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+        List<Movie> movies = Movie.newList(jsonObject.optJSONArray("movies"));
+        movieMoreLikeAdapter.setList(movies);
     }
 }

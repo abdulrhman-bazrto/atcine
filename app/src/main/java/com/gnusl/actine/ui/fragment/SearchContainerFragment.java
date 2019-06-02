@@ -80,7 +80,7 @@ public class SearchContainerFragment extends Fragment {
 
             case ShowDetailsFragment:
 
-                mCurrentFragment = ShowDetailsFragment.newInstance();
+                mCurrentFragment = ShowDetailsFragment.newInstance(null);
                 transaction.replace(R.id.frame_container_search, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 

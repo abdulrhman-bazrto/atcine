@@ -11,10 +11,19 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -22,7 +31,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final RecyclerView.RecycledViewPool recycledViewPool;
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
-    private List<List<String>> moviesLists = new ArrayList<>();
+    private Movie trendMovie;
+    private List<String> categoriesName = new ArrayList<>();
+    private HashMap<String, List<Movie>> moviesByCategories = new HashMap<>();
 
     private static int HOLDER_MOVIE = 0;
     private static int HOLDER_MOVIE_LIST = 1;
@@ -53,8 +64,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (holder instanceof MovieViewHolder)
             ((MovieViewHolder) holder).bind();
-        else if (holder instanceof MovieListViewHolder)
-            ((MovieListViewHolder) holder).bind(new ArrayList<String>());
+        else if (holder instanceof MovieListViewHolder) {
+            String name = categoriesName.get(holder.getAdapterPosition() - 1);
+            ((MovieListViewHolder) holder).bind(name, moviesByCategories.get(name));
+        }
 
     }
 
@@ -69,7 +82,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 10;
+        if (moviesByCategories.size() == 0)
+            return 0;
+        return moviesByCategories.size() + 1;
+    }
+
+    public void setData(Movie trendMovie, List<String> categoriesName, HashMap<String, List<Movie>> moviesByCategories) {
+        this.trendMovie = trendMovie;
+        this.categoriesName = categoriesName;
+        this.moviesByCategories = moviesByCategories;
+        notifyDataSetChanged();
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -87,11 +109,45 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bind() {
 
+            Picasso.with(mContext).load(trendMovie.getCoverImageUrl()).into(ivMovieImage);
+
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie();
+                        homeMovieClick.onClickMovie(trendMovie);
+                }
+            });
+
+            if (trendMovie.getIsFavourite()) {
+                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+            }
+
+            btnAddToMyList.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(trendMovie.getId())), new ConnectionDelegate() {
+                        @Override
+                        public void onConnectionError(int code, String message) {
+
+                        }
+
+                        @Override
+                        public void onConnectionError(ANError anError) {
+
+                        }
+
+                        @Override
+                        public void onConnectionSuccess(JSONObject jsonObject) {
+                            if (jsonObject.optString("status").equalsIgnoreCase("added")) {
+                                trendMovie.setIsFavourite(true);
+                                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                            } else {
+                                trendMovie.setIsFavourite(false);
+                                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                            }
+                        }
+                    });
                 }
             });
 
@@ -111,11 +167,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public void bind(List<String> strings) {
+        public void bind(String name, List<Movie> movies) {
+
+            tvListTitle.setText(name);
 
             rvMovieList.setRecycledViewPool(recycledViewPool);
 
-            HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, homeMovieClick);
+            HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, movies, homeMovieClick);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
