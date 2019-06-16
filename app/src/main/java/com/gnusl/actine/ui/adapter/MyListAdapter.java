@@ -6,9 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Movie;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
-    private List<String> moviesList = new ArrayList<>();
+    private List<Movie> movies = new ArrayList<>();
 
 
     public MyListAdapter(Context context, HomeMovieClick homeMovieClick) {
@@ -43,22 +46,32 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return 15;
+        return movies.size();
+    }
+
+    public void setList(List<Movie> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
     }
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView ivThumbnail;
+
         MovieListViewHolder(View itemView) {
             super(itemView);
+            ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
         }
 
         public void bind() {
+
+            Picasso.with(mContext).load(movies.get(getAdapterPosition()).getThumbnailImageUrl()).into(ivThumbnail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie(null);
+                        homeMovieClick.onClickMovie(movies.get(getAdapterPosition()));
                 }
             });
         }

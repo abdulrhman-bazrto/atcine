@@ -19,6 +19,7 @@ import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Serie;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
@@ -29,6 +30,7 @@ import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -89,7 +91,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 break;
 
             case TvShows:
-
+                DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
                 break;
         }
 
@@ -199,26 +201,38 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             progressHUD.dismiss();
 
         switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
-            case TvShows:
+            case TvShows: {
+                Serie trendSerie = Serie.newInstance(jsonObject.optJSONObject("trend"));
+                HashMap<String, List<Serie>> seriesByCategories = new HashMap<>();
+                List<String> categoriesNames = new ArrayList<>();
 
+                JSONArray otherCategories = jsonObject.optJSONArray("categories");
+
+                for (int i = 0; i < otherCategories.length(); i++) {
+                    JSONObject category = otherCategories.optJSONObject(i);
+                    categoriesNames.add(category.optString("title"));
+                    seriesByCategories.put(category.optString("title"), Serie.newList(category.optJSONArray("items")));
+                }
+
+                homeAdapter.setData(trendSerie, categoriesNames, seriesByCategories);
                 break;
-
-            case Movies:
+            }
+            case Movies: {
                 Movie trendMovie = Movie.newInstance(jsonObject.optJSONObject("trend"));
                 HashMap<String, List<Movie>> moviesByCategories = new HashMap<>();
                 List<String> categoriesNames = new ArrayList<>();
 
-                JSONObject otherCategories = jsonObject.optJSONObject("categories");
+                JSONArray otherCategories = jsonObject.optJSONArray("categories");
 
-                Iterator<String> keys = otherCategories.keys();
-                while (keys.hasNext()) {
-                    String key = keys.next();
-                    categoriesNames.add(key);
-                    moviesByCategories.put(key, Movie.newList(otherCategories.optJSONArray(key)));
+                for (int i = 0; i < otherCategories.length(); i++) {
+                    JSONObject category = otherCategories.optJSONObject(i);
+                    categoriesNames.add(category.optString("title"));
+                    moviesByCategories.put(category.optString("title"), Movie.newList(category.optJSONArray("items")));
                 }
 
                 homeAdapter.setData(trendMovie, categoriesNames, moviesByCategories);
                 break;
+            }
         }
 
     }

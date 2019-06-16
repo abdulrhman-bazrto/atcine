@@ -69,7 +69,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0)
+        if (position == profiles.size())
             return HOLDER_ADD_PROFILE;
         else
             return HOLDER_PROFILE;
@@ -98,7 +98,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public void bind() {
 
-            final Profile profile = profiles.get(getAdapterPosition() - 1);
+            final Profile profile = profiles.get(getAdapterPosition());
 
             tvProfileName.setText(profile.getName());
 

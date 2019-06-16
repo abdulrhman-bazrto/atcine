@@ -7,7 +7,7 @@
     android:background="@color/black"
     tools:context=".ui.fragment.MyListFragment">
 
-    <com.gnusl.actine.ui.custom.CustomAppBarWithBack
+    <com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack
         android:id="@+id/cub_my_list_with_back"
         android:layout_width="match_parent"
         android:layout_height="35dp"

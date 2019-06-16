@@ -8,24 +8,43 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
-import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.kaopiz.kprogresshud.KProgressHUD;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
 
 
-public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick {
+public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
 
     View inflatedView;
 
-    private CustomAppBarWithBack cubMyListWithBack;
+    private CustomAppBarWithSelectAndBack cubMyListWithBack;
     private RecyclerView rvMyList;
     private MyListAdapter myListAdapter;
+    private AppCategories currentCategory = AppCategories.Movies;
+    private KProgressHUD progressHUD;
 
     public MyListFragment() {
     }
@@ -79,6 +98,49 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
 
         rvMyList.setAdapter(myListAdapter);
 
+        progressHUD = KProgressHUD.create(getActivity())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(getString(R.string.please_wait))
+                .setMaxProgress(100)
+                .show();
+
+        switch (currentCategory) {
+            case Movies:
+                DataLoader.getRequest(Urls.MoviesMyList.getLink(),this);
+                break;
+
+            case TvShows:
+
+                break;
+        }
+
+        cubMyListWithBack.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0: {
+                        if (currentCategory == AppCategories.Movies)
+                            return;
+                        currentCategory = AppCategories.Movies;
+                        init();
+                        break;
+                    }
+                    case 1: {
+                        if (currentCategory == AppCategories.TvShows)
+                            return;
+                        currentCategory = AppCategories.TvShows;
+                        init();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                currentCategory = AppCategories.Movies;
+            }
+        });
+
 
     }
 
@@ -100,6 +162,37 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             }
+        }
+    }
+
+    @Override
+    public void onConnectionError(int code, String message) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+        if (progressHUD != null)
+            progressHUD.dismiss();
+
+        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+            case TvShows:
+
+                break;
+
+            case Movies:
+                List<Movie> movies = Movie.newList(jsonObject.optJSONArray("movies"));
+                myListAdapter.setList(movies);
+                break;
         }
     }
 }

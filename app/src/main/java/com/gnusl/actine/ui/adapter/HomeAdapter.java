@@ -16,6 +16,7 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.squareup.picasso.Picasso;
@@ -31,9 +32,9 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final RecyclerView.RecycledViewPool recycledViewPool;
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
-    private Movie trendMovie;
+    private Show trendShow;
     private List<String> categoriesName = new ArrayList<>();
-    private HashMap<String, List<Movie>> moviesByCategories = new HashMap<>();
+    private HashMap<String, List<Show>> showsByCategories = new HashMap<>();
 
     private static int HOLDER_MOVIE = 0;
     private static int HOLDER_MOVIE_LIST = 1;
@@ -66,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             ((MovieViewHolder) holder).bind();
         else if (holder instanceof MovieListViewHolder) {
             String name = categoriesName.get(holder.getAdapterPosition() - 1);
-            ((MovieListViewHolder) holder).bind(name, moviesByCategories.get(name));
+            ((MovieListViewHolder) holder).bind(name, showsByCategories.get(name));
         }
 
     }
@@ -82,15 +83,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (moviesByCategories.size() == 0)
+        if (showsByCategories.size() == 0)
             return 0;
-        return moviesByCategories.size() + 1;
+        return showsByCategories.size() + 1;
     }
 
-    public void setData(Movie trendMovie, List<String> categoriesName, HashMap<String, List<Movie>> moviesByCategories) {
-        this.trendMovie = trendMovie;
+    public void setData(Show trendMovie, List<String> categoriesName, HashMap<String, List<Show>> moviesByCategories) {
+        this.trendShow = trendMovie;
         this.categoriesName = categoriesName;
-        this.moviesByCategories = moviesByCategories;
+        this.showsByCategories = moviesByCategories;
         notifyDataSetChanged();
     }
 
@@ -109,24 +110,24 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         public void bind() {
 
-            Picasso.with(mContext).load(trendMovie.getCoverImageUrl()).into(ivMovieImage);
+            Picasso.with(mContext).load(trendShow.getCoverImageUrl()).into(ivMovieImage);
 
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie(trendMovie);
+                        homeMovieClick.onClickMovie(trendShow);
                 }
             });
 
-            if (trendMovie.getIsFavourite()) {
+            if (trendShow.getIsFavourite()) {
                 btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
             }
 
             btnAddToMyList.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(trendMovie.getId())), new ConnectionDelegate() {
+                    DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(trendShow.getId())), new ConnectionDelegate() {
                         @Override
                         public void onConnectionError(int code, String message) {
 
@@ -140,10 +141,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         @Override
                         public void onConnectionSuccess(JSONObject jsonObject) {
                             if (jsonObject.optString("status").equalsIgnoreCase("added")) {
-                                trendMovie.setIsFavourite(true);
+                                trendShow.setIsFavourite(true);
                                 btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
                             } else {
-                                trendMovie.setIsFavourite(false);
+                                trendShow.setIsFavourite(false);
                                 btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
                             }
                         }
@@ -167,7 +168,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public void bind(String name, List<Movie> movies) {
+        public void bind(String name, List<Show> movies) {
 
             tvListTitle.setText(name);
 

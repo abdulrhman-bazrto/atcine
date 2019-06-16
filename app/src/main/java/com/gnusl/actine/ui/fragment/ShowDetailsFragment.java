@@ -155,6 +155,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+            } else if (fragment instanceof MoreContainerFragment) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             } else if (fragment instanceof SearchContainerFragment) {
                 ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
             }

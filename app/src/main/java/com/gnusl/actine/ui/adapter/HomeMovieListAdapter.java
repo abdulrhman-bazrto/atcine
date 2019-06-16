@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,10 +21,10 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
-    private List<Movie> movies = new ArrayList<>();
+    private List<Show> movies = new ArrayList<>();
 
 
-    public HomeMovieListAdapter(Context context, List<Movie> movies, HomeMovieClick homeMovieClick) {
+    public HomeMovieListAdapter(Context context, List<Show> movies, HomeMovieClick homeMovieClick) {
         this.mContext = context;
         this.movies = movies;
         this.homeMovieClick = homeMovieClick;

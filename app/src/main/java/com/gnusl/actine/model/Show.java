@@ -11,6 +11,7 @@ public class Show implements Serializable {
     private String description;
     private String section;
     private String category;
+    private String showTime;
     private int categoryId;
     private int sectionId;
     private String coverImage;
@@ -20,6 +21,7 @@ public class Show implements Serializable {
     private boolean isDownloaded;
     private boolean isLike;
     private boolean isFavourite;
+    private boolean isReminded;
 
     public Show(JSONObject jsonObject) {
         this.id = jsonObject.optInt("id");
@@ -28,8 +30,10 @@ public class Show implements Serializable {
         this.isLike = jsonObject.optBoolean("is_like");
         this.isFavourite = jsonObject.optBoolean("is_favourite");
         this.isDownloaded = jsonObject.optBoolean("is_downloaded");
+        this.isReminded = jsonObject.optBoolean("is_reminded");
         this.title = jsonObject.optString("title");
         this.description = jsonObject.optString("description");
+        this.showTime = jsonObject.optString("show_time");
         this.thumbnailImage = jsonObject.optString("thumbnail_image");
         this.coverImage = jsonObject.optString("cover_image");
         this.category = jsonObject.optString("category");
@@ -151,5 +155,21 @@ public class Show implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean getIsReminded() {
+        return isReminded;
+    }
+
+    public void setIsReminded(boolean isReminded) {
+        this.isReminded= isReminded;
+    }
+
+    public String getShowTime() {
+        return showTime;
+    }
+
+    public void setShowTime(String showTime) {
+        this.showTime = showTime;
     }
 }
