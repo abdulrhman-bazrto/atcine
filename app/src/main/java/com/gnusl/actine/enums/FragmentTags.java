@@ -18,6 +18,7 @@ public enum FragmentTags {
     MyListFragment(13),
     HelpFragment(14),
     AppSettingsFragment(15),
+    ShowSeasonsFragment(16),
     ;
 
 

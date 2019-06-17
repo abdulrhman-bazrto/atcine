@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
-import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.squareup.picasso.Picasso;
@@ -26,7 +26,7 @@ import java.util.List;
 public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<Movie> movies = new ArrayList<>();
+    private List<Show> movies = new ArrayList<>();
 
 
     public ComingSoonListAdapter(Context context) {
@@ -54,7 +54,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         return movies.size();
     }
 
-    public void setList(List<Movie> movies) {
+    public void setList(List<Show> movies) {
         this.movies = movies;
         notifyDataSetChanged();
     }
@@ -76,7 +76,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         public void bind() {
 
-            final Movie movie = movies.get(getAdapterPosition());
+            final Show movie = movies.get(getAdapterPosition());
 
             tvShowTitle.setText(movie.getTitle());
             tvShowCaption.setText(movie.getDescription());

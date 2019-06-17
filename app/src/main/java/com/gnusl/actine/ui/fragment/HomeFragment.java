@@ -18,8 +18,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
-import com.gnusl.actine.model.Serie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
@@ -35,7 +34,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -159,13 +157,26 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     }
 
     @Override
-    public void onClickMovie(Movie movie) {
+    public void onClickMovie(Show movie) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+            }
+        }
+    }
+
+    @Override
+    public void onClickSeries(Show series) {
+        if (getActivity() != null) {
+            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof HomeContainerFragment) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                bundle.putString("type", "season");
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
             }
         }
     }
@@ -202,8 +213,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
             case TvShows: {
-                Serie trendSerie = Serie.newInstance(jsonObject.optJSONObject("trend"));
-                HashMap<String, List<Serie>> seriesByCategories = new HashMap<>();
+                Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
+                HashMap<String, List<Show>> seriesByCategories = new HashMap<>();
                 List<String> categoriesNames = new ArrayList<>();
 
                 JSONArray otherCategories = jsonObject.optJSONArray("categories");
@@ -211,15 +222,15 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 for (int i = 0; i < otherCategories.length(); i++) {
                     JSONObject category = otherCategories.optJSONObject(i);
                     categoriesNames.add(category.optString("title"));
-                    seriesByCategories.put(category.optString("title"), Serie.newList(category.optJSONArray("items")));
+                    seriesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
                 }
 
                 homeAdapter.setData(trendSerie, categoriesNames, seriesByCategories);
                 break;
             }
             case Movies: {
-                Movie trendMovie = Movie.newInstance(jsonObject.optJSONObject("trend"));
-                HashMap<String, List<Movie>> moviesByCategories = new HashMap<>();
+                Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
+                HashMap<String, List<Show>> moviesByCategories = new HashMap<>();
                 List<String> categoriesNames = new ArrayList<>();
 
                 JSONArray otherCategories = jsonObject.optJSONArray("categories");
@@ -227,7 +238,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 for (int i = 0; i < otherCategories.length(); i++) {
                     JSONObject category = otherCategories.optJSONObject(i);
                     categoriesNames.add(category.optString("title"));
-                    moviesByCategories.put(category.optString("title"), Movie.newList(category.optJSONArray("items")));
+                    moviesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
                 }
 
                 homeAdapter.setData(trendMovie, categoriesNames, moviesByCategories);

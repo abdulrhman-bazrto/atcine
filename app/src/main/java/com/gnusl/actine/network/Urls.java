@@ -18,10 +18,10 @@ public enum Urls {
 
     Series(API.getLink() + "series/"),
     Serie(API.getLink() + "serie/"),
-    SeriesGroups(Movies.getLink() + "groups"),
-    SerieSuggest(Movie.getLink() + "%id%/suggest"),
-    SerieFavorite(Movie.getLink() + "%id%/favourite"),
-    SeriesMyList(Movies.getLink() + "favourite"),
+    SeriesGroups(Series.getLink() + "groups"),
+    SerieSuggest(Series.getLink() + "%id%/suggest"),
+    SerieFavorite(Series.getLink() + "%id%/favourite"),
+    SeriesMyList(Series.getLink() + "favourite"),
 
 
     Profiles(API.getLink() + "profiles"),

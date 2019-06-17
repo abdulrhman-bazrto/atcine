@@ -50,7 +50,7 @@ public class MoreContainerFragment extends Fragment {
     }
 
     private void init() {
-        replaceFragment(FragmentTags.MoreFragment,null);
+        replaceFragment(FragmentTags.MoreFragment, null);
     }
 
     public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
@@ -97,6 +97,15 @@ public class MoreContainerFragment extends Fragment {
                 transaction.commit();
 
                 break;
+
+            case ShowSeasonsFragment:
+
+                mCurrentFragment = SeriesSeasonsFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
             case HelpFragment:
 
                 mCurrentFragment = HelpFragment.newInstance();
@@ -111,6 +120,8 @@ public class MoreContainerFragment extends Fragment {
                 transaction.commit();
 
                 break;
+
+
         }
     }
 

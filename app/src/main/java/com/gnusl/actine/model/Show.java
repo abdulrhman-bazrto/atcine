@@ -1,12 +1,16 @@
 package com.gnusl.actine.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Show implements Serializable {
 
     private int id;
+    private int seriesId;
     private String title;
     private String description;
     private String section;
@@ -22,15 +26,28 @@ public class Show implements Serializable {
     private boolean isLike;
     private boolean isFavourite;
     private boolean isReminded;
+    private String preWatch;
+    private String watchTime;
+    private int year;
+    private boolean isMovie;
+    private boolean isSeason;
+    private boolean isEpisode;
+    private List<Show> seasons;
+    private List<Show> episodes;
 
-    public Show(JSONObject jsonObject) {
+    public Show(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode) {
         this.id = jsonObject.optInt("id");
         this.sectionId = jsonObject.optInt("section_id");
         this.categoryId = jsonObject.optInt("category_id");
-        this.isLike = jsonObject.optBoolean("is_like");
-        this.isFavourite = jsonObject.optBoolean("is_favourite");
-        this.isDownloaded = jsonObject.optBoolean("is_downloaded");
-        this.isReminded = jsonObject.optBoolean("is_reminded");
+        if (jsonObject.has("is_like"))
+            this.isLike = jsonObject.optBoolean("is_like");
+        if (jsonObject.has("is_favourite"))
+            this.isFavourite = jsonObject.optBoolean("is_favourite");
+        if (jsonObject.has("is_downloaded"))
+            this.isDownloaded = jsonObject.optBoolean("is_downloaded");
+        if (jsonObject.has("is_reminded"))
+            this.isReminded = jsonObject.optBoolean("is_reminded");
+
         this.title = jsonObject.optString("title");
         this.description = jsonObject.optString("description");
         this.showTime = jsonObject.optString("show_time");
@@ -41,9 +58,105 @@ public class Show implements Serializable {
         this.title = jsonObject.optString("title");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
         this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url");
+        this.preWatch = jsonObject.optString("pre_watch");
+        this.watchTime = jsonObject.optString("watch_time");
+        this.year = jsonObject.optInt("year");
+        this.isMovie = isMovie;
+        this.isEpisode = isEpisode;
+        this.isSeason = isSeason;
+
+        if (jsonObject.has("series_id")) {
+            this.seriesId = jsonObject.optInt("series_id");
+        }
+
+        if (jsonObject.has("seasons")) {
+            this.seasons = Show.newList(jsonObject.optJSONArray("seasons"), false, true, false, isFavourite, isLike, isDownloaded);
+        }
+
+        if (jsonObject.has("episodes")) {
+            this.episodes = Show.newList(jsonObject.optJSONArray("episodes"), false, false, true, isFavourite, isLike, isDownloaded);
+            if (this.isFavourite) {
+                for (int i = 0; i < this.episodes.size(); i++)
+                    this.episodes.get(i).setIsFavourite(true);
+            }
+        }
 
     }
 
+    public Show(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode, boolean isFavourite, boolean isLike, boolean isDownloaded) {
+        this.id = jsonObject.optInt("id");
+        this.sectionId = jsonObject.optInt("section_id");
+        this.categoryId = jsonObject.optInt("category_id");
+        if (jsonObject.has("is_like"))
+            this.isLike = jsonObject.optBoolean("is_like");
+        else
+            this.isLike = isLike;
+        if (jsonObject.has("is_favourite"))
+            this.isFavourite = jsonObject.optBoolean("is_favourite");
+        else
+            this.isFavourite = isFavourite;
+        if (jsonObject.has("is_downloaded"))
+            this.isDownloaded = jsonObject.optBoolean("is_downloaded");
+        else
+            this.isDownloaded = isDownloaded;
+        if (jsonObject.has("is_reminded"))
+            this.isReminded = jsonObject.optBoolean("is_reminded");
+
+
+        this.title = jsonObject.optString("title");
+        this.description = jsonObject.optString("description");
+        this.showTime = jsonObject.optString("show_time");
+        this.thumbnailImage = jsonObject.optString("thumbnail_image");
+        this.coverImage = jsonObject.optString("cover_image");
+        this.category = jsonObject.optString("category");
+        this.section = jsonObject.optString("section");
+        this.title = jsonObject.optString("title");
+        this.coverImageUrl = jsonObject.optString("cover_image_url");
+        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url");
+        this.preWatch = jsonObject.optString("pre_watch");
+        this.watchTime = jsonObject.optString("watch_time");
+        this.year = jsonObject.optInt("year");
+        this.isMovie = isMovie;
+        this.isEpisode = isEpisode;
+        this.isSeason = isSeason;
+
+        if (jsonObject.has("series_id")) {
+            this.seriesId = jsonObject.optInt("series_id");
+        }
+
+        if (jsonObject.has("seasons")) {
+            this.seasons = Show.newList(jsonObject.optJSONArray("seasons"), false, true, false, isFavourite, isLike, isDownloaded);
+        }
+
+        if (jsonObject.has("episodes")) {
+            this.episodes = Show.newList(jsonObject.optJSONArray("episodes"), false, false, true, isFavourite, isLike, isDownloaded);
+        }
+
+    }
+
+    public static Show newInstance(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode) {
+        return new Show(jsonObject, isMovie, isSeason, isEpisode);
+    }
+
+    public static Show newInstance(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode, boolean isFavourite, boolean isLike, boolean isDownloaded) {
+        return new Show(jsonObject, isMovie, isSeason, isEpisode, isFavourite, isLike, isDownloaded);
+    }
+
+    public static List<Show> newList(JSONArray jsonArray, boolean isMovie, boolean isSeason, boolean isEpisode) {
+        List<Show> shows = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            shows.add(newInstance(jsonArray.optJSONObject(i), isMovie, isSeason, isEpisode));
+        }
+        return shows;
+    }
+
+    public static List<Show> newList(JSONArray jsonArray, boolean isMovie, boolean isSeason, boolean isEpisode, boolean isFavourite, boolean isLike, boolean isDownloaded) {
+        List<Show> shows = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            shows.add(newInstance(jsonArray.optJSONObject(i), isMovie, isSeason, isEpisode, isFavourite, isLike, isDownloaded));
+        }
+        return shows;
+    }
 
     public String getThumbnailImageUrl() {
         return thumbnailImageUrl;
@@ -162,7 +275,7 @@ public class Show implements Serializable {
     }
 
     public void setIsReminded(boolean isReminded) {
-        this.isReminded= isReminded;
+        this.isReminded = isReminded;
     }
 
     public String getShowTime() {
@@ -171,5 +284,58 @@ public class Show implements Serializable {
 
     public void setShowTime(String showTime) {
         this.showTime = showTime;
+    }
+
+    public String getPreWatch() {
+        return preWatch;
+    }
+
+    public void setPreWatch(String preWatch) {
+        this.preWatch = preWatch;
+    }
+
+    public String getWatchTime() {
+        return watchTime;
+    }
+
+    public void setWatchTime(String watchTime) {
+        this.watchTime = watchTime;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public boolean getIsMovie() {
+        return isMovie;
+    }
+
+
+    public boolean getIsSeason() {
+        return isSeason;
+    }
+
+    public boolean getIsEpisode() {
+        return isEpisode;
+    }
+
+    public List<Show> getSeasons() {
+        return seasons;
+    }
+
+    public void setSeasons(JSONArray jsonArray) {
+        this.seasons = newList(jsonArray, false, true, false);
+    }
+
+    public List<Show> getEpisodes() {
+        return episodes;
+    }
+
+    public int getSeriesId() {
+        return seriesId;
     }
 }

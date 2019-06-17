@@ -10,7 +10,6 @@ import android.widget.ImageView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
 import com.gnusl.actine.model.Show;
 import com.squareup.picasso.Picasso;
 
@@ -67,8 +66,13 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie(movies.get(getAdapterPosition()));
+                    if (homeMovieClick != null) {
+                        if (movies.get(getAdapterPosition()).getIsMovie())
+                            homeMovieClick.onClickMovie(movies.get(getAdapterPosition()));
+                        else
+                            homeMovieClick.onClickSeries(movies.get(getAdapterPosition()));
+                    }
+
                 }
             });
         }

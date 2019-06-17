@@ -76,6 +76,14 @@ public class HomeContainerFragment extends Fragment {
                 transaction.commit();
 
                 break;
+
+            case ShowSeasonsFragment:
+
+                mCurrentFragment = SeriesSeasonsFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_home, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
         }
     }
 

@@ -15,7 +15,7 @@ import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
-import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.ui.adapter.ComingSoonListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithSelect;
@@ -155,7 +155,7 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
 
         switch (currentCategory) {
             case Movies: {
-                List<Movie> movies = Movie.newList(jsonObject.optJSONArray("movies"));
+                List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
                 comingSoonListAdapter.setList(movies);
                 break;
             }

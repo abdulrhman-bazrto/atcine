@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
-    private List<Movie> movies = new ArrayList<>();
+    private List<Show> movies = new ArrayList<>();
 
 
     public MovieMoreLikeAdapter(Context context, HomeMovieClick homeMovieClick) {
@@ -49,7 +49,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
         return movies.size();
     }
 
-    public void setList(List<Movie> movies) {
+    public void setList(List<Show> movies) {
         this.movies = movies;
         notifyDataSetChanged();
     }
@@ -70,8 +70,17 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Show show = movies.get(getAdapterPosition());
                     if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie(movies.get(getAdapterPosition()));
+                        if (show.getIsMovie()) {
+                            homeMovieClick.onClickMovie(show);
+                        } else if (!show.getIsMovie()) {
+                            if (show.getIsEpisode()) {
+                                homeMovieClick.onClickMovie(show);
+                            } else {
+                                homeMovieClick.onClickSeries(show);
+                            }
+                        }
                 }
             });
         }

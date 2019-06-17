@@ -19,7 +19,7 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
@@ -51,7 +51,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private ImageView ivShowCover;
     private Button btnAddToMyList;
 
-    private Movie movie;
+    private Show show;
 
     public ShowDetailsFragment() {
     }
@@ -66,7 +66,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            movie = (Movie) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
+            show = (Show) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
         }
     }
 
@@ -84,12 +84,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         findViews();
 
-        tvShowTitle.setText(movie.getTitle());
-        tvYear.setText(String.valueOf(movie.getYear()));
-        tvWatchTime.setText(movie.getWatchTime());
-        tvShowCaption.setText(movie.getDescription());
-        Picasso.with(getActivity()).load(movie.getCoverImageUrl()).into(ivShowCover);
-        if (movie.getIsFavourite()) {
+        tvShowTitle.setText(show.getTitle());
+        tvYear.setText(String.valueOf(show.getYear()));
+        tvWatchTime.setText(show.getWatchTime());
+        tvShowCaption.setText(show.getDescription());
+        Picasso.with(getActivity()).load(show.getCoverImageUrl()).into(ivShowCover);
+        if (show.getIsFavourite()) {
             btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
         }
 
@@ -120,7 +120,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     private void getRelatedShows() {
 
-        DataLoader.getRequest(Urls.MovieSuggest.getLink().replaceAll("%id%", String.valueOf(movie.getId())), this);
+        if (show.getIsMovie())
+            DataLoader.getRequest(Urls.MovieSuggest.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        else
+            DataLoader.getRequest(Urls.SerieSuggest.getLink().replaceAll("%id%", String.valueOf(show.getSeriesId())), this);
     }
 
     private void findViews() {
@@ -148,7 +151,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     }
 
     @Override
-    public void onClickMovie(Movie movie) {
+    public void onClickMovie(Show movie) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
@@ -161,6 +164,43 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             } else if (fragment instanceof SearchContainerFragment) {
                 ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment);
+            }
+        }
+    }
+
+    @Override
+    public void onClickSeries(Show series) {
+        if (getActivity() != null) {
+            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof HomeContainerFragment) {
+                if (series.getIsEpisode()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                } else if (series.getIsSeason()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                    bundle.putString("type", "episode");
+                    bundle.putString("seasonId", String.valueOf(series.getId()));
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                }else { // click on series
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                    bundle.putString("type", "season");
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                }
+            } else if (fragment instanceof MoreContainerFragment) {
+                if (series.getIsEpisode()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                } else if (series.getIsSeason()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                    bundle.putString("type", "episode");
+                    bundle.putString("seasonId", String.valueOf(series.getId()));
+                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                }
             }
         }
     }
@@ -187,24 +227,30 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     private void sendFavoriteRequest() {
 
-        DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(movie.getId())), new ConnectionDelegate() {
+        String url = "";
+        if (show.getIsMovie())
+            url = Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(show.getId()));
+        else
+            url = Urls.SerieFavorite.getLink().replaceAll("%id%", String.valueOf(show.getSeriesId()));
+
+        DataLoader.postRequest(url, new ConnectionDelegate() {
             @Override
             public void onConnectionError(int code, String message) {
-
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConnectionError(ANError anError) {
-
+                Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConnectionSuccess(JSONObject jsonObject) {
                 if (jsonObject.optString("status").equalsIgnoreCase("added")) {
-                    movie.setIsFavourite(true);
+                    show.setIsFavourite(true);
                     btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
                 } else {
-                    movie.setIsFavourite(false);
+                    show.setIsFavourite(false);
                     btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
                 }
             }
@@ -223,7 +269,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        List<Movie> movies = Movie.newList(jsonObject.optJSONArray("movies"));
-        movieMoreLikeAdapter.setList(movies);
+        if (jsonObject.has("movie")) {
+            List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
+            movieMoreLikeAdapter.setList(movies);
+        } else if (jsonObject.has("series")) {
+            List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
+            movieMoreLikeAdapter.setList(series);
+        }
     }
 }

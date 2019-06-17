@@ -17,7 +17,7 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
@@ -29,9 +29,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -106,11 +103,11 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
 
         switch (currentCategory) {
             case Movies:
-                DataLoader.getRequest(Urls.MoviesMyList.getLink(),this);
+                DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
                 break;
 
             case TvShows:
-
+                DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
                 break;
         }
 
@@ -154,13 +151,26 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     }
 
     @Override
-    public void onClickMovie(Movie movie) {
+    public void onClickMovie(Show show) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
                 ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+            }
+        }
+    }
+
+    @Override
+    public void onClickSeries(Show series) {
+        if (getActivity() != null) {
+            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof MoreContainerFragment) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+                bundle.putString("type", "season");
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
             }
         }
     }
@@ -184,13 +194,14 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
         if (progressHUD != null)
             progressHUD.dismiss();
 
-        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+        switch (currentCategory) {
             case TvShows:
-
+                List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
+                myListAdapter.setList(series);
                 break;
 
             case Movies:
-                List<Movie> movies = Movie.newList(jsonObject.optJSONArray("movies"));
+                List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
                 myListAdapter.setList(movies);
                 break;
         }

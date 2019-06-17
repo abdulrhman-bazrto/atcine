@@ -15,7 +15,6 @@ import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.Movie;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -115,8 +114,13 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (homeMovieClick != null)
-                        homeMovieClick.onClickMovie(trendShow);
+                    if (homeMovieClick != null) {
+                        if (trendShow.getIsMovie())
+                            homeMovieClick.onClickMovie(trendShow);
+                        else
+                            homeMovieClick.onClickSeries(trendShow);
+                    }
+
                 }
             });
 
