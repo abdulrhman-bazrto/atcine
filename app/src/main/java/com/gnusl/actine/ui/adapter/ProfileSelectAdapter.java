@@ -1,6 +1,8 @@
 package com.gnusl.actine.ui.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.interfaces.ProfileClick;
 import com.gnusl.actine.model.Profile;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.squareup.picasso.Picasso;
@@ -19,19 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProfileSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Profile> profiles = new ArrayList<>();
     private Context mContext;
-    private ProfileClick profileClick;
+    private Dialog dialog;
 
-    private static final int HOLDER_ADD_PROFILE = 0;
-    private static final int HOLDER_PROFILE = 1;
-
-
-    public ProfilesAdapter(Context context, ProfileClick profileClick) {
+    public ProfileSelectAdapter(Context context, Dialog dialog) {
         this.mContext = context;
-        this.profileClick = profileClick;
+        this.dialog = dialog;
     }
 
     @NonNull
@@ -40,13 +37,9 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        if (viewType == HOLDER_PROFILE) {
-            view = inflater.inflate(R.layout.item_profile, parent, false);
-            return new ProfilesAdapter.ProfileViewHolder(view);
-        } else {
-            view = inflater.inflate(R.layout.item_add_profile, parent, false);
-            return new ProfilesAdapter.AddProfileViewHolder(view);
-        }
+
+        view = inflater.inflate(R.layout.item_profile, parent, false);
+        return new ProfileSelectAdapter.ProfileViewHolder(view);
     }
 
     @Override
@@ -54,26 +47,12 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if (holder instanceof ProfileViewHolder)
             ((ProfileViewHolder) holder).bind();
-        else if (holder instanceof AddProfileViewHolder)
-            ((AddProfileViewHolder) holder).bind();
-
 
     }
 
     @Override
     public int getItemCount() {
-        if (profiles.size() == 0)
-            return 1;
-        else
-            return profiles.size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == profiles.size())
-            return HOLDER_ADD_PROFILE;
-        else
-            return HOLDER_PROFILE;
+        return profiles.size();
     }
 
     public void setList(List<Profile> profiles) {
@@ -114,6 +93,14 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     profile.setCurrentProfile(true);
                     SharedPreferencesUtils.saveCurrentProfile(profile.getId());
                     notifyDataSetChanged();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (dialog != null)
+                                dialog.dismiss();
+                        }
+                    }, 1000);
+
                 }
             });
 
@@ -123,24 +110,6 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ivProfile.setBackgroundResource(R.color.transparent);
             }
 
-        }
-    }
-
-
-    class AddProfileViewHolder extends RecyclerView.ViewHolder {
-
-        AddProfileViewHolder(View itemView) {
-            super(itemView);
-
-        }
-
-        public void bind() {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    profileClick.onClickProfile(null);
-                }
-            });
         }
     }
 

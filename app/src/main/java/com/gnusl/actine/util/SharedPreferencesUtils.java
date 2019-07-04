@@ -19,6 +19,7 @@ public class SharedPreferencesUtils {
     private final static String Token = "token";
     private final static String Language = "Language";
     private final static String Category = "Category";
+    private final static String ProfileId = "ProfileId";
 
     public static void saveUser(User user) {
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
@@ -77,6 +78,20 @@ public class SharedPreferencesUtils {
         }
         return null;
     }
+
+    public static void saveCurrentProfile(int profileId) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        sharedPreferences.putInt(ProfileId, profileId);
+        sharedPreferences.apply();
+
+    }
+
+    public static int getCurrentProfile() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        int profileId = sharedPreferences.getInt(ProfileId, 0);
+        return profileId;
+    }
+
 
     public static void saveLanguage(Context c, String language) {
         SharedPreferences defaultSharedPreferences = c.getSharedPreferences("language", Context.MODE_PRIVATE);

@@ -1,6 +1,9 @@
 package com.gnusl.actine.ui.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,21 +12,36 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.model.Profile;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
+import com.gnusl.actine.ui.adapter.ProfileSelectAdapter;
 import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
-public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider {
+import org.json.JSONObject;
+
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider, ConnectionDelegate {
 
     private Fragment mCurrentFragment;
     private MainFragmentPagerAdapter pagerAdapter;
@@ -61,6 +79,10 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 selectedPosition = position;
             }
         });
+
+        if (SharedPreferencesUtils.getCurrentProfile() == 0) {
+            DataLoader.getRequest(Urls.Profiles.getLink(), this);
+        }
 
     }
 
@@ -234,5 +256,45 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 //        super.onActivityResult(requestCode, resultCode, data);
         if (pagerAdapter.getCurrentFragment() instanceof MoreContainerFragment)
             ((MoreContainerFragment) pagerAdapter.getCurrentFragment()).getCurrentFragment().onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onConnectionError(int code, String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        Toast.makeText(this, anError.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+        if (jsonObject.has("profiles")) {
+            List<Profile> profiles = Profile.newList(jsonObject.optJSONArray("profiles"));
+            if (profiles.size() <= 1) {
+                return;
+            } else {
+                Dialog profilesDialog = new Dialog(this);
+                profilesDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                profilesDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                profilesDialog.setCancelable(false);
+                profilesDialog.setContentView(R.layout.dialog_select_profile);
+                profilesDialog.show();
+
+                ProfileSelectAdapter profileSelectAdapter = new ProfileSelectAdapter(this, profilesDialog);
+
+                RecyclerView rvProfiles = profilesDialog.findViewById(R.id.rv_profiles);
+
+                GridLayoutManager layoutManager = new GridLayoutManager(this, 3);
+
+                rvProfiles.setLayoutManager(layoutManager);
+
+                rvProfiles.setAdapter(profileSelectAdapter);
+
+                profileSelectAdapter.setList(profiles);
+
+            }
+        }
     }
 }

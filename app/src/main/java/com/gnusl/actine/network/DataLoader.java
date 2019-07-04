@@ -12,14 +12,23 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DataLoader {
+
+    private static Map<String, String> getHeaders() {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Authorization", SharedPreferencesUtils.getToken());
+        headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
+        headers.put("profile_id", String.valueOf(SharedPreferencesUtils.getCurrentProfile()));
+
+        return headers;
+    }
 
     public static void postRequest(Urls url, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
 
         AndroidNetworking.post(url.getLink())
-                .addHeaders("Authorization", SharedPreferencesUtils.getToken())
-                .addHeaders("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()))
+                .addHeaders(getHeaders())
                 .addBodyParameter(body)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -44,8 +53,7 @@ public class DataLoader {
     public static void postRequest(String url, final ConnectionDelegate connectionDelegate) {
 
         AndroidNetworking.post(url)
-                .addHeaders("Authorization", SharedPreferencesUtils.getToken())
-                .addHeaders("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()))
+                .addHeaders(getHeaders())
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -69,8 +77,7 @@ public class DataLoader {
     public static void getRequest(Urls url, HashMap<String, String> pathParameters, final ConnectionDelegate connectionDelegate) {
 
         AndroidNetworking.get(url.getLink())
-                .addHeaders("Authorization", SharedPreferencesUtils.getToken())
-                .addHeaders("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()))
+                .addHeaders(getHeaders())
                 .addPathParameter(pathParameters)
                 .addQueryParameter(pathParameters)
                 .build()
@@ -96,8 +103,7 @@ public class DataLoader {
     public static void getRequest(String url, final ConnectionDelegate connectionDelegate) {
 
         AndroidNetworking.get(url)
-                .addHeaders("Authorization", SharedPreferencesUtils.getToken())
-                .addHeaders("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()))
+                .addHeaders(getHeaders())
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -121,15 +127,14 @@ public class DataLoader {
     public static void uploadRequest(String url, File file, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
 
         AndroidNetworking.upload(url)
-                .addHeaders("Authorization", SharedPreferencesUtils.getToken())
-                .addHeaders("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()))
+                .addHeaders(getHeaders())
                 .addMultipartFile("file", file)
                 .addMultipartParameter(body)
                 .build()
                 .setUploadProgressListener(new UploadProgressListener() {
                     @Override
                     public void onProgress(long bytesUploaded, long totalBytes) {
-                        long x = totalBytes-bytesUploaded;
+                        long x = totalBytes - bytesUploaded;
                     }
                 })
                 .getAsJSONObject(new JSONObjectRequestListener() {

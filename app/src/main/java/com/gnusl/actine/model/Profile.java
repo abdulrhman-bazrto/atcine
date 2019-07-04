@@ -3,6 +3,8 @@ package com.gnusl.actine.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.gnusl.actine.util.SharedPreferencesUtils;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ public class Profile implements Serializable, Parcelable {
     private int userId;
     private String image;
     private String imageUrl;
+    private boolean isCurrentProfile = false;
 
     public static Profile newInstance(JSONObject jsonObject) {
         Profile profile = new Profile();
@@ -25,6 +28,11 @@ public class Profile implements Serializable, Parcelable {
         profile.setName(jsonObject.optString("name"));
         profile.setUserId(jsonObject.optInt("user_id"));
         profile.setImageUrl(jsonObject.optString("image_url"));
+
+        if (profile.getId() == SharedPreferencesUtils.getCurrentProfile())
+            profile.setCurrentProfile(true);
+        else
+            profile.setCurrentProfile(false);
 
         return profile;
     }
@@ -115,4 +123,12 @@ public class Profile implements Serializable, Parcelable {
             return new Profile[size];
         }
     };
+
+    public void setCurrentProfile(boolean currentProfile) {
+        this.isCurrentProfile = currentProfile;
+    }
+
+    public boolean isCurrentProfile() {
+        return isCurrentProfile;
+    }
 }

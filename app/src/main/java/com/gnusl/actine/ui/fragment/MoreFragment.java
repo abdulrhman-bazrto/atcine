@@ -30,6 +30,7 @@ import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.ProfilesAdapter;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 
 import org.json.JSONObject;
 
@@ -170,6 +171,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
             @Override
             public void onClick(View v) {
                 logoutDialog.dismiss();
+                SharedPreferencesUtils.clear();
                 startActivity(new Intent(getActivity(), AuthActivity.class));
                 getActivity().finish();
             }
