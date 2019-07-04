@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
@@ -21,6 +22,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     View inflatedView;
 
     private EditText etSearch;
+    private RadioButton rbSeries, rbMovies;
 
     public SearchFragment() {
     }
@@ -63,7 +65,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     if (getActivity() != null) {
                         Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                         if (fragment instanceof SearchContainerFragment) {
-                            ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment);
+                            Bundle bundle = new Bundle();
+                            if (rbSeries.isChecked())
+                                bundle.putString("searchFor", "series");
+                            else if (rbMovies.isChecked())
+                                bundle.putString("searchFor", "movies");
+                            bundle.putString("searchType", "title");
+                            bundle.putString("key", etSearch.getText().toString());
+                            ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
                         }
                     }
                     return true;
@@ -76,6 +85,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     private void findViews() {
         etSearch = inflatedView.findViewById(R.id.et_search);
+        rbMovies = inflatedView.findViewById(R.id.rb_movies);
+        rbSeries = inflatedView.findViewById(R.id.rb_series);
+
     }
 
 

@@ -121,6 +121,14 @@ public class MoreContainerFragment extends Fragment {
 
                 break;
 
+            case HelpDetailsFragment:
+
+                mCurrentFragment = HelpDetailsFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
 
         }
     }

@@ -5,6 +5,7 @@ public enum Constants {
     HomeDetailsExtra("Movie"),
     EditNewProfileExtra("Profile"),
     ManageProfilesExtra("ManageProfile"),
+    HelpExtra("HelpExtra"),
     ;
 
     private String name;

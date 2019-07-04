@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.GenresClickEvents;
+import com.gnusl.actine.model.Category;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +19,10 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     private GenresClickEvents genresClickEvents;
     private Context mContext;
-    private List<String> genres = new ArrayList<>();
+    private List<Category> genres = new ArrayList<>();
 
 
-    public GenresAdapter(Context context, List<String> genres, GenresClickEvents genresClickEvents) {
+    public GenresAdapter(Context context, List<Category> genres, GenresClickEvents genresClickEvents) {
         this.mContext = context;
         this.genres = genres;
         this.genresClickEvents = genresClickEvents;
@@ -40,7 +41,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     @Override
     public void onBindViewHolder(@NonNull final GenresAdapter.GenresViewHolder holder, int position) {
-        holder.tvGenresName.setText(genres.get(holder.getAdapterPosition()));
+        holder.tvGenresName.setText(genres.get(holder.getAdapterPosition()).getTitle());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,6 +58,11 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
     @Override
     public int getItemCount() {
         return genres.size();
+    }
+
+    public void setList(List<Category> categories) {
+        this.genres = categories;
+        notifyDataSetChanged();
     }
 
     class GenresViewHolder extends RecyclerView.ViewHolder {

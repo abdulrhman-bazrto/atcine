@@ -35,7 +35,6 @@ public class SearchContainerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
         }
     }
 
@@ -50,10 +49,10 @@ public class SearchContainerFragment extends Fragment {
     }
 
     private void init() {
-        replaceFragment(FragmentTags.SearchFragment);
+        replaceFragment(FragmentTags.SearchFragment, null);
     }
 
-    public void replaceFragment(FragmentTags fragmentTags) {
+    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
 
         // init manager
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -72,19 +71,28 @@ public class SearchContainerFragment extends Fragment {
 
             case SearchResultFragment:
 
-                mCurrentFragment = SearchResultFragment.newInstance();
-                transaction.replace(R.id.frame_container_search, mCurrentFragment);// newInstance() is a static factory method.
+                mCurrentFragment = SearchResultFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_search, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;
 
             case ShowDetailsFragment:
 
-                mCurrentFragment = ShowDetailsFragment.newInstance(null);
+                mCurrentFragment = ShowDetailsFragment.newInstance(bundle);
                 transaction.replace(R.id.frame_container_search, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;
+
+            case ShowSeasonsFragment:
+
+                mCurrentFragment = SeriesSeasonsFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_search, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
         }
     }
 

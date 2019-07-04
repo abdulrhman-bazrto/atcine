@@ -23,11 +23,15 @@ public enum Urls {
     SerieFavorite(Series.getLink() + "%id%/favourite"),
     SeriesMyList(Series.getLink() + "favourite"),
 
+    Categories(API.getLink() + "categories"),
+
 
     Profiles(API.getLink() + "profiles"),
     Profile(API.getLink() + "profile"),
     UpdateProfile(Profile.getLink() + "/update"),
     CreateProfile(Profile.getLink() + "/create"),
+
+     Help(API.getLink() + "help"),
 
     ;
 

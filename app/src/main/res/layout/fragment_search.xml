@@ -26,6 +26,42 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_search_gray_100" />
 
+        <RadioGroup
+            android:id="@+id/rg_types"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_radio_group"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_search">
+
+            <RadioButton
+                android:id="@+id/rb_series"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:buttonTint="@color/white"
+                android:padding="10dp"
+                android:text="Series"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/rb_movies"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:buttonTint="@color/white"
+                android:padding="10dp"
+                android:text="Movies"
+                android:textColor="@color/white" />
+
+        </RadioGroup>
+
+
         <EditText
             android:id="@+id/et_search"
             android:layout_width="0dp"
@@ -43,7 +79,7 @@
             android:textColorHint="@color/gray2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_search" />
+            app:layout_constraintTop_toBottomOf="@+id/rg_types" />
 
         <TextView
             android:id="@+id/tv_find_next"

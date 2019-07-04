@@ -18,6 +18,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Category;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -100,6 +101,9 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 .show();
 
         sgvHome.setClickListener(this);
+
+        DataLoader.getRequest(Urls.Categories.getLink(), this);
+
         cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,9 +186,28 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     }
 
     @Override
-    public void onSelectGenres(String genres) {
-        cubHome.getSpGenres().setText(genres);
+    public void onSelectGenres(Category genres) {
+        cubHome.getSpGenres().setText(genres.getTitle());
         sgvHome.setVisibility(View.GONE);
+        if (getActivity() != null) {
+            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof HomeContainerFragment) {
+                Bundle bundle = new Bundle();
+                switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())){
+                    case TvShows:{
+                        bundle.putString("searchFor", "series");
+                        break;
+                    }
+                    case Movies:{
+                        bundle.putString("searchFor", "movies");
+                        break;
+                    }
+                }
+                bundle.putString("searchType", "category");
+                bundle.putString("key", String.valueOf(genres.getId()));
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
+            }
+        }
     }
 
     @Override
@@ -211,39 +234,45 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (progressHUD != null)
             progressHUD.dismiss();
 
-        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
-            case TvShows: {
-                Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
-                HashMap<String, List<Show>> seriesByCategories = new HashMap<>();
-                List<String> categoriesNames = new ArrayList<>();
+        if (jsonObject.has("trend")) {
+            switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+                case TvShows: {
+                    Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
+                    HashMap<String, List<Show>> seriesByCategories = new HashMap<>();
+                    List<String> categoriesNames = new ArrayList<>();
 
-                JSONArray otherCategories = jsonObject.optJSONArray("categories");
+                    JSONArray otherCategories = jsonObject.optJSONArray("categories");
 
-                for (int i = 0; i < otherCategories.length(); i++) {
-                    JSONObject category = otherCategories.optJSONObject(i);
-                    categoriesNames.add(category.optString("title"));
-                    seriesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
+                    for (int i = 0; i < otherCategories.length(); i++) {
+                        JSONObject category = otherCategories.optJSONObject(i);
+                        categoriesNames.add(category.optString("title"));
+                        seriesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
+                    }
+
+                    homeAdapter.setData(trendSerie, categoriesNames, seriesByCategories);
+                    break;
                 }
+                case Movies: {
+                    Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
+                    HashMap<String, List<Show>> moviesByCategories = new HashMap<>();
+                    List<String> categoriesNames = new ArrayList<>();
 
-                homeAdapter.setData(trendSerie, categoriesNames, seriesByCategories);
-                break;
-            }
-            case Movies: {
-                Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
-                HashMap<String, List<Show>> moviesByCategories = new HashMap<>();
-                List<String> categoriesNames = new ArrayList<>();
+                    JSONArray otherCategories = jsonObject.optJSONArray("categories");
 
-                JSONArray otherCategories = jsonObject.optJSONArray("categories");
+                    for (int i = 0; i < otherCategories.length(); i++) {
+                        JSONObject category = otherCategories.optJSONObject(i);
+                        categoriesNames.add(category.optString("title"));
+                        moviesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
+                    }
 
-                for (int i = 0; i < otherCategories.length(); i++) {
-                    JSONObject category = otherCategories.optJSONObject(i);
-                    categoriesNames.add(category.optString("title"));
-                    moviesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
+                    homeAdapter.setData(trendMovie, categoriesNames, moviesByCategories);
+                    break;
                 }
-
-                homeAdapter.setData(trendMovie, categoriesNames, moviesByCategories);
-                break;
             }
+        }
+
+        if (jsonObject.has("categories")) {
+            sgvHome.setList(Category.newList(jsonObject.optJSONArray("categories")));
         }
 
     }
