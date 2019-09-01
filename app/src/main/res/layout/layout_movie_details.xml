@@ -22,6 +22,7 @@
         app:layout_constraintTop_toBottomOf="@+id/iv_movie_image" />
 
     <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/iv_play_show"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/iv_movie_image"
@@ -139,6 +140,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
+            android:id="@+id/btn_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/transparent"

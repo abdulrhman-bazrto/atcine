@@ -7,6 +7,14 @@
     android:background="@color/black"
     tools:context=".ui.fragment.DownloadFragment">
 
+    <com.gnusl.actine.ui.custom.CustomAppBar
+        android:id="@+id/cub_downloads"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_empty_downloads_hint"
         android:layout_width="match_parent"

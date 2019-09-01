@@ -1,11 +1,15 @@
 package com.gnusl.actine.network;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.DownloadListener;
+import com.androidnetworking.interfaces.DownloadProgressListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
 import org.json.JSONObject;
@@ -156,4 +160,33 @@ public class DataLoader {
                 });
     }
 
+    public static void downloadRequest(String url, final String fileDir, final String fileName, final DownloadDelegate downloadDelegate) {
+
+        AndroidNetworking.download(url, fileDir, fileName)
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .setDownloadProgressListener(new DownloadProgressListener() {
+                    @Override
+                    public void onProgress(long bytesDownloaded, long totalBytes) {
+                        if (downloadDelegate != null) {
+                            float p = ((float) bytesDownloaded / totalBytes);
+                            int progress = (int) (p * 100);
+                            downloadDelegate.onDownloadProgress(fileDir, fileName,  progress);
+                        }
+                    }
+                })
+                .startDownload(new DownloadListener() {
+                    @Override
+                    public void onDownloadComplete() {
+                        if (downloadDelegate != null)
+                            downloadDelegate.onDownloadSuccess(fileDir,fileName);
+                    }
+
+                    @Override
+                    public void onError(ANError error) {
+                        if (downloadDelegate != null)
+                            downloadDelegate.onDownloadError(error);
+                    }
+                });
+    }
 }

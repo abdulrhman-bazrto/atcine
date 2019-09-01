@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -18,11 +19,13 @@ import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.activity.WatchActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
@@ -31,26 +34,26 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate {
+public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate, DownloadDelegate {
 
     View inflatedView;
 
     private RecyclerView rvSuggest;
     private CustomAppBarWithBack cubHomeWithBack;
-    private Button btnReactions;
+    private Button btnReactions, btnDownload;
     private View clMoreLikeThis, clReactions;
     private RecyclerView rvComments;
-    private CommentsAdapter commentsAdapter;
-    private MovieMoreLikeAdapter movieMoreLikeAdapter;
-
     private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption;
-    private ImageView ivShowCover;
+    private ImageView ivShowCover, ivPlayShow;
     private Button btnAddToMyList;
 
+    private CommentsAdapter commentsAdapter;
+    private MovieMoreLikeAdapter movieMoreLikeAdapter;
     private Show show;
 
     public ShowDetailsFragment() {
@@ -116,6 +119,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         rvComments.setAdapter(commentsAdapter);
 
+        if (show.getIsDownloaded()){
+            btnDownload.setText("Downloaded");
+        }
+
     }
 
     private void getRelatedShows() {
@@ -139,7 +146,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvYear = inflatedView.findViewById(R.id.tv_year);
         tvWatchTime = inflatedView.findViewById(R.id.tv_watch_time);
         ivShowCover = inflatedView.findViewById(R.id.iv_movie_image);
+        ivPlayShow = inflatedView.findViewById(R.id.iv_play_show);
         btnAddToMyList = inflatedView.findViewById(R.id.btn_add_to_my_list);
+        btnDownload = inflatedView.findViewById(R.id.btn_download);
+
+        ivPlayShow.setOnClickListener(this);
+        btnDownload.setOnClickListener(this);
 
         cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -232,6 +244,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 if (clMoreLikeThis.getVisibility() == View.VISIBLE) {
                     clMoreLikeThis.setVisibility(View.GONE);
                     clReactions.setVisibility(View.VISIBLE);
+                    sendDetailsRequest();
                 } else {
                     clMoreLikeThis.setVisibility(View.VISIBLE);
                     clReactions.setVisibility(View.GONE);
@@ -242,7 +255,32 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 sendFavoriteRequest();
                 break;
             }
+            case R.id.iv_play_show: {
+                Intent intent = new Intent(getActivity(), WatchActivity.class);
+                intent.putExtra("show", show);
+                startActivity(intent);
+                break;
+            }
+            case R.id.btn_download: {
+                if (!show.getIsDownloaded()) {
+                    File internalStorage = getActivity().getFilesDir();
+                    String url = show.getVideoUrl();
+                    if (url.contains("_.m3u8")) {
+                        url = url.replaceAll("_.m3u8", ".mp4");
+                    } else {
+                        url = url.replaceAll(".m3u8", ".mp4");
+                    }
+                    Toast.makeText(getActivity(),"Downloading",Toast.LENGTH_SHORT).show();
+                    DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
+                }
+                break;
+            }
         }
+    }
+
+    private void sendDetailsRequest() {
+
+
     }
 
     private void sendFavoriteRequest() {
@@ -295,6 +333,23 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         } else if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
             movieMoreLikeAdapter.setList(series);
+        }
+    }
+
+    @Override
+    public void onDownloadProgress(String fileDir, String fileName, int progress) {
+
+    }
+
+    @Override
+    public void onDownloadError(ANError anError) {
+
+    }
+
+    @Override
+    public void onDownloadSuccess(String fileDir, String fileName) {
+        if (fileName.equalsIgnoreCase(show.getTitle()+".mp4")){
+            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),this);
         }
     }
 }

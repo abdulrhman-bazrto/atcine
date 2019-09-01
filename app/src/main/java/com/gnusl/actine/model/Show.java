@@ -28,12 +28,17 @@ public class Show implements Serializable {
     private boolean isReminded;
     private String preWatch;
     private String watchTime;
+    private String size;
     private int year;
     private boolean isMovie;
     private boolean isSeason;
     private boolean isEpisode;
     private List<Show> seasons;
     private List<Show> episodes;
+    private String videoUrl;
+
+    // use in android only
+    private boolean isInStorage;
 
     public Show(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode) {
         this.id = jsonObject.optInt("id");
@@ -56,11 +61,13 @@ public class Show implements Serializable {
         this.category = jsonObject.optString("category");
         this.section = jsonObject.optString("section");
         this.title = jsonObject.optString("title");
+        this.size = jsonObject.optString("size");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
         this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url");
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
+        this.videoUrl = jsonObject.optString("video_url");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -109,6 +116,7 @@ public class Show implements Serializable {
         this.thumbnailImage = jsonObject.optString("thumbnail_image");
         this.coverImage = jsonObject.optString("cover_image");
         this.category = jsonObject.optString("category");
+        this.size = jsonObject.optString("size");
         this.section = jsonObject.optString("section");
         this.title = jsonObject.optString("title");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
@@ -337,5 +345,29 @@ public class Show implements Serializable {
 
     public int getSeriesId() {
         return seriesId;
+    }
+
+    public String getVideoUrl() {
+        return videoUrl;
+    }
+
+    public void setVideoUrl(String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public boolean isInStorage() {
+        return isInStorage;
+    }
+
+    public void setInStorage(boolean inStorage) {
+        isInStorage = inStorage;
     }
 }

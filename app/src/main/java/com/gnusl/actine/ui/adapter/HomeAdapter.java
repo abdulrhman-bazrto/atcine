@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
+import com.gnusl.actine.ui.activity.WatchActivity;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -110,6 +112,15 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind() {
 
             Picasso.with(mContext).load(trendShow.getCoverImageUrl()).into(ivMovieImage);
+
+            btnPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent =new Intent(mContext, WatchActivity.class);
+                    intent.putExtra("show",trendShow);
+                    mContext.startActivity(intent);
+                }
+            });
 
             btnInfo.setOnClickListener(new View.OnClickListener() {
                 @Override

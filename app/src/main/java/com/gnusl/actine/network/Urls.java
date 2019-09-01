@@ -13,8 +13,10 @@ public enum Urls {
     MovieSuggest(Movie.getLink() + "%id%/suggest"),
     MovieFavorite(Movie.getLink() + "%id%/favourite"),
     MovieRemind(Movie.getLink() + "%id%/remind"),
+    MovieDownload(Movie.getLink() + "%id%/download"),
     MoviesMyList(Movies.getLink() + "favourite"),
     MoviesSoon(Movies.getLink() + "soon"),
+    MoviesDownloaded(Movies.getLink() + "download"),
 
     Series(API.getLink() + "series/"),
     Serie(API.getLink() + "serie/"),
@@ -22,6 +24,7 @@ public enum Urls {
     SerieSuggest(Series.getLink() + "%id%/suggest"),
     SerieFavorite(Series.getLink() + "%id%/favourite"),
     SeriesMyList(Series.getLink() + "favourite"),
+    SeriesDownloaded(Series.getLink() + "favourite"),
 
     Categories(API.getLink() + "categories"),
 
