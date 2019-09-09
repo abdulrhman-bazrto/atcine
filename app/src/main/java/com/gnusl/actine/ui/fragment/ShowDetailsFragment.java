@@ -21,6 +21,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -30,6 +31,7 @@ import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.ObjectBox;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -37,6 +39,8 @@ import org.json.JSONObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 
 public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate, DownloadDelegate {
@@ -55,6 +59,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private CommentsAdapter commentsAdapter;
     private MovieMoreLikeAdapter movieMoreLikeAdapter;
     private Show show;
+    private Toast downloadingToast;
 
     public ShowDetailsFragment() {
     }
@@ -272,6 +277,29 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     }
                     Toast.makeText(getActivity(),"Downloading",Toast.LENGTH_SHORT).show();
                     DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
+                }else {
+                    DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
+                        @Override
+                        public void onConnectionError(int code, String message) {
+                            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onConnectionError(ANError anError) {
+                            Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onConnectionSuccess(JSONObject jsonObject) {
+                            btnDownload.setText("Download");
+                            show.setIsDownloaded(false);
+                            Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
+                            DBShow dbShowInBox = dbShowBox.get(show.getId());
+                            if (dbShowInBox != null){
+                                dbShowBox.remove(show.getId());
+                            }
+                        }
+                    });
                 }
                 break;
             }
@@ -338,7 +366,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     @Override
     public void onDownloadProgress(String fileDir, String fileName, int progress) {
-
+        if (getActivity() != null) {
+            if (downloadingToast == null) {
+                downloadingToast = Toast.makeText(getActivity(), "Downloading (" + progress + "%)", Toast.LENGTH_SHORT);
+            }
+            downloadingToast.setText("Downloading (" + progress + "%)");
+            downloadingToast.show();
+        }
     }
 
     @Override
@@ -349,7 +383,26 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     @Override
     public void onDownloadSuccess(String fileDir, String fileName) {
         if (fileName.equalsIgnoreCase(show.getTitle()+".mp4")){
-            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),this);
+            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
+                @Override
+                public void onConnectionError(int code, String message) {
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onConnectionError(ANError anError) {
+                    Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onConnectionSuccess(JSONObject jsonObject) {
+                    btnDownload.setText("Downloaded");
+                    show.setIsDownloaded(true);
+                    Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
+                    DBShow dbShow = show.getDBShowObject();
+                    dbShowBox.put(dbShow);
+                }
+            });
         }
     }
 }

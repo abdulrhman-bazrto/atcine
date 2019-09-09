@@ -142,6 +142,10 @@ public class Show implements Serializable {
 
     }
 
+    public Show() {
+
+    }
+
     public static Show newInstance(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode) {
         return new Show(jsonObject, isMovie, isSeason, isEpisode);
     }
@@ -369,5 +373,19 @@ public class Show implements Serializable {
 
     public void setInStorage(boolean inStorage) {
         isInStorage = inStorage;
+    }
+
+    public DBShow getDBShowObject() {
+        DBShow dbShow = new DBShow();
+        dbShow.setId((long) this.getId());
+        dbShow.setTitle(this.getTitle());
+        dbShow.setCategory(this.getCategory());
+        dbShow.setIsDownloaded(this.getIsDownloaded());
+        dbShow.setInStorage(this.isInStorage());
+        dbShow.setSize(this.getSize());
+        dbShow.setThumbnailImageUrl(this.getThumbnailImageUrl());
+        dbShow.setVideoUrl(this.getVideoUrl());
+
+        return dbShow;
     }
 }

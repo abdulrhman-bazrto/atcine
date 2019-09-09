@@ -15,15 +15,20 @@ import android.widget.Toast;
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.DownloadDelegate;
+import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.VideoActivity;
+import com.gnusl.actine.util.ObjectBox;
+import com.googlecode.mp4parser.authoring.tracks.h265.NalUnitHeader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -116,7 +121,12 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     btnDelete.setVisibility(View.GONE);
                     btnDownload.setVisibility(View.VISIBLE);
                     show.setInStorage(false);
-//                    DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),this);
+                    DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), null);
+                    Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
+                    DBShow dbShowInBox = dbShowBox.get(show.getId());
+                    if (dbShowInBox != null){
+                        dbShowBox.remove(show.getId());
+                    }
                 }
             });
 
@@ -147,8 +157,9 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                         public void onDownloadSuccess(String fileDir, String fileName) {
                             btnDelete.setVisibility(View.VISIBLE);
                             btnDownload.setVisibility(View.GONE);
+                            show.setIsDownloaded(true);
                             show.setInStorage(true);
-//                            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),null);
+                            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),null);
                         }
                     });
 

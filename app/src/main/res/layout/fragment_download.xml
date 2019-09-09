@@ -10,6 +10,7 @@
     <com.gnusl.actine.ui.custom.CustomAppBar
         android:id="@+id/cub_downloads"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

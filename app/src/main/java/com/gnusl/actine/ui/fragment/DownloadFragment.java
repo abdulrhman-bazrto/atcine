@@ -16,17 +16,20 @@ import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
-import com.gnusl.actine.network.DataLoader;
-import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.adapter.DownloadsListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.util.ObjectBox;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
+
+import io.objectbox.Box;
 
 
 public class DownloadFragment extends Fragment implements View.OnClickListener, ConnectionDelegate {
@@ -121,13 +124,35 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
                 .setMaxProgress(100)
                 .show();
 
-        String url = "";
-        if (currentCategory == AppCategories.Movies)
-            url = Urls.MoviesDownloaded.getLink();
-        else
-            url = Urls.SeriesDownloaded.getLink();
+        Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
+        List<DBShow> dbShows = dbShowBox.getAll();
+        if (dbShows.size() != 0) {
+            clEmptyDownloadList.setVisibility(View.GONE);
+            clDownloadList.setVisibility(View.VISIBLE);
+            List<Show> movies = new ArrayList<>();
+            for (DBShow dbShow : dbShows) {
+                Show show = dbShow.getShowObject();
+                File internalStorage = getActivity().getFilesDir();
+                File file = new File(internalStorage, show.getTitle() + ".mp4");
+                if (file.exists())
+                    show.setInStorage(true);
+                else
+                    show.setInStorage(false);
+                movies.add(show);
+            }
+            downloadsListAdapter.setList(movies);
+        }
+        if (progressHUD != null)
+            progressHUD.dismiss();
 
-        DataLoader.getRequest(url, this);
+
+//        String url = "";
+//        if (currentCategory == AppCategories.Movies)
+//            url = Urls.MoviesDownloaded.getLink();
+//        else
+//            url = Urls.SeriesDownloaded.getLink();
+
+//        DataLoader.getRequest(url, this);
 
     }
 
@@ -147,6 +172,35 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
                 clEmptyDownloadList.setVisibility(View.GONE);
                 clDownloadList.setVisibility(View.VISIBLE);
                 break;
+            }
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            if (clEmptyDownloadList == null)
+                return;
+            Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
+            List<DBShow> dbShows = dbShowBox.getAll();
+            if (dbShows.size() != 0) {
+                clEmptyDownloadList.setVisibility(View.GONE);
+                clDownloadList.setVisibility(View.VISIBLE);
+                List<Show> movies = new ArrayList<>();
+                for (DBShow dbShow : dbShows) {
+                    Show show = dbShow.getShowObject();
+                    File internalStorage = getActivity().getFilesDir();
+                    File file = new File(internalStorage, show.getTitle() + ".mp4");
+                    if (file.exists())
+                        show.setInStorage(true);
+                    else
+                        show.setInStorage(false);
+                    movies.add(show);
+                }
+                downloadsListAdapter.setList(movies);
+            }else {
+                downloadsListAdapter.setList(new ArrayList<Show>());
             }
         }
     }
