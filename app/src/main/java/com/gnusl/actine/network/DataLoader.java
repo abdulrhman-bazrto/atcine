@@ -29,9 +29,9 @@ public class DataLoader {
         return headers;
     }
 
-    public static void postRequest(Urls url, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
+    public static void postRequest(String url, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
 
-        AndroidNetworking.post(url.getLink())
+        AndroidNetworking.post(url)
                 .addHeaders(getHeaders())
                 .addBodyParameter(body)
                 .build()

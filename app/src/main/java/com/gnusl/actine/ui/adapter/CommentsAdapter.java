@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.interfaces.GenresClickEvents;
+import com.gnusl.actine.interfaces.CommentLongClickEvent;
+import com.gnusl.actine.model.Comment;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,12 +19,14 @@ import java.util.List;
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
 
     private Context mContext;
-    private List<String> comments = new ArrayList<>();
+    private List<Comment> comments = new ArrayList<>();
+    private CommentLongClickEvent commentLongClickEvent;
 
 
-    public CommentsAdapter(Context context, List<String> comments) {
+    public CommentsAdapter(Context context, List<Comment> comments, CommentLongClickEvent commentLongClickEvent) {
         this.mContext = context;
         this.comments = comments;
+        this.commentLongClickEvent  =commentLongClickEvent;
     }
 
     @NonNull
@@ -38,20 +42,42 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     @Override
     public void onBindViewHolder(@NonNull final CommentsViewHolder holder, int position) {
+        Comment comment = comments.get(position);
+        holder.tvComment.setText(comment.getComment());
+        holder.tvUserName.setText(comment.getProfile().getName());
+        holder.tvCommentTime.setText(comment.getCreatedAt());
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (comment.getProfile().getId() == SharedPreferencesUtils.getCurrentProfile()) {
+                    if (commentLongClickEvent != null)
+                        commentLongClickEvent.onLongClickComment(comment);
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return comments.size();
+    }
+
+    public void setList(List<Comment> comments) {
+        this.comments = comments;
+        notifyDataSetChanged();
     }
 
     class CommentsViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvGenresName;
+        TextView tvUserName, tvCommentTime, tvComment;
 
         CommentsViewHolder(View itemView) {
             super(itemView);
-            tvGenresName = itemView.findViewById(R.id.tv_genres_name);
+            tvComment = itemView.findViewById(R.id.tv_comment);
+            tvCommentTime = itemView.findViewById(R.id.tv_comment_time);
+            tvUserName = itemView.findViewById(R.id.tv_user_name);
         }
     }
 }

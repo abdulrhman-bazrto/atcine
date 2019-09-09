@@ -17,6 +17,9 @@ public enum Urls {
     MoviesMyList(Movies.getLink() + "favourite"),
     MoviesSoon(Movies.getLink() + "soon"),
     MoviesDownloaded(Movies.getLink() + "download"),
+    MovieComments(Movie.getLink() + "%id%/comment"),
+    MovieLike(Movie.getLink() + "%id%/like"),
+    MovieComment(Movie.getLink() + "comment/%id%/delete"),
 
     Series(API.getLink() + "series/"),
     Serie(API.getLink() + "serie/"),

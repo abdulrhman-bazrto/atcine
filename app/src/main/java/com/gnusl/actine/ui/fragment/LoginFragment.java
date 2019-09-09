@@ -142,7 +142,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             body.put("email_mobile", etEmailPhone.getText().toString());
         body.put("password", etPassword.getText().toString());
 
-        DataLoader.postRequest(Urls.Login, body, this);
+        DataLoader.postRequest(Urls.Login.getLink(), body, this);
 
     }
 

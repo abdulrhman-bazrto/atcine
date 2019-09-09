@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,9 +20,11 @@ import android.widget.Toast;
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.interfaces.CommentLongClickEvent;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.Comment;
 import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
@@ -38,23 +42,26 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.objectbox.Box;
 
 
-public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate, DownloadDelegate {
+public class ShowDetailsFragment extends Fragment implements HomeMovieClick, View.OnClickListener, ConnectionDelegate, DownloadDelegate, CommentLongClickEvent {
 
     View inflatedView;
 
     private RecyclerView rvSuggest;
     private CustomAppBarWithBack cubHomeWithBack;
     private Button btnReactions, btnDownload;
-    private View clMoreLikeThis, clReactions;
+    private View clMoreLikeThis, clReactions, clInputLayout;
     private RecyclerView rvComments;
-    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption;
-    private ImageView ivShowCover, ivPlayShow;
+    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount;
+    private ImageView ivShowCover, ivPlayShow, ivSendComment, ivAddComment;
     private Button btnAddToMyList;
+    private EditText etCommentText;
 
     private CommentsAdapter commentsAdapter;
     private MovieMoreLikeAdapter movieMoreLikeAdapter;
@@ -116,7 +123,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         rvSuggest.setAdapter(movieMoreLikeAdapter);
 
 
-        commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<String>());
+        commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<Comment>(), this);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
@@ -127,6 +134,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         if (show.getIsDownloaded()){
             btnDownload.setText("Downloaded");
         }
+
+        DataLoader.getRequest(Urls.Movie.getLink() + show.getId(), this);
 
     }
 
@@ -155,8 +164,20 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         btnAddToMyList = inflatedView.findViewById(R.id.btn_add_to_my_list);
         btnDownload = inflatedView.findViewById(R.id.btn_download);
 
+        tvCommentsCount = inflatedView.findViewById(R.id.tv_comments_count);
+        tvLikesCount = inflatedView.findViewById(R.id.tv_likes_count);
+        tvViewsCount = inflatedView.findViewById(R.id.tv_views_count);
+
+        clInputLayout = inflatedView.findViewById(R.id.cl_input_layout);
+        ivSendComment = inflatedView.findViewById(R.id.iv_send_comment);
+        ivAddComment = inflatedView.findViewById(R.id.iv_add_comment);
+        etCommentText = inflatedView.findViewById(R.id.et_comment_text);
+
         ivPlayShow.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
+        tvLikesCount.setOnClickListener(this);
+        ivSendComment.setOnClickListener(this);
+        ivAddComment.setOnClickListener(this);
 
         cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -249,10 +270,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 if (clMoreLikeThis.getVisibility() == View.VISIBLE) {
                     clMoreLikeThis.setVisibility(View.GONE);
                     clReactions.setVisibility(View.VISIBLE);
-                    sendDetailsRequest();
+                    sendGetCommentsRequest();
                 } else {
                     clMoreLikeThis.setVisibility(View.VISIBLE);
                     clReactions.setVisibility(View.GONE);
+
                 }
                 break;
             }
@@ -264,6 +286,33 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 Intent intent = new Intent(getActivity(), WatchActivity.class);
                 intent.putExtra("show", show);
                 startActivity(intent);
+                break;
+            }
+            case R.id.tv_likes_count: {
+                DataLoader.postRequest(Urls.MovieLike.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
+                    @Override
+                    public void onConnectionError(int code, String message) {
+
+                    }
+
+                    @Override
+                    public void onConnectionError(ANError anError) {
+
+                    }
+
+                    @Override
+                    public void onConnectionSuccess(JSONObject jsonObject) {
+                        if (jsonObject.has("status")) {
+                            if (jsonObject.optString("status").equalsIgnoreCase("added")) {
+                                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
+                                tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) + 1));
+                            } else {
+                                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
+                                tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) - 1));
+                            }
+                        }
+                    }
+                });
                 break;
             }
             case R.id.btn_download: {
@@ -303,7 +352,45 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 }
                 break;
             }
+            case R.id.iv_add_comment: {
+                if (clInputLayout.getVisibility() == View.VISIBLE)
+                    clInputLayout.setVisibility(View.GONE);
+                else
+                    clInputLayout.setVisibility(View.VISIBLE);
+                break;
+            }
+            case R.id.iv_send_comment: {
+                if (etCommentText.getText().toString().isEmpty())
+                    return;
+                HashMap<String, String> body = new HashMap<>();
+                body.put("comment", etCommentText.getText().toString());
+
+                DataLoader.postRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
+                    @Override
+                    public void onConnectionError(int code, String message) {
+
+                    }
+
+                    @Override
+                    public void onConnectionError(ANError anError) {
+
+                    }
+
+                    @Override
+                    public void onConnectionSuccess(JSONObject jsonObject) {
+                        if (jsonObject.has("status") && jsonObject.optString("status").equalsIgnoreCase("success")) {
+                            clInputLayout.setVisibility(View.GONE);
+                            DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
+                        }
+                    }
+                });
+                break;
+            }
         }
+    }
+
+    private void sendGetCommentsRequest() {
+        DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
     }
 
     private void sendDetailsRequest() {
@@ -355,12 +442,39 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (jsonObject.has("movie")) {
+        if (jsonObject.has("movies")) {
             List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
             movieMoreLikeAdapter.setList(movies);
         } else if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
             movieMoreLikeAdapter.setList(series);
+        }
+
+        if (jsonObject.has("comments")) {
+            List<Comment> comments = Comment.newArray(jsonObject.optJSONArray("comments"));
+            commentsAdapter.setList(comments);
+        }
+
+        if (jsonObject.has("like_count") && jsonObject.has("comment_count") && jsonObject.has("visited")) {
+            tvLikesCount.setText(String.valueOf(jsonObject.optInt("like_count")));
+            tvViewsCount.setText(String.format(Locale.getDefault(), "%d views", jsonObject.optInt("visited")));
+            tvCommentsCount.setText(String.valueOf(jsonObject.optInt("comment_count")));
+
+            show.setIsDownloaded(jsonObject.optBoolean("is_downloaded"));
+            show.setIsLike(jsonObject.optBoolean("is_like"));
+
+            if (jsonObject.optBoolean("is_like")) {
+                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
+            } else {
+                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
+            }
+
+            if (jsonObject.optBoolean("is_downloaded")) {
+
+                btnDownload.setText("Downloaded");
+            } else {
+                btnDownload.setText("Download");
+            }
         }
     }
 
@@ -404,5 +518,35 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 }
             });
         }
+    }
+
+    @Override
+    public void onLongClickComment(Comment comment) {
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setMessage("Delete this Comment?");
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+                (dialog, which) -> {
+                    DataLoader.postRequest(Urls.MovieComment.getLink().replaceAll("%id%", String.valueOf(comment.getId())), new ConnectionDelegate() {
+                        @Override
+                        public void onConnectionError(int code, String message) {
+
+                        }
+
+                        @Override
+                        public void onConnectionError(ANError anError) {
+
+                        }
+
+                        @Override
+                        public void onConnectionSuccess(JSONObject jsonObject) {
+                            DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
+                        }
+                    });
+                    dialog.dismiss();
+                });
+
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "cancel", (dialog, which) -> dialog.dismiss());
+
+        alertDialog.show();
     }
 }
