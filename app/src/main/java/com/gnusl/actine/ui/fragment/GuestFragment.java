@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.activity.AuthActivity;
-import com.gnusl.actine.ui.custom.FeaturesPriceRow;
+import com.gnusl.actine.ui.custom.FeaturesSymbolRow;
 
 
 public class GuestFragment extends Fragment implements View.OnClickListener {
@@ -162,7 +162,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
     }
 
     private void initilizePriceLayout() {
-        FeaturesPriceRow hdAvailable, ultraHdAvailable, screenCount, devicesAvailable, unlimited, cancel, free;
+        FeaturesSymbolRow hdAvailable, ultraHdAvailable, screenCount, devicesAvailable, unlimited, cancel, free;
         hdAvailable = inflatedView.findViewById(R.id.fpr_hd_available);
         hdAvailable.setData("HD available", false, true, true);
         ultraHdAvailable = inflatedView.findViewById(R.id.fpr_ultra_hd_available);

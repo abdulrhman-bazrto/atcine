@@ -98,7 +98,7 @@
 
     <!--step 1-->
 
-    <ScrollView
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/sv_step1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -109,7 +109,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/tv_step1"
@@ -151,7 +151,8 @@
                 android:id="@+id/l_chose_plan"
                 layout="@layout/layout_choose_plan"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/btn_goto_step2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_downgrade" />
 
             <Button
@@ -170,12 +171,11 @@
                 android:textSize="17sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/l_chose_plan" />
+                app:layout_constraintStart_toStartOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 
-    </ScrollView>
+    </android.support.constraint.ConstraintLayout>
 
     <!--step 1.5-->
 
@@ -313,6 +313,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_choose_your_plan" />
 
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_edit_text_register"
+            android:hint="Name"
+            android:inputType="text"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColorHint="@color/gray"
+            android:textSize="15sp" />
 
         <EditText
             android:id="@+id/et_username"
@@ -576,6 +589,94 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <!--step payment gateways-->
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_step_payment_gateways"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="30dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+
+        <TextView
+            android:id="@+id/tv_step_payment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="STEP 3 OF 3"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_setup_payment_gateway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Setup your Payment Gateway"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_step_payment" />
+
+        <TextView
+            android:id="@+id/tv_your_plan1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="your plan \nUUnlimted Streaming in HD and Ultra HD \nat 11.99$ am month after trial."
+            android:textColor="@color/gray2"
+            android:textSize="15sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_setup_payment_gateway" />
+
+        <TextView
+            android:id="@+id/tv_change_plan1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Change"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_your_plan1"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_to_finish_sign_up1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="To finish sign-up, choose the payment gateway."
+            android:textColor="@color/gray2"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_change_plan1" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_payment_gateways"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:textColorHint="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up1" />
 
     </android.support.constraint.ConstraintLayout>
 

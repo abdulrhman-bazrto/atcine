@@ -20,6 +20,7 @@ public class SharedPreferencesUtils {
     private final static String Language = "Language";
     private final static String Category = "Category";
     private final static String ProfileId = "ProfileId";
+    private final static String SelectedPlan = "SelectedPlan";
 
     public static void saveUser(User user) {
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
@@ -90,6 +91,19 @@ public class SharedPreferencesUtils {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
         int profileId = sharedPreferences.getInt(ProfileId, 0);
         return profileId;
+    }
+
+ public static void saveCurrentSelectedPlan(String selectedPlan) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        sharedPreferences.putString(SelectedPlan, selectedPlan);
+        sharedPreferences.apply();
+
+    }
+
+    public static String getCurrentSelectedPlan() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        String selectedPlan = sharedPreferences.getString(SelectedPlan, "");
+        return selectedPlan;
     }
 
 

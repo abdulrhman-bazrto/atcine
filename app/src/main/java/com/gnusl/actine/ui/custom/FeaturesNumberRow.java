@@ -11,17 +11,17 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 
 
-public class FeaturesPriceRow extends ConstraintLayout {
+public class FeaturesNumberRow extends ConstraintLayout {
 
     TextView tvTitle;
     ImageView ivInBasic, ivInStandard, ivInPremium;
 
-    public FeaturesPriceRow(Context context) {
+    public FeaturesNumberRow(Context context) {
         super(context);
         init(null);
     }
 
-    public FeaturesPriceRow(Context context, AttributeSet attrs) {
+    public FeaturesNumberRow(Context context, AttributeSet attrs) {
         super(context, attrs);
 //        if (!isInEditMode()) {
 //            init(attrs);
@@ -29,7 +29,7 @@ public class FeaturesPriceRow extends ConstraintLayout {
         init(attrs);
     }
 
-    public FeaturesPriceRow(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FeaturesNumberRow(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 //        if (!isInEditMode()) {
 //            init(attrs);
@@ -40,7 +40,7 @@ public class FeaturesPriceRow extends ConstraintLayout {
 
     private void init(AttributeSet attrs) {
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_features_row, FeaturesPriceRow.this);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.layout_number_row, FeaturesNumberRow.this);
 
         tvTitle = view.findViewById(R.id.tv_title);
         ivInBasic = view.findViewById(R.id.iv_in_basic);

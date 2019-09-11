@@ -7,6 +7,7 @@ public enum Urls {
     API(Host.getLink() + "api/"),
     Auth(API.getLink() + "auth/"),
     Login(Auth.getLink() + "login"),
+    Register(Auth.getLink() + "register"),
     Movies(API.getLink() + "movies/"),
     Movie(API.getLink() + "movie/"),
     MoviesGroups(Movies.getLink() + "groups"),
@@ -31,11 +32,13 @@ public enum Urls {
 
     Categories(API.getLink() + "categories"),
 
+    Pay(API.getLink() + "pay"),
 
     Profiles(API.getLink() + "profiles"),
     Profile(API.getLink() + "profile"),
     UpdateProfile(Profile.getLink() + "/update"),
     CreateProfile(Profile.getLink() + "/create"),
+    UserType(API.getLink() + "user/type"),
 
      Help(API.getLink() + "help"),
 
