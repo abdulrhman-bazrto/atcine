@@ -140,7 +140,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         else
             btnDownload.setEnabled(true);
 
-        DataLoader.getRequest(Urls.Movie.getLink() + show.getId(), this);
+        String url = "";
+        if (show.getIsMovie()) {
+            url = Urls.Movie.getLink();
+        } else if (show.getIsEpisode()) {
+            url = Urls.Episode.getLink();
+        }
+        DataLoader.getRequest(url + show.getId(), this);
 
     }
 

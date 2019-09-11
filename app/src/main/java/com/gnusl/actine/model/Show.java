@@ -36,6 +36,7 @@ public class Show implements Serializable {
     private List<Show> seasons;
     private List<Show> episodes;
     private String videoUrl;
+    private String episodeUrl;
 
     // use in android only
     private boolean isInStorage;
@@ -68,6 +69,7 @@ public class Show implements Serializable {
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
         this.videoUrl = jsonObject.optString("video_url");
+        this.episodeUrl = jsonObject.optString("episode_url");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -124,6 +126,8 @@ public class Show implements Serializable {
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
+        this.videoUrl = jsonObject.optString("video_url");
+        this.episodeUrl = jsonObject.optString("episode_url");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -352,6 +356,11 @@ public class Show implements Serializable {
     }
 
     public String getVideoUrl() {
+        if (this.getIsMovie()) {
+            return videoUrl;
+        } else if (this.getIsEpisode()) {
+            return episodeUrl;
+        }
         return videoUrl;
     }
 
@@ -388,4 +397,6 @@ public class Show implements Serializable {
 
         return dbShow;
     }
+
+
 }

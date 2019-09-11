@@ -86,6 +86,7 @@ public class WatchActivity extends AppCompatActivity {
 
         //-----------------------------------------------
         //Create media source
+
         String hls_url = show.getVideoUrl();
         Uri uri = Uri.parse(hls_url);
         Handler mainHandler = new Handler();
