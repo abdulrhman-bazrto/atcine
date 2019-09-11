@@ -135,6 +135,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             btnDownload.setText("Downloaded");
         }
 
+        if (show.getIsMovie())
+            btnDownload.setEnabled(false);
+        else
+            btnDownload.setEnabled(true);
+
         DataLoader.getRequest(Urls.Movie.getLink() + show.getId(), this);
 
     }
@@ -289,7 +294,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 break;
             }
             case R.id.tv_likes_count: {
-                DataLoader.postRequest(Urls.MovieLike.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
+                String url = "";
+                if (show.getIsMovie()){
+                    url = Urls.MovieLike.getLink();
+                }else if (show.getIsEpisode()){
+                    url = Urls.EpisodeLike.getLink();
+                }
+                DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
                     @Override
                     public void onConnectionError(int code, String message) {
 
@@ -365,7 +376,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 HashMap<String, String> body = new HashMap<>();
                 body.put("comment", etCommentText.getText().toString());
 
-                DataLoader.postRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
+                String url ="";
+                if (show.getIsMovie()){
+                    url = Urls.MovieComments.getLink();
+                }else if (show.getIsEpisode()){
+                    url = Urls.EpisodeComments.getLink();
+                }
+                DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
                     @Override
                     public void onConnectionError(int code, String message) {
 
@@ -380,7 +397,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     public void onConnectionSuccess(JSONObject jsonObject) {
                         if (jsonObject.has("status") && jsonObject.optString("status").equalsIgnoreCase("success")) {
                             clInputLayout.setVisibility(View.GONE);
-                            DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
+                            String url ="";
+                            if (show.getIsMovie()){
+                                url = Urls.MovieComments.getLink();
+                            }else if (show.getIsEpisode()){
+                                url = Urls.EpisodeComments.getLink();
+                            }
+                            DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
                         }
                     }
                 });
@@ -390,7 +413,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     }
 
     private void sendGetCommentsRequest() {
-        DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+
+        if (show.getIsMovie()) {
+            DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        } else if (show.getIsEpisode()) {
+            DataLoader.getRequest(Urls.EpisodeComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        }
     }
 
     private void sendDetailsRequest() {
@@ -526,7 +554,14 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         alertDialog.setMessage("Delete this Comment?");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
                 (dialog, which) -> {
-                    DataLoader.postRequest(Urls.MovieComment.getLink().replaceAll("%id%", String.valueOf(comment.getId())), new ConnectionDelegate() {
+                    String url ="";
+                    if (show.getIsMovie()){
+                        url = Urls.MovieComment.getLink();
+                    }else if (show.getIsEpisode()){
+                        url = Urls.EpisodeCommentDelete.getLink();
+                    }
+
+                    DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(comment.getId())), new ConnectionDelegate() {
                         @Override
                         public void onConnectionError(int code, String message) {
 
@@ -539,7 +574,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                         @Override
                         public void onConnectionSuccess(JSONObject jsonObject) {
-                            DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
+                            String url ="";
+                            if (show.getIsMovie()){
+                                url = Urls.MovieComments.getLink();
+                            }else if (show.getIsEpisode()){
+                                url = Urls.EpisodeComments.getLink();
+                            }
+                            DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
                         }
                     });
                     dialog.dismiss();

@@ -12,6 +12,7 @@ public class Comment implements Serializable {
     private int id;
     private String profileId;
     private String movieId;
+    private String episodeId;
     private String comment;
     private String createdAt;
     private Profile profile;
@@ -22,6 +23,7 @@ public class Comment implements Serializable {
         Comment comment = new Comment();
         comment.setId(jsonObject.optInt("id"));
         comment.setMovieId(jsonObject.optString("movie_id"));
+        comment.setEpisodeId(jsonObject.optString("episode_id"));
         comment.setProfileId(jsonObject.optString("profile_id"));
         comment.setComment(jsonObject.optString("comment"));
         comment.setCreatedAt(jsonObject.optString("created_at"));
@@ -86,5 +88,13 @@ public class Comment implements Serializable {
 
     public void setProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    public String getEpisodeId() {
+        return episodeId;
+    }
+
+    public void setEpisodeId(String episodeId) {
+        this.episodeId = episodeId;
     }
 }

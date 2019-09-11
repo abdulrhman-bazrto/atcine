@@ -30,6 +30,11 @@ public enum Urls {
     SeriesMyList(Series.getLink() + "favourite"),
     SeriesDownloaded(Series.getLink() + "favourite"),
 
+    Episode(API.getLink() + "episode/"),
+    EpisodeComments(Episode.getLink() + "%id%/comment"),
+    EpisodeLike(Episode.getLink() + "%id%/like"),
+    EpisodeCommentDelete(Episode.getLink() + "comment/%id%/delete"),
+
     Categories(API.getLink() + "categories"),
 
     Pay(API.getLink() + "pay"),
