@@ -267,8 +267,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 .show();
 
         HashMap<String, String> body = new HashMap<>();
-        body.put("email", "simon");
-        body.put("user_type", "basic");
+        body.put("email", etUsername.getText().toString());
+        body.put("user_type", SharedPreferencesUtils.getCurrentSelectedPlan());
 
         DataLoader.postRequest(Urls.Pay.getLink(), body, this);
     }

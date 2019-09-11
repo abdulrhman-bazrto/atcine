@@ -324,6 +324,7 @@
             android:inputType="text"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="15sp" />
 
@@ -338,6 +339,7 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/gray"
+            android:textColor="@color/gray"
             android:textSize="15sp" />
 
         <EditText
@@ -350,6 +352,7 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="15sp" />
 
@@ -363,6 +366,7 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:textColor="@color/gray"
             android:textColorHint="@color/gray"
             android:textSize="15sp" />
 

@@ -182,6 +182,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        requestCode = requestCode & 0x0000ffff;
         if (resultCode == RESULT_OK)
             switch (requestCode) {
 

@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -402,6 +404,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     @Override
                     public void onConnectionSuccess(JSONObject jsonObject) {
                         if (jsonObject.has("status") && jsonObject.optString("status").equalsIgnoreCase("success")) {
+                            etCommentText.setText("");
+                            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+                            //Find the currently focused view, so we can grab the correct window token from it.
+                            imm.hideSoftInputFromWindow(etCommentText.getWindowToken(), 0);
                             clInputLayout.setVisibility(View.GONE);
                             String url ="";
                             if (show.getIsMovie()){
@@ -502,6 +508,14 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             } else {
                 tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
             }
+
+            show.setIsFavourite(jsonObject.optBoolean("is_favourite"));
+            if (show.getIsFavourite()) {
+                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+            } else {
+                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+            }
+
 
             if (jsonObject.optBoolean("is_downloaded")) {
 

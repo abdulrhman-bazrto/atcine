@@ -33,7 +33,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_home_list_movie, parent, false);
+        view = inflater.inflate(R.layout.item_series, parent, false);
         return new MovieListViewHolder(view);
 
     }

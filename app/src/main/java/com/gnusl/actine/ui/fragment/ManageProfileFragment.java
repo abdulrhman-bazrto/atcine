@@ -117,6 +117,7 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
     @Override
     public void onClickProfile(Profile profile) {
         if (getActivity() != null) {
+            requestOnBack = true;
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();

@@ -18,6 +18,7 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.DownloadsListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.util.ObjectBox;
@@ -169,6 +170,10 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_find_download: {
+                if (getActivity() != null) {
+                    ((MainActivity) getActivity()).replaceFragment(1);
+                    return;
+                }
                 clEmptyDownloadList.setVisibility(View.GONE);
                 clDownloadList.setVisibility(View.VISIBLE);
                 break;
