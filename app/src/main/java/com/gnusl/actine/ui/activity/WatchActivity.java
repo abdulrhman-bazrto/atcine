@@ -2,22 +2,26 @@ package com.gnusl.actine.ui.activity;
 
 import android.net.Uri;
 import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.Show;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
@@ -28,6 +32,7 @@ import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
+import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 
 public class WatchActivity extends AppCompatActivity {
@@ -92,6 +97,17 @@ public class WatchActivity extends AppCompatActivity {
         Handler mainHandler = new Handler();
         MediaSource mediaSource = new HlsMediaSource(uri,
                 dataSourceFactory, mainHandler, null);
+//        player.prepare(mediaSource);
+
+
+        String sub = "https://atcine.s3-eu-west-1.amazonaws.com/Toy+Story+4/toy-ar.srt";
+
+        Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
+                null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
+        MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
+                .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
+
+        mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
         player.prepare(mediaSource);
 
 

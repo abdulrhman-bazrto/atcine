@@ -3,12 +3,12 @@ package com.gnusl.actine.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,14 +133,25 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         rvComments.setAdapter(commentsAdapter);
 
+
+        File internalStorage = getActivity().getFilesDir();
+        File file = new File(internalStorage, show.getTitle() + ".mp4");
+        if (file.exists()) {
+            show.setInStorage(true);
+            show.setIsDownloaded(true);
+        } else {
+            show.setInStorage(false);
+            show.setIsDownloaded(false);
+        }
+
         if (show.getIsDownloaded()){
             btnDownload.setText("Downloaded");
         }
 
         if (show.getIsMovie())
-            btnDownload.setEnabled(false);
-        else
             btnDownload.setEnabled(true);
+        else
+            btnDownload.setEnabled(false);
 
         String url = "";
         if (show.getIsMovie()) {
@@ -517,12 +528,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             }
 
 
-            if (jsonObject.optBoolean("is_downloaded")) {
-
-                btnDownload.setText("Downloaded");
-            } else {
-                btnDownload.setText("Download");
-            }
+//            if (jsonObject.optBoolean("is_downloaded")) {
+//
+//                btnDownload.setText("Downloaded");
+//            } else {
+//                btnDownload.setText("Download");
+//            }
         }
     }
 

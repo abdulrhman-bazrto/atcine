@@ -1,15 +1,10 @@
 package com.gnusl.actine.ui.activity;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.MediaController;

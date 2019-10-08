@@ -1,15 +1,16 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gnusl.actine.R;
-import com.gnusl.actine.interfaces.HelpItemClickEvents;
 import com.gnusl.actine.interfaces.PaymentMethodItemClickEvents;
 import com.gnusl.actine.model.PaymentMethods;
 
@@ -47,6 +48,45 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
 
         holder.tvTitle.setText(paymentMethod.getPaymentMethodName());
 
+        switch (paymentMethod.getPaymentMethodName()) {
+            case "AMEX": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_amex);
+                break;
+            }
+            case "Sadad": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_sadad);
+                break;
+            }
+            case "Benefit": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_benefit);
+                break;
+            }
+            case "VISA/MASTER": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_visa_master);
+                break;
+            }
+            case "MADA": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_mada);
+                break;
+            }
+            case "KNET": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_knet);
+                break;
+            }
+            case "Apple Pay": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_apple_pay);
+                break;
+            }
+            case "Qatar Debit Cards": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_qatar_cards);
+                break;
+            }
+            case "UAE Debit Cards": {
+                holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_uae_cards);
+                break;
+            }
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,10 +109,12 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
     class CommentsViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvTitle;
+        ImageView ivMethodLogo;
 
         CommentsViewHolder(View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_method_name);
+            ivMethodLogo = itemView.findViewById(R.id.iv_method_logo);
         }
     }
 }

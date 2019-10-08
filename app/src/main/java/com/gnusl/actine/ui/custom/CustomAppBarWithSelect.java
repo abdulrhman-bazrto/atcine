@@ -1,10 +1,9 @@
 package com.gnusl.actine.ui.custom;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 

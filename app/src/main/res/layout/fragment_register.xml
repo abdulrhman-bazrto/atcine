@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +16,7 @@
 
     <!--step 0.5-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -94,11 +94,11 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_no_commitment" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--step 1-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/sv_step1"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -107,7 +107,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cub_register">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -173,13 +173,13 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--step 1.5-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_1half5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_devices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_use_your_email_" />
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--step 2-->
 
@@ -334,8 +334,8 @@
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/bg_edit_text_register"
-            android:hint="Email or Phone Number"
-            android:inputType="text"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/gray"
@@ -402,7 +402,7 @@
 
     <!--step 3-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -416,7 +416,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cub_register">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_lock"
             android:layout_width="150dp"
             android:layout_height="150dp"
@@ -505,11 +505,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_credit_or_debit" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--step pay pal-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_pay_pal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -550,7 +550,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="your plan \nUUnlimted Streaming in HD and Ultra HD \nat 11.99$ am month after trial."
+            android:text="your plan \nUnlimted Streaming in HD and Ultra HD \nat 11.99$ am month after trial."
             android:textColor="@color/gray2"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -594,11 +594,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--step payment gateways-->
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_payment_gateways"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -668,7 +668,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_change_plan1" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_payment_gateways"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -682,7 +682,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up1" />
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/tv_already_user"
@@ -701,4 +701,4 @@
 
         />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

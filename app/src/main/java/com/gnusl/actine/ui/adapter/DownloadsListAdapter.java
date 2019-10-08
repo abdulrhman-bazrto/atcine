@@ -2,8 +2,8 @@ package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.VideoActivity;
 import com.gnusl.actine.util.ObjectBox;
-import com.googlecode.mp4parser.authoring.tracks.h265.NalUnitHeader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;

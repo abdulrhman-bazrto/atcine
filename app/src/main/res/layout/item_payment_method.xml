@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
 
     <TextView
         android:id="@+id/tv_method_name"
@@ -10,7 +11,6 @@
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/bg_edit_text_register"
-        android:drawableEnd="@drawable/icon_arrow_right"
         android:gravity="center_vertical"
         android:paddingStart="15dp"
         android:paddingEnd="15dp"
@@ -22,4 +22,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_method_logo"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_method_name"
+        app:layout_constraintEnd_toEndOf="@+id/tv_method_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_method_name" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

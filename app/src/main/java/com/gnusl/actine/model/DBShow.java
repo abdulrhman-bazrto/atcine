@@ -220,6 +220,7 @@ public class DBShow implements Serializable {
         show.setIsDownloaded(this.getIsDownloaded());
         show.setInStorage(this.isInStorage());
         show.setSize(this.getSize());
+        show.setVideoUrl(this.getVideoUrl());
         show.setThumbnailImageUrl(this.getThumbnailImageUrl());
 
         return show;

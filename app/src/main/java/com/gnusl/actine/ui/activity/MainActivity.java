@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatImageView;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +32,7 @@ import com.gnusl.actine.ui.adapter.MainFragmentPagerAdapter;
 import com.gnusl.actine.ui.adapter.ProfileSelectAdapter;
 import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.fragment.HomeFragment;
 import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
@@ -231,6 +232,11 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             FragmentManager fm = fragment.getChildFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
+                ((HomeContainerFragment)fragment).getFragmentStack().pop();
+                if (((HomeContainerFragment)fragment).getFragmentStack().peek() instanceof HomeFragment){
+                    HomeFragment homeFragment = (HomeFragment)((HomeContainerFragment) fragment).getFragmentStack().peek();
+                    homeFragment.refreshTrendShow();
+                }
             } else {
                 super.onBackPressed();
             }

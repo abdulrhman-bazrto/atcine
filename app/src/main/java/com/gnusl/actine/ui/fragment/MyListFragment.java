@@ -1,10 +1,10 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +24,11 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
 import com.gnusl.actine.util.Constants;
-import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
 import java.util.List;
-import java.util.Objects;
 
 
 public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {

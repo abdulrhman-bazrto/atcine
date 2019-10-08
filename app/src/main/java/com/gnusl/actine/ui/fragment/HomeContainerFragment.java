@@ -1,10 +1,10 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +12,14 @@ import android.view.ViewGroup;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 
+import java.util.Stack;
+
 
 public class HomeContainerFragment extends Fragment {
 
     View inflatedView;
     private Fragment mCurrentFragment;
-
+    private Stack<Fragment> fragmentStack = new Stack<>();
 
     public HomeContainerFragment() {
     }
@@ -34,6 +36,7 @@ public class HomeContainerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
         if (getArguments() != null) {
 
         }
@@ -93,11 +96,15 @@ public class HomeContainerFragment extends Fragment {
 
                 break;
         }
+
+        fragmentStack.push(mCurrentFragment);
     }
 
     public Fragment getCurrentFragment() {
         return mCurrentFragment;
     }
 
-
+    public Stack<Fragment> getFragmentStack() {
+        return fragmentStack;
+    }
 }

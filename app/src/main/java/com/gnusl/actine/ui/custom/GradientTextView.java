@@ -3,10 +3,9 @@ package com.gnusl.actine.ui.custom;
 import android.content.Context;
 import android.graphics.LinearGradient;
 import android.graphics.Shader;
-import android.graphics.Typeface;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import com.gnusl.actine.R;
 
@@ -14,7 +13,7 @@ import com.gnusl.actine.R;
  * Created by rahulchowdhury on 04/08/16.
  */
 
-public class GradientTextView extends android.support.v7.widget.AppCompatTextView {
+public class GradientTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public GradientTextView(Context context) {
         super(context);

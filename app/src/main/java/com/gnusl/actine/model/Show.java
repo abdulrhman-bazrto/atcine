@@ -368,6 +368,10 @@ public class Show implements Serializable {
         this.videoUrl = videoUrl;
     }
 
+    public void setEpisodeUrl(String episodeUrl) {
+        this.episodeUrl = episodeUrl;
+    }
+
     public String getSize() {
         return size;
     }
@@ -392,6 +396,7 @@ public class Show implements Serializable {
         dbShow.setIsDownloaded(this.getIsDownloaded());
         dbShow.setInStorage(this.isInStorage());
         dbShow.setSize(this.getSize());
+        dbShow.setVideoUrl(this.getVideoUrl());
         dbShow.setThumbnailImageUrl(this.getThumbnailImageUrl());
         dbShow.setVideoUrl(this.getVideoUrl());
 

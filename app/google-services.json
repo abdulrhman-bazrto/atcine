@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "741315138075",
+    "firebase_url": "https://atcine-1556128291800.firebaseio.com",
+    "project_id": "atcine-1556128291800",
+    "storage_bucket": "atcine-1556128291800.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741315138075:android:8b734aacfe8811acb09ebe",
+        "android_client_info": {
+          "package_name": "com.gnusl.actine"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741315138075-0efeuuliqaj126gn1ald7n5ndn06md6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxYpJs1CWF2wd3LSCaXHRmWwBkqFZkAxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741315138075-0efeuuliqaj126gn1ald7n5ndn06md6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

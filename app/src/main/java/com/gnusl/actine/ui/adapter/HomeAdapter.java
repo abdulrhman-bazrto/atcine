@@ -2,9 +2,9 @@ package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -113,6 +113,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             Picasso.with(mContext).load(trendShow.getCoverImageUrl()).into(ivMovieImage);
 
+            if (!(trendShow.getIsMovie() || trendShow.getIsEpisode())){
+                btnPlay.setVisibility(View.GONE);
+                btnAddToMyList.setVisibility(View.GONE);
+            }else {
+                btnPlay.setVisibility(View.VISIBLE);
+                btnAddToMyList.setVisibility(View.VISIBLE);
+            }
+
             btnPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -198,5 +206,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rvMovieList.swapAdapter(homeMovieListAdapter, false);
 
         }
+    }
+
+    public Show getTrendShow() {
+        return trendShow;
+    }
+
+    public void setTrendShow(Show trendShow) {
+        this.trendShow = trendShow;
+        notifyItemChanged(0);
     }
 }

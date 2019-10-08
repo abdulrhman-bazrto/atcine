@@ -10,6 +10,7 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
+import com.gnusl.actine.util.Connectivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
 import org.json.JSONObject;
@@ -30,6 +31,12 @@ public class DataLoader {
     }
 
     public static void postRequest(String url, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
+
+        if (!Connectivity.isConnected(Atcine.getApplicationInstance())) {
+            if (connectionDelegate != null)
+                connectionDelegate.onConnectionError(-5000, "No Internet Connection");
+            return;
+        }
 
         AndroidNetworking.post(url)
                 .addHeaders(getHeaders())
@@ -56,6 +63,12 @@ public class DataLoader {
 
     public static void postRequest(String url, final ConnectionDelegate connectionDelegate) {
 
+        if (!Connectivity.isConnected(Atcine.getApplicationInstance())) {
+            if (connectionDelegate != null)
+                connectionDelegate.onConnectionError(-5000, "No Internet Connection");
+            return;
+        }
+
         AndroidNetworking.post(url)
                 .addHeaders(getHeaders())
                 .build()
@@ -79,6 +92,12 @@ public class DataLoader {
     }
 
     public static void getRequest(Urls url, HashMap<String, String> pathParameters, final ConnectionDelegate connectionDelegate) {
+
+        if (!Connectivity.isConnected(Atcine.getApplicationInstance())) {
+            if (connectionDelegate != null)
+                connectionDelegate.onConnectionError(-5000, "No Internet Connection");
+            return;
+        }
 
         AndroidNetworking.get(url.getLink())
                 .addHeaders(getHeaders())
@@ -106,6 +125,12 @@ public class DataLoader {
 
     public static void getRequest(String url, final ConnectionDelegate connectionDelegate) {
 
+        if (!Connectivity.isConnected(Atcine.getApplicationInstance())) {
+            if (connectionDelegate != null)
+                connectionDelegate.onConnectionError(-5000, "No Internet Connection");
+            return;
+        }
+
         AndroidNetworking.get(url)
                 .addHeaders(getHeaders())
                 .build()
@@ -129,6 +154,12 @@ public class DataLoader {
     }
 
     public static void uploadRequest(String url, File file, HashMap<String, String> body, final ConnectionDelegate connectionDelegate) {
+
+        if (!Connectivity.isConnected(Atcine.getApplicationInstance())) {
+            if (connectionDelegate != null)
+                connectionDelegate.onConnectionError(-5000, "No Internet Connection");
+            return;
+        }
 
         AndroidNetworking.upload(url)
                 .addHeaders(getHeaders())
@@ -161,6 +192,7 @@ public class DataLoader {
     }
 
     public static void downloadRequest(String url, final String fileDir, final String fileName, final DownloadDelegate downloadDelegate) {
+
 
         AndroidNetworking.download(url, fileDir, fileName)
                 .setPriority(Priority.MEDIUM)

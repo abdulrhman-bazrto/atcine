@@ -1,10 +1,11 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,19 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
 
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            Log.d("","");
         }
     }
 
@@ -275,5 +289,35 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             sgvHome.setList(Category.newList(jsonObject.optJSONArray("categories")));
         }
 
+    }
+
+    public void refreshTrendShow() {
+        Show show = homeAdapter.getTrendShow();
+
+        String url = "";
+        if (show.getIsMovie()) {
+            url = Urls.Movie.getLink();
+        } else if (show.getIsEpisode()) {
+            url = Urls.Episode.getLink();
+        }
+        DataLoader.getRequest(url + show.getId(), new ConnectionDelegate() {
+            @Override
+            public void onConnectionError(int code, String message) {
+
+            }
+
+            @Override
+            public void onConnectionError(ANError anError) {
+
+            }
+
+            @Override
+            public void onConnectionSuccess(JSONObject jsonObject) {
+                if (jsonObject.has("is_favourite")) {
+                    show.setIsFavourite(jsonObject.optBoolean("is_favourite"));
+                    homeAdapter.setTrendShow(show);
+                }
+            }
+        });
     }
 }
