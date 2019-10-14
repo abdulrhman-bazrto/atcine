@@ -12,12 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        app:controller_layout_id="@layout/player_custom_control"/>
+        app:controller_layout_id="@layout/player_custom_control" />
 
     <ProgressBar
         android:id="@+id/loading"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

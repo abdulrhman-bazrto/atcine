@@ -146,9 +146,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="icon_add_comment" />
-                            <entry key="sourceFile" value="C:\Users\ASUS\Pictures\atcine\Archive (1)\comments.svg" />
+                            <entry key="outputName" value="icon_subtitles" />
+                            <entry key="sourceFile" value="C:\Users\ASUS\Downloads\subtitles.svg" />
                           </map>
                         </option>
                       </PersistentState>

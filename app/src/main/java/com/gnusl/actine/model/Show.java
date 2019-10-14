@@ -35,6 +35,7 @@ public class Show implements Serializable {
     private boolean isEpisode;
     private List<Show> seasons;
     private List<Show> episodes;
+    private List<Subtitle> subtitles;
     private String videoUrl;
     private String episodeUrl;
 
@@ -90,6 +91,10 @@ public class Show implements Serializable {
             }
         }
 
+        if (jsonObject.has("subtitles")) {
+            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles"));
+        }
+
     }
 
     public Show(JSONObject jsonObject, boolean isMovie, boolean isSeason, boolean isEpisode, boolean isFavourite, boolean isLike, boolean isDownloaded) {
@@ -142,6 +147,10 @@ public class Show implements Serializable {
 
         if (jsonObject.has("episodes")) {
             this.episodes = Show.newList(jsonObject.optJSONArray("episodes"), false, false, true, isFavourite, isLike, isDownloaded);
+        }
+
+        if (jsonObject.has("subtitles")) {
+            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles"));
         }
 
     }
@@ -403,5 +412,7 @@ public class Show implements Serializable {
         return dbShow;
     }
 
-
+    public List<Subtitle> getSubtitles() {
+        return subtitles;
+    }
 }
