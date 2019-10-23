@@ -1,12 +1,13 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
@@ -42,7 +43,11 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        ((MovieListViewHolder) holder).bind();
+        if (position > movies.size())
+            return;
+        else {
+            ((MovieListViewHolder) holder).bind(movies.get(position));
+        }
     }
 
     @Override
@@ -59,9 +64,9 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
         }
 
-        public void bind() {
+        public void bind(Show movie) {
 
-            Picasso.with(mContext).load(movies.get(getAdapterPosition()).getThumbnailImageUrl()).into(ivThumbnail);
+            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

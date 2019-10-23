@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         rvHome.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter(getActivity(), this);
+        homeAdapter = new HomeAdapter(getActivity(), this,this);
 
         rvHome.setAdapter(homeAdapter);
 
@@ -201,7 +201,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onSelectGenres(Category genres) {
-        cubHome.getSpGenres().setText(genres.getTitle());
+//        cubHome.getSpGenres().setText(genres.getTitle());
         sgvHome.setVisibility(View.GONE);
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
@@ -254,38 +254,42 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
                     HashMap<String, List<Show>> seriesByCategories = new HashMap<>();
                     List<String> categoriesNames = new ArrayList<>();
+                    List<Integer> categoriesIds = new ArrayList<>();
 
                     JSONArray otherCategories = jsonObject.optJSONArray("categories");
 
                     for (int i = 0; i < otherCategories.length(); i++) {
                         JSONObject category = otherCategories.optJSONObject(i);
                         categoriesNames.add(category.optString("title"));
+                        categoriesIds.add(category.optInt("category_id",-1));
                         seriesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
                     }
 
-                    homeAdapter.setData(trendSerie, categoriesNames, seriesByCategories);
+                    homeAdapter.setData(trendSerie, categoriesNames,categoriesIds, seriesByCategories);
                     break;
                 }
                 case Movies: {
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
                     HashMap<String, List<Show>> moviesByCategories = new HashMap<>();
                     List<String> categoriesNames = new ArrayList<>();
+                    List<Integer> categoriesIds = new ArrayList<>();
 
                     JSONArray otherCategories = jsonObject.optJSONArray("categories");
 
                     for (int i = 0; i < otherCategories.length(); i++) {
                         JSONObject category = otherCategories.optJSONObject(i);
                         categoriesNames.add(category.optString("title"));
+                        categoriesIds.add(category.optInt("category_id",-1));
                         moviesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
                     }
 
-                    homeAdapter.setData(trendMovie, categoriesNames, moviesByCategories);
+                    homeAdapter.setData(trendMovie, categoriesNames,categoriesIds, moviesByCategories);
                     break;
                 }
             }
         }
 
-        if (jsonObject.has("categories")) {
+        if (jsonObject.has("categories") && !jsonObject.has("trend")) {
             sgvHome.setList(Category.newList(jsonObject.optJSONArray("categories")));
         }
 

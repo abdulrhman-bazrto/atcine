@@ -120,7 +120,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         rvSuggest.setLayoutManager(gridLayoutManager);
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this,null);
 
         rvSuggest.setAdapter(movieMoreLikeAdapter);
 

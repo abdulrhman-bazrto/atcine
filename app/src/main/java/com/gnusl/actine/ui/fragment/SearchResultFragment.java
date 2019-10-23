@@ -1,20 +1,23 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.interfaces.LoadMoreDelegate;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -28,7 +31,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class SearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
+public class SearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate, LoadMoreDelegate {
 
     View inflatedView;
 
@@ -75,9 +78,23 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
         findViews();
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this);
+        GridLayoutManager gridLayoutManager;
+        if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            // on a large screen device ...
+            gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+        }
+        else if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            // on a large screen device ...
+            gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+        } else {
+            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        }
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
 
         rvSearchResult.setLayoutManager(gridLayoutManager);
 
@@ -108,7 +125,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 .show();
 
 
-        DataLoader.getRequest(url, this);
+        DataLoader.getRequest(url + "&skip=" + 0 + "&take=" + 10, this);
 
     }
 
@@ -188,5 +205,29 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
             movieMoreLikeAdapter.setList(movies);
         }
+    }
+
+    @Override
+    public void loadMore(int skip) {
+        String url = "";
+        if (searchFor.equalsIgnoreCase("series"))
+            url = Urls.Series.getLink();
+        else if (searchFor.equalsIgnoreCase("movies"))
+            url = Urls.Movies.getLink();
+
+        url = url.substring(0, url.length() - 1);
+        url += "?";
+        switch (searchType) {
+            case "category": {
+                url += "category_id=" + key;
+                break;
+            }
+            case "title": {
+                url += "title=" + key;
+                break;
+            }
+        }
+
+        DataLoader.getRequest(url + "&skip=" + skip + "&take=" + 10, this);
     }
 }

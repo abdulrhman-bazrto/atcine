@@ -34,6 +34,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".ui.activity.VideoActivity" />
         <activity android:name=".ui.activity.PaymentActivity" />
+        <activity android:name=".ui.activity.AccountActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

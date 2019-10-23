@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_constraint"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="320dp"
     android:animateLayoutChanges="true"
     android:background="@color/black"
     android:minWidth="250dp"
@@ -26,7 +26,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_profiles"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"

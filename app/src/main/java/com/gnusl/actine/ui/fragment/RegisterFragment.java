@@ -123,6 +123,14 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         ss.setSpan(span1, tvAlreadyUser.getText().toString().lastIndexOf("?") + 2, tvAlreadyUser.getText().toString().length(), 0);
         ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.white)), tvAlreadyUser.getText().toString().lastIndexOf("?") + 2, tvAlreadyUser.getText().toString().length(), 0);
 
+        cubRegister.getBtnHelp().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null)
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.HelpFragment);
+            }
+        });
+
         tvAlreadyUser.setMovementMethod(LinkMovementMethod.getInstance());
         tvAlreadyUser.setText(ss);
 

@@ -38,6 +38,7 @@ public enum Urls {
     Categories(API.getLink() + "categories"),
 
     Pay(API.getLink() + "pay"),
+    Account(Host.getLink() + "account"),
 
     Profiles(API.getLink() + "profiles"),
     Profile(API.getLink() + "profile"),
@@ -45,7 +46,7 @@ public enum Urls {
     CreateProfile(Profile.getLink() + "/create"),
     UserType(API.getLink() + "user/type"),
 
-     Help(API.getLink() + "help"),
+    Help(API.getLink() + "help"),
 
     ;
 

@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -82,8 +83,19 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
         });
 
         myListAdapter = new MyListAdapter(getActivity(), this);
+        GridLayoutManager layoutManager ;
+        if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            // on a large screen device ...
+            layoutManager = new GridLayoutManager(getActivity(), 5);
+        } else if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            // on a large screen device ...
+            layoutManager = new GridLayoutManager(getActivity(), 5);
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), 3);
+        }
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
 
         rvMyList.setLayoutManager(layoutManager);
 

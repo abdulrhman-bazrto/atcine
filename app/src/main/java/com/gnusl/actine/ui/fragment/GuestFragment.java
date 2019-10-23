@@ -157,7 +157,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
             la_devices.setVisibility(View.GONE);
             la_price.setVisibility(View.VISIBLE);
 
-            initilizePriceLayout();
+            //initilizePriceLayout();
         }
     }
 

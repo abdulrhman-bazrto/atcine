@@ -16,7 +16,7 @@ public class Subtitle implements Serializable {
     public static Subtitle newInstance(JSONObject jsonObject) {
         Subtitle subtitle = new Subtitle();
         subtitle.setLabel(jsonObject.optString("label"));
-        subtitle.setPath(jsonObject.optString("path"));
+        subtitle.setPath(jsonObject.optString("path_srt"));
         return subtitle;
     }
 

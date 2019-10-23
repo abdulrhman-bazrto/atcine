@@ -1,15 +1,17 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.interfaces.LoadMoreDelegate;
 import com.gnusl.actine.model.Show;
 import com.squareup.picasso.Picasso;
 
@@ -19,13 +21,15 @@ import java.util.List;
 public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final HomeMovieClick homeMovieClick;
+    private final LoadMoreDelegate loadMoreDelegate;
     private Context mContext;
     private List<Show> movies = new ArrayList<>();
 
 
-    public MovieMoreLikeAdapter(Context context, HomeMovieClick homeMovieClick) {
+    public MovieMoreLikeAdapter(Context context, HomeMovieClick homeMovieClick, LoadMoreDelegate loadMoreDelegate) {
         this.mContext = context;
         this.homeMovieClick = homeMovieClick;
+        this.loadMoreDelegate = loadMoreDelegate;
     }
 
     @NonNull
@@ -33,7 +37,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_home_list_movie, parent, false);
+        view = inflater.inflate(R.layout.item_more_list_movie, parent, false);
         return new MovieListViewHolder(view);
 
     }
@@ -42,6 +46,10 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         ((MovieListViewHolder) holder).bind();
+
+        if (position == getItemCount() - 3)
+            if (loadMoreDelegate != null)
+                loadMoreDelegate.loadMore(getItemCount());
     }
 
     @Override
@@ -50,8 +58,17 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     public void setList(List<Show> movies) {
-        this.movies = movies;
-        notifyDataSetChanged();
+        if (movies.size() ==0)
+            return;
+        if (getItemCount() == 0) {
+            this.movies = movies;
+            notifyDataSetChanged();
+        } else {
+//            int pos = this.movies.size() - 1;
+            this.movies.addAll(movies);
+//            notifyItemInserted(pos);
+            notifyDataSetChanged();
+        }
     }
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {

@@ -1,15 +1,17 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -87,7 +89,18 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
 
         myListAdapter = new MyListAdapter(getActivity(), this);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 3);
+        GridLayoutManager layoutManager;
+        if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            // on a large screen device ...
+            layoutManager = new GridLayoutManager(getActivity(), 5);
+        } else if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            // on a large screen device ...
+            layoutManager = new GridLayoutManager(getActivity(), 5);
+        } else {
+            layoutManager = new GridLayoutManager(getActivity(), 3);
+        }
 
         rvMyList.setLayoutManager(layoutManager);
 

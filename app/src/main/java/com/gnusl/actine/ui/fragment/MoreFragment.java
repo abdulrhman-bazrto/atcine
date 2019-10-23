@@ -26,6 +26,7 @@ import com.gnusl.actine.interfaces.ProfileClick;
 import com.gnusl.actine.model.Profile;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
+import com.gnusl.actine.ui.activity.AccountActivity;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.ProfilesAdapter;
@@ -47,7 +48,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private Button btnManageProfile;
 
-    private TextView tvMyList, tvHelp, tvLogout, tvAppSetting;
+    private TextView tvMyList, tvHelp, tvLogout, tvAppSetting,tvAccount;
 
     public MoreFragment() {
     }
@@ -102,12 +103,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         tvHelp = inflatedView.findViewById(R.id.tv_help);
         tvLogout = inflatedView.findViewById(R.id.tv_logout);
         tvAppSetting = inflatedView.findViewById(R.id.tv_app_setting);
+        tvAccount = inflatedView.findViewById(R.id.tv_account);
 
         btnManageProfile.setOnClickListener(this);
         tvMyList.setOnClickListener(this);
         tvHelp.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
         tvAppSetting.setOnClickListener(this);
+        tvAccount.setOnClickListener(this);
     }
 
 
@@ -152,7 +155,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
                 }
                 break;
             }
-            case R.id.tv_logout: {
+            case R.id.tv_account: {
+                Intent intent = new Intent(getActivity(), AccountActivity.class);
+                intent.putExtra("url",Urls.Account.getLink());
+                startActivity(intent);
+                break;
+            } case R.id.tv_logout: {
                 showLogoutDialog();
                 break;
             }
