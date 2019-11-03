@@ -127,6 +127,7 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
 
         Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
         List<DBShow> dbShows = dbShowBox.getAll();
+
         if (dbShows.size() != 0) {
             clEmptyDownloadList.setVisibility(View.GONE);
             clDownloadList.setVisibility(View.VISIBLE);
@@ -187,8 +188,10 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
         if (isVisibleToUser){
             if (clEmptyDownloadList == null)
                 return;
+
             Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
             List<DBShow> dbShows = dbShowBox.getAll();
+
             if (dbShows.size() != 0) {
                 clEmptyDownloadList.setVisibility(View.GONE);
                 clDownloadList.setVisibility(View.VISIBLE);

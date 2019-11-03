@@ -121,8 +121,10 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     btnDownload.setVisibility(View.VISIBLE);
                     show.setInStorage(false);
                     DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), null);
+
                     Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
                     DBShow dbShowInBox = dbShowBox.get(show.getId());
+
                     if (dbShowInBox != null){
                         dbShowBox.remove(show.getId());
                     }

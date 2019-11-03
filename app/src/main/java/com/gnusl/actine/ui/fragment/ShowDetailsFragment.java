@@ -372,6 +372,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                         public void onConnectionSuccess(JSONObject jsonObject) {
                             btnDownload.setText("Download");
                             show.setIsDownloaded(false);
+
                             Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
                             DBShow dbShowInBox = dbShowBox.get(show.getId());
                             if (dbShowInBox != null){
@@ -571,6 +572,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 public void onConnectionSuccess(JSONObject jsonObject) {
                     btnDownload.setText("Downloaded");
                     show.setIsDownloaded(true);
+
                     Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
                     DBShow dbShow = show.getDBShowObject();
                     dbShowBox.put(dbShow);
