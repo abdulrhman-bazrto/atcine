@@ -4,6 +4,7 @@ public enum Urls {
 
     Schema("http://"),
     Host(Schema.getLink() + "atcine.com/"),
+//    Host(Schema.getLink() + "atcine.com/v2/"),
     API(Host.getLink() + "api/"),
     Auth(API.getLink() + "auth/"),
     Login(Auth.getLink() + "login"),

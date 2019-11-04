@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.User;
@@ -38,5 +40,9 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }, 2000);
+
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
+        a.setDuration(1300);
+        findViewById(R.id.tv_app_title).startAnimation(a);
     }
 }
