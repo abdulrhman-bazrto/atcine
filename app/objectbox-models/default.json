@@ -1,0 +1,153 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:95219401320789961",
+      "lastPropertyId": "26:5217307347905650031",
+      "name": "DBShow",
+      "properties": [
+        {
+          "id": "1:7635522932180254036",
+          "name": "id",
+          "type": 6,
+          "flags": 131
+        },
+        {
+          "id": "3:2352624297178066816",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "4:4173352028348500140",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "5:6675348421161499974",
+          "name": "section",
+          "type": 9
+        },
+        {
+          "id": "6:4609377136737147847",
+          "name": "category",
+          "type": 9
+        },
+        {
+          "id": "7:685246619554324232",
+          "name": "showTime",
+          "type": 9
+        },
+        {
+          "id": "8:8147121957581701027",
+          "name": "categoryId",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "9:7042851810935980671",
+          "name": "sectionId",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "10:4101438477998931131",
+          "name": "coverImage",
+          "type": 9
+        },
+        {
+          "id": "11:5501264504575423347",
+          "name": "coverImageUrl",
+          "type": 9
+        },
+        {
+          "id": "12:3570135762300035775",
+          "name": "thumbnailImage",
+          "type": 9
+        },
+        {
+          "id": "13:6587169058359254291",
+          "name": "thumbnailImageUrl",
+          "type": 9
+        },
+        {
+          "id": "14:662560160640607229",
+          "name": "isDownloaded",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "15:8548770897216110246",
+          "name": "isLike",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "16:5351219710488182657",
+          "name": "isFavourite",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "17:3543841027965908519",
+          "name": "isReminded",
+          "type": 1,
+          "flags": 4
+        },
+        {
+          "id": "18:3267599974043342940",
+          "name": "preWatch",
+          "type": 9
+        },
+        {
+          "id": "19:2884868093004742012",
+          "name": "watchTime",
+          "type": 9
+        },
+        {
+          "id": "20:4593798010606099587",
+          "name": "size",
+          "type": 9
+        },
+        {
+          "id": "21:7232891926720109848",
+          "name": "year",
+          "type": 5,
+          "flags": 4
+        },
+        {
+          "id": "25:3350180703479104472",
+          "name": "videoUrl",
+          "type": 9
+        },
+        {
+          "id": "26:5217307347905650031",
+          "name": "isInStorage",
+          "type": 1,
+          "flags": 4
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:95219401320789961",
+  "lastIndexId": "0:0",
+  "lastRelationId": "2:4193754659869710440",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [
+    7203793240699043898,
+    6418728120426307850,
+    2952687808210827841,
+    6996597812776488300
+  ],
+  "retiredRelationUids": [
+    5232414589209594577,
+    4193754659869710440
+  ],
+  "version": 1
+}

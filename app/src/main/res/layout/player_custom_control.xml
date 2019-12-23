@@ -4,44 +4,106 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
-        android:id="@+id/exo_play"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:background="#0000"
-        android:padding="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_play" />
-
-    <ImageButton
-        android:id="@+id/exo_pause"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center"
-        android:background="#0000"
-        android:padding="10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_pause" />
-
-    <com.google.android.exoplayer2.ui.DefaultTimeBar
-        android:id="@+id/exo_progress"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="15dp"
-        app:buffered_color="#e25c5c"
-        app:played_color="#ff0000"
-        app:scrubber_color="#6b6a6a"
-        app:unplayed_color="#515151" />
+        android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="40dp"
-        app:srcCompat="@drawable/icon_subtitles"
-        android:layout_gravity="bottom"/>
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            android:background="@drawable/bg_player_control"-->
+<!--            android:layout_height="60dp"/>-->
+
+<!--        <View-->
+<!--            android:layout_width="match_parent"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            android:background="@drawable/bg_player_control_bottom"-->
+<!--            android:layout_height="60dp"/>-->
+
+        <com.google.android.exoplayer2.ui.DefaultTimeBar
+            android:id="@+id/exo_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="50dp"
+            app:buffered_color="#e25c5c"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:played_color="#ff0000"
+            app:scrubber_color="#6b6a6a"
+            app:unplayed_color="#515151" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/icon_world" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/iv_subtitle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/icon_settings" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_audio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/iv_quality"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            app:srcCompat="@drawable/icon_audio" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            app:srcCompat="@drawable/icon_back" />
+
+        <ImageButton
+            android:id="@+id/exo_play"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#0000"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_play"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/exo_pause"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#0000"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_pause"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

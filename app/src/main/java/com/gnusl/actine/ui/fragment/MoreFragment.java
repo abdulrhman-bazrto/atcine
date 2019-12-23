@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ import com.gnusl.actine.util.SharedPreferencesUtils;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -179,9 +181,24 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
             @Override
             public void onClick(View v) {
                 logoutDialog.dismiss();
-                SharedPreferencesUtils.clear();
-                startActivity(new Intent(getActivity(), AuthActivity.class));
-                getActivity().finish();
+                DataLoader.postRequest(Urls.Logout.getLink(), new HashMap<>(), new ConnectionDelegate() {
+                    @Override
+                    public void onConnectionError(int code, String message) {
+
+                    }
+
+                    @Override
+                    public void onConnectionError(ANError anError) {
+
+                    }
+
+                    @Override
+                    public void onConnectionSuccess(JSONObject jsonObject) {
+                        SharedPreferencesUtils.clear();
+                        startActivity(new Intent(getActivity(), AuthActivity.class));
+                        getActivity().finish();
+                    }
+                });
             }
         });
 

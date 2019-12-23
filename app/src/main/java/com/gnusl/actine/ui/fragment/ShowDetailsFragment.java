@@ -3,13 +3,8 @@ package com.gnusl.actine.ui.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -18,6 +13,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.view.ContextThemeWrapper;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -60,7 +64,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private Button btnReactions, btnDownload;
     private View clMoreLikeThis, clReactions, clInputLayout;
     private RecyclerView rvComments;
-    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount;
+    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvRate;
     private ImageView ivShowCover, ivPlayShow, ivSendComment, ivAddComment;
     private Button btnAddToMyList;
     private EditText etCommentText;
@@ -105,6 +109,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvYear.setText(String.valueOf(show.getYear()));
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
+        tvRate.setText("IMDB: " + show.getImdbRate());
         Picasso.with(getActivity()).load(show.getCoverImageUrl()).into(ivShowCover);
         if (show.getIsFavourite()) {
             btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
@@ -120,7 +125,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         rvSuggest.setLayoutManager(gridLayoutManager);
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this,null);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, null);
 
         rvSuggest.setAdapter(movieMoreLikeAdapter);
 
@@ -144,7 +149,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             show.setIsDownloaded(false);
         }
 
-        if (show.getIsDownloaded()){
+        if (show.getIsDownloaded()) {
             btnDownload.setText("Downloaded");
         }
 
@@ -191,6 +196,19 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvCommentsCount = inflatedView.findViewById(R.id.tv_comments_count);
         tvLikesCount = inflatedView.findViewById(R.id.tv_likes_count);
         tvViewsCount = inflatedView.findViewById(R.id.tv_views_count);
+        tvRate = inflatedView.findViewById(R.id.tv_rate);
+
+        tvRate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ContextThemeWrapper ctw = new ContextThemeWrapper(getActivity()
+                        , R.style.CustomPopupTheme);
+                PopupMenu menu = new PopupMenu(ctw, v);
+                MenuItem sub1 = menu.getMenu().add("IMDB: " + show.getImdbRate());
+                MenuItem sub = menu.getMenu().add("Rotten Tomatoes :" + show.getRottenTomatoes());
+                menu.show();
+            }
+        });
 
         clInputLayout = inflatedView.findViewById(R.id.cl_input_layout);
         ivSendComment = inflatedView.findViewById(R.id.iv_send_comment);
@@ -314,9 +332,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             }
             case R.id.tv_likes_count: {
                 String url = "";
-                if (show.getIsMovie()){
+                if (show.getIsMovie()) {
                     url = Urls.MovieLike.getLink();
-                }else if (show.getIsEpisode()){
+                } else if (show.getIsEpisode()) {
                     url = Urls.EpisodeLike.getLink();
                 }
                 DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
@@ -354,9 +372,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     } else {
                         url = url.replaceAll(".m3u8", ".mp4");
                     }
-                    Toast.makeText(getActivity(),"Downloading",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Downloading", Toast.LENGTH_SHORT).show();
                     DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
-                }else {
+                } else {
                     DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
                         @Override
                         public void onConnectionError(int code, String message) {
@@ -375,7 +393,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                             Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
                             DBShow dbShowInBox = dbShowBox.get(show.getId());
-                            if (dbShowInBox != null){
+                            if (dbShowInBox != null) {
                                 dbShowBox.remove(show.getId());
                             }
                         }
@@ -396,10 +414,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 HashMap<String, String> body = new HashMap<>();
                 body.put("comment", etCommentText.getText().toString());
 
-                String url ="";
-                if (show.getIsMovie()){
+                String url = "";
+                if (show.getIsMovie()) {
                     url = Urls.MovieComments.getLink();
-                }else if (show.getIsEpisode()){
+                } else if (show.getIsEpisode()) {
                     url = Urls.EpisodeComments.getLink();
                 }
                 DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
@@ -421,10 +439,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                             //Find the currently focused view, so we can grab the correct window token from it.
                             imm.hideSoftInputFromWindow(etCommentText.getWindowToken(), 0);
                             clInputLayout.setVisibility(View.GONE);
-                            String url ="";
-                            if (show.getIsMovie()){
+                            String url = "";
+                            if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            }else if (show.getIsEpisode()){
+                            } else if (show.getIsEpisode()) {
                                 url = Urls.EpisodeComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);
@@ -556,7 +574,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     @Override
     public void onDownloadSuccess(String fileDir, String fileName) {
-        if (fileName.equalsIgnoreCase(show.getTitle()+".mp4")){
+        if (fileName.equalsIgnoreCase(show.getTitle() + ".mp4")) {
             DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
                 @Override
                 public void onConnectionError(int code, String message) {
@@ -587,10 +605,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         alertDialog.setMessage("Delete this Comment?");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
                 (dialog, which) -> {
-                    String url ="";
-                    if (show.getIsMovie()){
+                    String url = "";
+                    if (show.getIsMovie()) {
                         url = Urls.MovieComment.getLink();
-                    }else if (show.getIsEpisode()){
+                    } else if (show.getIsEpisode()) {
                         url = Urls.EpisodeCommentDelete.getLink();
                     }
 
@@ -607,10 +625,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                         @Override
                         public void onConnectionSuccess(JSONObject jsonObject) {
-                            String url ="";
-                            if (show.getIsMovie()){
+                            String url = "";
+                            if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            }else if (show.getIsEpisode()){
+                            } else if (show.getIsEpisode()) {
                                 url = Urls.EpisodeComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ShowDetailsFragment.this);

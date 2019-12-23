@@ -3,8 +3,8 @@ package com.gnusl.actine.network;
 public enum Urls {
 
     Schema("http://"),
-    Host(Schema.getLink() + "atcine.com/"),
-//    Host(Schema.getLink() + "atcine.com/v2/"),
+//    Host(Schema.getLink() + "atcine.com/"),
+    Host(Schema.getLink() + "atcine.com/v2/"),
     API(Host.getLink() + "api/"),
     Auth(API.getLink() + "auth/"),
     Login(Auth.getLink() + "login"),
@@ -48,6 +48,7 @@ public enum Urls {
     UserType(API.getLink() + "user/type"),
 
     Help(API.getLink() + "help"),
+    Logout(Auth.getLink() + "logout"),
 
     ;
 

@@ -29,6 +29,8 @@ public class Show implements Serializable {
     private String preWatch;
     private String watchTime;
     private String size;
+    private String rottenTomatoes;
+    private String imdbRate;
     private int year;
     private boolean isMovie;
     private boolean isSeason;
@@ -71,6 +73,8 @@ public class Show implements Serializable {
         this.year = jsonObject.optInt("year");
         this.videoUrl = jsonObject.optString("video_url");
         this.episodeUrl = jsonObject.optString("episode_url");
+        this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
+        this.imdbRate = jsonObject.optString("imdb_rate");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -133,6 +137,8 @@ public class Show implements Serializable {
         this.year = jsonObject.optInt("year");
         this.videoUrl = jsonObject.optString("video_url");
         this.episodeUrl = jsonObject.optString("episode_url");
+        this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
+        this.imdbRate = jsonObject.optString("imdb_rate");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -395,6 +401,22 @@ public class Show implements Serializable {
 
     public void setInStorage(boolean inStorage) {
         isInStorage = inStorage;
+    }
+
+    public String getRottenTomatoes() {
+        return rottenTomatoes;
+    }
+
+    public void setRottenTomatoes(String rottenTomatoes) {
+        this.rottenTomatoes = rottenTomatoes;
+    }
+
+    public String getImdbRate() {
+        return imdbRate;
+    }
+
+    public void setImdbRate(String imdbRate) {
+        this.imdbRate = imdbRate;
     }
 
     public DBShow getDBShowObject() {

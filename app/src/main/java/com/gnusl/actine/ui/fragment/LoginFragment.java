@@ -2,8 +2,6 @@ package com.gnusl.actine.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -17,7 +15,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.androidnetworking.error.ANError;
+import com.gnusl.actine.BuildConfig;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
@@ -164,8 +166,20 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (progressHUD != null)
             progressHUD.dismiss();
+
         if (jsonObject.has("user")) {
-            SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+
+            if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("paymentless")) {
+                if (!BuildConfig.DEBUG) {
+                    return;
+                } else {
+                    SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+                }
+            } else if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("blocked")) {
+                return;
+            }else {
+                SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+            }
         }
         if (jsonObject.has("token")) {
             SharedPreferencesUtils.saveToken(jsonObject.optString("token"));
