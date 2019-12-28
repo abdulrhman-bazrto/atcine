@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -58,15 +60,27 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
+        ProgressBar pbLoading;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
+            pbLoading = itemView.findViewById(R.id.pb_loading);
         }
 
         public void bind(Show movie) {
 
-            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail);
+            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
+                @Override
+                public void onSuccess() {
+                    pbLoading.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pbLoading.setVisibility(View.GONE);
+                }
+            });
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

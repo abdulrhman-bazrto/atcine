@@ -34,7 +34,11 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 User user = SharedPreferencesUtils.getUser();
                 if (user != null)
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    if (user.getStatus() == null || user.getStatus().equalsIgnoreCase("paymentless")){
+                        startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                    }else {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }
                 else
                     startActivity(new Intent(getApplicationContext(), AuthActivity.class));
                 finish();

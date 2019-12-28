@@ -199,11 +199,21 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
             movieMoreLikeAdapter.setList(series);
+            if (series.size() ==0){
+                inflatedView.findViewById(R.id.tv_hint).setVisibility(View.VISIBLE);
+            }else {
+                inflatedView.findViewById(R.id.tv_hint).setVisibility(View.GONE);
+            }
         }
 
         if (jsonObject.has("movies")) {
             List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
             movieMoreLikeAdapter.setList(movies);
+            if (movies.size() ==0){
+                inflatedView.findViewById(R.id.tv_hint).setVisibility(View.VISIBLE);
+            }else {
+                inflatedView.findViewById(R.id.tv_hint).setVisibility(View.GONE);
+            }
         }
     }
 

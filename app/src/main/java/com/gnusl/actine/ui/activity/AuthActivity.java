@@ -1,16 +1,18 @@
 package com.gnusl.actine.ui.activity;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.fragment.GuestFragment;
 import com.gnusl.actine.ui.fragment.HelpFragment;
 import com.gnusl.actine.ui.fragment.LoginFragment;
+import com.gnusl.actine.ui.fragment.PaymentLessFragment;
 import com.gnusl.actine.ui.fragment.RegisterFragment;
 
 public class AuthActivity extends AppCompatActivity {
@@ -68,6 +70,14 @@ public class AuthActivity extends AppCompatActivity {
             case HelpFragment:
 
                 mCurrentFragment = HelpFragment.newInstance();
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
+            case PaymentLessFragment:
+
+                mCurrentFragment = PaymentLessFragment.newInstance();
                 transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 

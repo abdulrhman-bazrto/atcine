@@ -12,6 +12,7 @@ public class User {
     private String gender;
     private String social;
     private String socialId;
+    private String status;
 
 
     public static User parse(JSONObject jsonObject) {
@@ -22,6 +23,7 @@ public class User {
         user.setMobile(jsonObject.optString("mobile"));
         user.setLanguage(jsonObject.optString("language"));
         user.setBirthday(jsonObject.optString("birthday"));
+        user.setStatus(jsonObject.optString("status"));
         user.setGender(jsonObject.optString("gender"));
         user.setSocial(jsonObject.optString("social"));
         user.setSocialId(jsonObject.optString("socialId"));
@@ -99,5 +101,13 @@ public class User {
 
     public void setSocialId(String socialId) {
         this.socialId = socialId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

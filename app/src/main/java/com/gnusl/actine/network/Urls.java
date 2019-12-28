@@ -39,7 +39,8 @@ public enum Urls {
     Categories(API.getLink() + "categories"),
 
     Pay(API.getLink() + "pay"),
-    Account(Host.getLink() + "account"),
+    Account(Host.getLink() + "user/account"),
+    AccountUpdate(API.getLink() + "user/account"),
 
     Profiles(API.getLink() + "profiles"),
     Profile(API.getLink() + "profile"),
@@ -48,7 +49,7 @@ public enum Urls {
     UserType(API.getLink() + "user/type"),
 
     Help(API.getLink() + "help"),
-    Logout(Auth.getLink() + "logout"),
+    Logout(API.getLink() + "user/logout"),
 
     ;
 

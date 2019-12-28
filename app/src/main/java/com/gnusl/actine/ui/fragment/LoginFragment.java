@@ -1,6 +1,10 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.accounts.AccountAuthenticatorActivity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -10,6 +14,7 @@ import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -117,7 +122,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
                             .setLabel(getString(R.string.please_wait))
                             .setMaxProgress(100)
                             .show();
-                    sendLoginRequest();
+                    sendLoginRequest(false);
                 }
                 break;
             }
@@ -136,12 +141,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         return true;
     }
 
-    private void sendLoginRequest() {
+    private void sendLoginRequest(boolean withIgnore) {
         HashMap<String, String> body = new HashMap<>();
         if (etEmailPhone.getText().toString().contains("@"))
             body.put("email_mobile", etEmailPhone.getText().toString());
         else
             body.put("email_mobile", etEmailPhone.getText().toString());
+
+        if (withIgnore)
+            body.put("ignore", String.valueOf(true));
+
         body.put("password", etPassword.getText().toString());
 
         DataLoader.postRequest(Urls.Login.getLink(), body, this);
@@ -152,6 +161,44 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     public void onConnectionError(int code, String message) {
         if (progressHUD != null)
             progressHUD.dismiss();
+
+        if (code == -10) {
+            final Dialog confirmLoginDialog = new Dialog(getActivity());
+            confirmLoginDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            if (confirmLoginDialog.getWindow() != null)
+                confirmLoginDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            confirmLoginDialog.setContentView(R.layout.dialog_another_login);
+            confirmLoginDialog.setCancelable(true);
+
+            TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
+
+            tvMsg.setText(message);
+
+            confirmLoginDialog.findViewById(R.id.btn_sign_out).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    confirmLoginDialog.dismiss();
+                    progressHUD = KProgressHUD.create(getActivity())
+                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                            .setLabel(getString(R.string.please_wait))
+                            .setMaxProgress(100)
+                            .show();
+                    sendLoginRequest(true);
+                }
+            });
+
+            confirmLoginDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    confirmLoginDialog.dismiss();
+                }
+            });
+
+            confirmLoginDialog.show();
+
+            return;
+        }
+
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
@@ -168,16 +215,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             progressHUD.dismiss();
 
         if (jsonObject.has("user")) {
-
             if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("paymentless")) {
-                if (!BuildConfig.DEBUG) {
-                    return;
-                } else {
-                    SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+                SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
+                SharedPreferencesUtils.saveToken(jsonObject.optString("token"));
+                SharedPreferencesUtils.saveCurrentSelectedPlan(jsonObject.optJSONObject("user").optString("user_type"));
+                if (getActivity() !=null){
+                    ((AuthActivity)getActivity()).replaceFragment(FragmentTags.PaymentLessFragment);
                 }
+                return;
             } else if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("blocked")) {
                 return;
-            }else {
+            } else {
                 SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
             }
         }

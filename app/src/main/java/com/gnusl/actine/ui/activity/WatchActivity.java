@@ -2,7 +2,6 @@ package com.gnusl.actine.ui.activity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -46,6 +45,9 @@ import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
 public class WatchActivity extends AppCompatActivity {
 
 
@@ -65,6 +67,10 @@ public class WatchActivity extends AppCompatActivity {
     private HlsManifest hlsManifest;
 
     private DefaultTrackSelector defaultTrackSelector;
+
+    private int selectedAudio = 0;
+    private int selectedQuality = 0;
+    private int selectedSubtitle = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +96,30 @@ public class WatchActivity extends AppCompatActivity {
                 if (hlsManifest != null) {
                     ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
                     PopupMenu menu = new PopupMenu(ctw, v);
-                    for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.variants) {
-                        MenuItem sub = menu.getMenu().add(String.valueOf(url.format.height));
+
+                    try {
+                        Field[] fields = menu.getClass().getDeclaredFields();
+                        for (Field field : fields) {
+                            if ("mPopup".equals(field.getName())) {
+                                field.setAccessible(true);
+                                Object menuPopupHelper = field.get(menu);
+                                Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                                Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                                setForceIcons.invoke(menuPopupHelper, true);
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < hlsManifest.masterPlaylist.variants.size(); i++) {
+                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.variants.get(i);
+                        if (i == selectedQuality) {
+                            MenuItem sub = menu.getMenu().add(String.valueOf(url.format.height)).setIcon(R.drawable.icon_check_white);
+                        } else {
+                            MenuItem sub = menu.getMenu().add(String.valueOf(url.format.height));
+                        }
                     }
                     menu.show();
                     menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -99,12 +127,21 @@ public class WatchActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem item) {
                             for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.variants) {
                                 if (String.valueOf(item.getTitle()).equalsIgnoreCase(String.valueOf(url.format.height))) {
+
                                     DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
                                             .setMaxVideoBitrate(url.format.bitrate)
                                             .build();
                                     defaultTrackSelector.setParameters(build);
                                 }
                             }
+
+                            for (int i = 0; i < hlsManifest.masterPlaylist.variants.size(); i++) {
+                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.variants.get(i);
+                                if (String.valueOf(item.getTitle()).equalsIgnoreCase(String.valueOf(url.format.height))) {
+                                    selectedQuality = i;
+                                }
+                            }
+
                             return true;
                         }
                     });
@@ -119,13 +156,42 @@ public class WatchActivity extends AppCompatActivity {
                 if (hlsManifest != null) {
                     ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
                     PopupMenu menu = new PopupMenu(ctw, v);
-                    for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.audios) {
-                        MenuItem sub = menu.getMenu().add(url.format.language);
+
+                    try {
+                        Field[] fields = menu.getClass().getDeclaredFields();
+                        for (Field field : fields) {
+                            if ("mPopup".equals(field.getName())) {
+                                field.setAccessible(true);
+                                Object menuPopupHelper = field.get(menu);
+                                Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+                                Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+                                setForceIcons.invoke(menuPopupHelper, true);
+                                break;
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < hlsManifest.masterPlaylist.audios.size(); i++) {
+                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.audios.get(i);
+                        if (i == selectedAudio) {
+                            MenuItem sub = menu.getMenu().add(url.format.language).setIcon(R.drawable.icon_check_white);
+                        } else {
+                            MenuItem sub = menu.getMenu().add(url.format.language);
+                        }
                     }
                     menu.show();
                     menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
+
+                            for (int i = 0; i < hlsManifest.masterPlaylist.audios.size(); i++) {
+                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.audios.get(i);
+                                if (url.format.language.equalsIgnoreCase(String.valueOf(item.getTitle()))) {
+                                    selectedAudio = i;
+                                }
+                            }
                             DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
                                     .setPreferredAudioLanguage(String.valueOf(item.getTitle()))
                                     .build();
@@ -140,90 +206,84 @@ public class WatchActivity extends AppCompatActivity {
         ivSubtitles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hlsManifest != null) {
-                    ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
-                    PopupMenu menu = new PopupMenu(ctw, v);
-                    for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.subtitles) {
-                        MenuItem sub = menu.getMenu().add(url.format.language);
-                    }
-                    menu.show();
-                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
-                                    .setPreferredTextLanguage(String.valueOf(item.getTitle()))
-                                    .build();
-                            defaultTrackSelector.setParameters(build);
-                            return true;
-                        }
-                    });
-                }
-//                ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
-//                menu = new PopupMenu(ctw, v);
-//                for (Subtitle subtitle : show.getSubtitles()) {
-//                    MenuItem sub = menu.getMenu().add(subtitle.getLabel());
-//                }
-//                menu.show();
-//                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        for (Subtitle subtitle : show.getSubtitles()) {
-//                            if (subtitle.getLabel().equalsIgnoreCase(item.getTitle().toString())) {
-//
-//                                releasePlayer();
-//
-//                                DefaultLoadControl defaultLoadControl = new DefaultLoadControl();
-//
-//                                TrackSelection.Factory adaptiveTrackSelection = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
-//                                player = ExoPlayerFactory.newSimpleInstance(
-//                                        new DefaultRenderersFactory(WatchActivity.this),
-//                                        new DefaultTrackSelector(adaptiveTrackSelection),
-//                                        defaultLoadControl);
-//
-//
-//                                //init the player
-//                                playerView.setPlayer(player);
-//
-//                                //-------------------------------------------------
-//                                DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
-//                                // Produces DataSource instances through which media data is loaded.
-//                                dataSourceFactory = new DefaultDataSourceFactory(WatchActivity.this,
-//                                        Util.getUserAgent(WatchActivity.this, "Exo2"), defaultBandwidthMeter);
-//
-//                                //-----------------------------------------------
-//                                //Create media source
-//
-//                                String hls_url = show.getVideoUrl();
-//                                Uri uri = Uri.parse(hls_url);
-//                                Handler mainHandler = new Handler();
-////                                mediaSource = new HlsMediaSource(uri,
-////                                        dataSourceFactory, mainHandler, null);
-//
-//                                DataSource.Factory dataSourceFactory =
-//                                        new DefaultHttpDataSourceFactory(Util.getUserAgent(WatchActivity.this, "app-name"));
-//                                // Create a HLS media source pointing to a playlist uri.
-//                                mediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-//
-////                                player.prepare(mediaSource);
-//
-//                                player.setPlayWhenReady(playWhenReady);
-//
-//                                String sub = subtitle.getPath();
-//                                Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
-//                                        null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
-//                                MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
-//                                        .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
-//
-//                                mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
-////                                player.prepare(mediaSource);
-//                                player.prepare(mediaSource, true, false);
-//                                player.seekTo(currentWindow, playbackPosition);
-//
-//                            }
-//                        }
-//                        return true;
+//                if (hlsManifest != null) {
+//                    ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
+//                    PopupMenu menu = new PopupMenu(ctw, v);
+//                    for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.subtitles) {
+//                        MenuItem sub = menu.getMenu().add(url.format.language);
 //                    }
-//                });
+//                    menu.show();
+//                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
+//                                    .setPreferredTextLanguage(String.valueOf(item.getTitle()))
+//                                    .build();
+//                            defaultTrackSelector.setParameters(build);
+//                            return true;
+//                        }
+//                    });
+//                }
+                ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
+                menu = new PopupMenu(ctw, v);
+                for (Subtitle subtitle : show.getSubtitles()) {
+                    MenuItem sub = menu.getMenu().add(subtitle.getLabel());
+                }
+                menu.show();
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        for (Subtitle subtitle : show.getSubtitles()) {
+                            if (subtitle.getLabel().equalsIgnoreCase(item.getTitle().toString())) {
+
+                                releasePlayer();
+
+                                DefaultLoadControl defaultLoadControl = new DefaultLoadControl();
+
+                                TrackSelection.Factory adaptiveTrackSelection = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
+                                player = ExoPlayerFactory.newSimpleInstance(
+                                        new DefaultRenderersFactory(WatchActivity.this),
+                                        new DefaultTrackSelector(adaptiveTrackSelection),
+                                        defaultLoadControl);
+
+
+                                //init the player
+                                playerView.setPlayer(player);
+
+                                //-------------------------------------------------
+                                DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
+                                // Produces DataSource instances through which media data is loaded.
+                                dataSourceFactory = new DefaultDataSourceFactory(WatchActivity.this,
+                                        Util.getUserAgent(WatchActivity.this, "Exo2"), defaultBandwidthMeter);
+
+                                //-----------------------------------------------
+                                //Create media source
+
+                                String hls_url = show.getVideoUrl();
+                                Uri uri = Uri.parse(hls_url);
+
+                                DataSource.Factory dataSourceFactory =
+                                        new DefaultHttpDataSourceFactory(Util.getUserAgent(WatchActivity.this, "app-name"));
+                                // Create a HLS media source pointing to a playlist uri.
+                                mediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+
+                                player.setPlayWhenReady(playWhenReady);
+
+                                String sub = subtitle.getPath();
+                                Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
+                                        null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
+                                MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
+                                        .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
+
+                                mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
+                                player.prepare(mediaSource, true, false);
+                                player.seekTo(currentWindow, playbackPosition);
+
+                            }
+                        }
+                        return true;
+                    }
+                });
             }
         });
 
@@ -272,14 +332,9 @@ public class WatchActivity extends AppCompatActivity {
         //-----------------------------------------------
         //Create media source
 
-//        String hls_url = show.getVideoUrl();
-        String hls_url = "https://atcine.s3-eu-west-1.amazonaws.com/00test/flu.m3u8";
-//        String hls_url = "https://atcine.s3-eu-west-1.amazonaws.com/test/flu.m3u8";
-        Uri uri = Uri.parse(hls_url);
-        Handler mainHandler = new Handler();
-//        mediaSource = new HlsMediaSource(uri,
-//                dataSourceFactory, mainHandler, null);
+        String hls_url = show.getVideoUrl();
 
+        Uri uri = Uri.parse(hls_url);
         DataSource.Factory dataSourceFactory =
                 new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "app-name"));
         // Create a HLS media source pointing to a playlist uri.
@@ -291,13 +346,24 @@ public class WatchActivity extends AppCompatActivity {
         player.setPlayWhenReady(playWhenReady);
         player.addVideoListener(new VideoListener() {
             @Override
-            public void onVideoSizeChanged(int width, int height, int unappliedRotationDegrees, float pixelWidthHeightRatio) {
+            public void onVideoSizeChanged(int width, int height, int unAppliedRotationDegrees, float pixelWidthHeightRatio) {
 
             }
 
             @Override
             public void onRenderedFirstFrame() {
                 hlsManifest = (HlsManifest) player.getCurrentManifest();
+                if (hlsManifest != null) {
+                    if (hlsManifest.masterPlaylist.audios.size() <= 1) {
+                        ivAudio.setVisibility(View.INVISIBLE);
+                    }
+                    if (hlsManifest.masterPlaylist.variants.size() <= 1) {
+                        ivQuality.setVisibility(View.INVISIBLE);
+                    }
+                }
+                if (show.getSubtitles().size() <= 1) {
+                    ivSubtitles.setVisibility(View.INVISIBLE);
+                }
             }
         });
         player.addListener(new Player.EventListener() {
