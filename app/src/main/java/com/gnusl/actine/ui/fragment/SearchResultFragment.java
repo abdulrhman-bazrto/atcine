@@ -85,8 +85,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 Configuration.SCREENLAYOUT_SIZE_LARGE) {
             // on a large screen device ...
             gridLayoutManager = new GridLayoutManager(getActivity(), 5);
-        }
-        else if ((getResources().getConfiguration().screenLayout &
+        } else if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) ==
                 Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             // on a large screen device ...
@@ -199,9 +198,9 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
             movieMoreLikeAdapter.setList(series);
-            if (series.size() ==0){
+            if (series.size() == 0 && movieMoreLikeAdapter.getItemCount() == 0) {
                 inflatedView.findViewById(R.id.tv_hint).setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 inflatedView.findViewById(R.id.tv_hint).setVisibility(View.GONE);
             }
         }
@@ -209,9 +208,9 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         if (jsonObject.has("movies")) {
             List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
             movieMoreLikeAdapter.setList(movies);
-            if (movies.size() ==0){
+            if (movies.size() == 0 && movieMoreLikeAdapter.getItemCount() == 0) {
                 inflatedView.findViewById(R.id.tv_hint).setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 inflatedView.findViewById(R.id.tv_hint).setVisibility(View.GONE);
             }
         }

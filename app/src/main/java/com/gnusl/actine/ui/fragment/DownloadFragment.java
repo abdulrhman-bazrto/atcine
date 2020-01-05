@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -18,10 +19,12 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.DownloadsListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.util.ObjectBox;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -217,6 +220,11 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
     public void onConnectionError(int code, String message) {
         if (progressHUD != null)
             progressHUD.dismiss();
+        if (code == 401){
+            SharedPreferencesUtils.clear();
+            startActivity(new Intent(getActivity(), AuthActivity.class));
+            getActivity().finish();
+        }
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 

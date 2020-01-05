@@ -1,16 +1,17 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -19,6 +20,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.interfaces.LoadMoreCategoriesDelegate;
 import com.gnusl.actine.model.Category;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
@@ -40,7 +42,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class HomeFragment extends Fragment implements HomeMovieClick, GenresClickEvents, ConnectionDelegate {
+public class HomeFragment extends Fragment implements HomeMovieClick, GenresClickEvents, ConnectionDelegate, LoadMoreCategoriesDelegate {
 
     View inflatedView;
 
@@ -78,8 +80,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser){
-            Log.d("","");
+        if (isVisibleToUser) {
+            Log.d("", "");
         }
     }
 
@@ -134,9 +136,11 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         rvHome.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter(getActivity(), this,this);
+        homeAdapter = new HomeAdapter(getActivity(),rvHome, this, this,this);
 
+//        homeAdapter.setHasStableIds(false);
         rvHome.setAdapter(homeAdapter);
+
 
         cubHome.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -207,12 +211,12 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
                 Bundle bundle = new Bundle();
-                switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())){
-                    case TvShows:{
+                switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+                    case TvShows: {
                         bundle.putString("searchFor", "series");
                         break;
                     }
-                    case Movies:{
+                    case Movies: {
                         bundle.putString("searchFor", "movies");
                         break;
                     }
@@ -243,6 +247,12 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
+
+    HashMap<String, List<Show>> showsByCategories = new HashMap<>();
+    List<String> categoriesNames = new ArrayList<>();
+    List<Integer> categoriesIds = new ArrayList<>();
+    JSONArray otherCategories;
+
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (progressHUD != null)
@@ -251,39 +261,48 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (jsonObject.has("trend")) {
             switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
                 case TvShows: {
+
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
-                    HashMap<String, List<Show>> seriesByCategories = new HashMap<>();
-                    List<String> categoriesNames = new ArrayList<>();
-                    List<Integer> categoriesIds = new ArrayList<>();
 
-                    JSONArray otherCategories = jsonObject.optJSONArray("categories");
+                    categoriesIds.clear();
+                    categoriesNames.clear();
+                    showsByCategories.clear();
 
-                    for (int i = 0; i < otherCategories.length(); i++) {
-                        JSONObject category = otherCategories.optJSONObject(i);
-                        categoriesNames.add(category.optString("title"));
-                        categoriesIds.add(category.optInt("category_id",-1));
-                        seriesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
+                    otherCategories = jsonObject.optJSONArray("categories");
+
+                    for (int i = 0; i < 5; i++) {
+                        if (i <= otherCategories.length()) {
+                            JSONObject category = otherCategories.optJSONObject(i);
+                            if (category != null) {
+                                categoriesNames.add(category.optString("title"));
+                                categoriesIds.add(category.optInt("category_id", -1));
+                                showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
+                            }
+                        }
                     }
-
-                    homeAdapter.setData(trendSerie, categoriesNames,categoriesIds, seriesByCategories);
+                    homeAdapter.setData(trendSerie, categoriesNames, categoriesIds, showsByCategories);
                     break;
                 }
                 case Movies: {
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
-                    HashMap<String, List<Show>> moviesByCategories = new HashMap<>();
-                    List<String> categoriesNames = new ArrayList<>();
-                    List<Integer> categoriesIds = new ArrayList<>();
 
-                    JSONArray otherCategories = jsonObject.optJSONArray("categories");
+                    categoriesIds.clear();
+                    categoriesNames.clear();
+                    showsByCategories.clear();
+                    otherCategories = jsonObject.optJSONArray("categories");
 
-                    for (int i = 0; i < otherCategories.length(); i++) {
-                        JSONObject category = otherCategories.optJSONObject(i);
-                        categoriesNames.add(category.optString("title"));
-                        categoriesIds.add(category.optInt("category_id",-1));
-                        moviesByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
+                    for (int i = 0; i < 5; i++) {
+                        if (i <= otherCategories.length()) {
+                            JSONObject category = otherCategories.optJSONObject(i);
+                            if (category != null) {
+                                categoriesNames.add(category.optString("title"));
+                                categoriesIds.add(category.optInt("category_id", -1));
+                                showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
+                            }
+                        }
                     }
 
-                    homeAdapter.setData(trendMovie, categoriesNames,categoriesIds, moviesByCategories);
+                    homeAdapter.setData(trendMovie, categoriesNames, categoriesIds, showsByCategories);
                     break;
                 }
             }
@@ -293,6 +312,43 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             sgvHome.setList(Category.newList(jsonObject.optJSONArray("categories")));
         }
 
+    }
+
+    @Override
+    public void loadMoreCategories(int skip) {
+        HashMap<String, List<Show>> showsByCategories = new HashMap<>();
+        List<String> categoriesNames = new ArrayList<>();
+        List<Integer> categoriesIds = new ArrayList<>();
+
+        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+            case TvShows: {
+                for (int i = skip; i < skip + 5; i++) {
+                    if (i <= otherCategories.length()) {
+                        JSONObject category = otherCategories.optJSONObject(i);
+                        if (category != null) {
+                            categoriesNames.add(category.optString("title"));
+                            categoriesIds.add(category.optInt("category_id", -1));
+                            showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
+                        }
+                    }
+                }
+                break;
+            }
+            case Movies: {
+                for (int i = skip; i < skip + 5; i++) {
+                    if (i <= otherCategories.length()) {
+                        JSONObject category = otherCategories.optJSONObject(i);
+                        if (category != null) {
+                            categoriesNames.add(category.optString("title"));
+                            categoriesIds.add(category.optInt("category_id", -1));
+                            showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
+                        }
+                    }
+                }
+                break;
+            }
+        }
+        homeAdapter.addData(categoriesNames, categoriesIds, showsByCategories);
     }
 
     public void refreshTrendShow() {
@@ -324,4 +380,5 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         });
     }
+
 }

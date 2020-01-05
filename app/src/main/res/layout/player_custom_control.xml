@@ -8,17 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            android:background="@drawable/bg_player_control"-->
-<!--            android:layout_height="60dp"/>-->
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent"-->
+        <!--            android:background="@drawable/bg_player_control"-->
+        <!--            android:layout_height="60dp"/>-->
 
-<!--        <View-->
-<!--            android:layout_width="match_parent"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            android:background="@drawable/bg_player_control_bottom"-->
-<!--            android:layout_height="60dp"/>-->
+        <!--        <View-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            android:background="@drawable/bg_player_control_bottom"-->
+        <!--            android:layout_height="60dp"/>-->
 
         <com.google.android.exoplayer2.ui.DefaultTimeBar
             android:id="@+id/exo_progress"
@@ -37,45 +37,46 @@
             android:id="@+id/iv_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/icon_world" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_quality"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/iv_subtitle"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_subtitle"
             app:srcCompat="@drawable/icon_settings" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_audio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toStartOf="@+id/iv_quality"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_quality"
             app:srcCompat="@drawable/icon_audio" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_back"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_back" />
 
         <ImageButton

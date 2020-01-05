@@ -2,8 +2,7 @@ package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -105,6 +107,11 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                         Intent intent = new Intent(mContext, VideoActivity.class);
                         intent.putExtra("url", file.getAbsolutePath());
                         mContext.startActivity(intent);
+
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(file.getAbsolutePath()));
+//                        intent.setDataAndType(Uri.parse(file.getAbsolutePath()), "video/mp4");
+//                        mContext.startActivity(intent);
+
                     } else {
                         Toast.makeText(mContext, "download first", Toast.LENGTH_LONG).show();
                     }
@@ -125,7 +132,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
                     DBShow dbShowInBox = dbShowBox.get(show.getId());
 
-                    if (dbShowInBox != null){
+                    if (dbShowInBox != null) {
                         dbShowBox.remove(show.getId());
                     }
                 }
@@ -134,15 +141,17 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             btnDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext,"Downloading",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, "Downloading", Toast.LENGTH_SHORT).show();
 
                     File internalStorage = mContext.getFilesDir();
-                    String url = show.getVideoUrl();
-                    if (url.contains("_.m3u8")) {
-                        url = url.replaceAll("_.m3u8", ".mp4");
-                    } else {
-                        url = url.replaceAll(".m3u8", ".mp4");
-                    }
+//                    String url = show.getVideoUrl();
+//                    if (url.contains("_.m3u8")) {
+//                        url = url.replaceAll("_.m3u8", ".mp4");
+//                    } else {
+//                        url = url.replaceAll(".m3u8", ".mp4");
+//                    }
+
+                    String url = show.getDownloadVideoUrl();
                     DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", new DownloadDelegate() {
                         @Override
                         public void onDownloadProgress(String fileDir, String fileName, int progress) {
@@ -151,7 +160,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         @Override
                         public void onDownloadError(ANError anError) {
-
+                            Log.d("", "");
                         }
 
                         @Override
@@ -160,7 +169,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                             btnDownload.setVisibility(View.GONE);
                             show.setIsDownloaded(true);
                             show.setInStorage(true);
-                            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())),null);
+                            DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), null);
                         }
                     });
 

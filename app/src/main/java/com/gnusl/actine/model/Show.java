@@ -40,6 +40,7 @@ public class Show implements Serializable {
     private List<Subtitle> subtitles;
     private String videoUrl;
     private String episodeUrl;
+    private String downloadVideoUrl;
 
     // use in android only
     private boolean isInStorage;
@@ -75,6 +76,7 @@ public class Show implements Serializable {
         this.episodeUrl = jsonObject.optString("episode_url");
         this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
         this.imdbRate = jsonObject.optString("imdb_rate");
+        this.downloadVideoUrl = jsonObject.optString("download_video_url");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -139,6 +141,7 @@ public class Show implements Serializable {
         this.episodeUrl = jsonObject.optString("episode_url");
         this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
         this.imdbRate = jsonObject.optString("imdb_rate");
+        this.downloadVideoUrl = jsonObject.optString("download_video_url");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -419,6 +422,14 @@ public class Show implements Serializable {
         this.imdbRate = imdbRate;
     }
 
+    public String getDownloadVideoUrl() {
+        return downloadVideoUrl;
+    }
+
+    public void setDownloadVideoUrl(String downloadVideoUrl) {
+        this.downloadVideoUrl = downloadVideoUrl;
+    }
+
     public DBShow getDBShowObject() {
         DBShow dbShow = new DBShow();
         dbShow.setId((long) this.getId());
@@ -430,6 +441,7 @@ public class Show implements Serializable {
         dbShow.setVideoUrl(this.getVideoUrl());
         dbShow.setThumbnailImageUrl(this.getThumbnailImageUrl());
         dbShow.setVideoUrl(this.getVideoUrl());
+        dbShow.setDownloadVideoUrl(this.getDownloadVideoUrl());
 
         return dbShow;
     }

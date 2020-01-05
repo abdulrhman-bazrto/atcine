@@ -1,6 +1,5 @@
 package com.gnusl.actine.ui.fragment;
 
-import android.accounts.AccountAuthenticatorActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -24,7 +23,6 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.error.ANError;
-import com.gnusl.actine.BuildConfig;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
@@ -219,8 +217,38 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
                 SharedPreferencesUtils.saveUser(User.parse(jsonObject.optJSONObject("user")));
                 SharedPreferencesUtils.saveToken(jsonObject.optString("token"));
                 SharedPreferencesUtils.saveCurrentSelectedPlan(jsonObject.optJSONObject("user").optString("user_type"));
-                if (getActivity() !=null){
-                    ((AuthActivity)getActivity()).replaceFragment(FragmentTags.PaymentLessFragment);
+                if (getActivity() != null) {
+
+                    final Dialog confirmPaymentDialog = new Dialog(getActivity());
+                    confirmPaymentDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    if (confirmPaymentDialog.getWindow() != null)
+                        confirmPaymentDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    confirmPaymentDialog.setContentView(R.layout.dialog_another_login);
+                    confirmPaymentDialog.setCancelable(true);
+
+                    TextView tvMsg = confirmPaymentDialog.findViewById(R.id.tv_msg);
+
+                    tvMsg.setText("You Account has been expired!! would you like to re-activate it?");
+
+                    confirmPaymentDialog.findViewById(R.id.btn_sign_out).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            confirmPaymentDialog.dismiss();
+                            if (getActivity() != null)
+                                ((AuthActivity) getActivity()).replaceFragment(FragmentTags.PaymentLessFragment);
+                        }
+                    });
+
+                    confirmPaymentDialog.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            confirmPaymentDialog.dismiss();
+                            if (getActivity() != null)
+                                getActivity().onBackPressed();
+                        }
+                    });
+
+                    confirmPaymentDialog.show();
                 }
                 return;
             } else if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("blocked")) {

@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:95219401320789961",
-      "lastPropertyId": "26:5217307347905650031",
+      "lastPropertyId": "27:4360431628763603913",
       "name": "DBShow",
       "properties": [
         {
@@ -126,6 +126,11 @@
           "name": "isInStorage",
           "type": 1,
           "flags": 4
+        },
+        {
+          "id": "27:4360431628763603913",
+          "name": "downloadVideoUrl",
+          "type": 9
         }
       ],
       "relations": []

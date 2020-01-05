@@ -41,7 +41,6 @@ public class VideoActivity extends AppCompatActivity {
     private void init(){
         vvPost = (VideoView) findViewById(R.id.vv_post_video);
         try {
-//            File internalStorage = getFilesDir();
             File file = new File(mFileURL);
             // Copy file to temporary file in order to view it.
             File temporaryFile = generateTemporaryFile(file.getName());
@@ -56,13 +55,14 @@ public class VideoActivity extends AppCompatActivity {
     protected File generateTemporaryFile(String filename) throws IOException {
         String tempFileName = "20130318_010530_";
 
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_MOVIES);
 
         File tempFile = File.createTempFile(
                 tempFileName,       /* prefix     "20130318_010530" */
                 filename,           /* filename   "video.3gp" */
                 storageDir          /* directory  "/data/sdcard/..." */
         );
+        tempFile.setExecutable(true,false);
 
         return tempFile;
     }

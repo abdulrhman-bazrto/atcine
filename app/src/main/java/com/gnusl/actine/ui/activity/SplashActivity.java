@@ -33,14 +33,15 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 User user = SharedPreferencesUtils.getUser();
-                if (user != null)
-                    if (user.getStatus() == null || user.getStatus().equalsIgnoreCase("paymentless")){
+                if (user != null) {
+                    if (user.getStatus() == null || user.getStatus().equalsIgnoreCase("paymentless")) {
                         startActivity(new Intent(getApplicationContext(), AuthActivity.class));
-                    }else {
+                    } else {
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }
-                else
+                } else {
                     startActivity(new Intent(getApplicationContext(), AuthActivity.class));
+                }
                 finish();
             }
         }, 2000);

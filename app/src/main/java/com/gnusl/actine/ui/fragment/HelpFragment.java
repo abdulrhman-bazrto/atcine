@@ -138,11 +138,13 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
     @Override
     public void onHelpClicked(Help help) {
         if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof MoreContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HelpExtra.getConst(), help);
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpDetailsFragment, bundle);
+            if (getActivity() instanceof MainActivity) {
+                Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+                if (fragment instanceof MoreContainerFragment) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.HelpExtra.getConst(), help);
+                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpDetailsFragment, bundle);
+                }
             }
         }
     }

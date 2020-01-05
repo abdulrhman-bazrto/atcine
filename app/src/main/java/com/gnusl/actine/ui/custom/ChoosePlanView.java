@@ -4,6 +4,8 @@ import android.content.Context;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.PlanDetails;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
+import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.adapter.PlansAdapter;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
@@ -138,7 +141,10 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
 
     @Override
     public void onConnectionError(int code, String message) {
-
+        if (code == 401){
+            SharedPreferencesUtils.clear();
+            context.startActivity(new Intent(context, AuthActivity.class));
+        }
     }
 
     @Override

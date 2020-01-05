@@ -271,6 +271,12 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     @Override
     public void onConnectionError(int code, String message) {
+
+        if (code == 401){
+            SharedPreferencesUtils.clear();
+            startActivity(new Intent(MainActivity.this, AuthActivity.class));
+            finish();
+        }
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 

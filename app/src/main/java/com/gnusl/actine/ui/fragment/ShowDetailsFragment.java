@@ -366,12 +366,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             case R.id.btn_download: {
                 if (!show.getIsDownloaded()) {
                     File internalStorage = getActivity().getFilesDir();
-                    String url = show.getVideoUrl();
-                    if (url.contains("_.m3u8")) {
-                        url = url.replaceAll("_.m3u8", ".mp4");
-                    } else {
-                        url = url.replaceAll(".m3u8", ".mp4");
-                    }
+                    String url = show.getDownloadVideoUrl();
+//                    if (url.contains("_.m3u8")) {
+//                        url = url.replaceAll("_.m3u8", ".mp4");
+//                    } else {
+//                        url = url.replaceAll(".m3u8", ".mp4");
+//                    }
                     Toast.makeText(getActivity(), "Downloading", Toast.LENGTH_SHORT).show();
                     DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
                 } else {
@@ -534,16 +534,20 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             show.setIsLike(jsonObject.optBoolean("is_like"));
 
             if (jsonObject.optBoolean("is_like")) {
-                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
+                if (getActivity() != null)
+                    tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
             } else {
-                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
+                if (getActivity() != null)
+                    tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
             }
 
             show.setIsFavourite(jsonObject.optBoolean("is_favourite"));
             if (show.getIsFavourite()) {
-                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                if (getActivity() != null)
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
             } else {
-                btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                if (getActivity() != null)
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
             }
 
 

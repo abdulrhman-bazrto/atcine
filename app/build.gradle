@@ -3,6 +3,17 @@ apply plugin: 'io.objectbox'
 apply plugin: 'io.fabric'
 
 android {
+
+
+    signingConfigs {
+        config {
+            keyAlias 'atcine-key'
+            keyPassword 'atcine-key-123'
+            storeFile file('F:/android projects/ATCINE-Android/atcine-key.jks')
+            storePassword 'atcine-key-123'
+        }
+    }
+
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.gnusl.actine"
@@ -41,11 +52,7 @@ dependencies {
     // crop images
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.0'
-    //streaming
-//    implementation 'com.google.android.exoplayer:exoplayer-core:2.8.3'
-//    implementation 'com.google.android.exoplayer:exoplayer-hls:2.8.3'
-//    implementation 'com.google.android.exoplayer:exoplayer-dash:2.8.3'
-//    implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.3'
+
     implementation 'com.google.android.exoplayer:exoplayer:2.8.3'
 
     // crash analytics

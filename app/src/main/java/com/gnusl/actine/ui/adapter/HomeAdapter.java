@@ -18,11 +18,14 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.interfaces.LoadMoreCategoriesDelegate;
 import com.gnusl.actine.model.Category;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
+import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.WatchActivity;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -34,8 +37,12 @@ import java.util.List;
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final RecyclerView.RecycledViewPool recycledViewPool;
+    private final RecyclerView homeRecycler;
+
     private final HomeMovieClick homeMovieClick;
     private final GenresClickEvents genresClickEvents;
+    private final LoadMoreCategoriesDelegate loadMoreCategoriesDelegate;
+
     private Context mContext;
     private Show trendShow;
     private List<String> categoriesName = new ArrayList<>();
@@ -46,10 +53,12 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static int HOLDER_MOVIE_LIST = 1;
 
 
-    public HomeAdapter(Context context, HomeMovieClick homeMovieClick, GenresClickEvents genresClickEvents) {
+    public HomeAdapter(Context context, RecyclerView homeRecycler, HomeMovieClick homeMovieClick, GenresClickEvents genresClickEvents, LoadMoreCategoriesDelegate loadMoreCategoriesDelegate) {
         this.mContext = context;
         this.homeMovieClick = homeMovieClick;
+        this.homeRecycler = homeRecycler;
         this.genresClickEvents = genresClickEvents;
+        this.loadMoreCategoriesDelegate = loadMoreCategoriesDelegate;
         this.recycledViewPool = new RecyclerView.RecycledViewPool();
     }
 
@@ -70,12 +79,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 
-        if (holder instanceof MovieViewHolder)
+        if (holder instanceof MovieViewHolder) {
             ((MovieViewHolder) holder).bind();
-        else if (holder instanceof MovieListViewHolder) {
+        } else if (holder instanceof MovieListViewHolder) {
             String name = categoriesName.get(holder.getAdapterPosition() - 1);
             int id = categoriesIds.get(holder.getAdapterPosition() - 1);
-            ((MovieListViewHolder) holder).bind(id,name, showsByCategories.get(name));
+            ((MovieListViewHolder) holder).bind(id, name, showsByCategories.get(name));
+        }
+
+        if (position == categoriesName.size()) {
+            if (loadMoreCategoriesDelegate != null)
+                loadMoreCategoriesDelegate.loadMoreCategories(categoriesName.size());
         }
 
     }
@@ -96,12 +110,27 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return showsByCategories.size() + 1;
     }
 
-    public void setData(Show trendMovie, List<String> categoriesName,List<Integer> categoriesIds, HashMap<String, List<Show>> moviesByCategories) {
+    public void setData(Show trendMovie, List<String> categoriesName, List<Integer> categoriesIds, HashMap<String, List<Show>> moviesByCategories) {
         this.trendShow = trendMovie;
         this.categoriesName = categoriesName;
         this.categoriesIds = categoriesIds;
         this.showsByCategories = moviesByCategories;
         notifyDataSetChanged();
+    }
+
+    public void addData(List<String> categoriesName, List<Integer> categoriesIds, HashMap<String, List<Show>> moviesByCategories) {
+        int pos = this.categoriesName.size();
+        this.categoriesName.addAll(categoriesName);
+        this.categoriesIds.addAll(categoriesIds);
+        this.showsByCategories.putAll(moviesByCategories);
+
+        homeRecycler.post(new Runnable() {
+            @Override
+            public void run() {
+                notifyItemRangeInserted(pos, categoriesName.size());
+            }
+        });
+
     }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
@@ -165,7 +194,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     DataLoader.postRequest(Urls.MovieFavorite.getLink().replaceAll("%id%", String.valueOf(trendShow.getId())), new ConnectionDelegate() {
                         @Override
                         public void onConnectionError(int code, String message) {
-
+                            if (code == 401) {
+                                SharedPreferencesUtils.clear();
+                                mContext.startActivity(new Intent(mContext, AuthActivity.class));
+                            }
                         }
 
                         @Override
@@ -192,7 +224,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvListTitle,tvMore;
+        TextView tvListTitle, tvMore;
         RecyclerView rvMovieList;
 
         MovieListViewHolder(View itemView) {
@@ -204,22 +236,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         }
 
-        public void bind(int id,String name, List<Show> movies) {
+        public void bind(int id, String name, List<Show> movies) {
 
             tvListTitle.setText(name);
-            if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite")  || name.equalsIgnoreCase("not completed") ){
+            if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {
                 tvMore.setVisibility(View.GONE);
                 tvMore.setOnClickListener(null);
-            }else {
+            } else {
                 tvMore.setVisibility(View.VISIBLE);
                 tvMore.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       if (genresClickEvents != null) {
-                           Category category = new Category();
-                           category.setId(id);
-                           genresClickEvents.onSelectGenres(category);
-                       }
+                        if (genresClickEvents != null) {
+                            Category category = new Category();
+                            category.setId(id);
+                            genresClickEvents.onSelectGenres(category);
+                        }
                     }
                 });
             }
@@ -227,6 +259,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rvMovieList.setRecycledViewPool(recycledViewPool);
 
             HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, movies, homeMovieClick);
+
+//            homeMovieListAdapter.setHasStableIds(false);
 
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
 
@@ -244,5 +278,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void setTrendShow(Show trendShow) {
         this.trendShow = trendShow;
         notifyItemChanged(0);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 }

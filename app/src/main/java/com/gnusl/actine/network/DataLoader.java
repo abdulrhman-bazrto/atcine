@@ -1,5 +1,7 @@
 package com.gnusl.actine.network;
 
+import android.content.Intent;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -10,6 +12,8 @@ import com.androidnetworking.interfaces.UploadProgressListener;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
+import com.gnusl.actine.ui.activity.AuthActivity;
+import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.util.Connectivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
@@ -25,6 +29,7 @@ public class DataLoader {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", SharedPreferencesUtils.getToken());
         headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
+        headers.put("Accept", "application/json");
         headers.put("profile_id", String.valueOf(SharedPreferencesUtils.getCurrentProfile()));
 
         return headers;
@@ -48,8 +53,19 @@ public class DataLoader {
                         if (connectionDelegate != null) {
                             if (response.optInt("status_code") == 200) {
                                 connectionDelegate.onConnectionSuccess(response.optJSONObject("data"));
-                            } else
+                            } else {
+
+                                if (response.optInt("status_code") == 401) {
+                                    if (SharedPreferencesUtils.getUser() != null) {
+                                        SharedPreferencesUtils.clear();
+                                        Intent dialogIntent = new Intent(Atcine.getApplicationInstance(), MainActivity.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Atcine.getApplicationInstance().startActivity(dialogIntent);
+                                    }
+                                }
+
                                 connectionDelegate.onConnectionError(response.optInt("status_code"), response.optString("message"));
+                            }
                         }
                     }
 
@@ -78,8 +94,17 @@ public class DataLoader {
                         if (connectionDelegate != null) {
                             if (response.optInt("status_code") == 200) {
                                 connectionDelegate.onConnectionSuccess(response.optJSONObject("data"));
-                            } else
+                            } else {
+                                if (response.optInt("status_code") == 401) {
+                                    if (SharedPreferencesUtils.getUser() != null) {
+                                        SharedPreferencesUtils.clear();
+                                        Intent dialogIntent = new Intent(Atcine.getApplicationInstance(), MainActivity.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Atcine.getApplicationInstance().startActivity(dialogIntent);
+                                    }
+                                }
                                 connectionDelegate.onConnectionError(response.optInt("status_code"), response.optString("message"));
+                            }
                         }
                     }
 
@@ -110,8 +135,17 @@ public class DataLoader {
                         if (connectionDelegate != null) {
                             if (response.optInt("status_code") == 200) {
                                 connectionDelegate.onConnectionSuccess(response.optJSONObject("data"));
-                            } else
+                            } else {
+                                if (response.optInt("status_code") == 401) {
+                                    if (SharedPreferencesUtils.getUser() != null) {
+                                        SharedPreferencesUtils.clear();
+                                        Intent dialogIntent = new Intent(Atcine.getApplicationInstance(), MainActivity.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Atcine.getApplicationInstance().startActivity(dialogIntent);
+                                    }
+                                }
                                 connectionDelegate.onConnectionError(response.optInt("status_code"), response.optString("message"));
+                            }
                         }
                     }
 
@@ -140,8 +174,18 @@ public class DataLoader {
                         if (connectionDelegate != null) {
                             if (response.optInt("status_code") == 200) {
                                 connectionDelegate.onConnectionSuccess(response.optJSONObject("data"));
-                            } else
+                            } else {
+                                if (response.optInt("status_code") == 401) {
+                                    if (SharedPreferencesUtils.getUser() != null) {
+                                        SharedPreferencesUtils.clear();
+                                        Intent dialogIntent = new Intent(Atcine.getApplicationInstance(), MainActivity.class);
+                                        dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        Atcine.getApplicationInstance().startActivity(dialogIntent);
+                                    }
+                                }
+
                                 connectionDelegate.onConnectionError(response.optInt("status_code"), response.optString("message"));
+                            }
                         }
                     }
 
@@ -203,7 +247,7 @@ public class DataLoader {
                         if (downloadDelegate != null) {
                             float p = ((float) bytesDownloaded / totalBytes);
                             int progress = (int) (p * 100);
-                            downloadDelegate.onDownloadProgress(fileDir, fileName,  progress);
+                            downloadDelegate.onDownloadProgress(fileDir, fileName, progress);
                         }
                     }
                 })
@@ -211,7 +255,7 @@ public class DataLoader {
                     @Override
                     public void onDownloadComplete() {
                         if (downloadDelegate != null)
-                            downloadDelegate.onDownloadSuccess(fileDir,fileName);
+                            downloadDelegate.onDownloadSuccess(fileDir, fileName);
                     }
 
                     @Override

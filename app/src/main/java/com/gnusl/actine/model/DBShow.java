@@ -31,6 +31,7 @@ public class DBShow implements Serializable {
     private String size;
     private int year;
     private String videoUrl;
+    private String downloadVideoUrl;
 
     // use in android only
     private boolean isInStorage;
@@ -212,6 +213,14 @@ public class DBShow implements Serializable {
         isInStorage = inStorage;
     }
 
+    public String getDownloadVideoUrl() {
+        return downloadVideoUrl;
+    }
+
+    public void setDownloadVideoUrl(String downloadVideoUrl) {
+        this.downloadVideoUrl = downloadVideoUrl;
+    }
+
     public Show getShowObject() {
         Show show = new Show();
         show.setId(this.getId().intValue());
@@ -222,6 +231,7 @@ public class DBShow implements Serializable {
         show.setSize(this.getSize());
         show.setVideoUrl(this.getVideoUrl());
         show.setThumbnailImageUrl(this.getThumbnailImageUrl());
+        show.setDownloadVideoUrl(this.getDownloadVideoUrl());
 
         return show;
     }
