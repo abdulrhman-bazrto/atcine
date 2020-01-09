@@ -383,7 +383,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                         @Override
                         public void onConnectionError(ANError anError) {
-                            Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -428,7 +429,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                     @Override
                     public void onConnectionError(ANError anError) {
-
+                        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -484,7 +485,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
             @Override
             public void onConnectionError(ANError anError) {
-                Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -507,7 +509,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     @Override
     public void onConnectionError(ANError anError) {
-        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -587,7 +590,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                 @Override
                 public void onConnectionError(ANError anError) {
-                    Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -624,7 +628,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                         @Override
                         public void onConnectionError(ANError anError) {
-
+                            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
