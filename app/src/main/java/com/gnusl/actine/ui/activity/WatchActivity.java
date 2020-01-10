@@ -402,6 +402,7 @@ public class WatchActivity extends AppCompatActivity {
         player.prepare(mediaSource);
 
         player.setPlayWhenReady(playWhenReady);
+        playerView.setKeepScreenOn(true);
         player.addVideoListener(new VideoListener() {
             @Override
             public void onVideoSizeChanged(int width, int height, int unAppliedRotationDegrees, float pixelWidthHeightRatio) {
@@ -464,7 +465,8 @@ public class WatchActivity extends AppCompatActivity {
 
             @Override
             public void onPlayerError(ExoPlaybackException error) {
-                Toast.makeText(WatchActivity.this, error.getCause().getMessage(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(WatchActivity.this, error.getCause().getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(WatchActivity.this, "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override

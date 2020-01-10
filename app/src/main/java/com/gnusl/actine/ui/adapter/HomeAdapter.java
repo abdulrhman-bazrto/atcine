@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -203,7 +204,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                         @Override
                         public void onConnectionError(ANError anError) {
-
+                            Toast.makeText(mContext, "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

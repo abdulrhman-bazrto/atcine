@@ -282,7 +282,8 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     @Override
     public void onConnectionError(ANError anError) {
-        Toast.makeText(this, anError.getMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, anError.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

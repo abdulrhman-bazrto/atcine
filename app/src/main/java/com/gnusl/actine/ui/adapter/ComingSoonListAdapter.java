@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -103,7 +104,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         @Override
                         public void onConnectionError(ANError anError) {
-
+                            Toast.makeText(mContext, "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

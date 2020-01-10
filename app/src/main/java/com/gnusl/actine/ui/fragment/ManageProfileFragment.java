@@ -141,7 +141,8 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onConnectionError(ANError anError) {
-        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -197,7 +197,8 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
     public void onConnectionError(ANError anError) {
         if (progressHUD != null)
             progressHUD.dismiss();
-        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

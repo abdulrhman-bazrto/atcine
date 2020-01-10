@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -149,7 +150,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
 
     @Override
     public void onConnectionError(ANError anError) {
-
+        Toast.makeText(context, "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

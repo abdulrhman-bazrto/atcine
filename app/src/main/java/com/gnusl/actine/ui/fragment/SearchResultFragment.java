@@ -187,7 +187,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     public void onConnectionError(ANError anError) {
         if (progressHUD != null)
             progressHUD.dismiss();
-        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
