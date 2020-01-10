@@ -1,8 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +10,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.util.DialogUtils;
 
 
 public class SearchFragment extends Fragment implements View.OnClickListener {
@@ -66,10 +68,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                         Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                         if (fragment instanceof SearchContainerFragment) {
                             Bundle bundle = new Bundle();
-                            if (rbSeries.isChecked())
+                            if (rbSeries.isChecked()) {
                                 bundle.putString("searchFor", "series");
-                            else if (rbMovies.isChecked())
+
+                                DialogUtils.showSeriesComingSoonDialog(getActivity());
+                                return true;
+
+                            } else if (rbMovies.isChecked()) {
                                 bundle.putString("searchFor", "movies");
+                            }
                             bundle.putString("searchType", "title");
                             bundle.putString("key", etSearch.getText().toString());
                             ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);

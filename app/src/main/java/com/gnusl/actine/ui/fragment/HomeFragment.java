@@ -30,6 +30,7 @@ import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.ui.custom.SelectGenresView;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -136,7 +137,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         rvHome.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter(getActivity(),rvHome, this, this,this);
+        homeAdapter = new HomeAdapter(getActivity(), rvHome, this, this, this);
 
 //        homeAdapter.setHasStableIds(false);
         rvHome.setAdapter(homeAdapter);
@@ -156,6 +157,10 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                     case 1: {
                         if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
                             return;
+                        if (true) {
+                            DialogUtils.showSeriesComingSoonDialog(getActivity());
+                            return;
+                        }
                         SharedPreferencesUtils.saveCategory("tvShows");
                         init();
                         break;
