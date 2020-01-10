@@ -45,11 +45,11 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        if (position > movies.size())
-            return;
-        else {
-            ((MovieListViewHolder) holder).bind(movies.get(position));
-        }
+//        if (position > movies.size())
+//            return;
+//        else {
+        ((MovieListViewHolder) holder).bind(movies.get(position));
+//        }
     }
 
     @Override
@@ -86,10 +86,10 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null) {
-                        if (movies.get(getAdapterPosition()).getIsMovie())
-                            homeMovieClick.onClickMovie(movies.get(getAdapterPosition()));
+                        if (movie.getIsMovie())
+                            homeMovieClick.onClickMovie(movie);
                         else
-                            homeMovieClick.onClickSeries(movies.get(getAdapterPosition()));
+                            homeMovieClick.onClickSeries(movie);
                     }
 
                 }
@@ -99,7 +99,7 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return movies.get(position).getId();
     }
 
     @Override

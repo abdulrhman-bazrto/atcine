@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
 
-        layoutManager.setInitialPrefetchItemCount(3);
+        layoutManager.setInitialPrefetchItemCount(5);
 
         rvHome.setLayoutManager(layoutManager);
 

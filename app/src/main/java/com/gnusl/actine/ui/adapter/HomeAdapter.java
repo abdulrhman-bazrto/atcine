@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -239,6 +240,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(int id, String name, List<Show> movies) {
 
             tvListTitle.setText(name);
+            Log.d("CATEGORY_id", String.valueOf(id));
+            Log.d("CATEGORY_NAME",name);
             if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {
                 tvMore.setVisibility(View.GONE);
                 tvMore.setOnClickListener(null);
