@@ -1,13 +1,14 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.PlanDetails;
@@ -82,20 +83,20 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void setSelected(int planNumber) {
         for (PlanDetails planDetail : planDetails) {
-            switch (planNumber){
-                case 1:{
+            switch (planNumber) {
+                case 1: {
                     planDetail.setBasicSelected(true);
                     planDetail.setPremiumSelected(false);
                     planDetail.setStandardSelected(false);
                     break;
                 }
-                case 2:{
+                case 2: {
                     planDetail.setBasicSelected(false);
                     planDetail.setPremiumSelected(false);
                     planDetail.setStandardSelected(true);
                     break;
                 }
-                case 3:{
+                case 3: {
                     planDetail.setBasicSelected(false);
                     planDetail.setPremiumSelected(true);
                     planDetail.setStandardSelected(false);
@@ -105,6 +106,21 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         notifyDataSetChanged();
 
+    }
+
+    public String getSelectedPlanPrice() {
+        for (PlanDetails p : planDetails) {
+            if (p.getTitle().equalsIgnoreCase("price")) {
+                if (p.isStandardSelected()) {
+                    return p.getStandard();
+                } else if (p.isPremiumSelected()) {
+                    return p.getPremium();
+                } else if (p.isBasicSelected()) {
+                    return p.getBasic();
+                }
+            }
+        }
+        return "";
     }
 
     class SymbolViewHolder extends RecyclerView.ViewHolder {
@@ -132,7 +148,7 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 } else {
                     ivInBasic.setImageResource(R.drawable.icon_check);
                 }
-            }else {
+            } else {
                 if (planDetails.getBasic().equalsIgnoreCase("false")) {
                     ivInBasic.setImageResource(R.drawable.icon_cancel_red);
                 } else {
@@ -146,7 +162,7 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 } else {
                     ivInStandard.setImageResource(R.drawable.icon_check);
                 }
-            }else {
+            } else {
                 if (planDetails.getStandard().equalsIgnoreCase("false")) {
                     ivInStandard.setImageResource(R.drawable.icon_cancel_red);
                 } else {
@@ -160,7 +176,7 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 } else {
                     ivInPremium.setImageResource(R.drawable.icon_check);
                 }
-            }else {
+            } else {
                 if (planDetails.getPremium().equalsIgnoreCase("false")) {
                     ivInPremium.setImageResource(R.drawable.icon_cancel_red);
                 } else {
@@ -194,20 +210,20 @@ public class PlansAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (planDetails.isBasicSelected()) {
                 tvInBasic.setTextColor(mContext.getResources().getColor(R.color.main_red_color));
 
-            }else {
+            } else {
                 tvInBasic.setTextColor(mContext.getResources().getColor(R.color.gray1));
             }
 
             if (planDetails.isStandardSelected()) {
 
                 tvInStandard.setTextColor(mContext.getResources().getColor(R.color.main_red_color));
-            }else {
+            } else {
                 tvInStandard.setTextColor(mContext.getResources().getColor(R.color.gray1));
             }
 
             if (planDetails.isPremiumSelected()) {
                 tvInPremium.setTextColor(mContext.getResources().getColor(R.color.main_red_color));
-            }else {
+            } else {
                 tvInPremium.setTextColor(mContext.getResources().getColor(R.color.gray1));
             }
         }

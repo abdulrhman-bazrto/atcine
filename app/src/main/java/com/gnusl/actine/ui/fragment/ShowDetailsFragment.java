@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -121,11 +122,23 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         btnReactions.setOnClickListener(this);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-
-        rvSuggest.setLayoutManager(gridLayoutManager);
-
         movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, null);
+
+        GridLayoutManager gridLayoutManager;
+        if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            // on a large screen device ...
+            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        } else if ((getResources().getConfiguration().screenLayout &
+                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            // on a large screen device ...
+            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+        } else {
+            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        }
+        rvSuggest.setLayoutManager(gridLayoutManager);
 
         rvSuggest.setAdapter(movieMoreLikeAdapter);
 

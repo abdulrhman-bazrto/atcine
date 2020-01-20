@@ -1,16 +1,16 @@
 package com.gnusl.actine.ui.custom;
 
 import android.content.Context;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -69,9 +69,9 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
 
         rvPlansDetails = view.findViewById(R.id.rv_plans_details);
 
-        plansAdapter = new PlansAdapter(context,new ArrayList<>());
+        plansAdapter = new PlansAdapter(context, new ArrayList<>());
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context,RecyclerView.VERTICAL,false);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
 
         rvPlansDetails.setLayoutManager(layoutManager);
 
@@ -103,6 +103,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
         switch (planNumber) {
             case 1: {
                 SharedPreferencesUtils.saveCurrentSelectedPlan("basic");
+
                 tvBasic.setBackgroundResource(R.drawable.bg_plan_selected);
 
                 tvPremium.setBackgroundResource(R.drawable.bg_plan_unselected);
@@ -115,6 +116,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
             }
             case 2: {
                 SharedPreferencesUtils.saveCurrentSelectedPlan("standard");
+                SharedPreferencesUtils.saveCurrentSelectedPlanPrice("standard");
                 tvStandard.setBackgroundResource(R.drawable.bg_plan_selected);
 
                 tvPremium.setBackgroundResource(R.drawable.bg_plan_unselected);
@@ -127,6 +129,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
             }
             case 3: {
                 SharedPreferencesUtils.saveCurrentSelectedPlan("premium");
+                SharedPreferencesUtils.saveCurrentSelectedPlanPrice("premium");
                 tvPremium.setBackgroundResource(R.drawable.bg_plan_selected);
 
                 tvStandard.setBackgroundResource(R.drawable.bg_plan_unselected);
@@ -138,11 +141,13 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
                 break;
             }
         }
+        if (plansAdapter != null)
+            SharedPreferencesUtils.saveCurrentSelectedPlanPrice(plansAdapter.getSelectedPlanPrice());
     }
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (code == 401){
+        if (code == 401) {
             SharedPreferencesUtils.clear();
             context.startActivity(new Intent(context, AuthActivity.class));
         }
@@ -155,7 +160,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (jsonObject.has("types")){
+        if (jsonObject.has("types")) {
             List<PlanDetails> types = PlanDetails.newList(jsonObject.optJSONArray("types"));
             plansAdapter.setList(types);
             selectPlan(1);

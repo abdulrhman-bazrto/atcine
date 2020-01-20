@@ -21,6 +21,7 @@ public class SharedPreferencesUtils {
     private final static String Category = "Category";
     private final static String ProfileId = "ProfileId";
     private final static String SelectedPlan = "SelectedPlan";
+    private final static String SelectedPlanPrice = "SelectedPlanPrice";
 
     public static void saveUser(User user) {
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
@@ -93,7 +94,7 @@ public class SharedPreferencesUtils {
         return profileId;
     }
 
- public static void saveCurrentSelectedPlan(String selectedPlan) {
+    public static void saveCurrentSelectedPlan(String selectedPlan) {
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
         sharedPreferences.putString(SelectedPlan, selectedPlan);
         sharedPreferences.apply();
@@ -103,6 +104,19 @@ public class SharedPreferencesUtils {
     public static String getCurrentSelectedPlan() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
         String selectedPlan = sharedPreferences.getString(SelectedPlan, "");
+        return selectedPlan;
+    }
+
+    public static void saveCurrentSelectedPlanPrice(String selectedPlan) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        sharedPreferences.putString(SelectedPlanPrice, selectedPlan + "$");
+        sharedPreferences.apply();
+
+    }
+
+    public static String getCurrentSelectedPlanPrice() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        String selectedPlan = sharedPreferences.getString(SelectedPlanPrice, "");
         return selectedPlan;
     }
 

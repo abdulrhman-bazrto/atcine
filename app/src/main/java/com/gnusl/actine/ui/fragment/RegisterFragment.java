@@ -54,9 +54,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     View inflatedView;
 
     private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment;
-    private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, viewSetPaymentGateway, tvChangePlan;
+    private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, viewSetPaymentGateway, tvChangePlan,tvChangePlan1;
 
-    private TextView tvAlreadyUser, tvPayPal, tvCreditOrDebit;
+    private TextView tvAlreadyUser, tvPayPal, tvCreditOrDebit, tvYourPlan;
     private CustomAppBarRegister cubRegister;
     private RecyclerView rvPaymentGateways;
     private KProgressHUD progressHUD;
@@ -106,6 +106,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         tvPayPal.setOnClickListener(this);
         tvCreditOrDebit.setOnClickListener(this);
         tvChangePlan.setOnClickListener(this);
+        tvChangePlan1.setOnClickListener(this);
 
         viewSetPaymentGateway.setOnClickListener(this);
 
@@ -144,8 +145,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         viewStep1half5 = inflatedView.findViewById(R.id.cl_step_1half5);
         viewStepPayPal = inflatedView.findViewById(R.id.cl_step_pay_pal);
         tvChangePlan = inflatedView.findViewById(R.id.tv_change_plan);
+        tvChangePlan1 = inflatedView.findViewById(R.id.tv_change_plan1);
         viewSetPaymentGateway = inflatedView.findViewById(R.id.cl_step_payment_gateways);
         rvPaymentGateways = inflatedView.findViewById(R.id.rv_payment_gateways);
+
 
         btnGotoStep1 = inflatedView.findViewById(R.id.btn_goto_step1);
         btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
@@ -161,6 +164,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         tvAlreadyUser = inflatedView.findViewById(R.id.tv_already_user);
         tvCreditOrDebit = inflatedView.findViewById(R.id.tv_credit_or_debit);
         tvPayPal = inflatedView.findViewById(R.id.tv_paypal);
+        tvYourPlan = inflatedView.findViewById(R.id.tv_your_plan1);
 
         cubRegister = inflatedView.findViewById(R.id.cub_register);
     }
@@ -237,6 +241,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 viewStep2.setVisibility(View.GONE);
                 viewStep3.setVisibility(View.GONE);
                 viewSetPaymentGateway.setVisibility(View.VISIBLE);
+                tvYourPlan.setText(
+                        tvYourPlan.getText().toString()
+                                .replace("11.99$", SharedPreferencesUtils.getCurrentSelectedPlanPrice()));
                 getPaymentsGateway();
                 break;
             }
@@ -250,7 +257,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 viewSetPaymentGateway.setVisibility(View.GONE);
                 break;
             }
-            case R.id.tv_change_plan: {
+            case R.id.tv_change_plan:
+            case R.id.tv_change_plan1:
+                {
                 viewStep0.setVisibility(View.GONE);
                 viewStep1.setVisibility(View.VISIBLE);
                 viewStep2.setVisibility(View.GONE);
