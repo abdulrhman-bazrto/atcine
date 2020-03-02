@@ -5,21 +5,24 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -35,11 +38,18 @@ import com.gnusl.actine.ui.fragment.HomeContainerFragment;
 import com.gnusl.actine.ui.fragment.HomeFragment;
 import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
+import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider, ConnectionDelegate {
@@ -85,9 +95,53 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             DataLoader.getRequest(Urls.Profiles.getLink(), this);
         }
 
+
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            return;
+                        }
+                        if (task.getResult() != null) {
+                            String token = task.getResult().getToken();
+                            HashMap<String, String> body = new HashMap<>();
+                            body.put("fcm_token", token);
+                            DataLoader.postRequest(Urls.AccountUpdate.getLink(), body, null);
+                        }
+                    }
+                });
+
+        FirebaseMessaging.getInstance().subscribeToTopic("atcine").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                task.isSuccessful();
+                Log.d("fcm_topic", String.valueOf(task.isSuccessful()));
+            }
+        });
+        FirebaseMessaging.getInstance().subscribeToTopic("atcine-android");
+
+        DataLoader.getRequest(Urls.LocationCheck, new HashMap<>(), new ConnectionDelegate() {
+            @Override
+            public void onConnectionError(int code, String message) {
+
+                DialogUtils.showLocationDialog(MainActivity.this,message);
+            }
+
+            @Override
+            public void onConnectionError(ANError anError) {
+
+            }
+
+            @Override
+            public void onConnectionSuccess(JSONObject jsonObject) {
+
+            }
+        });
+
     }
 
-    public void replaceFragment(int pos){
+    public void replaceFragment(int pos) {
         setFragmentView(pos);
         selectedPosition = pos;
     }
@@ -232,10 +286,12 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             FragmentManager fm = fragment.getChildFragmentManager();
             if (fm.getBackStackEntryCount() > 0) {
                 fm.popBackStack();
-                ((HomeContainerFragment)fragment).getFragmentStack().pop();
-                if (((HomeContainerFragment)fragment).getFragmentStack().peek() instanceof HomeFragment){
-                    HomeFragment homeFragment = (HomeFragment)((HomeContainerFragment) fragment).getFragmentStack().peek();
-                    homeFragment.refreshTrendShow();
+                ((HomeContainerFragment) fragment).getFragmentStack().pop();
+                if (((HomeContainerFragment) fragment).getFragmentStack().peek() instanceof HomeFragment) {
+                    if (!((HomeContainerFragment) fragment).getFragmentStack().empty()) {
+                        HomeFragment homeFragment = (HomeFragment) ((HomeContainerFragment) fragment).getFragmentStack().peek();
+                        homeFragment.refreshTrendShow();
+                    }
                 }
             } else {
                 super.onBackPressed();
@@ -264,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
         if (pagerAdapter.getCurrentFragment() instanceof MoreContainerFragment)
             ((MoreContainerFragment) pagerAdapter.getCurrentFragment()).getCurrentFragment().onActivityResult(requestCode, resultCode, data);
     }
@@ -272,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     @Override
     public void onConnectionError(int code, String message) {
 
-        if (code == 401){
+        if (code == 401) {
             SharedPreferencesUtils.clear();
             startActivity(new Intent(MainActivity.this, AuthActivity.class));
             finish();

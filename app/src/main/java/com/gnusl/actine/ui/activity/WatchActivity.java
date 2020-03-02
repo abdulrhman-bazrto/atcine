@@ -1,12 +1,19 @@
 package com.gnusl.actine.ui.activity;
 
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +22,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.util.TimeUtils;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -50,8 +58,10 @@ public class WatchActivity extends AppCompatActivity {
 
     PlayerView playerView;
     ProgressBar loading;
-    private ImageView ivSubtitles, ivBack, ivQuality, ivAudio;
+    private ImageView ivSubtitles, ivBack, ivQuality, ivAudio, ivFullScreen;
+    private TextView tvCurProgress, tvTotal;
     private PopupMenu menu;
+    private View clForward, clBackward;
 
     private boolean playWhenReady = true;
     private int currentWindow = 0;
@@ -72,7 +82,16 @@ public class WatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_watch);
+
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
 
         if (getIntent().hasExtra("show")) {
             this.show = (Show) getIntent().getSerializableExtra("show");
@@ -264,70 +283,43 @@ public class WatchActivity extends AppCompatActivity {
                         }
                     });
                 }
-//                ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
-//                menu = new PopupMenu(ctw, v);
-//                for (Subtitle subtitle : show.getSubtitles()) {
-//                    MenuItem sub = menu.getMenu().add(subtitle.getLabel());
-//                }
-//                menu.show();
-//                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-//                    @Override
-//                    public boolean onMenuItemClick(MenuItem item) {
-//                        for (Subtitle subtitle : show.getSubtitles()) {
-//                            if (subtitle.getLabel().equalsIgnoreCase(item.getTitle().toString())) {
-//
-//                                releasePlayer();
-//
-//                                DefaultLoadControl defaultLoadControl = new DefaultLoadControl();
-//
-//                                TrackSelection.Factory adaptiveTrackSelection = new AdaptiveTrackSelection.Factory(new DefaultBandwidthMeter());
-//                                player = ExoPlayerFactory.newSimpleInstance(
-//                                        new DefaultRenderersFactory(WatchActivity.this),
-//                                        new DefaultTrackSelector(adaptiveTrackSelection),
-//                                        defaultLoadControl);
-//
-//
-//                                //init the player
-//                                playerView.setPlayer(player);
-//
-//                                //-------------------------------------------------
-//                                DefaultBandwidthMeter defaultBandwidthMeter = new DefaultBandwidthMeter();
-//                                // Produces DataSource instances through which media data is loaded.
-//                                dataSourceFactory = new DefaultDataSourceFactory(WatchActivity.this,
-//                                        Util.getUserAgent(WatchActivity.this, "Exo2"), defaultBandwidthMeter);
-//
-//                                //-----------------------------------------------
-//                                //Create media source
-//
-//                                String hls_url = show.getVideoUrl();
-//                                Uri uri = Uri.parse(hls_url);
-//
-//                                DataSource.Factory dataSourceFactory =
-//                                        new DefaultHttpDataSourceFactory(Util.getUserAgent(WatchActivity.this, "app-name"));
-//                                // Create a HLS media source pointing to a playlist uri.
-//                                mediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-//
-//                                player.setPlayWhenReady(playWhenReady);
-//
-//                                String sub = subtitle.getPath();
-//                                Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
-//                                        null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
-//                                MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
-//                                        .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
-//
-//                                mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
-//                                player.prepare(mediaSource, true, false);
-//                                player.seekTo(currentWindow, playbackPosition);
-//
-//                            }
-//                        }
-//                        return true;
-//                    }
-//                });
+            }
+        });
+
+        ivFullScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                    View decorView = getWindow().getDecorView();
+                    decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    ivFullScreen.setImageResource(R.drawable.icon_fullscreen
+                    );
+                } else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    View decorView = getWindow().getDecorView();
+                    decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+                    ivFullScreen.setImageResource(R.drawable.ic_fullscreen_exit);
+                }
+
             }
         });
 
     }
+
+
+    boolean doubleForward = false;
+    boolean doublebackward = false;
 
     private void init() {
         playerView = findViewById(R.id.video_view);
@@ -336,6 +328,57 @@ public class WatchActivity extends AppCompatActivity {
         ivBack = findViewById(R.id.iv_back);
         ivQuality = findViewById(R.id.iv_quality);
         ivAudio = findViewById(R.id.iv_audio);
+        tvCurProgress = findViewById(R.id.tv_cur_progress);
+        tvTotal = findViewById(R.id.tv_total);
+        ivFullScreen = findViewById(R.id.iv_full_screen);
+        clBackward = findViewById(R.id.skip_backward);
+        clForward = findViewById(R.id.skip_forward);
+
+
+        clBackward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (doublebackward) {
+                    if (player != null) {
+                        player.seekTo(player.getCurrentPosition() - 3300);
+//                        Toast.makeText(WatchActivity.this, "-10 s", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                doublebackward = true;
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doublebackward = false;
+                    }
+                }, 500);
+                return false;
+            }
+        });
+
+        clForward.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (doubleForward) {
+                    if (player != null) {
+                        player.seekTo(player.getCurrentPosition() + 3300);
+//                        Toast.makeText(WatchActivity.this, "+10 s", Toast.LENGTH_SHORT).show();
+                    }
+                    return true;
+                }
+                doubleForward = true;
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        doubleForward = false;
+                    }
+                }, 500);
+                return false;
+            }
+        });
+
 
         playerView.getSubtitleView().setBackgroundResource(R.color.transparent);
 
@@ -351,17 +394,6 @@ public class WatchActivity extends AppCompatActivity {
                         outlineColor, null);
         playerView.getSubtitleView().setStyle(style);
 
-//        CaptionStyleCompat captionStyleCompat = new CaptionStyleCompat(R.color.white,
-//                R.color.transparent, R.color.white, CaptionStyleCompat.EDGE_TYPE_NONE, R.color.black, null);
-//        playerView.getSubtitleView().setStyle(captionStyleCompat);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        //--------------------------------------
-        //Creating default track selector
-        //and init the player
 
         DefaultLoadControl defaultLoadControl = new DefaultLoadControl();
 
@@ -423,11 +455,30 @@ public class WatchActivity extends AppCompatActivity {
                         ivSubtitles.setVisibility(View.INVISIBLE);
                     }
                 }
+                if (player != null) {
+                    String time = TimeUtils.formatMillis(player.getDuration());
+                    tvTotal.setText(time);
+                }
+                new Thread(() -> {
+                    if (player != null) {
+                        while (player != null && player.getCurrentPosition() <= player.getDuration()) {
+                            SystemClock.sleep(1000);
+                            runOnUiThread(() -> {
+                                if (player != null)
+                                    tvCurProgress.setText(TimeUtils.formatMillis(player.getCurrentPosition()));
+                            });
+                        }
+                    }
+                }).start();
+
             }
         });
+
+
         player.addListener(new Player.EventListener() {
             @Override
             public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+
 
             }
 
@@ -488,23 +539,60 @@ public class WatchActivity extends AppCompatActivity {
         player.prepare(mediaSource, true, false);
 
         player.getAudioAttributes();
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resumePlayer();
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (Util.SDK_INT <= 23) {
-            releasePlayer();
-        }
+        holdPlayer();
     }
+
 
     @Override
     public void onStop() {
         super.onStop();
+//
+//        if (Util.SDK_INT > 23) {
+//            releasePlayer();
+//        }
+    }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         if (Util.SDK_INT > 23) {
             releasePlayer();
         }
+    }
+
+    private void holdPlayer() {
+        player.setPlayWhenReady(false);
+        player.getPlaybackState();
+    }
+
+    private void resumePlayer() {
+        player.setPlayWhenReady(true);
+        player.getPlaybackState();
     }
 
     private void releasePlayer() {
@@ -514,6 +602,20 @@ public class WatchActivity extends AppCompatActivity {
             playWhenReady = player.getPlayWhenReady();
             player.release();
             player = null;
+        }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            View decorView = getWindow().getDecorView();
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
 }

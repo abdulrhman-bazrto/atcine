@@ -1,23 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.gnusl.actine">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-feature
+        android:name="android.permission.CALL_PHONE"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.screen.portrait"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.faketouch"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.microphone"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.sensor"
+        android:required="false" />
 
     <application
         android:name=".application.Atcine"
         android:allowBackup="true"
+        android:banner="@drawable/banner"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:extractNativeLibs="true"
+        tools:replace="android:extractNativeLibs"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activity.WatchActivity" android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".ui.activity.WatchActivity"
+            android:configChanges="orientation|screenSize" />
 
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
 
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,8 +76,8 @@
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:theme="@style/AppTheme1"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:theme="@style/AppTheme1" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
@@ -45,9 +95,21 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-    </application>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+        <service
+            android:name=".service.FirebaseNotificationsService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".service.DownloadService"
+            android:enabled="true"
+            android:exported="true"/>
+
+    </application>
 
 </manifest>

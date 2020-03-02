@@ -12,13 +12,14 @@
         android:id="@+id/cub_register"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
 
     <!--step 0.5-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_0"
-        android:layout_width="600dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,7 +75,7 @@
 
         <Button
             android:id="@+id/btn_goto_step1"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
@@ -92,6 +93,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_no_commitment" />
+
+        <Button
+            android:id="@+id/btn_login_"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_button_main"
+            android:paddingStart="15dp"
+            android:paddingEnd="15dp"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_goto_step1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -157,7 +179,7 @@
 
             <Button
                 android:id="@+id/btn_goto_step2"
-                android:layout_width="250dp"
+                android:layout_width="300dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
@@ -239,7 +261,7 @@
 
         <Button
             android:id="@+id/btn_goto_step2half"
-            android:layout_width="250dp"
+            android:layout_width="300dp"
             android:layout_height="50dp"
             android:layout_marginStart="40dp"
             android:layout_marginTop="20dp"
@@ -338,8 +360,8 @@
             android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColorHint="@color/gray"
             android:textColor="@color/gray"
+            android:textColorHint="@color/gray"
             android:textSize="15sp" />
 
         <EditText
@@ -407,7 +429,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:layout_marginEnd="30dp"
         android:gravity="center"
         android:orientation="vertical"
@@ -418,8 +440,8 @@
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_lock"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -677,9 +699,9 @@
             android:paddingEnd="15dp"
             android:textColorHint="@color/white"
             android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

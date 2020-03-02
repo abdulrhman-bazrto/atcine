@@ -242,7 +242,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     public void onConnectionError(int code, String message) {
         if (progressHUD != null)
             progressHUD.dismiss();
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -250,7 +251,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (progressHUD != null)
             progressHUD.dismiss();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -359,6 +361,9 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     public void refreshTrendShow() {
         Show show = homeAdapter.getTrendShow();
+
+        if (show == null)
+            return;
 
         String url = "";
         if (show.getIsMovie()) {

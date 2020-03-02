@@ -1,35 +1,42 @@
 {
   "project_info": {
-    "project_number": "741315138075",
-    "firebase_url": "https://atcine-1556128291800.firebaseio.com",
-    "project_id": "atcine-1556128291800",
-    "storage_bucket": "atcine-1556128291800.appspot.com"
+    "project_number": "337903623965",
+    "firebase_url": "https://atcine-5ebb0.firebaseio.com",
+    "project_id": "atcine-5ebb0",
+    "storage_bucket": "atcine-5ebb0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:741315138075:android:8b734aacfe8811acb09ebe",
+        "mobilesdk_app_id": "1:337903623965:android:319c51184cf2e0e3be8bf4",
         "android_client_info": {
           "package_name": "com.gnusl.actine"
         }
       },
       "oauth_client": [
         {
-          "client_id": "741315138075-0efeuuliqaj126gn1ald7n5ndn06md6c.apps.googleusercontent.com",
+          "client_id": "337903623965-kmlv5ce1sn6gq3l0bhbfggj7uqflj65k.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBxYpJs1CWF2wd3LSCaXHRmWwBkqFZkAxg"
+          "current_key": "AIzaSyBngHvR4nvQJZm03i3M4MIlpXs4Tu4F2bA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "741315138075-0efeuuliqaj126gn1ald7n5ndn06md6c.apps.googleusercontent.com",
+              "client_id": "337903623965-kmlv5ce1sn6gq3l0bhbfggj7uqflj65k.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "337903623965-tqbj2h2u9npd1its60l6anuniiho24b8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gnusl.Atcine"
+              }
             }
           ]
         }

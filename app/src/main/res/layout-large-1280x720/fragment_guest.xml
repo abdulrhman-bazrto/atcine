@@ -83,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_button_main"
+            android:background="@drawable/bg_button_main_selector"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:text="Join us"
@@ -92,6 +92,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_watch_any_where" />
+
+
+        <Button
+            android:id="@+id/btn_login_"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_button_main_selector"
+            android:paddingStart="30dp"
+            android:paddingEnd="30dp"
+            android:text="login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_join_free"
+            app:layout_constraintTop_toBottomOf="@+id/tv_watch_any_where" />
+
+
 
 
         <androidx.constraintlayout.widget.Guideline
@@ -252,7 +270,7 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/bg_button_main"
+            android:background="@drawable/bg_button_main_selector"
             android:paddingStart="30dp"
             android:paddingEnd="30dp"
             android:text="Join us"
@@ -267,6 +285,7 @@
             android:id="@+id/cub_register"
             android:layout_width="match_parent"
             android:layout_height="35dp"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

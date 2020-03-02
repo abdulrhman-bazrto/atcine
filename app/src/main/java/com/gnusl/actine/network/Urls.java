@@ -49,6 +49,7 @@ public enum Urls {
     UserType(API.getLink() + "user/type"),
 
     Help(API.getLink() + "help"),
+    LocationCheck(API.getLink() + "location/check"),
     Logout(API.getLink() + "user/logout"),
 
     ;

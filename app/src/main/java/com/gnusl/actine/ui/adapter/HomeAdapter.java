@@ -245,7 +245,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             Log.d("CATEGORY_NAME",name);
             if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {
                 tvMore.setVisibility(View.GONE);
-                tvMore.setOnClickListener(null);
+                tvMore.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (genresClickEvents != null) {
+                            Category category = new Category();
+                            category.setId(id);
+                            genresClickEvents.onSelectGenres(category);
+                        }
+                    }
+                });
             } else {
                 tvMore.setVisibility(View.VISIBLE);
                 tvMore.setOnClickListener(new View.OnClickListener() {

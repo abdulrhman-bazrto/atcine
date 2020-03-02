@@ -1,14 +1,20 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -22,6 +28,7 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.HelpAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.PermissionsUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -35,6 +42,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
     View inflatedView;
     private RecyclerView rvHelp;
     private CustomAppBarWithBack cubHelpWithBack;
+    private Button btnCall;
 
     private KProgressHUD progressHUD;
     private HelpAdapter helpAdapter;
@@ -81,6 +89,27 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
         cubHelpWithBack = inflatedView.findViewById(R.id.cub_help_with_back);
 
         rvHelp = inflatedView.findViewById(R.id.rv_help);
+        btnCall = inflatedView.findViewById(R.id.btn_call);
+
+        btnCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity().getPackageManager().hasSystemFeature(PackageManager.FEATURE_TELEPHONY)) {
+                    try {
+                        if (PermissionsUtils.checkCallPermissions(getActivity())) {
+                            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "+96566666588"));
+                            startActivity(intent);
+                        } else {
+                            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, PermissionsUtils.CALL_PERMISSIONS_REQUEST);
+                        }
+
+                    } catch (Exception e) {
+
+                    }
+                }
+
+            }
+        });
 
         helpAdapter = new HelpAdapter(getActivity(), new ArrayList<Help>(), this);
 

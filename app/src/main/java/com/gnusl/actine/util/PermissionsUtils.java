@@ -18,6 +18,8 @@ public class PermissionsUtils {
     public static final int BRANCHES_PERMISSION = 400;
     public static final int ACCESS_FINE_LOCATION = 500;
     public static final int CAMERA_PERMISSIONS_REQUEST = 20;
+    public static final int CALL_PERMISSIONS_REQUEST = 40;
+
 
     public static boolean checkCameraPermissions(Context context) {
 
@@ -25,6 +27,16 @@ public class PermissionsUtils {
 
         scanReportPermissionsList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         scanReportPermissionsList.add(Manifest.permission.CAMERA);
+
+        return PermissionsUtils.askForPermissions(scanReportPermissionsList, context);
+
+    }
+
+    public static boolean checkCallPermissions(Context context) {
+
+        ArrayList<String> scanReportPermissionsList = new ArrayList<>();
+
+        scanReportPermissionsList.add(Manifest.permission.CALL_PHONE);
 
         return PermissionsUtils.askForPermissions(scanReportPermissionsList, context);
 

@@ -53,7 +53,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     View inflatedView;
 
-    private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment;
+    private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment,btnLogin_;
     private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, viewSetPaymentGateway, tvChangePlan,tvChangePlan1;
 
     private TextView tvAlreadyUser, tvPayPal, tvCreditOrDebit, tvYourPlan;
@@ -96,6 +96,16 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
         findViews();
 
+        if (btnLogin_ != null){
+            btnLogin_.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null) {
+                        ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
+                    }
+                }
+            });
+        }
 
         btnGotoStep1.setOnClickListener(this);
         btnGotoStep2.setOnClickListener(this);
@@ -103,6 +113,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         btnGotoStep2half.setOnClickListener(this);
         btnPayment.setOnClickListener(this);
         cubRegister.getBtnLogin().setOnClickListener(this);
+
         tvPayPal.setOnClickListener(this);
         tvCreditOrDebit.setOnClickListener(this);
         tvChangePlan.setOnClickListener(this);
@@ -155,6 +166,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         btnGotoStep3 = inflatedView.findViewById(R.id.btn_register);
         btnGotoStep2half = inflatedView.findViewById(R.id.btn_goto_step2half);
         btnPayment = inflatedView.findViewById(R.id.btn_start_membership);
+        btnLogin_ = inflatedView.findViewById(R.id.btn_login_);
 
         etPassword = inflatedView.findViewById(R.id.et_password);
         etPasswordConfirm = inflatedView.findViewById(R.id.et_password_confirm);

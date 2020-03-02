@@ -77,11 +77,11 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
                 holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_apple_pay);
                 break;
             }
-            case "Qatar Debit Cards": {
+            case "Qatar Debit Card": {
                 holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_qatar_cards);
                 break;
             }
-            case "UAE Debit Cards": {
+            case "Debit Cards UAE": {
                 holder.ivMethodLogo.setImageResource(R.drawable.icon_payment_uae_cards);
                 break;
             }

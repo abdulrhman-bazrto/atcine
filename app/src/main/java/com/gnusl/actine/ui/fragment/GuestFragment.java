@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.activity.AuthActivity;
+import com.gnusl.actine.ui.custom.CustomAppBarRegister;
 import com.gnusl.actine.ui.custom.FeaturesSymbolRow;
 
 
@@ -23,7 +24,8 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
     private TextView tvPrice, tvDevices, tvCancel, tvBtnDesc;
     private ImageView tvPriceArrow, tvDevicesArrow, tvCancelArrow;
     private View la_cancel, la_devices, la_price;
-    private Button btnJoinFree, btnJoinFree1;
+    private Button btnJoinFree, btnJoinFree1,btnLogin;
+    private CustomAppBarRegister cubRegister;
 
     boolean isPriceSelected = false, isDevicesSelected = false, isCancelSelected = true;
 
@@ -62,6 +64,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
 
         btnJoinFree = inflatedView.findViewById(R.id.btn_join_free);
         btnJoinFree1 = inflatedView.findViewById(R.id.btn_join_free1);
+        btnLogin = inflatedView.findViewById(R.id.btn_login_);
 
         tvCancel = inflatedView.findViewById(R.id.tv_cancel);
         tvDevices = inflatedView.findViewById(R.id.tv_devices);
@@ -75,6 +78,36 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
         la_cancel = inflatedView.findViewById(R.id.layout_cancel);
         la_devices = inflatedView.findViewById(R.id.layout_devices);
         la_price = inflatedView.findViewById(R.id.layout_price);
+
+        cubRegister = inflatedView.findViewById(R.id.cub_register);
+
+        if (btnLogin != null){
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null) {
+                        ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
+                    }
+                }
+            });
+        }
+
+        cubRegister.getBtnHelp().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null)
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.HelpFragment);
+            }
+        });
+
+        cubRegister.getBtnLogin().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null) {
+                    ((AuthActivity) getActivity()).replaceFragment(FragmentTags.LoginFragment);
+                }
+            }
+        });
 
         lightSelected();
 
@@ -92,7 +125,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
             tvCancel.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_cancel_white), null, null);
             tvCancel.setBackgroundColor(getResources().getColor(R.color.main_red_color));
 
-            tvBtnDesc.setText("If you decide ATCINE isn't for you - no problem. \n No commitment. Cancel online at any time.");
+            tvBtnDesc.setText("If you decide ATCINE isn't for you - no problem. \n No commitment.");
 
             tvDevices.setTextColor(getResources().getColor(R.color.dark_light_gray));
             tvDevices.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.icon_devices_grey), null, null);
@@ -174,7 +207,8 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
         unlimited = inflatedView.findViewById(R.id.fpr_unlimited);
         unlimited.setData("Unlimited movies and TV shows", true, true, true);
         cancel = inflatedView.findViewById(R.id.fpr_cancel_any_time);
-        cancel.setData("Cancel any time", true, true, true);
+        cancel.setVisibility(View.GONE);
+//        cancel.setData("Cancel any time", true, true, true);
         free = inflatedView.findViewById(R.id.fpr_first_month_free);
         free.setData("First month free", true, true, true);
 

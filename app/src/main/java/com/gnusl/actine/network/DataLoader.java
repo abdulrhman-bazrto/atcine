@@ -2,21 +2,21 @@ package com.gnusl.actine.network;
 
 import android.content.Intent;
 
+import androidx.core.content.ContextCompat;
+
 import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.DownloadListener;
-import com.androidnetworking.interfaces.DownloadProgressListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
-import com.gnusl.actine.ui.activity.AuthActivity;
+import com.gnusl.actine.service.DownloadService;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.util.Connectivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -134,7 +134,15 @@ public class DataLoader {
                     public void onResponse(JSONObject response) {
                         if (connectionDelegate != null) {
                             if (response.optInt("status_code") == 200) {
-                                connectionDelegate.onConnectionSuccess(response.optJSONObject("data"));
+                                JSONObject js = response.optJSONObject("data");
+                                try {
+                                    if (js == null)
+                                        js = new JSONObject();
+                                    js.put("message", response.optJSONObject("message"));
+                                } catch (JSONException je) {
+
+                                }
+                                connectionDelegate.onConnectionSuccess(js);
                             } else {
                                 if (response.optInt("status_code") == 401) {
                                     if (SharedPreferencesUtils.getUser() != null) {
@@ -237,32 +245,14 @@ public class DataLoader {
 
     public static void downloadRequest(String url, final String fileDir, final String fileName, final DownloadDelegate downloadDelegate) {
 
+        Intent serviceIntent = new Intent(Atcine.getApplicationInstance(), DownloadService.class);
+        serviceIntent.putExtra("fileDir", fileDir);
+        serviceIntent.putExtra("url", url);
+        serviceIntent.putExtra("fileName", fileName);
+        ContextCompat.startForegroundService(Atcine.getApplicationInstance(), serviceIntent);
 
-        AndroidNetworking.download(url, fileDir, fileName)
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .setDownloadProgressListener(new DownloadProgressListener() {
-                    @Override
-                    public void onProgress(long bytesDownloaded, long totalBytes) {
-                        if (downloadDelegate != null) {
-                            float p = ((float) bytesDownloaded / totalBytes);
-                            int progress = (int) (p * 100);
-                            downloadDelegate.onDownloadProgress(fileDir, fileName, progress);
-                        }
-                    }
-                })
-                .startDownload(new DownloadListener() {
-                    @Override
-                    public void onDownloadComplete() {
-                        if (downloadDelegate != null)
-                            downloadDelegate.onDownloadSuccess(fileDir, fileName);
-                    }
+        DownloadService.downloadDelegate = downloadDelegate;
 
-                    @Override
-                    public void onError(ANError error) {
-                        if (downloadDelegate != null)
-                            downloadDelegate.onDownloadError(error);
-                    }
-                });
+
     }
 }

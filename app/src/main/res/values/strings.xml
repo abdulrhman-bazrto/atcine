@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ACTINE</string>
+    <string name="app_name">ATCINE</string>
     <string name="hint_mobile_or_email">Enter Email or Mobile</string>
     <string name="hint_empty_password">Enter Password</string>
     <string name="please_wait">Please wait</string>
