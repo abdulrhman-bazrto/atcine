@@ -1,8 +1,11 @@
 package com.gnusl.actine.ui.activity;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,6 +14,8 @@ import android.os.SystemClock;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,8 +26,11 @@ import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.gnusl.actine.R;
+import com.gnusl.actine.model.LatestPlayedPosition;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.gnusl.actine.util.TimeUtils;
+import com.gnusl.actine.util.Utils;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -59,6 +67,7 @@ public class WatchActivity extends AppCompatActivity {
     PlayerView playerView;
     ProgressBar loading;
     private ImageView ivSubtitles, ivBack, ivQuality, ivAudio, ivFullScreen;
+    private ImageButton ibPlay, ibPause;
     private TextView tvCurProgress, tvTotal;
     private PopupMenu menu;
     private View clForward, clBackward;
@@ -287,6 +296,7 @@ public class WatchActivity extends AppCompatActivity {
         });
 
         ivFullScreen.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SourceLockedOrientationActivity")
             @Override
             public void onClick(View v) {
                 if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -333,7 +343,39 @@ public class WatchActivity extends AppCompatActivity {
         ivFullScreen = findViewById(R.id.iv_full_screen);
         clBackward = findViewById(R.id.skip_backward);
         clForward = findViewById(R.id.skip_forward);
+        ibPause = findViewById(R.id.exo_pause);
+        ibPlay = findViewById(R.id.exo_play);
 
+        Utils.setOnFocusScale(ivSubtitles);
+        Utils.setOnFocusScale(ivBack);
+        Utils.setOnFocusScale(ivQuality);
+        Utils.setOnFocusScale(ivAudio);
+        Utils.setOnFocusScale(ivFullScreen);
+        Utils.setOnFocusScale(ibPause);
+        Utils.setOnFocusScale(ibPlay);
+        ibPlay.clearAnimation();
+        ibPause.clearAnimation();
+        ibPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumePlayer();
+                ibPlay.clearAnimation();
+                ibPause.clearAnimation();
+                ibPause.setVisibility(View.VISIBLE);
+                ibPlay.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        ibPause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holdPlayer();
+                ibPlay.clearAnimation();
+                ibPause.clearAnimation();
+                ibPause.setVisibility(View.INVISIBLE);
+                ibPlay.setVisibility(View.VISIBLE);
+            }
+        });
 
         clBackward.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -431,7 +473,7 @@ public class WatchActivity extends AppCompatActivity {
         mediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
 
 
-        player.prepare(mediaSource);
+//        player.prepare(mediaSource);
 
         player.setPlayWhenReady(playWhenReady);
         playerView.setKeepScreenOn(true);
@@ -535,8 +577,51 @@ public class WatchActivity extends AppCompatActivity {
 
             }
         });
-        player.seekTo(currentWindow, playbackPosition);
-        player.prepare(mediaSource, true, false);
+
+        LatestPlayedPosition latestPlayedPosition = SharedPreferencesUtils.getLatestPlayedPosition();
+        if (latestPlayedPosition != null && latestPlayedPosition.getShowId() == show.getId()) {
+            final Dialog confirmLoginDialog = new Dialog(WatchActivity.this);
+            confirmLoginDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            if (confirmLoginDialog.getWindow() != null)
+                confirmLoginDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            confirmLoginDialog.setContentView(R.layout.dialog_another_login);
+            confirmLoginDialog.setCancelable(true);
+
+            TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
+            tvMsg.setText("Do you want to start from where you left?");
+
+            TextView tvResume = confirmLoginDialog.findViewById(R.id.btn_sign_out);
+            tvResume.setText("Resume");
+
+            TextView tvStartOver = confirmLoginDialog.findViewById(R.id.btn_cancel);
+            tvStartOver.setText("Start over");
+
+            Utils.setOnFocusScale(tvResume);
+            Utils.setOnFocusScale(tvStartOver);
+            tvResume.requestFocus();
+            tvResume.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    player.seekTo(latestPlayedPosition.getWindowIndex(), latestPlayedPosition.getPosition());
+                    player.prepare(mediaSource, false, false);
+                    confirmLoginDialog.dismiss();
+                }
+            });
+
+            tvStartOver.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    player.seekTo(currentWindow, playbackPosition);
+                    player.prepare(mediaSource, true, false);
+                    confirmLoginDialog.dismiss();
+                }
+            });
+
+            confirmLoginDialog.show();
+        } else {
+            player.seekTo(currentWindow, playbackPosition);
+            player.prepare(mediaSource, true, false);
+        }
 
         player.getAudioAttributes();
 
@@ -599,6 +684,7 @@ public class WatchActivity extends AppCompatActivity {
         if (player != null) {
             playbackPosition = player.getCurrentPosition();
             currentWindow = player.getCurrentWindowIndex();
+            SharedPreferencesUtils.saveLatestPlayedPosition(new LatestPlayedPosition(show.getId(), playbackPosition, currentWindow));
             playWhenReady = player.getPlayWhenReady();
             player.release();
             player = null;

@@ -3,17 +3,19 @@ package com.gnusl.actine.ui.adapter;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.Profile;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class ProfileSelectAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof ProfileViewHolder)
-            ((ProfileViewHolder) holder).bind();
+            ((ProfileViewHolder) holder).bind(position);
 
     }
 
@@ -73,12 +75,17 @@ public class ProfileSelectAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             tvProfileName = itemView.findViewById(R.id.tv_profile_name);
             ivProfile = itemView.findViewById(R.id.iv_profile);
+            Utils.setOnFocusScale(itemView);
 
         }
 
-        public void bind() {
+        public void bind(int pos) {
 
-            final Profile profile = profiles.get(getAdapterPosition());
+            if (pos == 0) {
+                itemView.requestFocus();
+            }
+
+            final Profile profile = profiles.get(pos);
 
             tvProfileName.setText(profile.getName());
 

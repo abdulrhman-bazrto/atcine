@@ -71,8 +71,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                             if (rbSeries.isChecked()) {
                                 bundle.putString("searchFor", "series");
 
-                                DialogUtils.showSeriesComingSoonDialog(getActivity());
-                                return true;
+//                                DialogUtils.showSeriesComingSoonDialog(getActivity());
+//                                return true;
 
                             } else if (rbMovies.isChecked()) {
                                 bundle.putString("searchFor", "movies");

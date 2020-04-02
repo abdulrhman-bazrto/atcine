@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.AppCategories;
+import com.gnusl.actine.model.LatestPlayedPosition;
 import com.gnusl.actine.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -16,7 +17,9 @@ import java.lang.reflect.Type;
 public class SharedPreferencesUtils {
 
     private final static String USER = "user";
+    private final static String LatestPlayedPosition = "latestPlayedPosition";
     private final static String Token = "token";
+    private final static String Token1 = "token1";
     private final static String Language = "Language";
     private final static String Category = "Category";
     private final static String ProfileId = "ProfileId";
@@ -44,10 +47,32 @@ public class SharedPreferencesUtils {
         }
     }
 
+    public static void saveLatestPlayedPosition(LatestPlayedPosition latestPlayedPosition) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        Gson gson = new Gson();
+        sharedPreferences.putString(LatestPlayedPosition, gson.toJson(latestPlayedPosition));
+        sharedPreferences.apply();
+
+    }
+
+    public static LatestPlayedPosition getLatestPlayedPosition() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(LatestPlayedPosition, "");
+        if (json == null || json.isEmpty()) {
+            return null;
+        } else {
+            Type type = (new TypeToken<LatestPlayedPosition>() {
+            }).getType();
+            return (LatestPlayedPosition) gson.fromJson(json, type);
+        }
+    }
+
 
     public static void saveToken(String token) {
-        token = "Bearer " + token;
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        sharedPreferences.putString(Token1, token);
+        token = "Bearer " + token;
         sharedPreferences.putString(Token, token);
         sharedPreferences.apply();
 
@@ -56,6 +81,10 @@ public class SharedPreferencesUtils {
     public static String getToken() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
         return sharedPreferences.getString(Token, "");
+    }
+    public static String getToken1() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        return sharedPreferences.getString(Token1, "");
     }
 
     public static void saveCategory(String category) {

@@ -28,9 +28,9 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.ui.custom.SelectGenresView;
 import com.gnusl.actine.util.Constants;
-import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -91,31 +91,37 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
-            init();
+            init(true);
         }
 
         return inflatedView;
     }
 
-    private void init() {
+    private void init(boolean isFirstInit) {
 
         findViews();
 
         switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
             case Movies:
                 DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
+                if (isFirstInit)
+                    cubHome.getSpCategory().setSelection(0);
                 break;
 
             case TvShows:
                 DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
+                if (isFirstInit)
+                    cubHome.getSpCategory().setSelection(1);
                 break;
         }
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+//        progressHUD = KProgressHUD.create(getActivity())
+//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+//                .setLabel(getString(R.string.please_wait))
+//                .setMaxProgress(100)
+//                .show();
+
+        LoaderPopUp.show(getActivity());
 
         sgvHome.setClickListener(this);
 
@@ -151,18 +157,18 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         if (SharedPreferencesUtils.getCategory() == AppCategories.Movies)
                             return;
                         SharedPreferencesUtils.saveCategory("movies");
-                        init();
+                        init(false);
                         break;
                     }
                     case 1: {
                         if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
                             return;
-                        if (true) {
-                            DialogUtils.showSeriesComingSoonDialog(getActivity());
-                            return;
-                        }
+//                        if (true) {
+//                            DialogUtils.showSeriesComingSoonDialog(getActivity());
+//                            return;
+//                        }
                         SharedPreferencesUtils.saveCategory("tvShows");
-                        init();
+                        init(false);
                         break;
                     }
                 }
@@ -170,7 +176,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                SharedPreferencesUtils.saveCategory("movies");
+//                SharedPreferencesUtils.saveCategory("movies");
             }
         });
 
@@ -242,6 +248,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     public void onConnectionError(int code, String message) {
         if (progressHUD != null)
             progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         if (getActivity() != null)
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
@@ -250,70 +257,35 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     public void onConnectionError(ANError anError) {
         if (progressHUD != null)
             progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         if (getActivity() != null)
             Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
 
-    HashMap<String, List<Show>> showsByCategories = new HashMap<>();
-    List<String> categoriesNames = new ArrayList<>();
-    List<Integer> categoriesIds = new ArrayList<>();
-    JSONArray otherCategories;
-
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (progressHUD != null)
             progressHUD.dismiss();
-
         if (jsonObject.has("trend")) {
             switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
                 case TvShows: {
 
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
-
-                    categoriesIds.clear();
-                    categoriesNames.clear();
-                    showsByCategories.clear();
-
-                    otherCategories = jsonObject.optJSONArray("categories");
-
-                    for (int i = 0; i < 5; i++) {
-                        if (i <= otherCategories.length()) {
-                            JSONObject category = otherCategories.optJSONObject(i);
-                            if (category != null) {
-                                categoriesNames.add(category.optString("title"));
-                                categoriesIds.add(category.optInt("category_id", -1));
-                                showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
-                            }
-                        }
-                    }
-                    homeAdapter.setData(trendSerie, categoriesNames, categoriesIds, showsByCategories);
+                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"),false);
+                    homeAdapter.setData(trendSerie, categories);
                     break;
                 }
                 case Movies: {
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
 
-                    categoriesIds.clear();
-                    categoriesNames.clear();
-                    showsByCategories.clear();
-                    otherCategories = jsonObject.optJSONArray("categories");
-
-                    for (int i = 0; i < 5; i++) {
-                        if (i <= otherCategories.length()) {
-                            JSONObject category = otherCategories.optJSONObject(i);
-                            if (category != null) {
-                                categoriesNames.add(category.optString("title"));
-                                categoriesIds.add(category.optInt("category_id", -1));
-                                showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
-                            }
-                        }
-                    }
-
-                    homeAdapter.setData(trendMovie, categoriesNames, categoriesIds, showsByCategories);
+                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"),true);
+                    homeAdapter.setData(trendMovie, categories);
                     break;
                 }
             }
+            LoaderPopUp.dismissLoader();
         }
 
         if (jsonObject.has("categories") && !jsonObject.has("trend")) {
@@ -324,39 +296,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void loadMoreCategories(int skip) {
-        HashMap<String, List<Show>> showsByCategories = new HashMap<>();
-        List<String> categoriesNames = new ArrayList<>();
-        List<Integer> categoriesIds = new ArrayList<>();
 
-        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
-            case TvShows: {
-                for (int i = skip; i < skip + 5; i++) {
-                    if (i <= otherCategories.length()) {
-                        JSONObject category = otherCategories.optJSONObject(i);
-                        if (category != null) {
-                            categoriesNames.add(category.optString("title"));
-                            categoriesIds.add(category.optInt("category_id", -1));
-                            showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), false, false, false));
-                        }
-                    }
-                }
-                break;
-            }
-            case Movies: {
-                for (int i = skip; i < skip + 5; i++) {
-                    if (i <= otherCategories.length()) {
-                        JSONObject category = otherCategories.optJSONObject(i);
-                        if (category != null) {
-                            categoriesNames.add(category.optString("title"));
-                            categoriesIds.add(category.optInt("category_id", -1));
-                            showsByCategories.put(category.optString("title"), Show.newList(category.optJSONArray("items"), true, false, false));
-                        }
-                    }
-                }
-                break;
-            }
-        }
-        homeAdapter.addData(categoriesNames, categoriesIds, showsByCategories);
     }
 
     public void refreshTrendShow() {
@@ -371,6 +311,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         } else if (show.getIsEpisode()) {
             url = Urls.Episode.getLink();
         }
+        if (url.isEmpty())
+            return;
         DataLoader.getRequest(url + show.getId(), new ConnectionDelegate() {
             @Override
             public void onConnectionError(int code, String message) {

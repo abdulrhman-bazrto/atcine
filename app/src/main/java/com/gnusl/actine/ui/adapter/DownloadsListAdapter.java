@@ -152,7 +152,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                    }
 
                     String url = show.getDownloadVideoUrl();
-                    DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", new DownloadDelegate() {
+                    DataLoader.downloadRequest(mContext,show.getId(), url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", new DownloadDelegate() {
                         @Override
                         public void onDownloadProgress(String fileDir, String fileName, int progress) {
 

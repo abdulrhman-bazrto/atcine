@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:layout_margin="1dp"
+    android:focusable="true"
     android:background="@color/black">
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -13,5 +14,14 @@
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/gray3"
+        android:gravity="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

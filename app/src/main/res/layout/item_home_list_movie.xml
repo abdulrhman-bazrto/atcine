@@ -4,6 +4,7 @@
     android:layout_width="150dp"
     android:layout_height="200dp"
     android:layout_margin="1dp"
+    android:focusable="true"
     android:background="@color/black">
 
     <androidx.appcompat.widget.AppCompatImageView

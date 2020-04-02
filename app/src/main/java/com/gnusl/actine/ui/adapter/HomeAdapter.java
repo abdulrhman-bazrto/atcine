@@ -28,12 +28,12 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.WatchActivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -47,9 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private Show trendShow;
-    private List<String> categoriesName = new ArrayList<>();
-    private List<Integer> categoriesIds = new ArrayList<>();
-    private HashMap<String, List<Show>> showsByCategories = new HashMap<>();
+    private List<Category> categories= new ArrayList<>();
 
     private static int HOLDER_MOVIE = 0;
     private static int HOLDER_MOVIE_LIST = 1;
@@ -84,15 +82,16 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof MovieViewHolder) {
             ((MovieViewHolder) holder).bind();
         } else if (holder instanceof MovieListViewHolder) {
-            String name = categoriesName.get(holder.getAdapterPosition() - 1);
-            int id = categoriesIds.get(holder.getAdapterPosition() - 1);
-            ((MovieListViewHolder) holder).bind(id, name, showsByCategories.get(name));
+            Category category = categories.get(position - 1);
+            String name = category.getTitle();
+            int id = category.getId();
+            ((MovieListViewHolder) holder).bind(id, name, category.getShows());
         }
 
-        if (position == categoriesName.size()) {
-            if (loadMoreCategoriesDelegate != null)
-                loadMoreCategoriesDelegate.loadMoreCategories(categoriesName.size());
-        }
+//        if (position == categoriesName.size()) {
+//            if (loadMoreCategoriesDelegate != null)
+//                loadMoreCategoriesDelegate.loadMoreCategories(categoriesName.size());
+//        }
 
     }
 
@@ -107,33 +106,17 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (showsByCategories.size() == 0)
+        if (categories.size() == 0)
             return 0;
-        return showsByCategories.size() + 1;
+        return categories.size() + 1;
     }
 
-    public void setData(Show trendMovie, List<String> categoriesName, List<Integer> categoriesIds, HashMap<String, List<Show>> moviesByCategories) {
+    public void setData(Show trendMovie, List<Category> categories) {
         this.trendShow = trendMovie;
-        this.categoriesName = categoriesName;
-        this.categoriesIds = categoriesIds;
-        this.showsByCategories = moviesByCategories;
+        this.categories = categories;
         notifyDataSetChanged();
     }
 
-    public void addData(List<String> categoriesName, List<Integer> categoriesIds, HashMap<String, List<Show>> moviesByCategories) {
-        int pos = this.categoriesName.size();
-        this.categoriesName.addAll(categoriesName);
-        this.categoriesIds.addAll(categoriesIds);
-        this.showsByCategories.putAll(moviesByCategories);
-
-        homeRecycler.post(new Runnable() {
-            @Override
-            public void run() {
-                notifyItemRangeInserted(pos, categoriesName.size());
-            }
-        });
-
-    }
 
     class MovieViewHolder extends RecyclerView.ViewHolder {
 
@@ -148,6 +131,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             btnAddToMyList = itemView.findViewById(R.id.btn_add_to_my_list);
             btnInfo = itemView.findViewById(R.id.btn_info);
             tvTrendName = itemView.findViewById(R.id.tv_trend_name);
+            Utils.setOnFocusScale(btnPlay);
+            Utils.setOnFocusScale(btnAddToMyList);
+            Utils.setOnFocusScale(btnInfo);
+            btnPlay.requestFocus();
         }
 
         public void bind() {
@@ -236,13 +223,14 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvMore = itemView.findViewById(R.id.tv_more);
             rvMovieList = itemView.findViewById(R.id.rv_movie_list);
 
+            Utils.setOnFocusScale(tvMore);
         }
 
         public void bind(int id, String name, List<Show> movies) {
 
             tvListTitle.setText(name);
             Log.d("CATEGORY_id", String.valueOf(id));
-            Log.d("CATEGORY_NAME",name);
+            Log.d("CATEGORY_NAME", name);
             if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {
                 tvMore.setVisibility(View.GONE);
                 tvMore.setOnClickListener(new View.OnClickListener() {

@@ -43,6 +43,7 @@ import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.ObjectBox;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -62,12 +63,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     private RecyclerView rvSuggest;
     private CustomAppBarWithBack cubHomeWithBack;
-    private Button btnReactions, btnDownload;
+    private Button btnReactions, btnDownload,btnShare,btnAddToMyList;
     private View clMoreLikeThis, clReactions, clInputLayout;
     private RecyclerView rvComments;
     private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvRate;
     private ImageView ivShowCover, ivPlayShow, ivSendComment, ivAddComment;
-    private Button btnAddToMyList;
     private EditText etCommentText;
 
     private CommentsAdapter commentsAdapter;
@@ -179,6 +179,15 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         }
         DataLoader.getRequest(url + show.getId(), this);
 
+        Utils.setOnFocusScale(btnAddToMyList);
+        Utils.setOnFocusScale(btnDownload);
+        Utils.setOnFocusScale(btnReactions);
+        Utils.setOnFocusScale(ivAddComment);
+        Utils.setOnFocusScale(ivSendComment);
+        Utils.setOnFocusScale(ivPlayShow);
+        Utils.setOnFocusScale(btnShare);
+        ivPlayShow.requestFocus();
+
     }
 
     private void getRelatedShows() {
@@ -205,6 +214,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         ivPlayShow = inflatedView.findViewById(R.id.iv_play_show);
         btnAddToMyList = inflatedView.findViewById(R.id.btn_add_to_my_list);
         btnDownload = inflatedView.findViewById(R.id.btn_download);
+        btnShare = inflatedView.findViewById(R.id.btn_share);
 
         tvCommentsCount = inflatedView.findViewById(R.id.tv_comments_count);
         tvLikesCount = inflatedView.findViewById(R.id.tv_likes_count);
@@ -365,11 +375,15 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     public void onConnectionSuccess(JSONObject jsonObject) {
                         if (jsonObject.has("status")) {
                             if (jsonObject.optString("status").equalsIgnoreCase("added")) {
-                                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
-                                tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) + 1));
+                                if (getActivity() != null) {
+                                    tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_liked), null, null, null);
+                                    tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) + 1));
+                                }
                             } else {
-                                tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
-                                tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) - 1));
+                                if (getActivity() != null) {
+                                    tvLikesCount.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_rate), null, null, null);
+                                    tvLikesCount.setText(String.valueOf(Integer.parseInt(tvLikesCount.getText().toString()) - 1));
+                                }
                             }
                         }
                     }
@@ -386,7 +400,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 //                        url = url.replaceAll(".m3u8", ".mp4");
 //                    }
                     Toast.makeText(getActivity(), "Downloading", Toast.LENGTH_SHORT).show();
-                    DataLoader.downloadRequest(url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
+                    DataLoader.downloadRequest(getActivity(), show.getId(), url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
                 } else {
                     DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
                         @Override
@@ -493,23 +507,27 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         DataLoader.postRequest(url, new ConnectionDelegate() {
             @Override
             public void onConnectionError(int code, String message) {
-                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConnectionError(ANError anError) {
 //                Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                if (getActivity() != null)
+                    Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onConnectionSuccess(JSONObject jsonObject) {
                 if (jsonObject.optString("status").equalsIgnoreCase("added")) {
                     show.setIsFavourite(true);
-                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                    if (getActivity() != null)
+                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
                 } else {
                     show.setIsFavourite(false);
-                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                    if (getActivity() != null)
+                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
                 }
             }
         });
@@ -579,11 +597,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     @Override
     public void onDownloadProgress(String fileDir, String fileName, int progress) {
         if (getActivity() != null) {
-            if (downloadingToast == null) {
-                downloadingToast = Toast.makeText(getActivity(), "Downloading (" + progress + "%)", Toast.LENGTH_SHORT);
-            }
-            downloadingToast.setText("Downloading (" + progress + "%)");
-            downloadingToast.show();
+//            if (downloadingToast == null) {
+////                downloadingToast = Toast.makeText(getActivity(), "Downloading (" + progress + "%)", Toast.LENGTH_SHORT);
+//            }
+//            downloadingToast.setText("Downloading (" + progress + "%)");
+//            downloadingToast.show();
         }
     }
 

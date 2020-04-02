@@ -39,7 +39,7 @@ public enum Urls {
     Categories(API.getLink() + "categories"),
 
     Pay(API.getLink() + "pay"),
-    Account(Host.getLink() + "user/account"),
+    Account("http://atcine.com/user/account"),
     AccountUpdate(API.getLink() + "user/account"),
 
     Profiles(API.getLink() + "profiles"),

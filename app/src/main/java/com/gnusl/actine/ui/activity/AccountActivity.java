@@ -1,23 +1,17 @@
 package com.gnusl.actine.ui.activity;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.webkit.ValueCallback;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.WebViewOnFinish;
+import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.MyWebViewClient;
 import com.kaopiz.kprogresshud.KProgressHUD;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class AccountActivity extends AppCompatActivity implements WebViewOnFinish {
 
@@ -37,6 +31,7 @@ public class AccountActivity extends AppCompatActivity implements WebViewOnFinis
         webSettings.setDomStorageEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setJavaScriptEnabled(true);
+
         webSettings.setLoadsImagesAutomatically(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             webSettings.setSafeBrowsingEnabled(false);
@@ -49,7 +44,7 @@ public class AccountActivity extends AppCompatActivity implements WebViewOnFinis
                 .show();
 
         webView.setWebViewClient(new MyWebViewClient(this));
-        webView.loadUrl(getIntent().getStringExtra("url"));
+        webView.loadUrl(getIntent().getStringExtra("url"), DataLoader.getHeaders());
     }
 
     @Override

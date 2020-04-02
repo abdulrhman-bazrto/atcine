@@ -1,15 +1,16 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -138,7 +139,8 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
     public void onConnectionError(int code, String message) {
         if (progressHUD != null)
             progressHUD.dismiss();
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -146,7 +148,8 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
         if (progressHUD != null)
             progressHUD.dismiss();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -158,6 +161,11 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
             case Movies: {
                 List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
                 comingSoonListAdapter.setList(movies);
+                if (movies.isEmpty()) {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
+                } else {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+                }
                 break;
             }
             case TvShows: {

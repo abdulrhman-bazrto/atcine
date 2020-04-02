@@ -50,14 +50,14 @@
         android:name=".application.Atcine"
         android:allowBackup="true"
         android:banner="@drawable/banner"
+        android:extractNativeLibs="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:extractNativeLibs="true"
-        tools:replace="android:extractNativeLibs"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="android:extractNativeLibs">
         <activity
             android:name=".ui.activity.WatchActivity"
             android:configChanges="orientation|screenSize" />
@@ -77,6 +77,7 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="orientation|screenSize"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme1" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
@@ -108,7 +109,13 @@
         <service
             android:name=".service.DownloadService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+
+        <receiver android:name=".service.Receiver">
+            <intent-filter>
+                <action android:name="com.gnusl.receiver" />
+            </intent-filter>
+        </receiver>
 
     </application>
 

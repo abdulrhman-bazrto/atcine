@@ -32,6 +32,7 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -107,6 +108,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         tvSignUp.setMovementMethod(LinkMovementMethod.getInstance());
         tvSignUp.setText(ss);
 
+        Utils.setOnFocusScale(tvSignUp);
+        Utils.setOnFocusScale(btnLogin);
+
     }
 
 
@@ -171,7 +175,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
 
             tvMsg.setText(message);
-
+            Utils.setOnFocusScale(confirmLoginDialog.findViewById(R.id.btn_sign_out));
+            Utils.setOnFocusScale(confirmLoginDialog.findViewById(R.id.btn_cancel));
+            confirmLoginDialog.findViewById(R.id.btn_sign_out).requestFocus();
             confirmLoginDialog.findViewById(R.id.btn_sign_out).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

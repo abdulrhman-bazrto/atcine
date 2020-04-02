@@ -210,11 +210,21 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
             case TvShows:
                 List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
                 myListAdapter.setList(series);
+                if (series.isEmpty()) {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
+                } else {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+                }
                 break;
 
             case Movies:
                 List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
                 myListAdapter.setList(movies);
+                if (movies.isEmpty()) {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
+                } else {
+                    inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+                }
                 break;
         }
     }

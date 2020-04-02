@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -66,6 +67,7 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             pbLoading = itemView.findViewById(R.id.pb_loading);
+            Utils.setOnFocusScale(itemView);
         }
 
         public void bind(Show movie) {

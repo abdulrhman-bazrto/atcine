@@ -1,6 +1,8 @@
 package com.gnusl.actine.ui.activity;
 
 import android.app.Dialog;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -24,6 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
@@ -40,6 +43,7 @@ import com.gnusl.actine.ui.fragment.MoreContainerFragment;
 import com.gnusl.actine.ui.fragment.SearchContainerFragment;
 import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -68,6 +72,18 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         setContentView(R.layout.activity_main);
 
         init();
+
+        if (getIntent().getExtras() != null && getIntent().getExtras().containsKey("type")) {
+            if (getIntent().getExtras().getString("type").equalsIgnoreCase("stop")) {
+                int shoeId = getIntent().getExtras().getInt("id");
+                AndroidNetworking.forceCancelAll();
+                NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                mNotificationManager.cancel(shoeId);
+
+
+            }
+        }
+//        LocalBroadcastManager.getInstance(this).registerReceiver((mMessageReceiver), new IntentFilter("com.gnusl.receiver"));
 
     }
 
@@ -125,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             @Override
             public void onConnectionError(int code, String message) {
 
-                DialogUtils.showLocationDialog(MainActivity.this,message);
+                DialogUtils.showLocationDialog(MainActivity.this, message);
             }
 
             @Override
@@ -239,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         LayoutInflater inflater = LayoutInflater.from(this);
 
         View inflatedView = inflater.inflate(R.layout.item_custom_tab_view, container, false);
-
+        Utils.setOnFocusScale(inflatedView);
         AppCompatImageView ivIcon = inflatedView.findViewById(R.id.iv_icon);
         TextView tvTitle = inflatedView.findViewById(R.id.tv_title);
 
@@ -281,40 +297,44 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     @Override
     public void onBackPressed() {
-        Fragment fragment = getmCurrentFragment();
-        if (fragment instanceof HomeContainerFragment) {
-            FragmentManager fm = fragment.getChildFragmentManager();
-            if (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStack();
-                ((HomeContainerFragment) fragment).getFragmentStack().pop();
-                if (((HomeContainerFragment) fragment).getFragmentStack().peek() instanceof HomeFragment) {
-                    if (!((HomeContainerFragment) fragment).getFragmentStack().empty()) {
-                        HomeFragment homeFragment = (HomeFragment) ((HomeContainerFragment) fragment).getFragmentStack().peek();
-                        homeFragment.refreshTrendShow();
+        try {
+            Fragment fragment = getmCurrentFragment();
+            if (fragment instanceof HomeContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                    ((HomeContainerFragment) fragment).getFragmentStack().pop();
+                    if (((HomeContainerFragment) fragment).getFragmentStack().peek() instanceof HomeFragment) {
+                        if (!((HomeContainerFragment) fragment).getFragmentStack().empty()) {
+                            HomeFragment homeFragment = (HomeFragment) ((HomeContainerFragment) fragment).getFragmentStack().peek();
+                            homeFragment.refreshTrendShow();
+                        }
                     }
+                } else {
+                    super.onBackPressed();
                 }
-            } else {
-                super.onBackPressed();
             }
-        }
-        if (fragment instanceof SearchContainerFragment) {
-            FragmentManager fm = fragment.getChildFragmentManager();
-            if (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStack();
-            } else {
-                setFragmentView(0);
+            if (fragment instanceof SearchContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    setFragmentView(0);
+                }
             }
-        }
-        if (fragment instanceof MoreContainerFragment) {
-            FragmentManager fm = fragment.getChildFragmentManager();
-            if (fm.getBackStackEntryCount() > 0) {
-                fm.popBackStack();
-            } else {
-                setFragmentView(0);
+            if (fragment instanceof MoreContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    setFragmentView(0);
+                }
             }
-        }
-        if (fragment instanceof DownloadFragment) {
-            return;
+            if (fragment instanceof DownloadFragment) {
+                return;
+            }
+        } catch (Exception e) {
+
         }
     }
 
@@ -346,7 +366,10 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (jsonObject.has("profiles")) {
             List<Profile> profiles = Profile.newList(jsonObject.optJSONArray("profiles"));
-            if (profiles.size() <= 1) {
+            if (profiles.size() == 1) {
+                SharedPreferencesUtils.saveCurrentProfile(profiles.get(0).getId());
+                return;
+            } else if (profiles.size() == 0) {
                 return;
             } else {
                 Dialog profilesDialog = new Dialog(this);
@@ -371,4 +394,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             }
         }
     }
+
+
 }

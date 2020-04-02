@@ -15,6 +15,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.custom.CustomAppBarRegister;
 import com.gnusl.actine.ui.custom.FeaturesSymbolRow;
+import com.gnusl.actine.util.Utils;
 
 
 public class GuestFragment extends Fragment implements View.OnClickListener {
@@ -65,11 +66,18 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
         btnJoinFree = inflatedView.findViewById(R.id.btn_join_free);
         btnJoinFree1 = inflatedView.findViewById(R.id.btn_join_free1);
         btnLogin = inflatedView.findViewById(R.id.btn_login_);
+        Utils.setOnFocusScale(btnJoinFree1);
+        Utils.setOnFocusScale(btnJoinFree);
+        btnJoinFree.requestFocus();
+
 
         tvCancel = inflatedView.findViewById(R.id.tv_cancel);
         tvDevices = inflatedView.findViewById(R.id.tv_devices);
         tvPrice = inflatedView.findViewById(R.id.tv_price);
         tvBtnDesc = inflatedView.findViewById(R.id.tv_btn_desc);
+        Utils.setOnFocusScale(tvCancel);
+        Utils.setOnFocusScale(tvDevices);
+        Utils.setOnFocusScale(tvPrice);
 
         tvCancelArrow = inflatedView.findViewById(R.id.iv_cancel_arrow);
         tvPriceArrow = inflatedView.findViewById(R.id.iv_price_arrow);
@@ -90,6 +98,7 @@ public class GuestFragment extends Fragment implements View.OnClickListener {
                     }
                 }
             });
+            Utils.setOnFocusScale(btnLogin);
         }
 
         cubRegister.getBtnHelp().setOnClickListener(new View.OnClickListener() {

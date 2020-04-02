@@ -207,7 +207,7 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
             progressHUD.dismiss();
 
         if (jsonObject.has("series")) {
-            if (jsonObject.optJSONObject("series").has("seasons")) {
+            if (jsonObject.optJSONObject("series") != null && jsonObject.optJSONObject("series").has("seasons")) {
                 show = Show.newInstance(jsonObject.optJSONObject("series"), show.getIsMovie(), show.getIsSeason(), show.getIsEpisode());
 //                show.setSeasons(jsonObject.optJSONObject("series").optJSONArray("seasons"));
                 if (!show.getIsMovie())

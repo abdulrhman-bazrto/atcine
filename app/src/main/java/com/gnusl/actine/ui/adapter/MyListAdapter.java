@@ -1,16 +1,19 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -57,15 +60,20 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
+        TextView tvTitle;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
+            tvTitle = itemView.findViewById(R.id.tv_title);
+            Utils.setOnFocusScale(itemView);
         }
 
         public void bind() {
 
             Picasso.with(mContext).load(movies.get(getAdapterPosition()).getThumbnailImageUrl()).into(ivThumbnail);
+
+            tvTitle.setText(movies.get(getAdapterPosition()).getTitle());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
