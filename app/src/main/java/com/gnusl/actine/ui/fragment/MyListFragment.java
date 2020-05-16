@@ -69,7 +69,13 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_my_list, container, false);
             init();
+        } else {
+            ViewGroup parent = (ViewGroup) inflatedView.getParent();
+            if (parent != null) {
+                parent.removeAllViews();
+            }
         }
+
         return inflatedView;
     }
 
@@ -78,8 +84,10 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
         cubMyListWithBack = inflatedView.findViewById(R.id.cub_my_list_with_back);
         rvMyList = inflatedView.findViewById(R.id.rv_my_list);
 
-        cubMyListWithBack.getTvTitle().setText("My List");
 
+        cubMyListWithBack.getTvTitle().setText("My List");
+        cubMyListWithBack.getTvTitle().setVisibility(View.GONE);
+        cubMyListWithBack.getIvBack().setVisibility(View.GONE);
         cubMyListWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,7 +176,7 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
             }
         }
     }
@@ -181,7 +189,7 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                 bundle.putString("type", "season");
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
             }
         }
     }

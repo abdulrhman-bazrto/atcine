@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +71,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         private ImageView ivShowImage;
         private TextView tvShowName, tvShowSize;
-        private Button btnDelete, btnDownload;
+        private ImageButton btnDelete, btnDownload;
 
         MovieListViewHolder(View itemView) {
             super(itemView);

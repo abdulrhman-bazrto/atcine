@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,11 +80,12 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvProfileName.setText(profile.getName());
 
             Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+            ViewCompat.setTransitionName(ivProfile,"test" + getAdapterPosition());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile(profiles.get(getAdapterPosition()));
+                    profileClick.onClickProfile(profiles.get(getAdapterPosition()),ivProfile);
                 }
             });
 

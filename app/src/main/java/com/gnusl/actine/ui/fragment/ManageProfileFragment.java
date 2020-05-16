@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,6 +60,8 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
         if (getArguments() != null) {
             this.profiles = getArguments().getParcelableArrayList(Constants.ManageProfilesExtra.getConst());
         }
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
+//        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
     }
 
     @Override
@@ -107,7 +111,7 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
                     requestOnBack = true;
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof MoreContainerFragment) {
-                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, null);
+                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, null, null);
                     }
                 }
                 break;
@@ -116,14 +120,15 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public void onClickProfile(Profile profile) {
+    public void onClickProfile(Profile profile, ImageView ivProfile) {
         if (getActivity() != null) {
             requestOnBack = true;
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.EditNewProfileExtra.getConst(), profile);
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle);
+                bundle.putString("test", ViewCompat.getTransitionName(ivProfile));
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle,ivProfile);
             }
         }
     }

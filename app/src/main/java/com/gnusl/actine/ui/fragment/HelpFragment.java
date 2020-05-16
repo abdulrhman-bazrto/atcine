@@ -173,7 +173,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
                 if (fragment instanceof MoreContainerFragment) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HelpExtra.getConst(), help);
-                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpDetailsFragment, bundle);
+                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.HelpDetailsFragment, bundle, null);
                 }
             }
         }

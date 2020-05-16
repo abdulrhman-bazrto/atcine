@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".ui.fragment.MyListFragment">
+
+
+    <TextView
+        android:id="@+id/tv_app_setting"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:visibility="gone"
+        android:drawableStart="@drawable/icon_settings_grey"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="App Setting"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_account"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:drawableStart="@drawable/icon_account1"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="Account"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_setting" />
+
+
+    <TextView
+        android:id="@+id/tv_help"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:drawableStart="@drawable/icon_help1"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="Help"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_account" />
+
+
+
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:drawableStart="@drawable/icon_sign_out1"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:text="Sign Out"
+        android:textSize="15sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_help" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

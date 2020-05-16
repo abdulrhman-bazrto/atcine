@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -90,7 +92,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
         btnLogin.setOnClickListener(this);
 
-
+//        SpannableString content = new SpannableString("Sign up");
+//        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
+//        tvSignUp.setText(content);
         SpannableString ss = new SpannableString(tvSignUp.getText().toString());
         ClickableSpan span1 = new ClickableSpan() {
             @Override
@@ -101,9 +105,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             }
         };
         final StyleSpan bss = new StyleSpan(android.graphics.Typeface.BOLD);
-        ss.setSpan(bss, tvSignUp.getText().toString().lastIndexOf("?") + 2, tvSignUp.getText().toString().length(), 0);
-        ss.setSpan(span1, tvSignUp.getText().toString().lastIndexOf("?") + 2, tvSignUp.getText().toString().length(), 0);
-        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.white)), tvSignUp.getText().toString().lastIndexOf("?") + 2, tvSignUp.getText().toString().length(), 0);
+        ss.setSpan(bss, 0, tvSignUp.getText().toString().length(), 0);
+        ss.setSpan(span1, 0, tvSignUp.getText().toString().length(), 0);
+        ss.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.main_red_color)), 0, tvSignUp.getText().toString().length(), 0);
 
         tvSignUp.setMovementMethod(LinkMovementMethod.getInstance());
         tvSignUp.setText(ss);
@@ -132,15 +136,16 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     }
 
     private boolean valid() {
+        boolean tmp = true;
         if (etEmailPhone.getText().toString().trim().isEmpty()) {
             etEmailPhone.setError(getString(R.string.hint_mobile_or_email));
-            return false;
+            tmp =false;
         }
         if (etPassword.getText().toString().trim().isEmpty()) {
             etPassword.setError(getString(R.string.hint_empty_password));
-            return false;
+            tmp = false;
         }
-        return true;
+        return tmp;
     }
 
     private void sendLoginRequest(boolean withIgnore) {
@@ -272,4 +277,5 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             getActivity().finish();
         }
     }
+
 }

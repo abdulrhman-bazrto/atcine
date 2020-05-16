@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,12 +21,16 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.DBShow;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.network.DataLoader;
+import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.DownloadsListAdapter;
+import com.gnusl.actine.ui.adapter.ViewPagerAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.util.ObjectBox;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.google.android.material.tabs.TabLayout;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -47,7 +53,10 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
     private DownloadsListAdapter downloadsListAdapter;
     private AppCategories currentCategory = AppCategories.Movies;
     private KProgressHUD progressHUD;
-
+    private TabLayout tlMainTabLayout;
+    private ViewPager vpMainContainer;
+    private ViewPagerAdapter adapter;
+    private DownloadShowsFragment downloadShowsFragment;
 
     public DownloadFragment() {
     }
@@ -75,6 +84,11 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_download, container, false);
             init();
+        }else {
+            ViewGroup parent = (ViewGroup) inflatedView.getParent();
+            if (parent != null) {
+                parent.removeAllViews();
+            }
         }
         return inflatedView;
     }
@@ -82,15 +96,58 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
     private void init() {
 
         findViews();
+
+        setupViewPager(vpMainContainer);
+        vpMainContainer.setOffscreenPageLimit(2);
+
+        tlMainTabLayout.setupWithViewPager(vpMainContainer);
+
+        tlMainTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+//                changeTabTitle(position);
+                vpMainContainer.setCurrentItem(position);
+
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
         btnFindDownload.setOnClickListener(this);
 
         downloadsListAdapter = new DownloadsListAdapter(getActivity());
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
-
-        rvDownloads.setLayoutManager(gridLayoutManager);
-
-        rvDownloads.setAdapter(downloadsListAdapter);
+//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+//
+//        rvDownloads.setLayoutManager(gridLayoutManager);
+//
+//        rvDownloads.setAdapter(downloadsListAdapter);
 
         cubDownload.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -130,6 +187,7 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
 
         Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
         List<DBShow> dbShows = dbShowBox.getAll();
+        DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
 
         if (dbShows.size() != 0) {
             clEmptyDownloadList.setVisibility(View.GONE);
@@ -167,6 +225,9 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
         clEmptyDownloadList = inflatedView.findViewById(R.id.cl_empty_downloads_hint);
         clDownloadList = inflatedView.findViewById(R.id.cl_download_list);
         cubDownload = inflatedView.findViewById(R.id.cub_downloads);
+        tlMainTabLayout = inflatedView.findViewById(R.id.tl_main_tab_layout);
+        vpMainContainer = inflatedView.findViewById(R.id.vp_main_container);
+
     }
 
 
@@ -260,6 +321,19 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
             clEmptyDownloadList.setVisibility(View.GONE);
             clDownloadList.setVisibility(View.VISIBLE);
         }
+
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
+        if (downloadShowsFragment == null)
+            downloadShowsFragment = DownloadShowsFragment.newInstance();
+        downloadShowsFragment.setShowType("Series");
+        adapter.addFragment(downloadShowsFragment, "TV Series");
+        DownloadShowsFragment fragment = new DownloadShowsFragment();
+        fragment.setShowType("Movies");
+        adapter.addFragment(fragment, "Movies");
+        viewPager.setAdapter(adapter);
 
     }
 }

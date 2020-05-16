@@ -1,8 +1,11 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -124,21 +127,45 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             }
 
         }
+
+//        public void bind() {
+//
+//            final Profile profile = profiles.get(getAdapterPosition());
+//
+//            tvProfileName.setText(profile.getName());
+//
+//            Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+//            ViewCompat.setTransitionName(ivProfile, "test" + getAdapterPosition());
+//
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    profileClick.onClickProfile(profiles.get(getAdapterPosition()), ivProfile);
+//                }
+//            });
+//
+//            ivProfile.setBackgroundResource(R.drawable.bg_circle_red);
+//
+//        }
     }
 
 
     class AddProfileViewHolder extends RecyclerView.ViewHolder {
+        ImageView ivProfile;
 
         AddProfileViewHolder(View itemView) {
             super(itemView);
+            ivProfile = itemView.findViewById(R.id.iv_add_profile);
 
         }
 
         public void bind() {
+            ViewCompat.setTransitionName(ivProfile, "AddNewProfile");
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile(null);
+                    profileClick.onClickProfile(null, ivProfile);
                 }
             });
         }

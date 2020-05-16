@@ -4,13 +4,17 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
@@ -24,6 +28,7 @@ import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.MediaUtils;
 import com.gnusl.actine.util.PermissionsUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
 
 import org.json.JSONObject;
@@ -45,6 +50,8 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
     private Profile profile;
     private Uri userProfileImageUri;
     private KProgressHUD progressHUD;
+    private ImageView ivProfile;
+    String imageTransitionName;
 
     public EditNewProfileFragment() {
     }
@@ -60,7 +67,12 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.profile = (Profile) getArguments().getSerializable(Constants.EditNewProfileExtra.getConst());
+            this.imageTransitionName = getArguments().getString("test");
+
         }
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
+//        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
     }
 
     @Override
@@ -79,9 +91,10 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
 
         if (profile != null) {
             etProfileName.setText(profile.getName());
+            Picasso.with(getActivity()).load(profile.getImageUrl()).into(ivProfile);
         }
 
-        cubManageProfile.getTvTitle().setText("Manage Profile");
+//        cubManageProfile.getTvTitle().setText("Manage Profile");
 
         cubManageProfile.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,6 +110,8 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
         btnSave = inflatedView.findViewById(R.id.btn_save);
         btnUpload = inflatedView.findViewById(R.id.btn_upload);
         etProfileName = inflatedView.findViewById(R.id.et_profile_name);
+        ivProfile = inflatedView.findViewById(R.id.iv_add_profile);
+        ivProfile.setTransitionName(imageTransitionName);
 
         btnCancel.setOnClickListener(this);
         btnSave.setOnClickListener(this);
