@@ -20,6 +20,7 @@
     <color name="gray3">#8F6D6E71</color>
 
     <color name="dark_gray">#161616</color>
+    <color name="dark_gray_tran">#39161616</color>
     <color name="dark_light_gray">#58595B</color>
     <color name="dark_light_gray1">#0B0B0B</color>
 
@@ -28,6 +29,7 @@
     <color name="bg_edit_text">#781515</color>
 
     <color name="transparent">#00000000</color>
+    <color name="yellow">#E5AF01</color>
 
 
 </resources>

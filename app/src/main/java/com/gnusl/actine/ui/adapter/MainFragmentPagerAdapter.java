@@ -31,9 +31,11 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
             return HomeContainerFragment.newInstance();
         } else if (position == 1) {
             return SearchContainerFragment.newInstance();
-        } else if (position == 2) {
-            return ComingSoonContainerFragment.newInstance();
-        } else if (position == 3) {
+        }
+//        else if (position == 2) {
+//            return ComingSoonContainerFragment.newInstance();
+//        }
+        else if (position == 2) {
             return DownloadFragment.newInstance();
         } else
             return MoreContainerFragment.newInstance();
@@ -42,7 +44,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     // This determines the number of tabs
     @Override
     public int getCount() {
-        return 5;
+        return 4;
     }
 
     public Fragment getCurrentFragment() {

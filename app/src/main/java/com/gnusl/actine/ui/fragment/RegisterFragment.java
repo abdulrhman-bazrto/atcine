@@ -27,6 +27,7 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.PaymentMethodItemClickEvents;
 import com.gnusl.actine.model.PaymentMethods;
+import com.gnusl.actine.model.PlanDetails;
 import com.gnusl.actine.model.User;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -34,12 +35,15 @@ import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.activity.PaymentActivity;
 import com.gnusl.actine.ui.adapter.PaymentMethodsAdapter;
+import com.gnusl.actine.ui.adapter.PlansNewAdapter;
+import com.gnusl.actine.ui.custom.CenterLayoutManager;
 import com.gnusl.actine.ui.custom.CustomAppBarRegister;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -53,14 +57,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     View inflatedView;
 
-    private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment,btnLogin_;
-    private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, viewSetPaymentGateway, tvChangePlan,tvChangePlan1;
+    private Button btnGotoStep1, btnGotoStep2, btnGotoStep3, btnGotoStep2half, btnPayment, btnLogin_;
+    private View viewStep1, viewStep2, viewStep3, viewStep0, viewStep1half5, viewStepPayPal, viewSetPaymentGateway, tvChangePlan, tvChangePlan1;
 
     private TextView tvAlreadyUser, tvPayPal, tvCreditOrDebit, tvYourPlan;
     private CustomAppBarRegister cubRegister;
     private RecyclerView rvPaymentGateways;
     private KProgressHUD progressHUD;
     private EditText etPasswordConfirm, etPassword, etUsername, etName;
+    private RecyclerView rvPlans;
+
+    private PlansNewAdapter plansAdapter;
 
     public RegisterFragment() {
     }
@@ -96,7 +103,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
         findViews();
 
-        if (btnLogin_ != null){
+        if (btnLogin_ != null) {
             btnLogin_.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -146,6 +153,35 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         tvAlreadyUser.setMovementMethod(LinkMovementMethod.getInstance());
         tvAlreadyUser.setText(ss);
 
+
+        plansAdapter = new PlansNewAdapter(getActivity(), new ArrayList<>(),rvPlans);
+
+        CenterLayoutManager layoutManager = new CenterLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+
+        rvPlans.setLayoutManager(layoutManager);
+
+        rvPlans.setAdapter(plansAdapter);
+
+        DataLoader.getRequest(Urls.UserType.getLink(), new ConnectionDelegate() {
+            @Override
+            public void onConnectionError(int code, String message) {
+                Toast.makeText(getActivity(), "error happened " + message, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onConnectionError(ANError anError) {
+                Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onConnectionSuccess(JSONObject jsonObject) {
+                if (jsonObject.has("types")) {
+                    List<PlanDetails> types = PlanDetails.newList(jsonObject.optJSONArray("types"));
+                    plansAdapter.setList(types);
+                }
+            }
+        });
+
     }
 
     private void findViews() {
@@ -160,6 +196,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         viewSetPaymentGateway = inflatedView.findViewById(R.id.cl_step_payment_gateways);
         rvPaymentGateways = inflatedView.findViewById(R.id.rv_payment_gateways);
 
+        rvPlans = inflatedView.findViewById(R.id.rv_plans);
 
         btnGotoStep1 = inflatedView.findViewById(R.id.btn_goto_step1);
         btnGotoStep2 = inflatedView.findViewById(R.id.btn_goto_step2);
@@ -193,6 +230,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 viewStep1half5.setVisibility(View.GONE);
                 viewStepPayPal.setVisibility(View.GONE);
                 viewSetPaymentGateway.setVisibility(View.GONE);
+                rvPlans.requestFocus();
                 break;
             }
             case R.id.btn_goto_step2: {
@@ -270,8 +308,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 break;
             }
             case R.id.tv_change_plan:
-            case R.id.tv_change_plan1:
-                {
+            case R.id.tv_change_plan1: {
                 viewStep0.setVisibility(View.GONE);
                 viewStep1.setVisibility(View.VISIBLE);
                 viewStep2.setVisibility(View.GONE);

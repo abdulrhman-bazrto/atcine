@@ -5,17 +5,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
@@ -26,19 +26,17 @@ import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.adapter.GenresAdapter;
 import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
-import com.gnusl.actine.ui.custom.SelectGenresView;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -47,11 +45,14 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     View inflatedView;
 
-    private RecyclerView rvHome;
+    private RecyclerView rvHome, rvGenres;
     private HomeAdapter homeAdapter;
     private CustomAppBar cubHome;
-    private SelectGenresView sgvHome;
+    //    private SelectGenresView sgvHome;
     private KProgressHUD progressHUD;
+
+    private TextView tvMovies, tvSeries;
+    private GenresAdapter genresAdapter;
 
     public HomeFragment() {
     }
@@ -100,20 +101,29 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private void init(boolean isFirstInit) {
 
         findViews();
+        DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
 
-        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
-            case Movies:
-                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
-                if (isFirstInit)
-                    cubHome.getSpCategory().setSelection(0);
-                break;
+        genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
 
-            case TvShows:
-                DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
-                if (isFirstInit)
-                    cubHome.getSpCategory().setSelection(1);
-                break;
-        }
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+
+        rvGenres.setLayoutManager(gridLayoutManager);
+
+        rvGenres.setAdapter(genresAdapter);
+
+//        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+//            case Movies:
+//                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
+//                if (isFirstInit)
+//                    cubHome.getSpCategory().setSelection(0);
+//                break;
+//
+//            case TvShows:
+//                DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
+//                if (isFirstInit)
+//                    cubHome.getSpCategory().setSelection(1);
+//                break;
+//        }
 
 //        progressHUD = KProgressHUD.create(getActivity())
 //                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
@@ -123,16 +133,16 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         LoaderPopUp.show(getActivity());
 
-        sgvHome.setClickListener(this);
+//        sgvHome.setClickListener(this);
 
         DataLoader.getRequest(Urls.Categories.getLink(), this);
 
-        cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sgvHome.setVisibility(View.VISIBLE);
-            }
-        });
+//        cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sgvHome.setVisibility(View.VISIBLE);
+//            }
+//        });
 
 
         rvHome.setNestedScrollingEnabled(false);
@@ -149,34 +159,51 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         rvHome.setAdapter(homeAdapter);
 
 
-        cubHome.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position) {
-                    case 0: {
-                        if (SharedPreferencesUtils.getCategory() == AppCategories.Movies)
-                            return;
-                        SharedPreferencesUtils.saveCategory("movies");
-                        init(false);
-                        break;
-                    }
-                    case 1: {
-                        if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
-                            return;
-//                        if (true) {
-//                            DialogUtils.showSeriesComingSoonDialog(getActivity());
+//        cubHome.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                switch (position) {
+//                    case 0: {
+//                        if (SharedPreferencesUtils.getCategory() == AppCategories.Movies)
 //                            return;
-//                        }
-                        SharedPreferencesUtils.saveCategory("tvShows");
-                        init(false);
-                        break;
-                    }
-                }
-            }
+//                        SharedPreferencesUtils.saveCategory("movies");
+//                        init(false);
+//                        break;
+//                    }
+//                    case 1: {
+//                        if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
+//                            return;
+////                        if (true) {
+////                            DialogUtils.showSeriesComingSoonDialog(getActivity());
+////                            return;
+////                        }
+//                        SharedPreferencesUtils.saveCategory("tvShows");
+//                        init(false);
+//                        break;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+////                SharedPreferencesUtils.saveCategory("movies");
+//            }
+//        });
 
+
+        tvMovies.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-//                SharedPreferencesUtils.saveCategory("movies");
+            public void onClick(View v) {
+                tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
+                tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
+            }
+        });
+
+        tvSeries.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
+                tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
             }
         });
 
@@ -185,7 +212,11 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private void findViews() {
         rvHome = inflatedView.findViewById(R.id.rv_home);
         cubHome = inflatedView.findViewById(R.id.cub_home);
-        sgvHome = inflatedView.findViewById(R.id.sgv_home);
+//        sgvHome = inflatedView.findViewById(R.id.sgv_home);
+
+        tvMovies = inflatedView.findViewById(R.id.tv_movies);
+        tvSeries = inflatedView.findViewById(R.id.tv_series);
+        rvGenres = inflatedView.findViewById(R.id.rv_genres);
 
     }
 
@@ -217,7 +248,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     @Override
     public void onSelectGenres(Category genres) {
 //        cubHome.getSpGenres().setText(genres.getTitle());
-        sgvHome.setVisibility(View.GONE);
+//        sgvHome.setVisibility(View.GONE);
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
@@ -241,7 +272,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onCloseGenres() {
-        sgvHome.setVisibility(View.GONE);
+//        sgvHome.setVisibility(View.GONE);
     }
 
     @Override
@@ -273,14 +304,14 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 case TvShows: {
 
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
-                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"),false);
+                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), false);
                     homeAdapter.setData(trendSerie, categories);
                     break;
                 }
                 case Movies: {
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
 
-                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"),true);
+                    List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), true);
                     homeAdapter.setData(trendMovie, categories);
                     break;
                 }
@@ -289,7 +320,15 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         }
 
         if (jsonObject.has("categories") && !jsonObject.has("trend")) {
-            sgvHome.setList(Category.newList(jsonObject.optJSONArray("categories")));
+            if (genresAdapter != null) {
+                List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"));
+                List<Category> categoriesTemp = new ArrayList<>();
+                for (int i = 0; i < categories.size(); i++) {
+                    if (i < 4)
+                        categoriesTemp.add(categories.get(i));
+                }
+                genresAdapter.setList(categoriesTemp);
+            }
         }
 
     }

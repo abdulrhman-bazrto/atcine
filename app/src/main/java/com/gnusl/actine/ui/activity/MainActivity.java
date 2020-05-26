@@ -185,15 +185,15 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_search_gray));
                 tvTitle.setTextColor(getResources().getColor(R.color.gray2));
                 break;
+//            case 2:
+//                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
+//                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
+//                break;
             case 2:
-                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
-                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
-                break;
-            case 3:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_gray));
                 tvTitle.setTextColor(getResources().getColor(R.color.gray2));
                 break;
-            case 4:
+            case 3:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_gray));
                 tvTitle.setTextColor(getResources().getColor(R.color.gray2));
 
@@ -213,15 +213,15 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                     icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_search_white));
                     title.setTextColor(getResources().getColor(R.color.white));
                     break;
+//                case 2:
+//                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_white));
+//                    title.setTextColor(getResources().getColor(R.color.white));
+//                    break;
                 case 2:
-                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_white));
-                    title.setTextColor(getResources().getColor(R.color.white));
-                    break;
-                case 3:
                     icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_white));
                     title.setTextColor(getResources().getColor(R.color.white));
                     break;
-                case 4:
+                case 3:
                     icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_white));
                     title.setTextColor(getResources().getColor(R.color.white));
                     break;
@@ -270,17 +270,17 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 tvTitle.setText("Search");
                 break;
 
-            case 2:
-                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
-                tvTitle.setText("Coming Soon");
-                break;
+//            case 2:
+//                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
+//                tvTitle.setText("Coming Soon");
+//                break;
 
-            case 3:
+            case 2:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_download_gray));
                 tvTitle.setText("Download");
                 break;
 
-            case 4:
+            case 3:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_more_gray));
                 tvTitle.setText("More");
                 break;

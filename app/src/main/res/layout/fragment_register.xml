@@ -5,14 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    android:background="@color/black"
     tools:context=".ui.fragment.RegisterFragment">
+
+    <ImageView
+        android:id="@+id/iv_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/testbg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/tv_app_title"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:src="@drawable/logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.gnusl.actine.ui.custom.CustomAppBarRegister
         android:id="@+id/cub_register"
         android:layout_width="match_parent"
         android:layout_height="35dp"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <!--step 0.5-->
 
@@ -32,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/icon_check1" />
@@ -104,8 +130,9 @@
         android:layout_height="0dp"
         android:layout_marginBottom="0dp"
         android:visibility="gone"
+        android:background="@color/transparent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -147,11 +174,22 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_choose_your_plan" />
 
-            <com.gnusl.actine.ui.custom.ChoosePlanView
-                android:id="@+id/l_chose_plan"
-                layout="@layout/layout_choose_plan"
+<!--            <com.gnusl.actine.ui.custom.ChoosePlanView-->
+<!--                android:id="@+id/l_chose_plan"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:background="@color/transparent"-->
+<!--                app:layout_constraintBottom_toTopOf="@+id/btn_goto_step2"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/tv_downgrade" />-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_plans"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="50dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:background="@color/transparent"
                 app:layout_constraintBottom_toTopOf="@+id/btn_goto_step2"
                 app:layout_constraintTop_toBottomOf="@+id/tv_downgrade" />
 
@@ -275,7 +313,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title">
 
         <TextView
             android:id="@+id/tv_step2"
@@ -324,8 +362,8 @@
             android:inputType="text"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <EditText
@@ -338,8 +376,8 @@
             android:inputType="textEmailAddress"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColorHint="@color/gray"
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <EditText
@@ -352,8 +390,8 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <EditText
@@ -366,8 +404,8 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp" />
 
         <Button
@@ -407,14 +445,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_lock"
@@ -480,8 +518,8 @@
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:text="Card or Debit Card"
-            android:textColor="@color/gray"
-            android:textColorHint="@color/gray"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -498,7 +536,7 @@
             android:hint="PayPal"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
-            android:textColorHint="@color/gray"
+            android:textColorHint="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -513,14 +551,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title">
 
         <TextView
             android:id="@+id/tv_step_pay_pal"
@@ -550,7 +588,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="your plan \nUnlimted Streaming in HD and Ultra HD \nat 11.99$ am month after trial."
-            android:textColor="@color/gray2"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_setup_payment_pay_pal" />
@@ -572,7 +610,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="To finish sign-up, click the below button and login into PayPal using your email and password."
-            android:textColor="@color/gray2"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -600,16 +638,17 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_step_payment_gateways"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="30dp"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cub_register">
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title">
 
         <TextView
             android:id="@+id/tv_step_payment"
@@ -639,7 +678,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="your plan \nUnlimted Streaming in HD and Ultra HD \nat 11.99$ a month after trial."
-            android:textColor="@color/gray2"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_setup_payment_gateway" />
@@ -661,7 +700,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="To finish sign-up, choose the payment gateway."
-            android:textColor="@color/gray2"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -670,15 +709,15 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_payment_gateways"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="30dp"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/white"
             android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_to_finish_sign_up1" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -690,8 +729,8 @@
         android:layout_marginBottom="20dp"
         android:background="#0fff"
         android:text="Already have account? Sign in now."
-        android:textColor="@color/gray1"
-        android:textColorHint="@color/gray1"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

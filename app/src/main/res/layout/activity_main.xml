@@ -11,7 +11,7 @@
         android:id="@+id/vp_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/tl_home"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
     </com.gnusl.actine.ui.custom.NonScrollHomeViewPager>
@@ -21,9 +21,12 @@
     <com.ogaclejapan.smarttablayout.SmartTabLayout
         android:id="@+id/tl_home"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:stl_clickable="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/bg_buttom_nav"
         app:stl_defaultTabBackground="@color/colorPrimaryDark"
         app:stl_defaultTabTextMinWidth="0dp"
         app:stl_distributeEvenly="false"
