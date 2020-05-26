@@ -3,19 +3,13 @@ package com.gnusl.actine.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.transition.TransitionManager;
-
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.User;
 import com.gnusl.actine.util.SharedPreferencesUtils;

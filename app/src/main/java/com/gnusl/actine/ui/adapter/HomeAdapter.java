@@ -82,7 +82,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (holder instanceof MovieViewHolder) {
             ((MovieViewHolder) holder).bind();
         } else if (holder instanceof MovieListViewHolder) {
-            Category category = categories.get(position - 1);
+            Category category = categories.get(position);
             String name = category.getTitle();
             int id = category.getId();
             ((MovieListViewHolder) holder).bind(id, name, category.getShows());
@@ -98,7 +98,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
-            return HOLDER_MOVIE;
+            return HOLDER_MOVIE_LIST;
         } else {
             return HOLDER_MOVIE_LIST;
         }
@@ -108,7 +108,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public int getItemCount() {
         if (categories.size() == 0)
             return 0;
-        return categories.size() + 1;
+        return categories.size();
     }
 
     public void setData(Show trendMovie, List<Category> categories) {

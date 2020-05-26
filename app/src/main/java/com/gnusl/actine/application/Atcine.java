@@ -1,15 +1,10 @@
 package com.gnusl.actine.application;
 
 import android.app.Application;
-import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.interceptors.HttpLoggingInterceptor;
 import com.gnusl.actine.util.ObjectBox;
 
 public class Atcine extends Application {
@@ -23,6 +18,8 @@ public class Atcine extends Application {
         applicationInstance = this;
 
         ObjectBox.init(this);
+
+        AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY); // enabling logging with level
 
     }
 
@@ -40,7 +37,6 @@ public class Atcine extends Application {
     public static Context getAppContext() {
         return getApplicationInstance().getApplicationContext();
     }
-
 
 
 }

@@ -26,15 +26,15 @@ public class PlanDetails implements Serializable {
     private boolean isStandardSelected;
 
     public static PlanDetails newInstance(JSONObject jsonObject) {
-        PlanDetails profile = new PlanDetails();
-        profile.setId(jsonObject.optInt("id"));
-        profile.setTitle(jsonObject.optString("title"));
-        profile.setStandard(jsonObject.optString("Standard"));
-        profile.setBasic(jsonObject.optString("Basic"));
-        profile.setPremium(jsonObject.optString("Premium"));
-        profile.setType(jsonObject.optString("type"));
+        PlanDetails planDetails = new PlanDetails();
+        planDetails.setId(jsonObject.optInt("id"));
+        planDetails.setTitle(jsonObject.optString("title"));
+        planDetails.setStandard(jsonObject.optString("Standard"));
+        planDetails.setBasic(jsonObject.optString("Basic"));
+        planDetails.setPremium(jsonObject.optString("Premium"));
+        planDetails.setType(jsonObject.optString("type"));
 
-        return profile;
+        return planDetails;
     }
 
     public static List<PlanDetails> newList(JSONArray jsonArray) {

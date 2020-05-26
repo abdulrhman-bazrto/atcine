@@ -31,7 +31,7 @@ public class AuthActivity extends AppCompatActivity {
 //                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         setContentView(R.layout.activity_auth_activiy);
 
-        replaceFragment(FragmentTags.GuestFragment);
+        replaceFragment(FragmentTags.LoginFragment);
 
     }
 
@@ -54,7 +54,7 @@ public class AuthActivity extends AppCompatActivity {
             case LoginFragment:
 
                 mCurrentFragment = LoginFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
                 transaction.commit();
 
                 break;
@@ -91,6 +91,8 @@ public class AuthActivity extends AppCompatActivity {
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
 
+        } else if (fm.getBackStackEntryCount() == 0) {
+            super.onBackPressed();
         }
     }
 }
