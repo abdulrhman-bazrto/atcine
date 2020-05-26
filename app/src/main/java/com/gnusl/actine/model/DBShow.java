@@ -33,6 +33,16 @@ public class DBShow implements Serializable {
     private String videoUrl;
     private String downloadVideoUrl;
 
+    public boolean isMovie() {
+        return isMovie;
+    }
+
+    public void setMovie(boolean movie) {
+        isMovie = movie;
+    }
+
+    private boolean isMovie;
+
     // use in android only
     private boolean isInStorage;
 

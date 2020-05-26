@@ -5,9 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
+    android:id="@+id/root_view"
+    android:animateLayoutChanges="true"
     tools:context=".ui.fragment.LoginFragment">
 
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="40dp"
+        android:text="Search"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -15,98 +32,74 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_search"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/icon_search_gray_100" />
-
-        <RadioGroup
-            android:id="@+id/rg_types"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:background="@drawable/bg_radio_group"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_search">
-
-            <RadioButton
-                android:id="@+id/rb_series"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:buttonTint="@color/white"
-                android:padding="10dp"
-                android:text="Series"
-                android:textColor="@color/white" />
-
-            <RadioButton
-                android:id="@+id/rb_movies"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:buttonTint="@color/white"
-                android:checked="true"
-                android:padding="10dp"
-                android:text="Movies"
-                android:textColor="@color/white" />
-
-        </RadioGroup>
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
         <EditText
             android:id="@+id/et_search"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/bg_edit_text_register"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/et_bg1"
+            android:drawableStart="@drawable/icon_search_gray"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
             android:hint="Search"
             android:imeOptions="actionSearch"
             android:inputType="text"
-            android:paddingStart="15dp"
-            android:paddingEnd="15dp"
-            android:textColor="@color/white"
+            android:padding="5dp"
+            android:textColor="@color/black"
             android:textColorHint="@color/gray2"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rg_types" />
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_find_next"
+        <Spinner
+            android:id="@+id/sp_category"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Find what watch next."
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_search" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="Search for shows for the comment, movies to help unwind, or your go-to genres"
-            android:textColor="@color/gray2"
-            android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_find_next" />
+            android:layout_height="30dp"
+            android:layout_marginRight="2dp"
+            android:background="@color/transparent"
+            android:backgroundTint="@color/main_red_color"
+            app:backgroundTint="@color/main_red_color"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/et_search"
+            app:layout_constraintTop_toTopOf="@+id/et_search" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_main1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:visibility="gone"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_main">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:listitem="@layout/item_more_list_movie" />
+
+
+        <TextView
+            android:id="@+id/tv_hint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No Result Found"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

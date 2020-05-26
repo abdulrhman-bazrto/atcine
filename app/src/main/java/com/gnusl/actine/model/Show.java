@@ -442,6 +442,7 @@ public class Show implements Serializable {
         dbShow.setThumbnailImageUrl(this.getThumbnailImageUrl());
         dbShow.setVideoUrl(this.getVideoUrl());
         dbShow.setDownloadVideoUrl(this.getDownloadVideoUrl());
+        dbShow.setMovie(this.getIsMovie());
 
         return dbShow;
     }

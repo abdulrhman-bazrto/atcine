@@ -1,8 +1,10 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +66,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         Button btnRemindMe;
         TextView tvShowCaption, tvShowDate, tvShowTitle;
-        ImageView ivShowImage;
+        ImageView ivShowImage, ivPlayShow;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -73,6 +75,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvShowDate = itemView.findViewById(R.id.tv_show_date);
             tvShowTitle = itemView.findViewById(R.id.tv_show_title);
             ivShowImage = itemView.findViewById(R.id.iv_movie_image);
+            ivPlayShow = itemView.findViewById(R.id.iv_play_show);
         }
 
         public void bind() {
@@ -112,7 +115,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                             if (jsonObject.optString("status").equalsIgnoreCase("deleted")) {
                                 btnRemindMe.setBackgroundResource(R.drawable.bg_btn_home);
                                 btnRemindMe.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_notifications_white), null, null, null);
-                            } else if (jsonObject.optString("status").equalsIgnoreCase("added")){
+                            } else if (jsonObject.optString("status").equalsIgnoreCase("added")) {
                                 btnRemindMe.setBackgroundResource(R.drawable.bg_btn_remind_me);
                                 btnRemindMe.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
                             }
