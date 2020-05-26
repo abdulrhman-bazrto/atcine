@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:focusable="true"
     android:background="@color/black">
@@ -10,10 +10,73 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_thumbnail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="225dp"
         android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_imdb"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:src ="@drawable/ic_imdb"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_star1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/ic_star"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintStart_toEndOf="@id/iv_imdb" />
+
+    <TextView
+        android:id="@+id/tv_imdb_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="1.5"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintStart_toEndOf="@+id/iv_star1" />
+
+    <ImageView
+        android:id="@+id/iv_tomato"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_rotten_tomatoes"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintEnd_toStartOf="@id/iv_star2"/>
+
+    <ImageView
+        android:id="@+id/iv_star2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_star"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintEnd_toStartOf="@id/tv_tomato_rate" />
+
+    <TextView
+        android:id="@+id/tv_tomato_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="1.5"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/tv_title"
@@ -22,6 +85,6 @@
         android:background="@color/gray3"
         android:gravity="center"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/iv_imdb" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

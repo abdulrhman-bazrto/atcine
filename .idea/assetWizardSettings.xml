@@ -146,9 +146,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_fullscreen_exit" />
-                            <entry key="sourceFile" value="C:\Users\ASUS\Desktop\world.svg" />
+                            <entry key="outputName" value="ic_play" />
+                            <entry key="sourceFile" value="C:\Users\Hamooda-PC\Desktop\New folder (4)\ic_play.svg" />
                           </map>
                         </option>
                       </PersistentState>

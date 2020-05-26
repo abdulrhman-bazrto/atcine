@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,21 +75,31 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
+    public void clearList() {
+        this.movies.clear();
+        notifyDataSetChanged();
+    }
+
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
         ProgressBar pbLoading;
+        TextView tvTitle, tvImdb, tvTomato;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             pbLoading = itemView.findViewById(R.id.pb_loading);
+            tvTitle = itemView.findViewById(R.id.tv_show_name);
+            tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
+            tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             Utils.setOnFocusScale(itemView);
         }
 
         public void bind() {
 
-            Picasso.with(mContext).load(movies.get(getAdapterPosition()).getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
+            final Show show = movies.get(getAdapterPosition());
+            Picasso.with(mContext).load(show.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
                 @Override
                 public void onSuccess() {
                     pbLoading.setVisibility(View.GONE);
@@ -99,11 +110,13 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
                     pbLoading.setVisibility(View.GONE);
                 }
             });
+            tvTitle.setText(show.getTitle());
+            tvImdb.setText(show.getImdbRate().toString());
+            tvTomato.setText(show.getRottenTomatoes());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Show show = movies.get(getAdapterPosition());
                     if (homeMovieClick != null)
                         if (show.getIsMovie()) {
                             homeMovieClick.onClickMovie(show);

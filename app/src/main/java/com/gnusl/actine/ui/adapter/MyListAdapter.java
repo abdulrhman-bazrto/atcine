@@ -60,25 +60,29 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
-        TextView tvTitle;
+        TextView tvTitle, tvImdb, tvTomato;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             tvTitle = itemView.findViewById(R.id.tv_title);
+            tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
+            tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             Utils.setOnFocusScale(itemView);
         }
 
         public void bind() {
 
-            Picasso.with(mContext).load(movies.get(getAdapterPosition()).getThumbnailImageUrl()).into(ivThumbnail);
+            final Show show = movies.get(getAdapterPosition());
+            Picasso.with(mContext).load(show.getThumbnailImageUrl()).into(ivThumbnail);
 
-            tvTitle.setText(movies.get(getAdapterPosition()).getTitle());
+            tvTitle.setText(show.getTitle());
+            tvImdb.setText(show.getImdbRate().toString());
+            tvTomato.setText(show.getRottenTomatoes());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Show show = movies.get(getAdapterPosition());
                     if (homeMovieClick != null)
                         if (show.getIsMovie()) {
                             homeMovieClick.onClickMovie(show);

@@ -69,8 +69,8 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView ivShowImage;
-        private TextView tvShowName, tvShowSize;
+        private ImageView ivShowImage,ivPlay;
+        private TextView tvShowName, tvShowSize, tvImdb, tvTomato;
         private ImageButton btnDelete, btnDownload;
 
         MovieListViewHolder(View itemView) {
@@ -80,6 +80,9 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvShowSize = itemView.findViewById(R.id.tv_file_size);
             btnDelete = itemView.findViewById(R.id.btn_delete);
             btnDownload = itemView.findViewById(R.id.btn_download);
+            tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
+            tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
+            ivPlay = itemView.findViewById(R.id.iv_play);
         }
 
         public void bind() {
@@ -90,7 +93,8 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvShowName.setText(show.getTitle());
 
             tvShowSize.setText(show.getSize());
-
+            tvImdb.setText(show.getImdbRate().toString());
+            tvTomato.setText(show.getRottenTomatoes());
             if (show.isInStorage()) {
                 btnDelete.setVisibility(View.VISIBLE);
                 btnDownload.setVisibility(View.GONE);
@@ -99,23 +103,16 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 btnDownload.setVisibility(View.VISIBLE);
             }
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            ivPlay.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (show.isInStorage()) {
-                        File internalStorage = mContext.getFilesDir();
-                        File file = new File(internalStorage, show.getTitle() + ".mp4");
-                        Intent intent = new Intent(mContext, VideoActivity.class);
-                        intent.putExtra("url", file.getAbsolutePath());
-                        mContext.startActivity(intent);
-
-//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(file.getAbsolutePath()));
-//                        intent.setDataAndType(Uri.parse(file.getAbsolutePath()), "video/mp4");
-//                        mContext.startActivity(intent);
-
-                    } else {
-                        Toast.makeText(mContext, "download first", Toast.LENGTH_LONG).show();
-                    }
+                    playMovie(show);
+                }
+            });
+            ivShowImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    playMovie(show);
                 }
             });
 
@@ -153,7 +150,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 //                    }
 
                     String url = show.getDownloadVideoUrl();
-                    DataLoader.downloadRequest(mContext,show.getId(), url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", new DownloadDelegate() {
+                    DataLoader.downloadRequest(mContext, show.getId(), url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", new DownloadDelegate() {
                         @Override
                         public void onDownloadProgress(String fileDir, String fileName, int progress) {
 
@@ -176,6 +173,23 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 }
             });
+        }
+    }
+
+    private void playMovie(Show show) {
+        if (show.isInStorage()) {
+            File internalStorage = mContext.getFilesDir();
+            File file = new File(internalStorage, show.getTitle() + ".mp4");
+            Intent intent = new Intent(mContext, VideoActivity.class);
+            intent.putExtra("url", file.getAbsolutePath());
+            mContext.startActivity(intent);
+
+//                        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(file.getAbsolutePath()));
+//                        intent.setDataAndType(Uri.parse(file.getAbsolutePath()), "video/mp4");
+//                        mContext.startActivity(intent);
+
+        } else {
+            Toast.makeText(mContext, "download first", Toast.LENGTH_LONG).show();
         }
     }
 }

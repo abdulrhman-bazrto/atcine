@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,10 +20,12 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
+import com.gnusl.actine.model.CategoryItem;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.adapter.CategorySpinnerAdapter;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
 import com.gnusl.actine.util.Constants;
@@ -30,6 +33,7 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -83,7 +87,6 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
 
         cubMyListWithBack = inflatedView.findViewById(R.id.cub_my_list_with_back);
         rvMyList = inflatedView.findViewById(R.id.rv_my_list);
-
 
         cubMyListWithBack.getTvTitle().setText("My List");
         cubMyListWithBack.getTvTitle().setVisibility(View.GONE);
@@ -236,4 +239,6 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
                 break;
         }
     }
+
+
 }
