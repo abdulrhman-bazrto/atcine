@@ -25,7 +25,7 @@
     <color name="dark_light_gray1">#0B0B0B</color>
 
     <color name="black">#000</color>
-
+    <color name="transparent_black">#AA000000</color>
     <color name="bg_edit_text">#781515</color>
 
     <color name="transparent">#00000000</color>

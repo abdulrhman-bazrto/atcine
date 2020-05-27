@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
+    android:background="@color/transparent"
     tools:context=".ui.fragment.DownloadFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bg_movei"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.gnusl.actine.ui.custom.CustomAppBar
         android:id="@+id/cub_downloads"
@@ -86,6 +93,7 @@
             android:textColor="@color/white"
             android:textSize="21sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -93,8 +101,8 @@
             android:id="@+id/tl_main_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:layout_marginTop="20dp"
-            android:background="#000"
+            android:layout_marginTop="30dp"
+            android:background="@color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             app:tabBackground="@drawable/selector_tab_color"
             app:tabGravity="fill"
