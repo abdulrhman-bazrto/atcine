@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -17,8 +16,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.view.ContextThemeWrapper;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -63,11 +60,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
     private RecyclerView rvSuggest;
     private CustomAppBarWithBack cubHomeWithBack;
-    private Button btnReactions, btnDownload,btnShare,btnAddToMyList;
+    private Button btnReactions, btnDownload, btnShare, btnAddToMyList;
     private View clMoreLikeThis, clReactions, clInputLayout;
     private RecyclerView rvComments;
-    private TextView tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvRate;
-    private ImageView ivShowCover, ivPlayShow, ivSendComment, ivAddComment;
+    private TextView tvCategory, tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvIMDBRate, tvTomatoRate;
+    private ImageView ivShowImage, ivShowCover, ivPlayShow, ivSendComment, ivAddComment, ivBack;
     private EditText etCommentText;
 
     private CommentsAdapter commentsAdapter;
@@ -110,10 +107,13 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvYear.setText(String.valueOf(show.getYear()));
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
-        tvRate.setText("IMDB: " + show.getImdbRate());
+        tvIMDBRate.setText(show.getImdbRate());
+        tvTomatoRate.setText(show.getRottenTomatoes());
+        tvCategory.setText(show.getCategory());
         Picasso.with(getActivity()).load(show.getCoverImageUrl()).into(ivShowCover);
+        Picasso.with(getActivity()).load(show.getThumbnailImageUrl()).into(ivShowImage);
         if (show.getIsFavourite()) {
-            btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+            btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_filled_heart), null, null, null);
         }
 
         btnAddToMyList.setOnClickListener(this);
@@ -210,46 +210,49 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvShowCaption = inflatedView.findViewById(R.id.tv_show_caption);
         tvYear = inflatedView.findViewById(R.id.tv_year);
         tvWatchTime = inflatedView.findViewById(R.id.tv_watch_time);
-        ivShowCover = inflatedView.findViewById(R.id.iv_movie_image);
+        ivShowCover = inflatedView.findViewById(R.id.iv_movie_cover);
+        ivShowImage = inflatedView.findViewById(R.id.iv_movie_image);
         ivPlayShow = inflatedView.findViewById(R.id.iv_play_show);
         btnAddToMyList = inflatedView.findViewById(R.id.btn_add_to_my_list);
         btnDownload = inflatedView.findViewById(R.id.btn_download);
         btnShare = inflatedView.findViewById(R.id.btn_share);
-
+        tvCategory = inflatedView.findViewById(R.id.tv_category);
         tvCommentsCount = inflatedView.findViewById(R.id.tv_comments_count);
         tvLikesCount = inflatedView.findViewById(R.id.tv_likes_count);
         tvViewsCount = inflatedView.findViewById(R.id.tv_views_count);
-        tvRate = inflatedView.findViewById(R.id.tv_rate);
+        tvIMDBRate = inflatedView.findViewById(R.id.tv_imdb_rate);
+        tvTomatoRate = inflatedView.findViewById(R.id.tv_tomato_rate);
 
-        tvRate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ContextThemeWrapper ctw = new ContextThemeWrapper(getActivity()
-                        , R.style.CustomPopupTheme);
-                PopupMenu menu = new PopupMenu(ctw, v);
-                MenuItem sub1 = menu.getMenu().add("IMDB: " + show.getImdbRate());
-                MenuItem sub = menu.getMenu().add("Rotten Tomatoes :" + show.getRottenTomatoes());
-                menu.show();
-            }
-        });
+//        tvRate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ContextThemeWrapper ctw = new ContextThemeWrapper(getActivity()
+//                        , R.style.CustomPopupTheme);
+//                PopupMenu menu = new PopupMenu(ctw, v);
+//                MenuItem sub1 = menu.getMenu().add("IMDB: " + show.getImdbRate());
+//                MenuItem sub = menu.getMenu().add("Rotten Tomatoes :" + show.getRottenTomatoes());
+//                menu.show();
+//            }
+//        });
 
         clInputLayout = inflatedView.findViewById(R.id.cl_input_layout);
         ivSendComment = inflatedView.findViewById(R.id.iv_send_comment);
         ivAddComment = inflatedView.findViewById(R.id.iv_add_comment);
         etCommentText = inflatedView.findViewById(R.id.et_comment_text);
+        ivBack = inflatedView.findViewById(R.id.iv_back1);
 
         ivPlayShow.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
         tvLikesCount.setOnClickListener(this);
         ivSendComment.setOnClickListener(this);
         ivAddComment.setOnClickListener(this);
-
-        cubHomeWithBack.getIvBack().setOnClickListener(new View.OnClickListener() {
+        ivBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
             }
         });
+
 
     }
 
@@ -523,11 +526,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 if (jsonObject.optString("status").equalsIgnoreCase("added")) {
                     show.setIsFavourite(true);
                     if (getActivity() != null)
-                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_filled_heart), null, null, null);
                 } else {
                     show.setIsFavourite(false);
                     if (getActivity() != null)
-                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                        btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_empty_heart), null, null, null);
                 }
             }
         });
@@ -578,10 +581,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             show.setIsFavourite(jsonObject.optBoolean("is_favourite"));
             if (show.getIsFavourite()) {
                 if (getActivity() != null)
-                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_check_white), null, null, null);
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_filled_heart), null, null, null);
             } else {
                 if (getActivity() != null)
-                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.icon_mylist), null, null, null);
+                    btnAddToMyList.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.ic_empty_heart), null, null, null);
             }
 
 

@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,7 +131,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
 
                         int modifierY;
                         if (toTop) {
-                            modifierY = tvTitle.getBottom() - clMain.getTop() + 20;
+
+                            int dp1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
+                                    getActivity().getResources().getDisplayMetrics());
+                            modifierY = tvTitle.getBottom() - clMain.getTop() + 30 * dp1;
                             Animation translateAnimation = new TranslateAnimation(0, 0, 0, modifierY);
                             translateAnimation.setDuration(1000);
                             translateAnimation.setFillEnabled(true);
@@ -147,7 +151,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
                                     ConstraintSet constraintSet = new ConstraintSet();
                                     constraintSet.clone(clRoot);
                                     constraintSet.clear(R.id.cl_main, ConstraintSet.BOTTOM);
-                                    constraintSet.connect(R.id.cl_main, ConstraintSet.TOP,R.id.tv_title,ConstraintSet.BOTTOM,20);
+
+                                    constraintSet.connect(R.id.cl_main, ConstraintSet.TOP,R.id.tv_title,ConstraintSet.BOTTOM,dp1*30);
                                     constraintSet.applyTo(clRoot);
                                     clMain1.setVisibility(View.VISIBLE);
                                 }

@@ -2,104 +2,233 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
+    android:background="@color/black"
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_movie_image"
+        android:id="@+id/iv_movie_cover"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:scaleType="fitXY"
+        android:layout_height="250dp"
         android:background="@color/black"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete_2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/transparent_black"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_back1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/icon_back1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="@drawable/fg_shadow_details"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_movie_image"
-        app:layout_constraintTop_toBottomOf="@+id/iv_movie_image" />
+        android:background="@color/black"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_details"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_movie_cover" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_movie_image"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:background="@color/black"
+        android:scaleType="fitXY"
+        android:src="@drawable/delete_2"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_movie_cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_movie_cover" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_play_show"
-        android:layout_width="wrap_content"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:focusable="true"
         android:nextFocusDown="@id/btn_add_to_my_list"
-        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@+id/iv_movie_image"
         app:layout_constraintEnd_toEndOf="@+id/iv_movie_image"
         app:layout_constraintStart_toStartOf="@+id/iv_movie_image"
-        app:layout_constraintTop_toTopOf="@+id/iv_movie_image"
-        app:srcCompat="@drawable/icon_play2" />
+        app:layout_constraintTop_toBottomOf="@+id/iv_movie_image"
+        app:srcCompat="@drawable/ic_play" />
+
+    <TextView
+        android:id="@+id/tv_show_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="Ken jeong you complete me"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_play_show" />
+
+    <TextView
+        android:id="@+id/tv_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2019"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_title" />
+
+    <ImageView
+        android:id="@+id/iv_imdb"
+        android:layout_width="40dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_imdb"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_show_title"
+        app:layout_constraintEnd_toStartOf="@+id/iv_movie_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg" />
+
+    <ImageView
+        android:id="@+id/iv_star1"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star"
+        app:layout_constraintStart_toStartOf="@+id/iv_imdb"
+        app:layout_constraintTop_toBottomOf="@+id/iv_imdb" />
+
+    <TextView
+        android:id="@+id/tv_imdb_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="10dp"
+        android:text="1.5"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_star1"
+        app:layout_constraintTop_toTopOf="@+id/iv_star1" />
+
+    <ImageView
+        android:id="@+id/iv_tomato"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_rotten_tomatoes"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_show_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_movie_image"
+        app:layout_constraintTop_toTopOf="@+id/iv_bg" />
+
+    <ImageView
+        android:id="@+id/iv_star2"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star"
+        app:layout_constraintStart_toStartOf="@+id/iv_tomato"
+        app:layout_constraintTop_toBottomOf="@+id/iv_tomato" />
+
+    <TextView
+        android:id="@+id/tv_tomato_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="10dp"
+        android:text="1.5"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/iv_star2"
+        app:layout_constraintTop_toTopOf="@+id/iv_star2" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_details_actions"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/tv_year">
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline1"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.25" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/gray2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintGuide_percent="0.33" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline2"
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.5" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/gray2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline3"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.75" />
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:background="@color/gray2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintGuide_percent="0.66" />
 
         <Button
             android:id="@+id/btn_add_to_my_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/icon_mylist"
-            android:paddingStart="10dp"
+            android:drawableStart="@drawable/ic_empty_heart"
+            android:drawablePadding="10dp"
+            android:focusable="true"
             android:nextFocusUp="@id/iv_play_show"
+            android:paddingStart="10dp"
             android:paddingEnd="10dp"
-            android:text="My List"
+            android:text="Favorite"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/guideline2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btn_reactions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/icon_rate"
+            android:drawablePadding="5dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/iv_play_show"
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:text="Reactions"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline2"
+            app:layout_constraintStart_toEndOf="@+id/guideline1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:drawableStart="@drawable/ic_share"
+            android:drawablePadding="10dp"
+            android:focusable="true"
+            android:nextFocusUp="@id/iv_play_show"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Share"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -109,17 +238,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_reactions"
+            android:id="@+id/btn_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:focusable="true"
             android:background="@color/transparent"
-            android:drawableStart="@drawable/icon_rate"
-            android:drawablePadding="5dp"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp"
+            android:drawableStart="@drawable/ic_download"
+            android:drawablePadding="10dp"
+            android:focusable="true"
             android:nextFocusUp="@id/iv_play_show"
-            android:text="Reactions"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:text="Download"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="14sp"
@@ -128,104 +257,70 @@
             app:layout_constraintStart_toEndOf="@+id/guideline1"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/btn_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:drawableStart="@drawable/icon_share"
-            android:paddingStart="10dp"
-            android:focusable="true"
-            android:paddingEnd="10dp"
-            android:nextFocusUp="@id/iv_play_show"
-            android:text="Share"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toEndOf="@+id/guideline2"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btn_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:focusable="true"
-            android:drawableStart="@drawable/icon_download_15"
-            android:drawablePadding="7dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:text="Download"
-            android:nextFocusUp="@id/iv_play_show"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/guideline3"
-            app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="#707070"
+        app:layout_constraintTop_toBottomOf="@+id/cl_details_actions" />
+
+    <ImageView
+        android:id="@+id/iv_clock"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_clock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/tv_watch_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:text="2h 20m"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/iv_clock"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/bg_category"
+        android:paddingStart="10dp"
+        android:paddingTop="2dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="2dp"
+        android:text="Action"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/tv_watch_time"
+        app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/tv_show_caption"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="10dp"
+        android:ellipsize="end"
         android:maxLines="3"
         android:text="Panipat movie poster: Ashutosh Gowarker has a knack for making good period dramas. Over the years, he has treated his audience with exceptional cinematic grandeur."
-        android:textColor="@color/gray2"
-        app:layout_constraintBottom_toTopOf="@+id/cl_details_actions"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_rate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="80% Match"
-        android:textColor="@color/main_red_color"
-        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_year"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="10dp"
-        android:text="2019"
-        android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
-        app:layout_constraintStart_toEndOf="@+id/tv_rate" />
-
-    <TextView
-        android:id="@+id/tv_watch_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="10dp"
-        android:text="2h 20m"
-        android:textColor="@color/gray"
-        app:layout_constraintBottom_toTopOf="@+id/tv_show_caption"
-        app:layout_constraintStart_toEndOf="@+id/tv_year" />
-
-    <TextView
-        android:id="@+id/tv_show_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="5dp"
-        android:text="Ken jeong you complete me"
         android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/tv_match"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_clock" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
