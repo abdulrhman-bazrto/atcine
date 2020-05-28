@@ -51,7 +51,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     //    private SelectGenresView sgvHome;
     private KProgressHUD progressHUD;
 
-    private TextView tvMovies, tvSeries;
+    private TextView tvMovies, tvSeries,tvSeeAll;
     private GenresAdapter genresAdapter;
 
     public HomeFragment() {
@@ -207,6 +207,18 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         });
 
+        tvSeeAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null) {
+                    Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+                    if (fragment instanceof HomeContainerFragment) {
+                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, null);
+                    }
+                }
+            }
+        });
+
     }
 
     private void findViews() {
@@ -217,6 +229,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         tvMovies = inflatedView.findViewById(R.id.tv_movies);
         tvSeries = inflatedView.findViewById(R.id.tv_series);
         rvGenres = inflatedView.findViewById(R.id.rv_genres);
+        tvSeeAll = inflatedView.findViewById(R.id.tv_see_all);
 
     }
 
