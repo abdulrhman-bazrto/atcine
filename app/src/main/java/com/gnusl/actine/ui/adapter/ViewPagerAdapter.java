@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.adapter;
 
+import android.util.SparseArray;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
@@ -43,5 +44,6 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
+
 
 }
