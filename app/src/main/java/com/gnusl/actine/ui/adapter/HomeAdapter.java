@@ -267,7 +267,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             rvMovieList.setLayoutManager(layoutManager);
 
-            rvMovieList.swapAdapter(homeMovieListAdapter, false);
+                rvMovieList.swapAdapter(homeMovieListAdapter, false);
 
         }
     }
