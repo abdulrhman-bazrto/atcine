@@ -754,7 +754,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         }
         adapter.addFragment(trailerFragment, "Trailer");
         adapter.addFragment(OverviewFragment.newInstance(bundle), "Overview");
-        adapter.addFragment(new ReviewsFragment(), "Reviews");
+        adapter.addFragment(ReviewsFragment.newInstance(bundle), "Reviews");
 
         viewPager.setAdapter(adapter);
 
