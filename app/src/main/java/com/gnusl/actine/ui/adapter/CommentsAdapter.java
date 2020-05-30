@@ -6,12 +6,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.CommentLongClickEvent;
 import com.gnusl.actine.model.Comment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         holder.tvComment.setText(comment.getComment());
         holder.tvUserName.setText(comment.getProfile().getName());
         holder.tvCommentTime.setText(comment.getCreatedAt());
+        Picasso.with(mContext).load(comment.getProfile().getImageUrl()).into(holder.ivProfile);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -72,12 +75,15 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     class CommentsViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvUserName, tvCommentTime, tvComment;
+        ImageView ivProfile;
 
         CommentsViewHolder(View itemView) {
             super(itemView);
             tvComment = itemView.findViewById(R.id.tv_comment);
             tvCommentTime = itemView.findViewById(R.id.tv_comment_time);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
+            ivProfile = itemView.findViewById(R.id.iv_profile);
+
         }
     }
 }

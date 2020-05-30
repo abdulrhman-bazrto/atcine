@@ -81,10 +81,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_reactions"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:visibility="gone"
+            android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/l_show_details">
+            app:layout_constraintTop_toBottomOf="@+id/cl_more_like_this">
 
             <TextView
                 android:id="@+id/tv_views_count"
