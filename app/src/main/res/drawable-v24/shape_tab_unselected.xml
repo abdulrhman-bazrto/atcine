@@ -1,0 +1,8 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- Bottom indicator color for the UNSELECTED tab state -->
+<item  android:top="-10dp" android:left="-1000dp" android:right="-1000dp">
+    <shape android:shape="rectangle" >
+        <stroke android:color="#B41218" android:width="2dp"/>
+    </shape>
+</item>
+</layer-list>

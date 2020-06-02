@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -37,10 +39,14 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.activity.WatchActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
+import com.gnusl.actine.ui.adapter.ViewPagerAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.ui.custom.NonScrollHomeViewPager;
+import com.gnusl.actine.ui.custom.NonScrollHomeViewPager1;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.ObjectBox;
 import com.gnusl.actine.util.Utils;
+import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -72,6 +78,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private Show show;
     private Toast downloadingToast;
 
+    private TabLayout tlMainTabLayout;
+    private NonScrollHomeViewPager1 vpMainContainer;
+    private ViewPagerAdapter adapter;
+    private TrailerFragment trailerFragment;
+
     public ShowDetailsFragment() {
     }
 
@@ -87,6 +98,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         if (getArguments() != null) {
             show = (Show) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
         }
+
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
+
     }
 
     @Override
@@ -102,6 +116,50 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private void init() {
 
         findViews();
+
+        setupViewPager(vpMainContainer);
+        vpMainContainer.setOffscreenPageLimit(3);
+
+        tlMainTabLayout.setupWithViewPager(vpMainContainer);
+
+        tlMainTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int position = tab.getPosition();
+//                changeTabTitle(position);
+                vpMainContainer.setCurrentItem(position,false);
+
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                vpMainContainer.reMeasureCurrentPage(vpMainContainer.getCurrentItem());
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         tvShowTitle.setText(show.getTitle());
         tvYear.setText(String.valueOf(show.getYear()));
@@ -240,6 +298,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         ivAddComment = inflatedView.findViewById(R.id.iv_add_comment);
         etCommentText = inflatedView.findViewById(R.id.et_comment_text);
         ivBack = inflatedView.findViewById(R.id.iv_back1);
+
+        tlMainTabLayout = inflatedView.findViewById(R.id.tl_main_tab_layout);
+        vpMainContainer = inflatedView.findViewById(R.id.vp_main_container);
 
         ivPlayShow.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
@@ -682,5 +743,20 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "cancel", (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        adapter = new ViewPagerAdapter(getChildFragmentManager());
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
+        if (trailerFragment == null) {
+            trailerFragment = TrailerFragment.newInstance(bundle);
+        }
+        adapter.addFragment(trailerFragment, "Trailer");
+        adapter.addFragment(OverviewFragment.newInstance(bundle), "Overview");
+        adapter.addFragment(ReviewsFragment.newInstance(bundle), "Reviews");
+
+        viewPager.setAdapter(adapter);
+
     }
 }
