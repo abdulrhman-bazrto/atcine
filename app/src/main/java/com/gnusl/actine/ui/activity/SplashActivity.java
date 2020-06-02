@@ -4,14 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.view.animation.AnimationSet;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.User;
+import com.gnusl.actine.ui.animate.ResizeAnimation;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 
 public class SplashActivity extends AppCompatActivity {
@@ -46,12 +46,35 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 finish();
             }
-        }, 2000);
+        }, 10000);
 
 
-        Animation a = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
-        a.setDuration(1300);
-        findViewById(R.id.tv_app_title).startAnimation(a);
+        AnimationSet animationSet = new AnimationSet(false);
+
+//        Animation scale = new ScaleAnimation(100f,10f,1000f,10f);
+//        scale.setDuration(1000);
+//        animationSet.addAnimation(scale);
+
+        ResizeAnimation resizeAnimation = new ResizeAnimation(imageView);
+        resizeAnimation.setDuration(2500);
+
+        resizeAnimation.setParams(10000, 200);
+
+        animationSet.addAnimation(resizeAnimation);
+
+//        Animation fadeOut = new AlphaAnimation(1, 0);
+//        fadeOut.setStartOffset(1000);
+//        fadeOut.setDuration(1000);
+//
+//        animationSet.addAnimation(fadeOut);
+
+        animationSet.start();
+
+        imageView.startAnimation(animationSet);
+
+//        Animation a = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
+//        a.setDuration(1300);
+//        findViewById(R.id.tv_app_title).startAnimation(a);
 
 //        YoYo.with(Techniques.Landing)
 //                .duration(1000)
