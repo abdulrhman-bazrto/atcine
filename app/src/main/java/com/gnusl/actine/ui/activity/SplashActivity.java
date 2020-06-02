@@ -46,7 +46,7 @@ public class SplashActivity extends AppCompatActivity {
                 }
                 finish();
             }
-        }, 10000);
+        }, 3000);
 
 
         AnimationSet animationSet = new AnimationSet(false);
