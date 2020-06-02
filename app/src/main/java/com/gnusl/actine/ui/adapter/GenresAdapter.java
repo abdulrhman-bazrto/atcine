@@ -1,12 +1,13 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.GenresClickEvents;
@@ -49,6 +50,72 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
                     genresClickEvents.onSelectGenres(genres.get(holder.getAdapterPosition()));
             }
         });
+        switch (position) {
+            case 0:
+            case 9:
+            case 18:
+            case 27:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay));
+                break;
+
+            case 1:
+            case 10:
+            case 19:
+            case 28:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay1));
+                break;
+
+            case 2:
+            case 11:
+            case 20:
+            case 29:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay2));
+                break;
+
+            case 3:
+            case 12:
+            case 21:
+            case 30:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay3));
+                break;
+
+            case 4:
+            case 13:
+            case 22:
+            case 31:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay4));
+                break;
+
+            case 5:
+            case 14:
+            case 23:
+            case 32:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay5));
+                break;
+
+            case 6:
+            case 15:
+            case 24:
+            case 33:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay6));
+                break;
+
+            case 7:
+            case 16:
+            case 25:
+            case 34:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay7));
+                break;
+
+            case 8:
+            case 17:
+            case 26:
+            case 35:
+                holder.ivCategoryOverlay.setBackground(mContext.getResources().getDrawable(R.drawable.bg_overlay8));
+                break;
+
+
+        }
     }
 
     public void setClickListener(GenresClickEvents genresClickEvents) {
@@ -68,10 +135,12 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
     class GenresViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvGenresName;
+        View ivCategoryOverlay;
 
         GenresViewHolder(View itemView) {
             super(itemView);
             tvGenresName = itemView.findViewById(R.id.tv_genres_name);
+            ivCategoryOverlay = itemView.findViewById(R.id.iv_category_overlay);
         }
     }
 }
