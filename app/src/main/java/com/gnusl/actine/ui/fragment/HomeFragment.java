@@ -5,10 +5,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,10 +115,23 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
+//        AnimationSet set = new AnimationSet(true);
+//        Animation animation = new AlphaAnimation(0.0f, 1.0f);
+//        animation.setDuration(1500);
+//        set.addAnimation(animation);
+//
+//        animation = new TranslateAnimation(
+//                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
+//                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
+//        );
+//        animation.setDuration(100);
+//        set.addAnimation(animation);
+//        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
+//        rvGenres.setLayoutAnimation(controller);
+
         rvGenres.setLayoutManager(gridLayoutManager);
 
         rvGenres.setAdapter(genresAdapter);
-
 //        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
 //            case Movies:
 //                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
@@ -213,7 +234,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof HomeContainerFragment) {
-                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, null);
+                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, null, null);
                     }
                 }
             }
@@ -234,13 +255,14 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     }
 
     @Override
-    public void onClickMovie(Show movie) {
+    public void onClickMovie(Show movie, ImageView ivThumbnail) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof HomeContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle,ivThumbnail);
             }
         }
     }
@@ -253,7 +275,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                 bundle.putString("type", "season");
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
             }
         }
     }
@@ -278,7 +300,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 }
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null);
             }
         }
     }
@@ -341,6 +363,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         categoriesTemp.add(categories.get(i));
                 }
                 genresAdapter.setList(categoriesTemp);
+                rvGenres.scheduleLayoutAnimation();
+
             }
         }
 

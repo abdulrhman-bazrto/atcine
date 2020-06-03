@@ -65,10 +65,10 @@
             android:id="@+id/sp_category"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginRight="2dp"
+            android:layout_marginEnd="2dp"
+            android:popupBackground="@color/transparent"
+            android:dropDownVerticalOffset="40dp"
             android:background="@color/transparent"
-            android:backgroundTint="@color/main_red_color"
-            app:backgroundTint="@color/main_red_color"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/et_search"
             app:layout_constraintTop_toTopOf="@+id/et_search" />

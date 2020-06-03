@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,7 +42,6 @@ import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.adapter.ViewPagerAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
-import com.gnusl.actine.ui.custom.NonScrollHomeViewPager;
 import com.gnusl.actine.ui.custom.NonScrollHomeViewPager1;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.ObjectBox;
@@ -82,6 +82,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private NonScrollHomeViewPager1 vpMainContainer;
     private ViewPagerAdapter adapter;
     private TrailerFragment trailerFragment;
+    String imageTransitionName;
 
     public ShowDetailsFragment() {
     }
@@ -97,9 +98,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             show = (Show) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
-        }
+            this.imageTransitionName = getArguments().getString("transition");
 
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
+        }
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_left));
 
     }
 
@@ -280,6 +283,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvViewsCount = inflatedView.findViewById(R.id.tv_views_count);
         tvIMDBRate = inflatedView.findViewById(R.id.tv_imdb_rate);
         tvTomatoRate = inflatedView.findViewById(R.id.tv_tomato_rate);
+        ivShowImage.setTransitionName(imageTransitionName);
 
 //        tvRate.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -318,17 +322,18 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     }
 
     @Override
-    public void onClickMovie(Show movie) {
+    public void onClickMovie(Show movie, ImageView ivThumbnail) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             Bundle bundle = new Bundle();
             bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
+            bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
             if (fragment instanceof HomeContainerFragment) {
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             } else if (fragment instanceof MoreContainerFragment) {
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             } else if (fragment instanceof SearchContainerFragment) {
-                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             }
         }
     }
@@ -341,18 +346,18 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 if (series.getIsEpisode()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
                 } else if (series.getIsSeason()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                     bundle.putString("type", "episode");
                     bundle.putString("seasonId", String.valueOf(series.getId()));
-                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
                 } else { // click on series
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                     bundle.putString("type", "season");
-                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
                 }
             } else if (fragment instanceof MoreContainerFragment) {
                 if (series.getIsEpisode()) {
@@ -375,18 +380,18 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 if (series.getIsEpisode()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
                 } else if (series.getIsSeason()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                     bundle.putString("type", "episode");
                     bundle.putString("seasonId", String.valueOf(series.getId()));
-                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
                 } else { // click on series
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                     bundle.putString("type", "season");
-                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle);
+                    ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
                 }
             }
         }

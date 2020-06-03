@@ -2,12 +2,14 @@ package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
@@ -53,10 +55,10 @@ public class HomeContainerFragment extends Fragment {
     }
 
     private void init() {
-        replaceFragment(FragmentTags.HomeFragment, null);
+        replaceFragment(FragmentTags.HomeFragment, null, null);
     }
 
-    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
+    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle, ImageView ivThumbnail) {
 
         // init manager
         FragmentManager fragmentManager = getChildFragmentManager();
@@ -75,7 +77,7 @@ public class HomeContainerFragment extends Fragment {
             case ShowDetailsFragment:
 
                 mCurrentFragment = ShowDetailsFragment.newInstance(bundle);
-                transaction.replace(R.id.frame_container_home, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.addSharedElement(ivThumbnail, ViewCompat.getTransitionName(ivThumbnail)).replace(R.id.frame_container_home, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;

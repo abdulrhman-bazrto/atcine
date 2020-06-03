@@ -80,7 +80,7 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvProfileName.setText(profile.getName());
 
             Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
-            ViewCompat.setTransitionName(ivProfile,"test" + getAdapterPosition());
+            ViewCompat.setTransitionName(ivProfile,"transition" + getAdapterPosition());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
@@ -83,13 +84,14 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     pbLoading.setVisibility(View.GONE);
                 }
             });
+            ViewCompat.setTransitionName(ivThumbnail,"transition" + movie.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null) {
                         if (movie.getIsMovie())
-                            homeMovieClick.onClickMovie(movie);
+                            homeMovieClick.onClickMovie(movie,ivThumbnail);
                         else
                             homeMovieClick.onClickSeries(movie);
                     }

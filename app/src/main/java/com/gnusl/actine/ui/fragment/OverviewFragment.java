@@ -21,6 +21,8 @@ import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
+import com.gnusl.actine.model.Cast;
+import com.gnusl.actine.model.Comment;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
@@ -37,16 +39,17 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 
-public class OverviewFragment extends Fragment implements View.OnClickListener {
+public class OverviewFragment extends Fragment implements View.OnClickListener , ConnectionDelegate{
 
     View inflatedView;
 
     private TextView tvDirector,tvWriters,tvReleaseDate,tvType,tvLanguage;
     private Show show;
     RecyclerView rvCast;
-
+    CastAdapter castAdapter;
     public OverviewFragment() {
     }
 
@@ -61,7 +64,6 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             show = (Show) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
-
         }
     }
 
@@ -82,22 +84,16 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
         tvReleaseDate.setText(show.getYear() + "");
         tvType.setText(show.getCategory());
 //        tvLanguage.setText(show.getLanguage());
-        List<Show> movies = new ArrayList<>();
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        movies.add(show);
-        CastAdapter castAdapter = new CastAdapter(getActivity(),movies);
+
+         castAdapter = new CastAdapter(getActivity(),new ArrayList<Cast>());
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
 
         rvCast.setLayoutManager(layoutManager);
 
         rvCast.setAdapter(castAdapter);
+//        sendGetCastRequest();
+
     }
 
     private void findViews() {
@@ -110,11 +106,39 @@ public class OverviewFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    private void sendGetCastRequest() {
+
+        if (show.getIsMovie()) {
+            DataLoader.getRequest(Urls.MovieCast.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        } else if (show.getIsEpisode()) {
+            DataLoader.getRequest(Urls.EpisodeCast.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
 
         }
+    }
+    @Override
+    public void onConnectionError(int code, String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionError(ANError anError) {
+        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onConnectionSuccess(JSONObject jsonObject) {
+
+        if (jsonObject.has("data")) {
+            List<Cast> cast = Cast.newArray(jsonObject.optJSONArray("data"));
+            castAdapter.setList(cast);
+        }
+
     }
 
 }

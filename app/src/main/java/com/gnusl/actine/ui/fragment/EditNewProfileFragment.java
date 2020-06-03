@@ -67,7 +67,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.profile = (Profile) getArguments().getSerializable(Constants.EditNewProfileExtra.getConst());
-            this.imageTransitionName = getArguments().getString("test");
+            this.imageTransitionName = getArguments().getString("transition");
 
         }
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));

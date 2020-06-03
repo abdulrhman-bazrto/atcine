@@ -6,10 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Spinner;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,12 +21,10 @@ import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
-import com.gnusl.actine.model.CategoryItem;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
-import com.gnusl.actine.ui.adapter.CategorySpinnerAdapter;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
 import com.gnusl.actine.util.Constants;
@@ -33,7 +32,6 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -173,13 +171,14 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     }
 
     @Override
-    public void onClickMovie(Show show) {
+    public void onClickMovie(Show show, ImageView ivThumbnail) {
         if (getActivity() != null) {
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
+                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
+                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             }
         }
     }
@@ -221,6 +220,7 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
             case TvShows:
                 List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
                 myListAdapter.setList(series);
+
                 if (series.isEmpty()) {
                     inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
                 } else {
@@ -239,6 +239,4 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
                 break;
         }
     }
-
-
 }

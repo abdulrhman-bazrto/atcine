@@ -148,7 +148,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
                 }
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null);
             }
         }
     }

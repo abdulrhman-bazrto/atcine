@@ -108,12 +108,12 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         rvComments.addItemDecoration(new MarginItemDecoration(20 * dp1));
         rvComments.setAdapter(commentsAdapter);
         String url = "";
-        if (show.getIsMovie()) {
-            url = Urls.Movie.getLink();
-        } else if (show.getIsEpisode()) {
-            url = Urls.Episode.getLink();
-        }
-        DataLoader.getRequest(url + show.getId(), this);
+//        if (show.getIsMovie()) {
+//            url = Urls.Movie.getLink();
+//        } else if (show.getIsEpisode()) {
+//            url = Urls.Episode.getLink();
+//        }
+//        DataLoader.getRequest(url + show.getId(), this);
 
         sendGetCommentsRequest();
 

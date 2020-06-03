@@ -95,7 +95,7 @@ public class MoreContainerFragment extends Fragment {
             case ShowDetailsFragment:
 
                 mCurrentFragment = ShowDetailsFragment.newInstance(bundle);
-                transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.addSharedElement(ivProfile, ViewCompat.getTransitionName(ivProfile)).replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;

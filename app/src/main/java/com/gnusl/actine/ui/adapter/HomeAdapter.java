@@ -165,7 +165,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 public void onClick(View v) {
                     if (homeMovieClick != null) {
                         if (trendShow.getIsMovie())
-                            homeMovieClick.onClickMovie(trendShow);
+                            homeMovieClick.onClickMovie(trendShow, null);
                         else
                             homeMovieClick.onClickSeries(trendShow);
                     }

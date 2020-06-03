@@ -64,7 +64,7 @@ public class CustomAppBarWithSelectAndBack extends ConstraintLayout {
         list.add(tvShows);
 
         CategorySpinnerAdapter adapter = new CategorySpinnerAdapter(mContext,
-                R.layout.item_spinner_category, list);
+                R.layout.item_spinner_category, list,R.layout.item_spinner_category);
         adapter.setDropDownViewResource(R.layout.item_spinner_category);
 
 

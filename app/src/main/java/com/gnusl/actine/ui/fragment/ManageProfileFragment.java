@@ -127,7 +127,7 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
             if (fragment instanceof MoreContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.EditNewProfileExtra.getConst(), profile);
-                bundle.putString("test", ViewCompat.getTransitionName(ivProfile));
+                bundle.putString("transition", ViewCompat.getTransitionName(ivProfile));
                 ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle,ivProfile);
             }
         }

@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
@@ -113,16 +114,17 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle.setText(show.getTitle());
             tvImdb.setText(show.getImdbRate().toString());
             tvTomato.setText(show.getRottenTomatoes());
+            ViewCompat.setTransitionName(ivThumbnail,"transition" + show.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
                         if (show.getIsMovie()) {
-                            homeMovieClick.onClickMovie(show);
+                            homeMovieClick.onClickMovie(show, ivThumbnail);
                         } else if (!show.getIsMovie()) {
                             if (show.getIsEpisode()) {
-                                homeMovieClick.onClickMovie(show);
+                                homeMovieClick.onClickMovie(show, null);
                             } else {
                                 homeMovieClick.onClickSeries(show);
                             }

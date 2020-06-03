@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.model.Show;
+import com.gnusl.actine.model.Cast;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -23,10 +23,10 @@ import java.util.List;
 public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
-    private List<Show> cast = new ArrayList<>();
+    private List<Cast> cast = new ArrayList<>();
 
 
-    public CastAdapter(Context context, List<Show> cast) {
+    public CastAdapter(Context context, List<Cast> cast) {
         this.mContext = context;
         this.cast = cast;
     }
@@ -60,44 +60,48 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         ImageView ivThumbnail;
         ProgressBar pbLoading;
-        TextView tvShowName,tvRealName;
+        TextView tvType,tvRealName;
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             tvRealName = itemView.findViewById(R.id.tv_real_name);
-            tvShowName = itemView.findViewById(R.id.tv_show_name);
+            tvType = itemView.findViewById(R.id.tv_type);
             pbLoading = itemView.findViewById(R.id.pb_loading);
             Utils.setOnFocusScale(itemView);
         }
 
-        public void bind(Show movie) {
+        public void bind(Cast cast) {
 
-            tvShowName.setText(movie.getTitle());
-            tvRealName.setText(movie.getYear()+"");
-            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
-                @Override
-                public void onSuccess() {
-                    pbLoading.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onError() {
-                    pbLoading.setVisibility(View.GONE);
-                }
-            });
+            tvType.setText(cast.getType());
+            tvRealName.setText(cast.getName());
+//            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
+//                @Override
+//                public void onSuccess() {
+//                    pbLoading.setVisibility(View.GONE);
+//                }
+//
+//                @Override
+//                public void onError() {
+//                    pbLoading.setVisibility(View.GONE);
+//                }
+//            });
 
 
         }
     }
 
-    @Override
-    public long getItemId(int position) {
-        return cast.get(position).getId();
-    }
+//    @Override
+//    public long getItemId(int position) {
+//        return cast.get(position).getId();
+//    }
 
     @Override
     public int getItemViewType(int position) {
         return position;
     }
 
+    public void setList(List<Cast> cast) {
+        this.cast = cast;
+        notifyDataSetChanged();
+    }
 }

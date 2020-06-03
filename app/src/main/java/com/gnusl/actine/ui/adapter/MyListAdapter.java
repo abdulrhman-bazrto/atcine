@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
@@ -75,6 +76,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             final Show show = movies.get(getAdapterPosition());
             Picasso.with(mContext).load(show.getThumbnailImageUrl()).into(ivThumbnail);
+            ViewCompat.setTransitionName(ivThumbnail,"transition" + show.getId());
 
             tvTitle.setText(show.getTitle());
             tvImdb.setText(show.getImdbRate().toString());
@@ -85,10 +87,10 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
                     if (homeMovieClick != null)
                         if (show.getIsMovie()) {
-                            homeMovieClick.onClickMovie(show);
+                            homeMovieClick.onClickMovie(show, ivThumbnail);
                         } else if (!show.getIsMovie()) {
                             if (show.getIsEpisode()) {
-                                homeMovieClick.onClickMovie(show);
+                                homeMovieClick.onClickMovie(show, ivThumbnail);
                             } else {
                                 homeMovieClick.onClickSeries(show);
                             }
