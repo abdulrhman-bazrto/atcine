@@ -90,10 +90,10 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null) {
-                        if (movie.getIsMovie())
+//                        if (movie.getIsMovie())
                             homeMovieClick.onClickMovie(movie,ivThumbnail);
-                        else
-                            homeMovieClick.onClickSeries(movie);
+//                        else
+//                            homeMovieClick.onClickSeries(movie);
                     }
 
                 }

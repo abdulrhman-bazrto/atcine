@@ -114,21 +114,21 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle.setText(show.getTitle());
             tvImdb.setText(show.getImdbRate().toString());
             tvTomato.setText(show.getRottenTomatoes());
-            ViewCompat.setTransitionName(ivThumbnail,"transition" + show.getId());
+            ViewCompat.setTransitionName(ivThumbnail, "transition" + show.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
-                        if (show.getIsMovie()) {
-                            homeMovieClick.onClickMovie(show, ivThumbnail);
-                        } else if (!show.getIsMovie()) {
-                            if (show.getIsEpisode()) {
-                                homeMovieClick.onClickMovie(show, null);
-                            } else {
-                                homeMovieClick.onClickSeries(show);
-                            }
-                        }
+//                        if (show.getIsMovie()) {
+                        homeMovieClick.onClickMovie(show, ivThumbnail);
+//                        } else if (!show.getIsMovie()) {
+//                            if (show.getIsEpisode()) {
+//                                homeMovieClick.onClickMovie(show, null);
+//                            } else {
+//                                homeMovieClick.onClickSeries(show);
+//                            }
+//                        }
                 }
             });
         }

@@ -43,7 +43,7 @@
             android:layout_marginStart="15dp"
             android:drawableStart="@drawable/ic_views"
             android:drawablePadding="5dp"
-            android:text="2,870,979"
+            android:text="0"
             android:textColor="@color/gray"
             app:layout_constraintStart_toEndOf="@+id/tv_add_comment"
             app:layout_constraintTop_toTopOf="@+id/tv_add_comment" />
@@ -55,7 +55,7 @@
             android:layout_marginStart="10dp"
             android:drawableStart="@drawable/icon_rate"
             android:drawablePadding="5dp"
-            android:text="150,000"
+            android:text="0"
             android:textColor="@color/gray"
             app:layout_constraintStart_toEndOf="@+id/tv_views_count"
             app:layout_constraintTop_toTopOf="@+id/tv_add_comment"  />
@@ -67,7 +67,7 @@
             android:layout_marginStart="10dp"
             android:drawableStart="@drawable/icon_comments"
             android:drawablePadding="5dp"
-            android:text="349"
+            android:text="0"
             android:textColor="@color/gray"
             app:layout_constraintStart_toEndOf="@+id/tv_likes_count"
             app:layout_constraintTop_toTopOf="@+id/tv_add_comment"  />

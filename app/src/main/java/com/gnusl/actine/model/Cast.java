@@ -11,11 +11,13 @@ public class Cast implements Serializable {
 
     private String name;
     private String type;
+    private String imageURL;
 
     public static Cast newInstance(JSONObject jsonObject) {
         Cast cast = new Cast();
         cast.setName(jsonObject.optString("name"));
         cast.setType(jsonObject.optString("type"));
+        cast.setImageURL(jsonObject.optString("image"));
 
         return cast;
     }
@@ -43,4 +45,24 @@ public class Cast implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
+
+//    @Override
+//    public int describeContents() {
+//        return 0;
+//    }
+//
+//    @Override
+//    public void writeToParcel(Parcel dest, int flags) {
+//        dest.writeString(name);
+//        dest.writeString(type);
+//        dest.writeString(imageURL);
+//    }
 }

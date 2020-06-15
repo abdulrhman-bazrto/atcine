@@ -105,15 +105,15 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         rvComments.setLayoutManager(layoutManager);
         int dp1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                 getActivity().getResources().getDisplayMetrics());
-        rvComments.addItemDecoration(new MarginItemDecoration(20 * dp1));
+        rvComments.addItemDecoration(new MarginItemDecoration(20 * dp1,getActivity(), 0));
         rvComments.setAdapter(commentsAdapter);
         String url = "";
-//        if (show.getIsMovie()) {
-//            url = Urls.Movie.getLink();
-//        } else if (show.getIsEpisode()) {
-//            url = Urls.Episode.getLink();
-//        }
-//        DataLoader.getRequest(url + show.getId(), this);
+        if (show.getIsMovie()) {
+            url = Urls.Movie.getLink();
+        } else {
+            url = Urls.Series.getLink();
+        }
+        DataLoader.getRequest(url + show.getId(), this);
 
         sendGetCommentsRequest();
 
@@ -139,8 +139,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
         if (show.getIsMovie()) {
             DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
-        } else if (show.getIsEpisode()) {
-            DataLoader.getRequest(Urls.EpisodeComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
+        } else  {
+            DataLoader.getRequest(Urls.SeriesComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
         }
     }
 
@@ -202,8 +202,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                 String url = "";
                 if (show.getIsMovie()) {
                     url = Urls.MovieComments.getLink();
-                } else if (show.getIsEpisode()) {
-                    url = Urls.EpisodeComments.getLink();
+                } else {
+                    url = Urls.SeriesComments.getLink();
                 }
                 DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
                     @Override
@@ -227,8 +227,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             String url = "";
                             if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            } else if (show.getIsEpisode()) {
-                                url = Urls.EpisodeComments.getLink();
+                            } else  {
+                                url = Urls.SeriesComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
                         }

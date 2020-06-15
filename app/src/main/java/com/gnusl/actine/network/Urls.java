@@ -31,6 +31,7 @@ public enum Urls {
     SerieFavorite(Series.getLink() + "%id%/favourite"),
     SeriesMyList(Series.getLink() + "favourite"),
     SeriesDownloaded(Series.getLink() + "favourite"),
+    SeriesComments(Series.getLink() + "%id%/comment"),
 
     Episode(API.getLink() + "episode/"),
     EpisodeComments(Episode.getLink() + "%id%/comment"),

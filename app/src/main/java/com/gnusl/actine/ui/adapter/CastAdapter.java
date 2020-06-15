@@ -74,17 +74,17 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             tvType.setText(cast.getType());
             tvRealName.setText(cast.getName());
-//            Picasso.with(mContext).load(movie.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
-//                @Override
-//                public void onSuccess() {
-//                    pbLoading.setVisibility(View.GONE);
-//                }
-//
-//                @Override
-//                public void onError() {
-//                    pbLoading.setVisibility(View.GONE);
-//                }
-//            });
+            Picasso.with(mContext).load(cast.getImageURL()).into(ivThumbnail, new Callback() {
+                @Override
+                public void onSuccess() {
+                    pbLoading.setVisibility(View.GONE);
+                }
+
+                @Override
+                public void onError() {
+                    pbLoading.setVisibility(View.GONE);
+                }
+            });
 
 
         }

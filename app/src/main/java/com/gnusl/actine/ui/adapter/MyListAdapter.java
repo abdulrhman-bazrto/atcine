@@ -86,15 +86,15 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null)
-                        if (show.getIsMovie()) {
+//                        if (show.getIsMovie()) {
                             homeMovieClick.onClickMovie(show, ivThumbnail);
-                        } else if (!show.getIsMovie()) {
-                            if (show.getIsEpisode()) {
-                                homeMovieClick.onClickMovie(show, ivThumbnail);
-                            } else {
-                                homeMovieClick.onClickSeries(show);
-                            }
-                        }
+//                        } else if (!show.getIsMovie()) {
+//                            if (show.getIsEpisode()) {
+//                                homeMovieClick.onClickMovie(show, ivThumbnail);
+//                            } else {
+//                                homeMovieClick.onClickSeries(show);
+//                            }
+//                        }
                 }
             });
         }
