@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
@@ -60,16 +61,25 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
         return movies.size();
     }
 
+    public void setList(List<Show> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
+    }
+
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
         GifImageView pbLoading;
+        TextView tvTitle, tvImdb, tvTomato;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             pbLoading = itemView.findViewById(R.id.pb_loading);
             pbLoading.setGifImageResource(R.drawable.loader);
+            tvTitle = itemView.findViewById(R.id.tv_show_name);
+            tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
+            tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             Utils.setOnFocusScale(itemView);
         }
 
@@ -86,6 +96,8 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
                     pbLoading.setVisibility(View.GONE);
                 }
             });
+            tvImdb.setText(movie.getImdbRate().toString());
+            tvTomato.setText(movie.getRottenTomatoes());
             ViewCompat.setTransitionName(ivThumbnail,"transition" + movie.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {

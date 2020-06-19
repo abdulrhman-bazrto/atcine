@@ -15,6 +15,7 @@ import com.gnusl.actine.ui.fragment.HelpFragment;
 import com.gnusl.actine.ui.fragment.LoginFragment;
 import com.gnusl.actine.ui.fragment.PaymentLessFragment;
 import com.gnusl.actine.ui.fragment.RegisterFragment;
+import com.gnusl.actine.ui.fragment.ToWatchFragment;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -89,12 +90,21 @@ public class AuthActivity extends AppCompatActivity {
                 transaction.commit();
 
                 break;
+            case ToWatchFragment:
+
+                mCurrentFragment = ToWatchFragment.newInstance();
+                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
         }
     }
 
     @Override
     public void onBackPressed() {
         FragmentManager fm = getSupportFragmentManager();
+        if (mCurrentFragment instanceof  ToWatchFragment)
+            finish();
         if (fm.getBackStackEntryCount() > 0) {
             fm.popBackStack();
 

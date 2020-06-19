@@ -176,7 +176,18 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
         } else {
             inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
         }
+    }
+    public void refreshData() {
+        myListAdapter = new MyListAdapter(getActivity(), this);
+        rvMyList.setAdapter(myListAdapter);
+        myListAdapter.notifyDataSetChanged();
+        progressHUD = KProgressHUD.create(getActivity())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(getString(R.string.please_wait))
+                .setMaxProgress(100)
+                .show();
 
 
+        DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
     }
 }

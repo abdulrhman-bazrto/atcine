@@ -276,9 +276,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         if (jsonObject.has("token")) {
             SharedPreferencesUtils.saveToken(jsonObject.optString("token"));
         }
+//        if (getActivity() != null) {
+//            startActivity(new Intent(getActivity(), MainActivity.class));
+//            getActivity().finish();
+//        }
         if (getActivity() != null) {
-            startActivity(new Intent(getActivity(), MainActivity.class));
-            getActivity().finish();
+            ((AuthActivity) getActivity()).replaceFragment(FragmentTags.ToWatchFragment);
         }
     }
 
