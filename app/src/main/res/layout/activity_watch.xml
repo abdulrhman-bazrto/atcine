@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         app:controller_layout_id="@layout/player_custom_control" />
 
-    <ProgressBar
+    <com.gnusl.actine.ui.custom.GifImageView
         android:id="@+id/loading"
         android:layout_width="70dp"
         android:layout_height="70dp"

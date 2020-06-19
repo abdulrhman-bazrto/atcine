@@ -56,6 +56,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 public class MainActivity extends AppCompatActivity implements SmartTabLayout.TabProvider, ConnectionDelegate {
 
     private Fragment mCurrentFragment;
@@ -64,7 +66,10 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     private SmartTabLayout tlHome;
     private int selectedPosition;
     private FragmentTags selectedFragment;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +84,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 AndroidNetworking.forceCancelAll();
                 NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 mNotificationManager.cancel(shoeId);
-
-
             }
         }
 //        LocalBroadcastManager.getInstance(this).registerReceiver((mMessageReceiver), new IntentFilter("com.gnusl.receiver"));
@@ -186,10 +189,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_search));
                 tvTitle.setTextColor(getResources().getColor(R.color.white));
                 break;
-//            case 2:
-//                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
-//                tvTitle.setTextColor(getResources().getColor(R.color.gray2));
-//                break;
             case 2:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_downloads));
                 tvTitle.setTextColor(getResources().getColor(R.color.white));
@@ -214,10 +213,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                     icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filled_search));
                     title.setTextColor(getResources().getColor(R.color.white));
                     break;
-//                case 2:
-//                    icon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_white));
-//                    title.setTextColor(getResources().getColor(R.color.white));
-//                    break;
                 case 2:
                     icon.setImageDrawable(getResources().getDrawable(R.drawable.ic_filled_downloads));
                     title.setTextColor(getResources().getColor(R.color.white));
@@ -270,11 +265,6 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_search));
                 tvTitle.setText("Search");
                 break;
-
-//            case 2:
-//                ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.icon_coming_soon_gray));
-//                tvTitle.setText("Coming Soon");
-//                break;
 
             case 2:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_downloads));
@@ -359,12 +349,13 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
 
     @Override
     public void onConnectionError(ANError anError) {
-//        Toast.makeText(this, anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(MainActivity.this, "error happened", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, anError.getMessage(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
+
         if (jsonObject.has("profiles")) {
             List<Profile> profiles = Profile.newList(jsonObject.optJSONArray("profiles"));
             if (profiles.size() == 1) {

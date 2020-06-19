@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.activity;
 
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebSettings;
@@ -13,11 +14,16 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.MyWebViewClient;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 public class AccountActivity extends AppCompatActivity implements WebViewOnFinish {
 
     private WebView webView;
     private KProgressHUD progressHUD;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

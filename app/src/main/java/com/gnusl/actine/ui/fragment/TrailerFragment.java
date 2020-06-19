@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.activity.TrailerActivity;
 import com.gnusl.actine.util.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -72,12 +74,19 @@ public class TrailerFragment extends Fragment implements View.OnClickListener {
         tvShowTitle = inflatedView.findViewById(R.id.tv_show_title);
         ivShowImage = inflatedView.findViewById(R.id.iv_movie_image);
         ivPlayShow = inflatedView.findViewById(R.id.iv_play_show);
+
+        ivPlayShow.setOnClickListener(this::onClick);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
+            case R.id.iv_play_show:{
+                Intent intent  = new Intent(getActivity(),TrailerActivity.class);
+                intent.putExtra("id",show.getTrailerId());
+                getActivity().startActivity(intent);
+                break;
+            }
 
         }
     }

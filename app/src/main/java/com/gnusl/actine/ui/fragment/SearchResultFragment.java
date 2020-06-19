@@ -13,9 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
+import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
@@ -38,7 +38,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     View inflatedView;
 
-    RecyclerView rvSearchResult;
+    ShimmerRecyclerView rvSearchResult;
     private MovieMoreLikeAdapter movieMoreLikeAdapter;
     private KProgressHUD progressHUD;
 
@@ -83,26 +83,33 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
         findViews();
 
+
         movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this);
         GridLayoutManager gridLayoutManager;
+        int count = 3;
         if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) ==
                 Configuration.SCREENLAYOUT_SIZE_LARGE) {
             // on a large screen device ...
             gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+            count = 5;
         } else if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) ==
                 Configuration.SCREENLAYOUT_SIZE_XLARGE) {
             // on a large screen device ...
             gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+            count = 5;
         } else {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+            count = 3;
         }
-
-
         rvSearchResult.setLayoutManager(gridLayoutManager);
 
         rvSearchResult.setAdapter(movieMoreLikeAdapter);
+
+
+//        rvSearchResult.showShimmerAdapter();
+
 
         String url = "";
         if (searchFor.equalsIgnoreCase("series"))
@@ -152,8 +159,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             if (fragment instanceof SearchContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
-                ViewCompat.setTransitionName(ivThumbnail,"transition" + movie.getId());
-                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle,ivThumbnail);
+                ViewCompat.setTransitionName(ivThumbnail, "transition" + movie.getId());
+                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             }
             if (fragment instanceof HomeContainerFragment) {
                 Bundle bundle = new Bundle();
@@ -202,6 +209,10 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (progressHUD != null)
             progressHUD.dismiss();
+
+
+//        if (!(rvSearchResult.getAdapter() instanceof MovieMoreLikeAdapter))
+//            rvSearchResult.hideShimmerAdapter();
 
         if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);

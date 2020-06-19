@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.custom.GifImageView;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -62,12 +63,13 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
-        ProgressBar pbLoading;
+        GifImageView pbLoading;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
             ivThumbnail = itemView.findViewById(R.id.iv_thumbnail);
             pbLoading = itemView.findViewById(R.id.pb_loading);
+            pbLoading.setGifImageResource(R.drawable.loader);
             Utils.setOnFocusScale(itemView);
         }
 

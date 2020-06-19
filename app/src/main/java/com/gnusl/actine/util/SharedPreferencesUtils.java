@@ -119,8 +119,8 @@ public class SharedPreferencesUtils {
 
     public static int getCurrentProfile() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
-        int profileId = sharedPreferences.getInt(ProfileId, 0);
-        return profileId;
+
+        return sharedPreferences.getInt(ProfileId, 0);
     }
 
     public static void saveCurrentSelectedPlan(String selectedPlan) {

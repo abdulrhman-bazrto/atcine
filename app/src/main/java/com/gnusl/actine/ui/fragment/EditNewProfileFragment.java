@@ -2,12 +2,9 @@ package com.gnusl.actine.ui.fragment;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -27,6 +27,7 @@ import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.MediaUtils;
 import com.gnusl.actine.util.PermissionsUtils;
+import com.iceteck.silicompressorr.SiliCompressor;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -34,6 +35,7 @@ import com.yalantis.ucrop.UCrop;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 import static android.app.Activity.RESULT_OK;
@@ -194,27 +196,32 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
         getActivity().onBackPressed();
     }
 
+    boolean hasOpened;
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         requestCode = requestCode & 0x0000ffff;
         if (resultCode == RESULT_OK)
             switch (requestCode) {
-
                 case MediaUtils.PICK_IMAGE_REQUEST_CODE:
+                    if (hasOpened)
+                        return;
                     Uri galleryPictureUri = data.getData();
                     MediaUtils.startCrop(galleryPictureUri, getActivity());
-
+                    hasOpened = true;
                     break;
 
                 case UCrop.REQUEST_CROP:
+                    hasOpened = false;
                     userProfileImageUri = UCrop.getOutput(data);
-//                    try {
-//                        Bitmap imageBitmap = SiliCompressor.with(getActivity()).getCompressBitmap(userProfileImageUri.toString());
-//
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
+                    try {
+                        Bitmap imageBitmap = SiliCompressor.with(getActivity()).getCompressBitmap(userProfileImageUri.toString());
+                        ivProfile.setImageBitmap(imageBitmap);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
     }

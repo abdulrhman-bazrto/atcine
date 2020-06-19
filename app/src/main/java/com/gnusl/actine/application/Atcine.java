@@ -5,7 +5,12 @@ import android.content.Context;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.interceptors.HttpLoggingInterceptor;
+import com.gnusl.actine.R;
 import com.gnusl.actine.util.ObjectBox;
+
+import io.github.inflationx.calligraphy3.CalligraphyConfig;
+import io.github.inflationx.calligraphy3.CalligraphyInterceptor;
+import io.github.inflationx.viewpump.ViewPump;
 
 public class Atcine extends Application {
 
@@ -18,8 +23,14 @@ public class Atcine extends Application {
         applicationInstance = this;
 
         ObjectBox.init(this);
-
-        AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY); // enabling logging with level
+        ViewPump.init(ViewPump.builder()
+                .addInterceptor(new CalligraphyInterceptor(
+                        new CalligraphyConfig.Builder()
+                                .setDefaultFontPath("fonts/font.ttf")
+                                .setFontAttrId(R.attr.fontPath)
+                                .build()))
+                .build());
+//        AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY); // enabling logging with level
 
     }
 

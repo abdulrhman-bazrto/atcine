@@ -72,6 +72,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
         }
         setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+//        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
 
     }
 

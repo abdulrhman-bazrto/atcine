@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +16,16 @@ import com.gnusl.actine.ui.fragment.LoginFragment;
 import com.gnusl.actine.ui.fragment.PaymentLessFragment;
 import com.gnusl.actine.ui.fragment.RegisterFragment;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 public class AuthActivity extends AppCompatActivity {
 
     private Fragment mCurrentFragment;
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

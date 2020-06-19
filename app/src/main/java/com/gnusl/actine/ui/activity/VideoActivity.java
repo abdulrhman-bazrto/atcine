@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.activity;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,12 +17,18 @@ import com.yalantis.ucrop.util.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 
 public class VideoActivity extends AppCompatActivity {
     VideoView vvPost;
     ImageView mIvWaiting, mIvMusic;
 
     String mFileURL;
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -91,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-    <ProgressBar
+    <com.gnusl.actine.ui.custom.GifImageView
         android:id="@+id/pb_loading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

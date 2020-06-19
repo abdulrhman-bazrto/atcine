@@ -1,22 +1,28 @@
 package com.gnusl.actine.ui.adapter;
 
 import android.content.Context;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.CommentLongClickEvent;
 import com.gnusl.actine.model.Comment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.TimeAgo;
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.CommentsViewHolder> {
 
@@ -28,7 +34,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     public CommentsAdapter(Context context, List<Comment> comments, CommentLongClickEvent commentLongClickEvent) {
         this.mContext = context;
         this.comments = comments;
-        this.commentLongClickEvent  =commentLongClickEvent;
+        this.commentLongClickEvent = commentLongClickEvent;
     }
 
     @NonNull
@@ -47,7 +53,16 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         Comment comment = comments.get(position);
         holder.tvComment.setText(comment.getComment());
         holder.tvUserName.setText(comment.getProfile().getName());
-        holder.tvCommentTime.setText(comment.getCreatedAt());
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date parsed = null;
+        try {
+            parsed = simpleDateFormat.parse(comment.getCreatedAt());
+            holder.tvCommentTime.setText(TimeAgo.getTimeAgo(parsed.getTime()));
+        } catch (ParseException e) {
+            holder.tvCommentTime.setText(comment.getCreatedAt());
+        }
+
         Picasso.with(mContext).load(comment.getProfile().getImageUrl()).into(holder.ivProfile);
 
         holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {

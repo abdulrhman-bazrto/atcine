@@ -1,5 +1,6 @@
 package com.gnusl.actine.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,11 +19,16 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 public class PaymentActivity extends AppCompatActivity implements WebViewOnFinish, ConnectionDelegate {
 
     private WebView webView;
     private KProgressHUD progressHUD;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

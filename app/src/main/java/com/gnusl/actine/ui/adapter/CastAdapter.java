@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.Cast;
+import com.gnusl.actine.ui.custom.GifImageView;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -59,7 +60,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
-        ProgressBar pbLoading;
+        GifImageView pbLoading;
         TextView tvType,tvRealName;
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +68,7 @@ public class CastAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             tvRealName = itemView.findViewById(R.id.tv_real_name);
             tvType = itemView.findViewById(R.id.tv_type);
             pbLoading = itemView.findViewById(R.id.pb_loading);
+            pbLoading.setGifImageResource(R.drawable.loader);
             Utils.setOnFocusScale(itemView);
         }
 

@@ -41,6 +41,7 @@ public class Show implements Serializable {
     private String videoUrl;
     private String episodeUrl;
     private String downloadVideoUrl;
+    private String trailerId;
 
     // use in android only
     private boolean isInStorage;
@@ -77,6 +78,8 @@ public class Show implements Serializable {
         this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
         this.imdbRate = jsonObject.optString("imdb_rate");
         this.downloadVideoUrl = jsonObject.optString("download_video_url");
+        this.downloadVideoUrl = jsonObject.optString("download_video_url");
+        this.trailerId = jsonObject.optString("trailer_video");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -142,6 +145,7 @@ public class Show implements Serializable {
         this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
         this.imdbRate = jsonObject.optString("imdb_rate");
         this.downloadVideoUrl = jsonObject.optString("download_video_url");
+        this.trailerId = jsonObject.optString("trailer_video");
         this.isMovie = isMovie;
         this.isEpisode = isEpisode;
         this.isSeason = isSeason;
@@ -428,6 +432,14 @@ public class Show implements Serializable {
 
     public void setDownloadVideoUrl(String downloadVideoUrl) {
         this.downloadVideoUrl = downloadVideoUrl;
+    }
+
+    public String getTrailerId() {
+        return trailerId;
+    }
+
+    public void setTrailerId(String trailerId) {
+        this.trailerId = trailerId;
     }
 
     public DBShow getDBShowObject() {

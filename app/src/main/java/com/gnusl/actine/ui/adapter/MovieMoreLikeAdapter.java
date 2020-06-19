@@ -16,6 +16,7 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HomeMovieClick;
 import com.gnusl.actine.interfaces.LoadMoreDelegate;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.custom.GifImageView;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -84,7 +85,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;
-        ProgressBar pbLoading;
+        GifImageView pbLoading;
         TextView tvTitle, tvImdb, tvTomato;
 
         MovieListViewHolder(View itemView) {
@@ -94,6 +95,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle = itemView.findViewById(R.id.tv_show_name);
             tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
+            pbLoading.setGifImageResource(R.drawable.loader);
             Utils.setOnFocusScale(itemView);
         }
 

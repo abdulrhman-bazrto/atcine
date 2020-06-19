@@ -11,19 +11,15 @@
     <uses-feature
         android:name="android.permission.CALL_PHONE"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.screen.portrait"
         android:required="false" />
-
     <uses-feature
         android:name="android.software.leanback"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.touchscreen"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.faketouch"
         android:required="false" />
@@ -58,10 +54,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:extractNativeLibs">
+        <activity android:name=".ui.activity.TrailerActivity"></activity>
         <activity
             android:name=".ui.activity.WatchActivity"
             android:configChanges="orientation|screenSize" />
-
         <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,10 +72,10 @@
             android:theme="@style/AppTheme1" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:windowSoftInputMode="adjustNothing"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme1" />
+            android:theme="@style/AppTheme1"
+            android:windowSoftInputMode="adjustNothing" />
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
@@ -106,7 +102,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".service.DownloadService"
             android:enabled="true"
@@ -117,7 +112,6 @@
                 <action android:name="com.gnusl.receiver" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>

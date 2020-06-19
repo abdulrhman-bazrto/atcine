@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ import androidx.appcompat.widget.PopupMenu;
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.LatestPlayedPosition;
 import com.gnusl.actine.model.Show;
+import com.gnusl.actine.ui.custom.GifImageView;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.gnusl.actine.util.TimeUtils;
 import com.gnusl.actine.util.Utils;
@@ -61,11 +63,13 @@ import com.google.android.exoplayer2.video.VideoListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import io.github.inflationx.viewpump.ViewPumpContextWrapper;
+
 public class WatchActivity extends AppCompatActivity {
 
 
     PlayerView playerView;
-    ProgressBar loading;
+    GifImageView loading;
     private ImageView ivSubtitles, ivBack, ivQuality, ivAudio, ivFullScreen;
     private ImageButton ibPlay, ibPause;
     private TextView tvCurProgress, tvTotal;
@@ -87,7 +91,10 @@ public class WatchActivity extends AppCompatActivity {
     private int selectedAudio = 0;
     private int selectedQuality = 0;
     private int selectedSubtitle = 0;
-
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -334,6 +341,7 @@ public class WatchActivity extends AppCompatActivity {
     private void init() {
         playerView = findViewById(R.id.video_view);
         loading = findViewById(R.id.loading);
+        loading.setGifImageResource(R.drawable.loader);
         ivSubtitles = findViewById(R.id.iv_subtitle);
         ivBack = findViewById(R.id.iv_back);
         ivQuality = findViewById(R.id.iv_quality);

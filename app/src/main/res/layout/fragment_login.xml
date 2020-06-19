@@ -34,6 +34,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginTop="40dp"
         android:gravity="center"
+        android:transitionName="imageMain"
         android:src="@drawable/logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

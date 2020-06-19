@@ -128,45 +128,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         }
 
-
-//        AnimationSet set = new AnimationSet(true);
-//        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-//        animation.setDuration(1500);
-//        set.addAnimation(animation);
-//
-//        animation = new TranslateAnimation(
-//                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF, 0.0f,
-//                Animation.RELATIVE_TO_SELF, -1.0f, Animation.RELATIVE_TO_SELF, 0.0f
-//        );
-//        animation.setDuration(100);
-//        set.addAnimation(animation);
-//        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
-//        rvGenres.setLayoutAnimation(controller);
-
-
-//        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
-//            case Movies:
-//                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
-//                if (isFirstInit)
-//                    cubHome.getSpCategory().setSelection(0);
-//                break;
-//
-//            case TvShows:
-//                DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
-//                if (isFirstInit)
-//                    cubHome.getSpCategory().setSelection(1);
-//                break;
-//        }
-
-//        progressHUD = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-//                .setLabel(getString(R.string.please_wait))
-//                .setMaxProgress(100)
-//                .show();
-
         LoaderPopUp.show(getActivity());
 
-//        sgvHome.setClickListener(this);
         if (isFirstInit){
             genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
 
@@ -174,16 +137,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             rvGenres.setLayoutManager(gridLayoutManager);
 
             rvGenres.setAdapter(genresAdapter);
-//            DataLoader.getRequest(Urls.Categories.getLink(), this);
         }
-
-//        cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                sgvHome.setVisibility(View.VISIBLE);
-//            }
-//        });
-
 
         rvHome.setNestedScrollingEnabled(false);
 
@@ -195,7 +149,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         homeAdapter = new HomeAdapter(getActivity(), rvHome, this, this, this);
 
-//        homeAdapter.setHasStableIds(false);
         rvHome.setAdapter(homeAdapter);
 
 
@@ -244,7 +197,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private void findViews() {
         rvHome = inflatedView.findViewById(R.id.rv_home);
         cubHome = inflatedView.findViewById(R.id.cub_home);
-//        sgvHome = inflatedView.findViewById(R.id.sgv_home);
 
         tvMovies = inflatedView.findViewById(R.id.tv_movies);
         tvSeries = inflatedView.findViewById(R.id.tv_series);
@@ -306,7 +258,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onCloseGenres() {
-//        sgvHome.setVisibility(View.GONE);
+
     }
 
     @Override
@@ -377,22 +329,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
             LoaderPopUp.dismissLoader();
         }
-
-//        if (jsonObject.has("categories") && !jsonObject.has("trend")) {
-//            if (genresAdapter != null) {
-//                categories = Category.newList(jsonObject.optJSONArray("categories"));
-//                List<Category> categoriesTemp = new ArrayList<>();
-//                for (int i = 0; i < categories.size(); i++) {
-//                    if (i < 4)
-//                        categoriesTemp.add(categories.get(i));
-//                    else
-//                        break;
-//                }
-//                genresAdapter.setList(categoriesTemp);
-//                rvGenres.scheduleLayoutAnimation();
-//
-//            }
-//        }
 
     }
 
