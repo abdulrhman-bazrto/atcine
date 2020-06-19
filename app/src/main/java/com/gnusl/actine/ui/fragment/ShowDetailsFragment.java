@@ -106,7 +106,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         }
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_left));
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
 
     }
 

@@ -7,6 +7,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.transition.TransitionInflater;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,6 +88,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         if (getArguments() != null) {
 
         }
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+
     }
 
     @Override

@@ -19,15 +19,19 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.model.Category;
+import com.gnusl.actine.model.User;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.GenresAdapter;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -40,7 +44,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     private KProgressHUD progressHUD;
     private GenresAdapter genresAdapter;
     private ImageView ivBack;
-
+    List<Category> categories= new ArrayList<>();
 
     public CategoriesFragment() {
     }
@@ -55,7 +59,15 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-
+            Gson gson = new Gson();
+            String json = getArguments().getString("categories",null);
+            if (json == null || json.isEmpty()) {
+                return ;
+            } else {
+                Type type = (new TypeToken<List<Category>>() {
+                }).getType();
+                categories= (List<Category>) gson.fromJson(json, type);
+            }
         }
     }
 
@@ -81,7 +93,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
             }
         });
 
-        genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), CategoriesFragment.this);
+        genresAdapter = new GenresAdapter(getActivity(), categories, CategoriesFragment.this);
 
         GridLayoutManager gridLayoutManager;
         if ((getResources().getConfiguration().screenLayout &
@@ -104,14 +116,14 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
         rvCategories.setAdapter(genresAdapter);
 
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+//        progressHUD = KProgressHUD.create(getActivity())
+//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+//                .setLabel(getString(R.string.please_wait))
+//                .setMaxProgress(100)
+//                .show();
 
 
-        DataLoader.getRequest(Urls.Categories.getLink(), this);
+//        DataLoader.getRequest(Urls.Categories.getLink(), this);
 
     }
 

@@ -105,7 +105,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         findViews();
 
         setupViewPager(vpMainContainer);
-        vpMainContainer.setOffscreenPageLimit(2);
+        vpMainContainer.setOffscreenPageLimit(3);
 
         tlMainTabLayout.setupWithViewPager(vpMainContainer);
 
@@ -315,7 +315,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         adapter = new ViewPagerAdapter(getChildFragmentManager());
         if (myListFragment == null)
             myListFragment = MyListFragment.newInstance();
-        adapter.addFragment(myListFragment, "My list");
+        adapter.addFragment(myListFragment, "My Movies");
+        adapter.addFragment(new MySeriesFragment(), "My Series");
         adapter.addFragment(new SettingsFragment(), "Settings");
         viewPager.setAdapter(adapter);
 

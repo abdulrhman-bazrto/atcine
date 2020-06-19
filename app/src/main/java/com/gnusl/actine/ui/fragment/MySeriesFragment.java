@@ -35,7 +35,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
+public class MySeriesFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
 
     View inflatedView;
 
@@ -43,11 +43,11 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     private MyListAdapter myListAdapter;
     private KProgressHUD progressHUD;
 
-    public MyListFragment() {
+    public MySeriesFragment() {
     }
 
-    public static MyListFragment newInstance() {
-        MyListFragment fragment = new MyListFragment();
+    public static MySeriesFragment newInstance() {
+        MySeriesFragment fragment = new MySeriesFragment();
         Bundle args = new Bundle();
 
 
@@ -82,8 +82,6 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     private void init() {
 
         rvMyList = inflatedView.findViewById(R.id.rv_my_list);
-
-
         myListAdapter = new MyListAdapter(getActivity(), this);
 
         GridLayoutManager layoutManager;
@@ -110,7 +108,9 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
                 .show();
 
 
-        DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
+        DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
+
+
     }
 
 
@@ -168,14 +168,15 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
         if (progressHUD != null)
             progressHUD.dismiss();
 
+        List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
+        myListAdapter.setList(series);
 
-        List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
-        myListAdapter.setList(movies);
-        if (movies.isEmpty()) {
+        if (series.isEmpty()) {
             inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
         } else {
             inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
         }
+
 
     }
 }

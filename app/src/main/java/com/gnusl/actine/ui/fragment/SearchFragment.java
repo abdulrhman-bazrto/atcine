@@ -3,6 +3,7 @@ package com.gnusl.actine.ui.fragment;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.KeyEvent;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -64,6 +67,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
     private String key;
     RecyclerView rvSearchResult;
     private MovieMoreLikeAdapter movieMoreLikeAdapter;
+    private ConstraintLayout rootView;
 
     public SearchFragment() {
     }
@@ -83,6 +87,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
         if (getArguments() != null) {
 
         }
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+
     }
 
     @Override
@@ -357,4 +363,12 @@ movieMoreLikeAdapter.clearList();
 
         DataLoader.getRequest(url + "&skip=" + skip + "&take=" + 10, this);
     }
+
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        rootView=inflatedView.findViewById(R.id.root_view);
+//        LayoutAnimationController anim = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.layout_animation1);
+//        rootView.setLayoutAnimation(anim);
+//    }
 }

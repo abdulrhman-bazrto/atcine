@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
@@ -39,7 +40,9 @@ import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.google.gson.Gson;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -59,8 +62,9 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     //    private SelectGenresView sgvHome;
     private KProgressHUD progressHUD;
 
-    private TextView tvMovies, tvSeries,tvSeeAll;
+    private TextView tvMovies, tvSeries, tvSeeAll;
     private GenresAdapter genresAdapter;
+    private List<Category> categories;
 
     public HomeFragment() {
     }
@@ -109,11 +113,21 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private void init(boolean isFirstInit) {
 
         findViews();
-        DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
+        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
+            case TvShows: {
+                DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
+                tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
+                tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
+                break;
+            }
+            case Movies: {
+                tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
+                tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
+                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
+                break;
+            }
+        }
 
-        genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
-
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
 
 //        AnimationSet set = new AnimationSet(true);
 //        Animation animation = new AlphaAnimation(0.0f, 1.0f);
@@ -129,9 +143,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 //        LayoutAnimationController controller = new LayoutAnimationController(set, 0.5f);
 //        rvGenres.setLayoutAnimation(controller);
 
-        rvGenres.setLayoutManager(gridLayoutManager);
 
-        rvGenres.setAdapter(genresAdapter);
 //        switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
 //            case Movies:
 //                DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
@@ -155,8 +167,15 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         LoaderPopUp.show(getActivity());
 
 //        sgvHome.setClickListener(this);
+        if (isFirstInit){
+            genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
 
-        DataLoader.getRequest(Urls.Categories.getLink(), this);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+            rvGenres.setLayoutManager(gridLayoutManager);
+
+            rvGenres.setAdapter(genresAdapter);
+//            DataLoader.getRequest(Urls.Categories.getLink(), this);
+        }
 
 //        cubHome.getSpGenres().setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -180,51 +199,28 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         rvHome.setAdapter(homeAdapter);
 
 
-//        cubHome.getSpCategory().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                switch (position) {
-//                    case 0: {
-//                        if (SharedPreferencesUtils.getCategory() == AppCategories.Movies)
-//                            return;
-//                        SharedPreferencesUtils.saveCategory("movies");
-//                        init(false);
-//                        break;
-//                    }
-//                    case 1: {
-//                        if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
-//                            return;
-////                        if (true) {
-////                            DialogUtils.showSeriesComingSoonDialog(getActivity());
-////                            return;
-////                        }
-//                        SharedPreferencesUtils.saveCategory("tvShows");
-//                        init(false);
-//                        break;
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> parent) {
-////                SharedPreferencesUtils.saveCategory("movies");
-//            }
-//        });
-
 
         tvMovies.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SharedPreferencesUtils.getCategory() == AppCategories.Movies)
+                    return;
                 tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
                 tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
+                SharedPreferencesUtils.saveCategory("movies");
+                init(false);
             }
         });
 
         tvSeries.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SharedPreferencesUtils.getCategory() == AppCategories.TvShows)
+                    return;
+                SharedPreferencesUtils.saveCategory("tvShows");
                 tvSeries.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_selected));
                 tvMovies.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_categories_unselected));
+                init(false);
             }
         });
 
@@ -234,7 +230,10 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 if (getActivity() != null) {
                     Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
                     if (fragment instanceof HomeContainerFragment) {
-                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, null, null);
+                        Bundle bundle = new Bundle();
+                        Gson gson = new Gson();
+                        bundle.putString("categories",gson.toJson(categories));
+                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, bundle, null);
                     }
                 }
             }
@@ -262,7 +261,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle,ivThumbnail);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             }
         }
     }
@@ -337,13 +336,38 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (jsonObject.has("trend")) {
             switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
                 case TvShows: {
+                    if (genresAdapter != null) {
+                        categories = Category.newList(jsonObject.optJSONArray("series_categories"));
+                        List<Category> categoriesTemp = new ArrayList<>();
+                        for (int i = 0; i < categories.size(); i++) {
+                            if (i < 4)
+                                categoriesTemp.add(categories.get(i));
+                            else
+                                break;
+                        }
+                        genresAdapter.setList(categoriesTemp);
+                        rvGenres.scheduleLayoutAnimation();
 
+                    }
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
                     List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), false);
                     homeAdapter.setData(trendSerie, categories);
                     break;
                 }
                 case Movies: {
+                    if (genresAdapter != null) {
+                        categories = Category.newList(jsonObject.optJSONArray("movies_categories"));
+                        List<Category> categoriesTemp = new ArrayList<>();
+                        for (int i = 0; i < categories.size(); i++) {
+                            if (i < 4)
+                                categoriesTemp.add(categories.get(i));
+                            else
+                                break;
+                        }
+                        genresAdapter.setList(categoriesTemp);
+                        rvGenres.scheduleLayoutAnimation();
+
+                    }
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
 
                     List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), true);
@@ -354,19 +378,21 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             LoaderPopUp.dismissLoader();
         }
 
-        if (jsonObject.has("categories") && !jsonObject.has("trend")) {
-            if (genresAdapter != null) {
-                List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"));
-                List<Category> categoriesTemp = new ArrayList<>();
-                for (int i = 0; i < categories.size(); i++) {
-                    if (i < 4)
-                        categoriesTemp.add(categories.get(i));
-                }
-                genresAdapter.setList(categoriesTemp);
-                rvGenres.scheduleLayoutAnimation();
-
-            }
-        }
+//        if (jsonObject.has("categories") && !jsonObject.has("trend")) {
+//            if (genresAdapter != null) {
+//                categories = Category.newList(jsonObject.optJSONArray("categories"));
+//                List<Category> categoriesTemp = new ArrayList<>();
+//                for (int i = 0; i < categories.size(); i++) {
+//                    if (i < 4)
+//                        categoriesTemp.add(categories.get(i));
+//                    else
+//                        break;
+//                }
+//                genresAdapter.setList(categoriesTemp);
+//                rvGenres.scheduleLayoutAnimation();
+//
+//            }
+//        }
 
     }
 

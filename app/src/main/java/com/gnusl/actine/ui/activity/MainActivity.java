@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     private void findViews() {
         tlHome = findViewById(R.id.tl_home);
         vpHome = findViewById(R.id.vp_home);
+        vpHome.setOffscreenPageLimit(0);
 
     }
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.model.Category;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,9 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
     @Override
     public void onBindViewHolder(@NonNull final GenresAdapter.GenresViewHolder holder, int position) {
         holder.tvGenresName.setText(genres.get(holder.getAdapterPosition()).getTitle());
+        holder.tvCount.setText(genres.get(holder.getAdapterPosition()).getCount());
+        holder.tvType.setText(genres.get(holder.getAdapterPosition()).getType());
+        Picasso.with(mContext).load(genres.get(holder.getAdapterPosition()).getImageURL()).into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,13 +139,17 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     class GenresViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvGenresName;
+        TextView tvGenresName,tvCount,tvType;
         View ivCategoryOverlay;
+        ImageView imageView;
 
         GenresViewHolder(View itemView) {
             super(itemView);
             tvGenresName = itemView.findViewById(R.id.tv_genres_name);
+            tvCount = itemView.findViewById(R.id.tv_genres_type_count);
+            tvType = itemView.findViewById(R.id.tv_genres_type);
             ivCategoryOverlay = itemView.findViewById(R.id.iv_category_overlay);
+            imageView = itemView.findViewById(R.id.iv_category_image);
         }
     }
 }

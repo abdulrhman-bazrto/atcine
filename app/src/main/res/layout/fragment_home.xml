@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutAnimation="@anim/layout_animation1"
     android:background="@color/black"
     tools:context=".ui.fragment.HomeFragment">
 
@@ -53,14 +54,16 @@
 
         <TextView
             android:id="@+id/tv_movies"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
             android:background="@drawable/bg_categories_selected"
             android:gravity="center"
             android:text="Movies"
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +71,10 @@
 
         <TextView
             android:id="@+id/tv_series"
-            android:layout_width="120dp"
-            android:layout_height="50dp"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="20dp"
             android:background="@drawable/bg_categories_unselected"
             android:gravity="center"
             android:text="TV Series"
@@ -78,6 +83,7 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -123,6 +129,7 @@
         android:id="@+id/rv_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,9 +150,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="20dp"
-        android:layoutAnimation="@anim/layout_animation1"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="5dp"
+        android:layoutAnimation="@anim/layout_animation"
         app:layout_constraintBottom_toTopOf="@+id/rv_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

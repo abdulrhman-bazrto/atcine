@@ -107,6 +107,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvProfileName.setText(profile.getName());
 
             Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+            ViewCompat.setTransitionName(ivProfile,"transition" + getAdapterPosition());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -117,6 +118,14 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     profile.setCurrentProfile(true);
                     SharedPreferencesUtils.saveCurrentProfile(profile.getId());
                     notifyDataSetChanged();
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    profileClick.onClickProfile(profile, ivProfile);
+                    return true;
                 }
             });
 

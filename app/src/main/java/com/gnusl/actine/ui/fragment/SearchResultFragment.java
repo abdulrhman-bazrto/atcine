@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             this.key = getArguments().getString("key");
 
         }
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+
     }
 
     @Override

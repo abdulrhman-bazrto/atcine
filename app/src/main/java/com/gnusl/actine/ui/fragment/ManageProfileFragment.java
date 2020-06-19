@@ -60,8 +60,9 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
         if (getArguments() != null) {
             this.profiles = getArguments().getParcelableArrayList(Constants.ManageProfilesExtra.getConst());
         }
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
-//        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+//        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+//        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
     }
 
     @Override

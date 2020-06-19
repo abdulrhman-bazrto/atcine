@@ -71,8 +71,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
 
         }
         setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom));
-//        setExitTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
     }
 
     @Override
