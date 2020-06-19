@@ -2,16 +2,17 @@ package com.gnusl.actine.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -24,8 +25,8 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -37,7 +38,6 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
     private CustomAppBarWithBack cubMyListWithBack;
     private RecyclerView rvMyList;
     private MyListAdapter myListAdapter;
-    private KProgressHUD progressHUD;
     private Show show;
     private String type;
     private String seasonId;
@@ -85,7 +85,7 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
         });
 
         myListAdapter = new MyListAdapter(getActivity(), this);
-        GridLayoutManager layoutManager ;
+        GridLayoutManager layoutManager;
         if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
             // on a large screen device ...
@@ -109,11 +109,7 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
             myListAdapter.setList(show.getEpisodes());
         } else if (type.equalsIgnoreCase("season")) {
             cubMyListWithBack.getTvTitle().setText("Seasons");
-            progressHUD = KProgressHUD.create(getActivity())
-                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                    .setLabel(getString(R.string.please_wait))
-                    .setMaxProgress(100)
-                    .show();
+            LoaderPopUp.show(getActivity());
 
             DataLoader.getRequest(Urls.Series.getLink() + show.getId(), this);
         }
@@ -192,23 +188,20 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.show(getActivity());
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (jsonObject.has("series")) {
             if (jsonObject.optJSONObject("series") != null && jsonObject.optJSONObject("series").has("seasons")) {

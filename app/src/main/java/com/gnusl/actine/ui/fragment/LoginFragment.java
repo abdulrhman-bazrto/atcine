@@ -1,8 +1,6 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,7 +9,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
-import android.text.style.UnderlineSpan;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,10 +30,9 @@ import com.gnusl.actine.model.User;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.AuthActivity;
-import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.gnusl.actine.util.Utils;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -50,7 +46,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     private Button btnLogin;
     private EditText etEmailPhone, etPassword;
     private TextView tvSignUp;
-    private KProgressHUD progressHUD;
 
 
     public LoginFragment() {
@@ -96,9 +91,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
         btnLogin.setOnClickListener(this);
 
-//        SpannableString content = new SpannableString("Sign up");
-//        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-//        tvSignUp.setText(content);
         SpannableString ss = new SpannableString(tvSignUp.getText().toString());
         ClickableSpan span1 = new ClickableSpan() {
             @Override
@@ -127,11 +119,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         switch (v.getId()) {
             case R.id.btn_login: {
                 if (valid()) {
-                    progressHUD = KProgressHUD.create(getActivity())
-                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                            .setLabel(getString(R.string.please_wait))
-                            .setMaxProgress(100)
-                            .show();
+                    LoaderPopUp.show(getActivity());
                     sendLoginRequest(false);
                 }
                 break;
@@ -143,7 +131,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         boolean tmp = true;
         if (etEmailPhone.getText().toString().trim().isEmpty()) {
             etEmailPhone.setError(getString(R.string.hint_mobile_or_email));
-            tmp =false;
+            tmp = false;
         }
         if (etPassword.getText().toString().trim().isEmpty()) {
             etPassword.setError(getString(R.string.hint_empty_password));
@@ -170,8 +158,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (code == -10) {
             final Dialog confirmLoginDialog = new Dialog(getActivity());
@@ -191,11 +178,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
                 @Override
                 public void onClick(View v) {
                     confirmLoginDialog.dismiss();
-                    progressHUD = KProgressHUD.create(getActivity())
-                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                            .setLabel(getString(R.string.please_wait))
-                            .setMaxProgress(100)
-                            .show();
+                    LoaderPopUp.show(getActivity());
                     sendLoginRequest(true);
                 }
             });
@@ -217,16 +200,13 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
-//        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (jsonObject.has("user")) {
             if (jsonObject.optJSONObject("user").optString("status").equalsIgnoreCase("paymentless")) {

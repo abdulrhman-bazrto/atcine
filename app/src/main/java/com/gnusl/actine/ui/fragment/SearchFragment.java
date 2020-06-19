@@ -42,6 +42,7 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.CategorySpinnerAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -60,7 +61,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
     private EditText etSearch;
     private ConstraintLayout clMain, clMain1, clRoot;
     boolean toTop = true;
-    private KProgressHUD progressHUD;
 
     private String searchType;
     private String searchFor;
@@ -230,11 +230,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
                 break;
             }
         }
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
 movieMoreLikeAdapter.clearList();
         DataLoader.getRequest(url + "&skip=" + 0 + "&take=" + 20, this);
@@ -301,23 +297,20 @@ movieMoreLikeAdapter.clearList();
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (jsonObject.has("series")) {
             List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);

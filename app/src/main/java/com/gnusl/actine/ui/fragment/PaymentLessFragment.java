@@ -36,6 +36,7 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.activity.PaymentActivity;
 import com.gnusl.actine.ui.adapter.PaymentMethodsAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarRegister;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -60,7 +61,6 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
     private TextView tvPayPal, tvCreditOrDebit;
     private CustomAppBarRegister cubRegister;
     private RecyclerView rvPaymentGateways;
-    private KProgressHUD progressHUD;
 
     public PaymentLessFragment() {
     }
@@ -200,11 +200,7 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
 
     private void getPaymentsGateway() {
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
         HashMap<String, String> body = new HashMap<>();
         body.put("email", SharedPreferencesUtils.getUser().getEmail());
@@ -215,23 +211,20 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (jsonObject.has("payment_methods")) {
             List<PaymentMethods> paymentMethods = PaymentMethods.newList(jsonObject.optJSONArray("payment_methods"));
@@ -261,32 +254,25 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
             body.put("status", "valid");
             body.put("user_type", SharedPreferencesUtils.getCurrentSelectedPlan());
 
-            progressHUD = KProgressHUD.create(getActivity())
-                    .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                    .setLabel(getString(R.string.please_wait))
-                    .setMaxProgress(100)
-                    .show();
+            LoaderPopUp.show(getActivity());
 
             DataLoader.postRequest(Urls.AccountUpdate.getLink(), body, new ConnectionDelegate() {
                 @Override
                 public void onConnectionError(int code, String message) {
-                    if (progressHUD != null)
-                        progressHUD.dismiss();
+                    LoaderPopUp.dismissLoader();
                     Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onConnectionError(ANError anError) {
-                    if (progressHUD != null)
-                        progressHUD.dismiss();
+                    LoaderPopUp.dismissLoader();
 //                    Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
                     Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onConnectionSuccess(JSONObject jsonObject) {
-                    if (progressHUD != null)
-                        progressHUD.dismiss();
+                    LoaderPopUp.dismissLoader();
 
                     User user = SharedPreferencesUtils.getUser();
                     if (user != null) {

@@ -27,6 +27,7 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.HelpAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.PermissionsUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
@@ -44,7 +45,6 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
     private CustomAppBarWithBack cubHelpWithBack;
     private Button btnCall;
 
-    private KProgressHUD progressHUD;
     private HelpAdapter helpAdapter;
 
     public HelpFragment() {
@@ -80,11 +80,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
     private void init() {
 
         DataLoader.getRequest(Urls.Help.getLink(), this);
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
         cubHelpWithBack = inflatedView.findViewById(R.id.cub_help_with_back);
 
@@ -141,23 +137,20 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         if (jsonObject.has("about")) {
             List<Help> helpList = Help.newArray(jsonObject.optJSONArray("about"));
             helpAdapter.setList(helpList);

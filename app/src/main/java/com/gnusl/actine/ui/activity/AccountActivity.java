@@ -12,18 +12,19 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.WebViewOnFinish;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.MyWebViewClient;
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
 public class AccountActivity extends AppCompatActivity implements WebViewOnFinish {
 
     private WebView webView;
-    private KProgressHUD progressHUD;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,11 +44,7 @@ public class AccountActivity extends AppCompatActivity implements WebViewOnFinis
             webSettings.setSafeBrowsingEnabled(false);
         }
 
-        progressHUD = KProgressHUD.create(this)
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(this);
 
         webView.setWebViewClient(new MyWebViewClient(this));
         webView.loadUrl(getIntent().getStringExtra("url"), DataLoader.getHeaders());
@@ -55,8 +52,7 @@ public class AccountActivity extends AppCompatActivity implements WebViewOnFinis
 
     @Override
     public void onFinish(String url) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
     }
 
 //    @Override

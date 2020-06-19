@@ -20,6 +20,7 @@ import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.ui.adapter.ComingSoonListAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithSelect;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
@@ -36,7 +37,6 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
     private RecyclerView rvComingSoon;
     private ComingSoonListAdapter comingSoonListAdapter;
     private CustomAppBarWithSelect cubSoon;
-    private KProgressHUD progressHUD;
 
     private AppCategories currentCategory = AppCategories.Movies;
 
@@ -82,11 +82,7 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
 
         rvComingSoon.setAdapter(comingSoonListAdapter);
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
         DataLoader.getRequest(MoviesSoon.getLink(), this);
 
@@ -137,25 +133,22 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         if (getActivity() != null)
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
-//        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
+        LoaderPopUp.dismissLoader();
+
         if (getActivity() != null)
             Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         switch (currentCategory) {
             case Movies: {

@@ -5,13 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +34,8 @@ import com.gnusl.actine.ui.adapter.HomeAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
-import com.gnusl.actine.util.DialogUtils;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.google.gson.Gson;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -59,8 +51,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private RecyclerView rvHome, rvGenres;
     private HomeAdapter homeAdapter;
     private CustomAppBar cubHome;
-    //    private SelectGenresView sgvHome;
-    private KProgressHUD progressHUD;
 
     private TextView tvMovies, tvSeries, tvSeeAll;
     private GenresAdapter genresAdapter;
@@ -130,7 +120,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
         LoaderPopUp.show(getActivity());
 
-        if (isFirstInit){
+        if (isFirstInit) {
             genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
 
             GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -150,7 +140,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         homeAdapter = new HomeAdapter(getActivity(), rvHome, this, this, this);
 
         rvHome.setAdapter(homeAdapter);
-
 
 
         tvMovies.setOnClickListener(new View.OnClickListener() {
@@ -185,7 +174,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                     if (fragment instanceof HomeContainerFragment) {
                         Bundle bundle = new Bundle();
                         Gson gson = new Gson();
-                        bundle.putString("categories",gson.toJson(categories));
+                        bundle.putString("categories", gson.toJson(categories));
                         ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, bundle, null);
                     }
                 }
@@ -263,8 +252,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
         LoaderPopUp.dismissLoader();
         if (getActivity() != null)
             Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
@@ -272,10 +259,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
         LoaderPopUp.dismissLoader();
-//        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         if (getActivity() != null)
             Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
@@ -283,8 +267,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
         if (jsonObject.has("trend")) {
             switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
                 case TvShows: {
