@@ -22,6 +22,7 @@ public enum FragmentTags {
     HelpDetailsFragment(17),
     PaymentLessFragment(18),
     CategoriesFragment(19),
+    ToWatchFragment(20),
     ;
 
 

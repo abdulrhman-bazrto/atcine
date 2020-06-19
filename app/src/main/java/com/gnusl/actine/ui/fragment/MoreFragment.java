@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
+
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
@@ -55,11 +56,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private Button btnManageProfile;
 
-    private TextView tvMyList, tvHelp, tvLogout, tvAppSetting,tvAccount;
+    private TextView tvMyList, tvHelp, tvLogout, tvAppSetting, tvAccount;
     private TabLayout tlMainTabLayout;
     private ViewPager vpMainContainer;
     private ViewPagerAdapter adapter;
-    private MyListFragment myListFragment;
+    private MyMoviesFragment myMoviesFragment;
+    private MySeriesFragment mySeriesFragment;
 
     public MoreFragment() {
     }
@@ -89,7 +91,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_more, container, false);
             init();
-        }else {
+        } else {
             ViewGroup parent = (ViewGroup) inflatedView.getParent();
             if (parent != null) {
                 parent.removeAllViews();
@@ -195,7 +197,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 //                if (getActivity() != null) {
 //                    Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
 //                    if (fragment instanceof MoreContainerFragment) {
-//                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.MyListFragment, null);
+//                        ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.MyMoviesFragment, null);
 //                    }
 //                }
 //                break;
@@ -274,14 +276,20 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
     }
 
     @Override
-    public void onClickProfile(Profile profile, ImageView ivProfile) {
+    public void onClickProfile(Profile profile, ImageView ivProfile, boolean isLongClick) {
         if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof MoreContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.EditNewProfileExtra.getConst(), profile);
-                bundle.putString("test", ViewCompat.getTransitionName(ivProfile));
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle, ivProfile);
+            if (isLongClick) {
+
+                Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
+                if (fragment instanceof MoreContainerFragment) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(Constants.EditNewProfileExtra.getConst(), profile);
+                    bundle.putString("transition", ViewCompat.getTransitionName(ivProfile));
+                    ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.EditNewProfileFragment, bundle, ivProfile);
+                }
+            } else {
+                mySeriesFragment.refreshData();
+                myMoviesFragment.refreshData();
             }
         }
     }
@@ -313,10 +321,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getChildFragmentManager());
-        if (myListFragment == null)
-            myListFragment = MyListFragment.newInstance();
-        adapter.addFragment(myListFragment, "My Movies");
-        adapter.addFragment(new MySeriesFragment(), "My Series");
+        if (myMoviesFragment == null)
+            myMoviesFragment = MyMoviesFragment.newInstance();
+        if (mySeriesFragment == null)
+            mySeriesFragment = MySeriesFragment.newInstance();
+        adapter.addFragment(myMoviesFragment, "My Movies");
+        adapter.addFragment(mySeriesFragment, "My Series");
         adapter.addFragment(new SettingsFragment(), "Settings");
         viewPager.setAdapter(adapter);
 

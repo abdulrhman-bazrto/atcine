@@ -8,7 +8,7 @@
     android:paddingStart="10dp"
     android:paddingTop="10dp"
     android:paddingEnd="10dp"
-    tools:context=".ui.fragment.MyListFragment">
+    tools:context=".ui.fragment.MyMoviesFragment">
 
 
     <TextView

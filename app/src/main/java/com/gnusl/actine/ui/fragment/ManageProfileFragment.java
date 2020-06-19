@@ -121,7 +121,7 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
     }
 
     @Override
-    public void onClickProfile(Profile profile, ImageView ivProfile) {
+    public void onClickProfile(Profile profile, ImageView ivProfile,boolean isLongClick) {
         if (getActivity() != null) {
             requestOnBack = true;
             Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();

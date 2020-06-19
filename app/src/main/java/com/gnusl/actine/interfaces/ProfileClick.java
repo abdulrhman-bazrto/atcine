@@ -6,6 +6,5 @@ import com.gnusl.actine.model.Profile;
 
 public interface ProfileClick {
 
-    void onClickProfile(Profile profile, ImageView ivProfile);
-
+    void onClickProfile(Profile profile, ImageView ivProfile,boolean isLongClick);
 }

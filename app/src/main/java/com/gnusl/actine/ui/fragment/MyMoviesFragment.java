@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
@@ -26,7 +24,6 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
-import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
 import com.gnusl.actine.util.Constants;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -35,7 +32,7 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class MyListFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
+public class MyMoviesFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
 
     View inflatedView;
 
@@ -43,11 +40,11 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
     private MyListAdapter myListAdapter;
     private KProgressHUD progressHUD;
 
-    public MyListFragment() {
+    public MyMoviesFragment() {
     }
 
-    public static MyListFragment newInstance() {
-        MyListFragment fragment = new MyListFragment();
+    public static MyMoviesFragment newInstance() {
+        MyMoviesFragment fragment = new MyMoviesFragment();
         Bundle args = new Bundle();
 
 
@@ -177,5 +174,19 @@ public class MyListFragment extends Fragment implements View.OnClickListener, Ho
             inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
         }
 
+    }
+
+    public void refreshData() {
+        myListAdapter = new MyListAdapter(getActivity(), this);
+        rvMyList.setAdapter(myListAdapter);
+        myListAdapter.notifyDataSetChanged();
+        progressHUD = KProgressHUD.create(getActivity())
+                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
+                .setLabel(getString(R.string.please_wait))
+                .setMaxProgress(100)
+                .show();
+
+
+        DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
     }
 }

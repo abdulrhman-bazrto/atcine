@@ -2,7 +2,6 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -40,7 +38,7 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.activity.WatchActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
-import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
+import com.gnusl.actine.ui.adapter.HomeMovieListAdapter;
 import com.gnusl.actine.ui.adapter.ViewPagerAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
 import com.gnusl.actine.ui.custom.NonScrollHomeViewPager1;
@@ -75,7 +73,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private EditText etCommentText;
 
     private CommentsAdapter commentsAdapter;
-    private MovieMoreLikeAdapter movieMoreLikeAdapter;
+    private HomeMovieListAdapter homeMovieListAdapter;
     private Show show;
     private Toast downloadingToast;
 
@@ -196,25 +194,26 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         btnReactions.setOnClickListener(this);
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, null);
+        homeMovieListAdapter = new HomeMovieListAdapter(getActivity(), new ArrayList<>(), this);
 
-        GridLayoutManager gridLayoutManager;
-        if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) ==
-                Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            // on a large screen device ...
-            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        } else if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) ==
-                Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            // on a large screen device ...
-            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
-        } else {
-            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-        }
-        rvSuggest.setLayoutManager(gridLayoutManager);
-
-        rvSuggest.setAdapter(movieMoreLikeAdapter);
+//        GridLayoutManager gridLayoutManager;
+//        if ((getResources().getConfiguration().screenLayout &
+//                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+//                Configuration.SCREENLAYOUT_SIZE_LARGE) {
+//            // on a large screen device ...
+//            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+//        } else if ((getResources().getConfiguration().screenLayout &
+//                Configuration.SCREENLAYOUT_SIZE_MASK) ==
+//                Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+//            // on a large screen device ...
+//            gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+//        } else {
+//            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+//        }
+//        rvSuggest.setLayoutManager(gridLayoutManager);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
+        rvSuggest.setLayoutManager(linearLayoutManager);
+        rvSuggest.setAdapter(homeMovieListAdapter);
 
 
         commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<Comment>(), this);
@@ -631,11 +630,11 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (jsonObject.has("movies")) {
             List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
-            movieMoreLikeAdapter.setList(movies);
+            homeMovieListAdapter.setList(movies);
         } else if (jsonObject.has("series")) {
             if (jsonObject.optJSONArray("series") != null) {
                 List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
-                movieMoreLikeAdapter.setList(series);
+                homeMovieListAdapter.setList(series);
             } else if (jsonObject.optJSONObject("series") != null && jsonObject.optJSONObject("series").has("seasons")) {
                 show = Show.newInstance(jsonObject.optJSONObject("series"), show.getIsMovie(), show.getIsSeason(), show.getIsEpisode());
 //                show.setSeasons(jsonObject.optJSONObject("series").optJSONArray("seasons"));

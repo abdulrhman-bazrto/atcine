@@ -117,14 +117,16 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                     profile.setCurrentProfile(true);
                     SharedPreferencesUtils.saveCurrentProfile(profile.getId());
+                    profileClick.onClickProfile(profile,ivProfile,false);
                     notifyDataSetChanged();
+
                 }
             });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    profileClick.onClickProfile(profile, ivProfile);
+                    profileClick.onClickProfile(profile, ivProfile,true);
                     return true;
                 }
             });
@@ -174,7 +176,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    profileClick.onClickProfile(null, ivProfile);
+                    profileClick.onClickProfile(null, ivProfile,true);
                 }
             });
         }

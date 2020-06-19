@@ -87,7 +87,7 @@ public class MoreContainerFragment extends Fragment {
                 break;
             case MyListFragment:
 
-                mCurrentFragment = MyListFragment.newInstance();
+                mCurrentFragment = MyMoviesFragment.newInstance();
                 transaction.replace(R.id.frame_container_more, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 

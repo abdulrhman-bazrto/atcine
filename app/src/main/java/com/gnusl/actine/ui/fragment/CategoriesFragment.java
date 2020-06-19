@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,8 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
                 categories= (List<Category>) gson.fromJson(json, type);
             }
         }
+        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+
     }
 
     @Override
