@@ -26,6 +26,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
@@ -40,7 +41,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     ShimmerRecyclerView rvSearchResult;
     private MovieMoreLikeAdapter movieMoreLikeAdapter;
-    private KProgressHUD progressHUD;
 
     private String searchType;
     private String searchFor;
@@ -129,11 +129,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 break;
             }
         }
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
 
         DataLoader.getRequest(url + "&skip=" + 0 + "&take=" + 10, this);
@@ -192,23 +188,20 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
 
 //        if (!(rvSearchResult.getAdapter() instanceof MovieMoreLikeAdapter))

@@ -25,6 +25,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.GenresAdapter;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -42,7 +43,6 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
 
     private View inflatedView;
     private RecyclerView rvCategories;
-    private KProgressHUD progressHUD;
     private GenresAdapter genresAdapter;
     private ImageView ivBack;
     List<Category> categories= new ArrayList<>();
@@ -118,16 +118,6 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
 
         rvCategories.setAdapter(genresAdapter);
 
-
-//        progressHUD = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-//                .setLabel(getString(R.string.please_wait))
-//                .setMaxProgress(100)
-//                .show();
-
-
-//        DataLoader.getRequest(Urls.Categories.getLink(), this);
-
     }
 
     private void findViews() {
@@ -175,23 +165,20 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         if (jsonObject.has("categories") && !jsonObject.has("trend")) {
             if (genresAdapter != null) {
                 List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"));

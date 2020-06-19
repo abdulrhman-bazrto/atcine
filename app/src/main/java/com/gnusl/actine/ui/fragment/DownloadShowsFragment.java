@@ -30,6 +30,7 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.DownloadsListAdapter;
 import com.gnusl.actine.ui.adapter.ViewPagerAdapter;
 import com.gnusl.actine.ui.custom.CustomAppBar;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.ObjectBox;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.google.android.material.tabs.TabLayout;
@@ -51,7 +52,6 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
     private TextView tvHint;
     private DownloadsListAdapter downloadsListAdapter;
     private AppCategories currentCategory = AppCategories.Movies;
-    private KProgressHUD progressHUD;
     private String showType;
     private Button btnFindDownload;
     private View clEmptyDownloadList;
@@ -105,11 +105,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
 
         rvDownloads.setAdapter(downloadsListAdapter);
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
         Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
         List<DBShow> dbShows;
@@ -143,8 +139,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
             clEmptyDownloadList.setVisibility(View.VISIBLE);
         }
 
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
     }
 
@@ -207,8 +202,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         if (code == 401) {
             SharedPreferencesUtils.clear();
             startActivity(new Intent(getActivity(), AuthActivity.class));
@@ -219,16 +213,14 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         if (jsonObject.has("movies")) {
             clEmptyDownloadList.setVisibility(View.GONE);

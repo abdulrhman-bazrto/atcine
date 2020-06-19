@@ -109,15 +109,6 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void sendGetCastRequest() {
-
-        if (show.getIsMovie()) {
-            DataLoader.getRequest(Urls.MovieCast.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
-        } else if (show.getIsEpisode()) {
-            DataLoader.getRequest(Urls.EpisodeCast.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
-        }
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

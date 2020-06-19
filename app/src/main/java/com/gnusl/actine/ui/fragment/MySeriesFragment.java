@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.HomeMovieClick;
@@ -26,9 +24,8 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
-import com.gnusl.actine.ui.custom.CustomAppBarWithSelectAndBack;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -41,7 +38,6 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
 
     private RecyclerView rvMyList;
     private MyListAdapter myListAdapter;
-    private KProgressHUD progressHUD;
 
     public MySeriesFragment() {
     }
@@ -101,11 +97,7 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
 
         rvMyList.setAdapter(myListAdapter);
 
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
 
         DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
@@ -150,23 +142,20 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 
         List<Show> series = Show.newList(jsonObject.optJSONArray("series"), false, false, false);
         myListAdapter.setList(series);
@@ -177,15 +166,12 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
             inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
         }
     }
+
     public void refreshData() {
         myListAdapter = new MyListAdapter(getActivity(), this);
         rvMyList.setAdapter(myListAdapter);
         myListAdapter.notifyDataSetChanged();
-        progressHUD = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                .setLabel(getString(R.string.please_wait))
-                .setMaxProgress(100)
-                .show();
+        LoaderPopUp.show(getActivity());
 
 
         DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);

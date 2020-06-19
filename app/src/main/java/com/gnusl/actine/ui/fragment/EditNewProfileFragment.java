@@ -24,6 +24,7 @@ import com.gnusl.actine.model.Profile;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.custom.CustomAppBarWithBack;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.MediaUtils;
 import com.gnusl.actine.util.PermissionsUtils;
@@ -51,7 +52,6 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
 
     private Profile profile;
     private Uri userProfileImageUri;
-    private KProgressHUD progressHUD;
     private ImageView ivProfile;
     String imageTransitionName;
 
@@ -162,11 +162,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
                             DataLoader.uploadRequest(Urls.CreateProfile.getLink(), null, body, EditNewProfileFragment.this);
                         }
                     }
-                    progressHUD = KProgressHUD.create(getActivity())
-                            .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                            .setLabel(getString(R.string.please_wait))
-                            .setMaxProgress(100)
-                            .show();
+                    LoaderPopUp.show(getActivity());
                 }
                 break;
             }
@@ -175,23 +171,20 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onConnectionError(int code, String message) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        if (progressHUD != null)
-            progressHUD.dismiss();
+        LoaderPopUp.dismissLoader();
         Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
     }

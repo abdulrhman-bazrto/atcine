@@ -41,6 +41,7 @@ import com.gnusl.actine.ui.activity.AccountActivity;
 import com.gnusl.actine.ui.activity.AuthActivity;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
+import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.ui.custom.MarginItemDecoration;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.SharedPreferencesUtils;
@@ -152,8 +153,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                 String url = "";
                 if (show.getIsMovie()) {
                     url = Urls.MovieLike.getLink();
-                } else if (show.getIsEpisode()) {
-                    url = Urls.EpisodeLike.getLink();
+                } else {
+                    url = Urls.SeriesLike.getLink();
                 }
                 DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
                     @Override
@@ -286,8 +287,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                     String url = "";
                     if (show.getIsMovie()) {
                         url = Urls.MovieComment.getLink();
-                    } else if (show.getIsEpisode()) {
-                        url = Urls.EpisodeCommentDelete.getLink();
+                    } else {
+                        url = Urls.SeriesCommentDelete.getLink();
                     }
 
                     DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(comment.getId())), new ConnectionDelegate() {
@@ -306,8 +307,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             String url = "";
                             if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            } else if (show.getIsEpisode()) {
-                                url = Urls.EpisodeComments.getLink();
+                            } else  {
+                                url = Urls.SeriesComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
                         }
@@ -360,20 +361,16 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                     return;
                 }
 
-                KProgressHUD progressHUD;
-                progressHUD = KProgressHUD.create(getActivity())
-                        .setStyle(KProgressHUD.Style.SPIN_INDETERMINATE)
-                        .setLabel(getString(R.string.please_wait))
-                        .setMaxProgress(100)
-                        .show();
+                LoaderPopUp.show(getActivity());
+
                 HashMap<String, String> body = new HashMap<>();
                 body.put("comment", etComment.getText().toString());
 
                 String url = "";
                 if (show.getIsMovie()) {
                     url = Urls.MovieComments.getLink();
-                } else if (show.getIsEpisode()) {
-                    url = Urls.EpisodeComments.getLink();
+                } else {
+                    url = Urls.SeriesComments.getLink();
                 }
                 DataLoader.postRequest(url.replaceAll("%id%", String.valueOf(show.getId())), body, new ConnectionDelegate() {
                     @Override
@@ -383,15 +380,13 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
                     @Override
                     public void onConnectionError(ANError anError) {
-                        if (progressHUD != null)
-                            progressHUD.dismiss();
+                        LoaderPopUp.dismissLoader();
                         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onConnectionSuccess(JSONObject jsonObject) {
-                        if (progressHUD != null)
-                            progressHUD.dismiss();
+                        LoaderPopUp.dismissLoader();
                         if (jsonObject.has("status") && jsonObject.optString("status").equalsIgnoreCase("success")) {
                             etComment.setText("");
                             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -401,8 +396,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             String url = "";
                             if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            } else if (show.getIsEpisode()) {
-                                url = Urls.EpisodeComments.getLink();
+                            } else {
+                                url = Urls.SeriesComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
                             addCommentDialog.dismiss();
