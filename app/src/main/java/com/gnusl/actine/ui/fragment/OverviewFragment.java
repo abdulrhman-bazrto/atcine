@@ -17,15 +17,12 @@ import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.Cast;
 import com.gnusl.actine.model.Show;
-import com.gnusl.actine.network.DataLoader;
-import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.adapter.CastAdapter;
 import com.gnusl.actine.util.Constants;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class OverviewFragment extends Fragment implements View.OnClickListener, ConnectionDelegate {
@@ -62,7 +59,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_overview, container, false);
             init();
-        }else {
+        } else {
             ViewGroup parent = (ViewGroup) inflatedView.getParent();
             if (parent != null) {
                 parent.removeAllViews();
@@ -140,18 +137,20 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
     }
 
     //
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            if (castAdapter != null && cast != null)
-                castAdapter.setList(cast);
-        } else {
-        }
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            if (castAdapter != null && cast != null)
+//                castAdapter.setList(cast);
+//        } else {
+//        }
+//    }
 
     public void setCastList(ArrayList<Cast> cast1) {
         this.cast = cast1;
+        castAdapter.setList(cast);
+
     }
 
 }
