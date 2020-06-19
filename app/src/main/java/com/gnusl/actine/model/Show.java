@@ -69,7 +69,7 @@ public class Show implements Serializable {
         this.title = jsonObject.optString("title");
         this.size = jsonObject.optString("size");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
-        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url");
+        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/","/image/upload/w_500,h_700,c_scale/");
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
@@ -136,7 +136,7 @@ public class Show implements Serializable {
         this.section = jsonObject.optString("section");
         this.title = jsonObject.optString("title");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
-        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url");
+        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/","/image/upload/w_500,h_700,c_scale/");
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");

@@ -637,6 +637,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                 homeMovieListAdapter.setList(series);
             } else if (jsonObject.optJSONObject("series") != null && jsonObject.optJSONObject("series").has("seasons")) {
                 show = Show.newInstance(jsonObject.optJSONObject("series"), show.getIsMovie(), show.getIsSeason(), show.getIsEpisode());
+                if (jsonObject.optJSONObject("series").has("crew")) {
+                    cast = (ArrayList<Cast>) Cast.newArray(jsonObject.optJSONObject("series").optJSONArray("crew"));
+                    overviewFragment.setCastList(cast);
+                }
 //                show.setSeasons(jsonObject.optJSONObject("series").optJSONArray("seasons"));
                 if (!show.getIsMovie())
                     episodesFragment.setShow(show);
