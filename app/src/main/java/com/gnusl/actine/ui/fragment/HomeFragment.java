@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         }
 
-        LoaderPopUp.show(getActivity());
+        LoaderPopUp.show1(getActivity());
 
         if (isFirstInit) {
             genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);

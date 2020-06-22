@@ -8,13 +8,16 @@ import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.gnusl.actine.R;
 
 public class LoaderPopUp extends DialogFragment {
 
     private static LoaderPopUp loaderPopUp;
+    private static FragmentManager supportFragmentManager;
 
     @NonNull
     @Override
@@ -32,26 +35,64 @@ public class LoaderPopUp extends DialogFragment {
     }
 
     public static void show(FragmentActivity fragmentActivity) {
-
-        if (loaderPopUp == null)
-            loaderPopUp = new LoaderPopUp();
-        if (fragmentActivity == null)
+        if (true)
             return;
+        try {
+            if (loaderPopUp != null && loaderPopUp.isAdded())
+                return;
 
-        if (loaderPopUp.isAdded())
-            return;
+            if (loaderPopUp == null)
+                loaderPopUp = new LoaderPopUp();
+            if (fragmentActivity == null)
+                return;
 
-        loaderPopUp.show(fragmentActivity.getSupportFragmentManager(), "");
+            if (loaderPopUp.isAdded())
+                return;
+            supportFragmentManager = fragmentActivity.getSupportFragmentManager();
+            loaderPopUp.show(supportFragmentManager, "tag");
+        } catch (Throwable t) {
 
+        }
+
+    }
+    public static void show1(FragmentActivity fragmentActivity) {
+        try {
+            if (loaderPopUp != null && loaderPopUp.isAdded())
+                return;
+
+            if (loaderPopUp == null)
+                loaderPopUp = new LoaderPopUp();
+            if (fragmentActivity == null)
+                return;
+
+            if (loaderPopUp.isAdded())
+                return;
+            supportFragmentManager = fragmentActivity.getSupportFragmentManager();
+            loaderPopUp.show(supportFragmentManager, "tag");
+        } catch (Throwable t) {
+
+        }
 
     }
 
     public static void dismissLoader() {
 
-        if (loaderPopUp == null)
-            return;
+        try {
 
-        loaderPopUp.dismiss();
+            if (loaderPopUp == null)
+                return;
+
+            if (supportFragmentManager != null) {
+                Fragment oldFragment = supportFragmentManager.findFragmentByTag("tag");
+                if (oldFragment != null) {
+                    supportFragmentManager.beginTransaction().remove(oldFragment).commit();
+                }
+            }
+
+            loaderPopUp.dismiss();
+        } catch (Exception e) {
+
+        }
     }
 }
 

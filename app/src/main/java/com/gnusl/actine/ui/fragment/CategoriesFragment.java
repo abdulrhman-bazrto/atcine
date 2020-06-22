@@ -117,6 +117,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
         rvCategories.setLayoutManager(gridLayoutManager);
 
         rvCategories.setAdapter(genresAdapter);
+        rvCategories.scheduleLayoutAnimation();
 
     }
 

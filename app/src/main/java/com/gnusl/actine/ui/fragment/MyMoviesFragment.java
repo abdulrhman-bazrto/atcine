@@ -172,7 +172,7 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
         rvMyList.setAdapter(myListAdapter);
         myListAdapter.notifyDataSetChanged();
 
-        LoaderPopUp.show(getActivity());
+//        LoaderPopUp.show(getActivity());
 
 
         DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
