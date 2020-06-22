@@ -280,7 +280,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                                 break;
                         }
                         genresAdapter.setList(categoriesTemp);
-                        rvGenres.scheduleLayoutAnimation();
+//                        rvGenres.scheduleLayoutAnimation();
 
                     }
                     Show trendSerie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
@@ -299,7 +299,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                                 break;
                         }
                         genresAdapter.setList(categoriesTemp);
-                        rvGenres.scheduleLayoutAnimation();
+//                        rvGenres.scheduleLayoutAnimation();
 
                     }
                     Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);

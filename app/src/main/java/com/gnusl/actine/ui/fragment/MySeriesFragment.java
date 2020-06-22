@@ -97,7 +97,7 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
 
         rvMyList.setAdapter(myListAdapter);
 
-        LoaderPopUp.show(getActivity());
+//        LoaderPopUp.show(getActivity());
 
 
         DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);

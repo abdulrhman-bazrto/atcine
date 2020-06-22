@@ -2,6 +2,9 @@ package com.gnusl.actine.ui.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.transition.Fade;
+import android.transition.TransitionInflater;
+import android.view.Window;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -30,7 +33,8 @@ public class AuthActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+//        getWindow().setEnterTransition(new Fade());
 //        View decorView = getWindow().getDecorView();
 //        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
 //                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

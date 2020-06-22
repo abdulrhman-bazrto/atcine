@@ -150,7 +150,6 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
     public void setCastList(ArrayList<Cast> cast1) {
         this.cast = cast1;
         castAdapter.setList(cast);
-
     }
 
 }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -72,6 +73,8 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
+        getWindow().setEnterTransition(new Fade());
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -235,10 +238,10 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
             case 1:
                 return FragmentTags.SearchFragment;
 
-            case 2:
-                return FragmentTags.ComingSoonFragment;
+//            case 2:
+//                return FragmentTags.ComingSoonFragment;
 
-            case 3:
+            case 2:
                 return FragmentTags.DownloadsFragment;
 
             default:
