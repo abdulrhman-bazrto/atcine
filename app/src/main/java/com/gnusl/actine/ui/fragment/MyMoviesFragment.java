@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -25,6 +28,7 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MyListAdapter;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
+import com.gnusl.actine.ui.custom.LoaderPopUp1;
 import com.gnusl.actine.util.Constants;
 
 import org.json.JSONObject;
@@ -35,9 +39,12 @@ import java.util.List;
 public class MyMoviesFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
 
     View inflatedView;
+    private ConstraintLayout clRoot;
 
     private RecyclerView rvMyList;
     private MyListAdapter myListAdapter;
+    LoaderPopUp1 loaderPopUp1 = new LoaderPopUp1();
+    Animation animation;
 
     public MyMoviesFragment() {
     }
@@ -78,7 +85,9 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
     private void init() {
 
         rvMyList = inflatedView.findViewById(R.id.rv_my_list);
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_right_side);
 
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
         myListAdapter = new MyListAdapter(getActivity(), this);
 
@@ -99,7 +108,7 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
 
         rvMyList.setAdapter(myListAdapter);
 
-        LoaderPopUp.show(getActivity());
+        loaderPopUp1.show1(getActivity());
 
 
         DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
@@ -142,20 +151,23 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onConnectionError(int code, String message) {
-        LoaderPopUp.dismissLoader();
+        loaderPopUp1.dismissLoader();
+
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionError(ANError anError) {
-        LoaderPopUp.dismissLoader();
+        loaderPopUp1.dismissLoader();
+
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
         Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
-        LoaderPopUp.dismissLoader();
+        loaderPopUp1.dismissLoader();
+
 
         List<Show> movies = Show.newList(jsonObject.optJSONArray("movies"), true, false, false);
         myListAdapter.setList(movies);
@@ -172,9 +184,17 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
         rvMyList.setAdapter(myListAdapter);
         myListAdapter.notifyDataSetChanged();
 
-//        LoaderPopUp.show(getActivity());
+        loaderPopUp1.show1(getActivity());
+
 
 
         DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
+    }
+
+    public void startanimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
     }
 }

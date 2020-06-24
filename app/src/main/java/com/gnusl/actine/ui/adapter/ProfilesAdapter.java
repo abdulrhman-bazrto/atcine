@@ -112,6 +112,8 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(profile.isCurrentProfile())
+                        return;
                     for (int i = 0; i < profiles.size(); i++) {
                         profiles.get(i).setCurrentProfile(false);
                     }

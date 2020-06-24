@@ -9,10 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.error.ANError;
@@ -36,6 +39,8 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
     View inflatedView;
 
     private TextView tvHelp, tvLogout, tvAppSetting, tvAccount;
+    private ConstraintLayout clRoot;
+    Animation animation;
 
     public SettingsFragment() {
     }
@@ -69,7 +74,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
         findViews();
-
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_left_side);
     }
 
     private void findViews() {
@@ -77,6 +82,7 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         tvLogout = inflatedView.findViewById(R.id.tv_logout);
         tvAppSetting = inflatedView.findViewById(R.id.tv_app_setting);
         tvAccount = inflatedView.findViewById(R.id.tv_account);
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
         tvHelp.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
@@ -107,16 +113,18 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             }
             case R.id.tv_account: {
                 Intent intent = new Intent(getActivity(), AccountActivity.class);
-                intent.putExtra("url",Urls.Account.getLink());
+                intent.putExtra("url", Urls.Account.getLink());
                 startActivity(intent);
                 break;
-            } case R.id.tv_logout: {
+            }
+            case R.id.tv_logout: {
                 showLogoutDialog();
                 break;
             }
 
         }
     }
+
     private void showLogoutDialog() {
         final Dialog logoutDialog = new Dialog(getActivity());
         logoutDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -160,5 +168,27 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         logoutDialog.show();
     }
 
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(isVisibleToUser);
+//        if (isVisibleToUser) {
+//            animation.setDuration(1000);
+//            animation.setStartOffset(2000);
+////            animation.setFillAfter(true);
+////            animation.setFillEnabled(true);
+//            tvHelp.startAnimation(animation);
+//            tvAccount.startAnimation(animation);
+//            tvAppSetting.startAnimation(animation);
+//            tvLogout.startAnimation(animation);
+//        }
+//    }
 
+    public void startAnimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
+//        tvAccount.startAnimation(animation);
+//        tvLogout.startAnimation(animation);
+    }
 }

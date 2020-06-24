@@ -11,8 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -44,7 +42,6 @@ import com.gnusl.actine.ui.adapter.CategorySpinnerAdapter;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -271,7 +268,7 @@ movieMoreLikeAdapter.clearList();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail, null, null);
             }
         }
     }
@@ -290,7 +287,7 @@ movieMoreLikeAdapter.clearList();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                 bundle.putString("type", "season");
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null, null, null);
             }
         }
     }

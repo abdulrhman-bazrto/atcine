@@ -133,7 +133,7 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
             bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
 
             if (fragment instanceof HomeContainerFragment) {
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail, null, null);
             } else if (fragment instanceof MoreContainerFragment) {
                 ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
             } else if (fragment instanceof SearchContainerFragment) {
@@ -150,13 +150,13 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
                 if (series.getIsEpisode()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, null, null, null);
                 } else if (series.getIsSeason()) {
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                     bundle.putString("type", "episode");
                     bundle.putString("seasonId", String.valueOf(series.getId()));
-                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
+                    ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null, null, null);
                 }
             } else if (fragment instanceof MoreContainerFragment) {
                 if (series.getIsEpisode()) {

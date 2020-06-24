@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,13 +56,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
     private ProfilesAdapter profilesAdapter;
 
     private Button btnManageProfile;
-
+    View mIndicator;
     private TextView tvMyList, tvHelp, tvLogout, tvAppSetting, tvAccount;
     private TabLayout tlMainTabLayout;
     private ViewPager vpMainContainer;
     private ViewPagerAdapter adapter;
     private MyMoviesFragment myMoviesFragment;
     private MySeriesFragment mySeriesFragment;
+    private int indicatorWidth;
 
     public MoreFragment() {
     }
@@ -110,6 +112,18 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         vpMainContainer.setOffscreenPageLimit(3);
 
         tlMainTabLayout.setupWithViewPager(vpMainContainer);
+        //Determine indicator width at runtime
+        tlMainTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                indicatorWidth = tlMainTabLayout.getWidth() / tlMainTabLayout.getTabCount();
+
+                //Assign new width
+                FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) mIndicator.getLayoutParams();
+                indicatorParams.width = indicatorWidth;
+                mIndicator.setLayoutParams(indicatorParams);
+            }
+        });
 
         tlMainTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -134,13 +148,25 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 
         vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int i, float positionOffset, int positionOffsetPx) {
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mIndicator.getLayoutParams();
 
+                //Multiply positionOffset with indicatorWidth to get translation
+                float translationOffset =  (positionOffset+i) * indicatorWidth ;
+                params.leftMargin = (int) translationOffset;
+                mIndicator.setLayoutParams(params);
             }
 
             @Override
-            public void onPageSelected(int i) {
-
+            public void onPageSelected(int position) {
+                if (position == 0)
+                    myMoviesFragment.startanimation();
+                if (position == 1)
+                    mySeriesFragment.startanimation();
+                if (position == 2) {
+                    SettingsFragment settingsFragment = (SettingsFragment) adapter.instantiateItem(vpMainContainer, 2);
+                    settingsFragment.startAnimation();
+                }
             }
 
             @Override
@@ -169,7 +195,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
 //        tvAccount = inflatedView.findViewById(R.id.tv_account);
         tlMainTabLayout = inflatedView.findViewById(R.id.tl_main_tab_layout);
         vpMainContainer = inflatedView.findViewById(R.id.vp_main_container);
-
+        mIndicator = inflatedView.findViewById(R.id.indicator);
         btnManageProfile.setOnClickListener(this);
 //        tvMyList.setOnClickListener(this);
 //        tvHelp.setOnClickListener(this);

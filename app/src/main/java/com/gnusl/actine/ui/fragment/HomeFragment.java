@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +53,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private HomeAdapter homeAdapter;
     private CustomAppBar cubHome;
 
-    private TextView tvMovies, tvSeries, tvSeeAll;
+    private TextView tvMovies, tvSeries, tvSeeAll, tvCategory;
     private GenresAdapter genresAdapter;
     private List<Category> categories;
 
@@ -74,6 +75,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (getArguments() != null) {
 
         }
+        setReenterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
     }
 
     @Override
@@ -175,7 +177,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         Bundle bundle = new Bundle();
                         Gson gson = new Gson();
                         bundle.putString("categories", gson.toJson(categories));
-                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, bundle, null);
+                        ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.CategoriesFragment, bundle, null, rvGenres, tvCategory);
                     }
                 }
             }
@@ -191,6 +193,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         tvSeries = inflatedView.findViewById(R.id.tv_series);
         rvGenres = inflatedView.findViewById(R.id.rv_genres);
         tvSeeAll = inflatedView.findViewById(R.id.tv_see_all);
+        tvCategory = inflatedView.findViewById(R.id.tv_category);
 
     }
 
@@ -202,7 +205,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail, null, null);
             }
         }
     }
@@ -215,13 +218,13 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                 bundle.putString("type", "season");
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null, null, null);
             }
         }
     }
 
     @Override
-    public void onSelectGenres(Category genres) {
+    public void onSelectGenres(Category genres, TextView tvListTitle, RecyclerView rvCategory) {
 //        cubHome.getSpGenres().setText(genres.getTitle());
 //        sgvHome.setVisibility(View.GONE);
         if (getActivity() != null) {
@@ -238,9 +241,15 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         break;
                     }
                 }
+                if (rvCategory!= null){
+                    bundle.putString("transition_rv", "transition_rv" + genres.getId());
+                }
+
+                bundle.putString("transition", "transition" + genres.getId());
+                bundle.putString("title", genres.getTitle());
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null, rvCategory, tvListTitle);
             }
         }
     }

@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityOptionsCompat;
 
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.User;
@@ -73,7 +72,20 @@ public class SplashActivity extends AppCompatActivity {
             }
         }, 3000);
 
-
+//        LottieAnimationView animationView = findViewById(R.id.animation_view);
+////        LottieDrawable drawable = new LottieDrawable();
+////        LottieComposition.Factory.fromAssetFileName(this, "intro.json",(composition ->
+////        {
+////            drawable.setComposition(composition);
+////            drawable.playAnimation();
+////            drawable.setScale(4);
+////            animationView.setImageDrawable(drawable);
+////
+////        }));
+//
+//        animationView.setAnimation(R.raw.intro);
+//        animationView.playAnimation();
+//        animationView.loop(true);
         Animation anim = AnimationUtils.loadAnimation(this, R.anim.scale_out);
         anim.setDuration(2000);
         imageView1.startAnimation(anim);

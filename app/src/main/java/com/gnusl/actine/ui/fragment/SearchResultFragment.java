@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,11 +29,11 @@ import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class SearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate, LoadMoreDelegate {
@@ -45,6 +46,10 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private String searchType;
     private String searchFor;
     private String key;
+    private String tvTransitionName;
+    private TextView tvTitle;
+    private String txtTitle;
+    private String rvTransitionName;
 
     public SearchResultFragment() {
     }
@@ -63,9 +68,13 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             this.searchType = getArguments().getString("searchType");
 
             this.key = getArguments().getString("key");
+            this.tvTransitionName = Objects.toString(getArguments().getString("transition"), "");
+            this.rvTransitionName = Objects.toString(getArguments().getString("transition_rv"), "");
+            this.txtTitle = Objects.toString(getArguments().getString("title"), "");
 
         }
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+//        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
 
     }
 
@@ -82,7 +91,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private void init() {
 
         findViews();
-
+        tvTitle.setText(txtTitle);
 
         movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this);
         GridLayoutManager gridLayoutManager;
@@ -129,7 +138,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 break;
             }
         }
-        LoaderPopUp.show(getActivity());
+        LoaderPopUp.show1(getActivity());
 
 
         DataLoader.getRequest(url + "&skip=" + 0 + "&take=" + 10, this);
@@ -138,6 +147,12 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
     private void findViews() {
         rvSearchResult = inflatedView.findViewById(R.id.rv_search_result);
+        tvTitle = inflatedView.findViewById(R.id.tv_title);
+        tvTitle.setTransitionName(tvTransitionName);
+        if (!rvTransitionName.isEmpty()) {
+            rvSearchResult.setTransitionName(rvTransitionName);
+        }
+
     }
 
 
@@ -162,7 +177,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
                 bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail, null, null);
             }
         }
     }
@@ -181,7 +196,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
                 bundle.putString("type", "season");
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null, null, null);
             }
         }
     }

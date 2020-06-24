@@ -47,7 +47,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private Show trendShow;
-    private List<Category> categories= new ArrayList<>();
+    private List<Category> categories = new ArrayList<>();
 
     private static int HOLDER_MOVIE = 0;
     private static int HOLDER_MOVIE_LIST = 1;
@@ -229,20 +229,23 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(int id, String name, List<Show> movies) {
 
             tvListTitle.setText(name);
+            tvListTitle.setTransitionName("transition" + id);
+            rvMovieList.setTransitionName("transition_rv" + id);
             Log.d("CATEGORY_id", String.valueOf(id));
             Log.d("CATEGORY_NAME", name);
             if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {
                 tvMore.setVisibility(View.GONE);
-                tvMore.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (genresClickEvents != null) {
-                            Category category = new Category();
-                            category.setId(id);
-                            genresClickEvents.onSelectGenres(category);
-                        }
-                    }
-                });
+//                tvMore.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        if (genresClickEvents != null) {
+//                            Category category = new Category();
+//                            category.setId(id);
+//                            category.setTitle(name);
+//                            genresClickEvents.onSelectGenres(category, null);
+//                        }
+//                    }
+//                });
             } else {
                 tvMore.setVisibility(View.VISIBLE);
                 tvMore.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +254,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         if (genresClickEvents != null) {
                             Category category = new Category();
                             category.setId(id);
-                            genresClickEvents.onSelectGenres(category);
+                            category.setTitle(name);
+                            genresClickEvents.onSelectGenres(category, tvListTitle, rvMovieList);
                         }
                     }
                 });
@@ -267,7 +271,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             rvMovieList.setLayoutManager(layoutManager);
 
-                rvMovieList.swapAdapter(homeMovieListAdapter, false);
+            rvMovieList.swapAdapter(homeMovieListAdapter, false);
             rvMovieList.scheduleLayoutAnimation();
 
         }

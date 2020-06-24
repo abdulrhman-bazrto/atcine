@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,16 +21,12 @@ import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.model.Category;
-import com.gnusl.actine.model.User;
-import com.gnusl.actine.network.DataLoader;
-import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.GenresAdapter;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONObject;
 
@@ -70,8 +67,8 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
                 categories= (List<Category>) gson.fromJson(json, type);
             }
         }
-        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
-
+//        setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.fade_transition));
+        setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.move));
     }
 
     @Override
@@ -117,7 +114,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
         rvCategories.setLayoutManager(gridLayoutManager);
 
         rvCategories.setAdapter(genresAdapter);
-        rvCategories.scheduleLayoutAnimation();
+//        rvCategories.scheduleLayoutAnimation();
 
     }
 
@@ -135,7 +132,7 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
     }
 
     @Override
-    public void onSelectGenres(Category genres) {
+    public void onSelectGenres(Category genres, TextView tvListTitle, RecyclerView rvCategory) {
 //        cubHome.getSpGenres().setText(genres.getTitle());
 //        sgvHome.setVisibility(View.GONE);
         if (getActivity() != null) {
@@ -152,9 +149,14 @@ public class CategoriesFragment extends Fragment implements View.OnClickListener
                         break;
                     }
                 }
+                if (tvListTitle != null){
+                    bundle.putString("transition", "transition" + genres.getId());
+                    bundle.putString("title", genres.getTitle());
+                }
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null);
+                bundle.putString("title", genres.getTitle());
+                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle, null, null, tvListTitle);
             }
         }
     }

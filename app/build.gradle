@@ -56,6 +56,8 @@ dependencies {
     implementation 'com.kaopiz:kprogresshud:1.2.0'
     // picasso
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5' //updated this
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.7.5' //updated this
     // crop images
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.0'
