@@ -188,7 +188,5 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         animation.setFillAfter(true);
         animation.setFillEnabled(true);
         clRoot.startAnimation(animation);
-//        tvAccount.startAnimation(animation);
-//        tvLogout.startAnimation(animation);
     }
 }

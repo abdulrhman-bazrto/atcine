@@ -50,6 +50,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private TextView tvTitle;
     private String txtTitle;
     private String rvTransitionName;
+    private ImageView ivBack;
 
     public SearchResultFragment() {
     }
@@ -142,7 +143,13 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
 
 
         DataLoader.getRequest(url + "&skip=" + 0 + "&take=" + 10, this);
-
+        ivBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null)
+                    getActivity().onBackPressed();
+            }
+        });
     }
 
     private void findViews() {
@@ -152,6 +159,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         if (!rvTransitionName.isEmpty()) {
             rvSearchResult.setTransitionName(rvTransitionName);
         }
+        ivBack = inflatedView.findViewById(R.id.iv_back);
 
     }
 

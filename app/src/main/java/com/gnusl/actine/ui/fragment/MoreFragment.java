@@ -56,13 +56,13 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
     private ProfilesAdapter profilesAdapter;
 
     private Button btnManageProfile;
-    View mIndicator;
     private TextView tvMyList, tvHelp, tvLogout, tvAppSetting, tvAccount;
     private TabLayout tlMainTabLayout;
     private ViewPager vpMainContainer;
     private ViewPagerAdapter adapter;
     private MyMoviesFragment myMoviesFragment;
     private MySeriesFragment mySeriesFragment;
+    View mIndicator;
     private int indicatorWidth;
 
     public MoreFragment() {
@@ -112,6 +112,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         vpMainContainer.setOffscreenPageLimit(3);
 
         tlMainTabLayout.setupWithViewPager(vpMainContainer);
+
         //Determine indicator width at runtime
         tlMainTabLayout.post(new Runnable() {
             @Override

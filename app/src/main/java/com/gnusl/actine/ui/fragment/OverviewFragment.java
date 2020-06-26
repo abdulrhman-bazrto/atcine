@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +37,8 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvCast;
     CastAdapter castAdapter;
     ArrayList<Cast> cast;
+    Animation animation;
+    private ConstraintLayout clRoot;
 
     public OverviewFragment() {
     }
@@ -70,6 +75,11 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
 
     private void init() {
         findViews();
+        if (show.getIsMovie())
+            animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_left_side);
+        else
+            animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_right_side);
+
 //        tvDirector.setText(show.getDirector());
 //        tvWriters.setText(show.getWriters());
         tvReleaseDate.setText(show.getYear() + "");
@@ -103,6 +113,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         tvType = inflatedView.findViewById(R.id.tv_type);
         tvLanguage = inflatedView.findViewById(R.id.tv_language);
         rvCast = inflatedView.findViewById(R.id.rv_cast);
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
     }
 
@@ -152,4 +163,10 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         castAdapter.setList(cast);
     }
 
+    public void startAnimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
+    }
 }

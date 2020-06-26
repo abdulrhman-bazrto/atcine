@@ -6,10 +6,13 @@ import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.gnusl.actine.R;
@@ -26,6 +29,8 @@ public class TrailerFragment extends Fragment implements View.OnClickListener {
     TextView tvShowTitle;
     ImageView ivShowImage, ivPlayShow;
     private Show show;
+    Animation animation;
+    private ConstraintLayout clRoot;
 
     public TrailerFragment() {
     }
@@ -65,6 +70,7 @@ public class TrailerFragment extends Fragment implements View.OnClickListener {
 
     private void init() {
         findViews();
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_right_side);
 
         tvShowTitle.setText(show.getTitle());
         Picasso.with(getActivity()).load(show.getCoverImageUrl()).into(ivShowImage);
@@ -74,6 +80,7 @@ public class TrailerFragment extends Fragment implements View.OnClickListener {
         tvShowTitle = inflatedView.findViewById(R.id.tv_show_title);
         ivShowImage = inflatedView.findViewById(R.id.iv_movie_image);
         ivPlayShow = inflatedView.findViewById(R.id.iv_play_show);
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
         ivPlayShow.setOnClickListener(this::onClick);
     }
@@ -91,4 +98,10 @@ public class TrailerFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    public void startAnimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
+    }
 }

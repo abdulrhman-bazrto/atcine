@@ -2,8 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/black"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:background="@color/black">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_movie_cover"
@@ -71,8 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="5dp"
         android:text="Ken jeong you complete me"
         android:textColor="@color/white"
@@ -282,9 +283,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="8dp"
-        android:text="2h 20m"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
+        android:text="2h 20m"
         android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/iv_clock"
         app:layout_constraintTop_toBottomOf="@+id/view" />
@@ -321,34 +322,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_category" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tl_main_tab_layout"
+    <FrameLayout
+        android:id="@+id/frame"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
+        android:clipToPadding="true"
         android:layout_marginTop="30dp"
-        android:background="#000"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_caption"
-        app:tabBackground="@drawable/selector_tab_color"
-        app:tabGravity="fill"
-        app:tabIndicatorColor="#5E0000"
-        app:tabMaxWidth="0dp"
-        app:tabMinWidth="0dp"
-        app:tabMode="fixed"
-        app:tabPaddingEnd="25dp"
-        app:tabPaddingStart="25dp"
-        app:tabTextAppearance="@style/TabLayoutTextStyle"
-        app:tabTextColor="@color/white" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_caption">
+
+        <View
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_tab_selected" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_main_tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_tab_unselected"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@null"
+                app:tabMaxWidth="0dp"
+                app:tabMinWidth="0dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="25dp"
+                app:tabPaddingStart="25dp"
+                app:tabTextAppearance="@style/TabLayoutTextStyle"
+                app:tabTextColor="@color/white" />
+    </FrameLayout>
+
+
 
     <com.gnusl.actine.ui.custom.NonScrollHomeViewPager1
         android:id="@+id/vp_main_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tl_main_tab_layout">
+        app:layout_constraintTop_toBottomOf="@+id/frame">
+
     </com.gnusl.actine.ui.custom.NonScrollHomeViewPager1>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

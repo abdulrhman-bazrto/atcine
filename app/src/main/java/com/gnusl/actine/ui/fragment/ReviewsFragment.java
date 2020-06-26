@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,6 +70,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
     private View clInputLayout;
     private EditText etCommentText;
     private ImageView ivSendComment;
+    Animation animation;
+    private ConstraintLayout clRoot;
 
     public ReviewsFragment() {
     }
@@ -98,6 +103,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
     private void init() {
         findViews();
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_left_side);
 
         commentsAdapter = new CommentsAdapter(getActivity(), new ArrayList<Comment>(), this);
 
@@ -130,6 +136,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         etCommentText = inflatedView.findViewById(R.id.et_comment_text);
         ivSendComment = inflatedView.findViewById(R.id.iv_send_comment);
         tvAddComment = inflatedView.findViewById(R.id.tv_add_comment);
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
         tvLikesCount.setOnClickListener(this);
         ivSendComment.setOnClickListener(this);
@@ -413,5 +420,10 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         addCommentDialog.show();
     }
 
-
+    public void startAnimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
+    }
 }

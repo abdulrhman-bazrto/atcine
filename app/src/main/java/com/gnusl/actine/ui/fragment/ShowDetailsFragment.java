@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,7 +86,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private EpisodesFragment episodesFragment;
     String imageTransitionName;
     ArrayList<Cast> cast;
-
+    View mIndicator;
+    private int indicatorWidth;
     public ShowDetailsFragment() {
     }
 
@@ -136,12 +138,24 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         tlMainTabLayout.setupWithViewPager(vpMainContainer);
 
+        //Determine indicator width at runtime
+        tlMainTabLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                indicatorWidth = tlMainTabLayout.getWidth() / tlMainTabLayout.getTabCount();
+
+                //Assign new width
+                FrameLayout.LayoutParams indicatorParams = (FrameLayout.LayoutParams) mIndicator.getLayoutParams();
+                indicatorParams.width = indicatorWidth;
+                mIndicator.setLayoutParams(indicatorParams);
+            }
+        });
         tlMainTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
 //                changeTabTitle(position);
-                vpMainContainer.setCurrentItem(position, false);
+                vpMainContainer.setCurrentItem(position);
 
 
             }
@@ -159,13 +173,27 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int i, float v, int i1) {
+            public void onPageScrolled(int i, float positionOffset, int positionOffsetPx) {
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mIndicator.getLayoutParams();
 
+                //Multiply positionOffset with indicatorWidth to get translation
+                float translationOffset =  (positionOffset+i) * indicatorWidth ;
+                params.leftMargin = (int) translationOffset;
+                mIndicator.setLayoutParams(params);
             }
 
             @Override
-            public void onPageSelected(int i) {
+            public void onPageSelected(int position) {
                 vpMainContainer.reMeasureCurrentPage(vpMainContainer.getCurrentItem());
+                Fragment fragment = (Fragment) adapter.instantiateItem(vpMainContainer, position);
+                if(fragment instanceof TrailerFragment)
+                    ((TrailerFragment)fragment).startAnimation();
+                else if(fragment instanceof OverviewFragment)
+                    ((OverviewFragment)fragment).startAnimation();
+                else if(fragment instanceof ReviewsFragment)
+                    ((ReviewsFragment)fragment).startAnimation();
+                else if (fragment instanceof EpisodesFragment)
+                    ((EpisodesFragment)fragment).startAnimation();
 
             }
 
@@ -297,6 +325,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvIMDBRate = inflatedView.findViewById(R.id.tv_imdb_rate);
         tvTomatoRate = inflatedView.findViewById(R.id.tv_tomato_rate);
         ivShowImage.setTransitionName(imageTransitionName);
+        mIndicator = inflatedView.findViewById(R.id.indicator);
 
 //        tvRate.setOnClickListener(new View.OnClickListener() {
 //            @Override

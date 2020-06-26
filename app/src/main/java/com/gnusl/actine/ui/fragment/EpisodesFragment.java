@@ -6,6 +6,8 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +49,8 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
     RecyclerView rvEpisodes;
 
     EpisodeAdapter episodeAdapter;
+    Animation animation;
+    private ConstraintLayout clRoot;
 
     //    ArrayList<Cast> cast;
     public EpisodesFragment() {
@@ -77,6 +82,8 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
 
     private void init() {
         findViews();
+        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_left_side);
+
 //        initCategorySpinner();
 
 //        tvDirector.setText(show.getDirector());
@@ -129,6 +136,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
         tvEpisodes = inflatedView.findViewById(R.id.tv_episodes);
         tvSeasons = inflatedView.findViewById(R.id.tv_seasons);
         rvEpisodes = inflatedView.findViewById(R.id.rv_episodes);
+        clRoot = inflatedView.findViewById(R.id.root_view);
 
         spSeasons = inflatedView.findViewById(R.id.sp_seasons);
     }
@@ -184,16 +192,12 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
         spSeasons.setSelection(0);
     }
 
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        super.setUserVisibleHint(isVisibleToUser);
-//        if (isVisibleToUser) {
-//            initCategorySpinner();
-////            spSeasons.setSelection(0);
-////            episodeAdapter.setList (show.getSeasons().get(0).getEpisodes());
-//
-//        }
-//    }
+    public void startAnimation() {
+        animation.setDuration(1200);
+        animation.setFillAfter(true);
+        animation.setFillEnabled(true);
+        clRoot.startAnimation(animation);
+    }
 
 
 }
