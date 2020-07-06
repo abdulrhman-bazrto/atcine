@@ -229,8 +229,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         public void bind(int id, String name, List<Show> movies) {
 
             tvListTitle.setText(name);
-            tvListTitle.setTransitionName("transition" + id);
-            rvMovieList.setTransitionName("transition_rv" + id);
+            tvListTitle.setTransitionName("transition" + id + name);
+            rvMovieList.setTransitionName("transition_rv" + id + name);
             Log.d("CATEGORY_id", String.valueOf(id));
             Log.d("CATEGORY_NAME", name);
             if (name.equalsIgnoreCase("random") || name.equalsIgnoreCase("favourite") || name.equalsIgnoreCase("not completed")) {

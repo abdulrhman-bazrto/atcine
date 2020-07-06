@@ -111,7 +111,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             count = 5;
         } else {
             gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-            count = 3;
+            count = 4;
         }
         rvSearchResult.setLayoutManager(gridLayoutManager);
 

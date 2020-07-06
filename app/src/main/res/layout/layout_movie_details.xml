@@ -65,7 +65,7 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_movie_image"
         app:layout_constraintStart_toStartOf="@+id/iv_movie_image"
         app:layout_constraintTop_toBottomOf="@+id/iv_movie_image"
-        app:srcCompat="@drawable/ic_play" />
+        app:srcCompat="@drawable/ic_play_red" />
 
     <TextView
         android:id="@+id/tv_show_title"
@@ -264,6 +264,7 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="20dp"
+        android:visibility="gone"
         android:background="#707070"
         app:layout_constraintTop_toBottomOf="@+id/cl_details_actions" />
 

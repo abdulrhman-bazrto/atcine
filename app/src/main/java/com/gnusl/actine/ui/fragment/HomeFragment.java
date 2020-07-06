@@ -275,10 +275,10 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                     }
                 }
                 if (rvCategory != null) {
-                    bundle.putString("transition_rv", "transition_rv" + genres.getId());
+                    bundle.putString("transition_rv", "transition_rv" + genres.getId() + genres.getTitle());
                 }
 
-                bundle.putString("transition", "transition" + genres.getId());
+                bundle.putString("transition", "transition" + genres.getId() + genres.getTitle());
                 bundle.putString("title", genres.getTitle());
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));

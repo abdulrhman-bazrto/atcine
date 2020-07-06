@@ -52,7 +52,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
     private TextView tvHint;
     private DownloadsListAdapter downloadsListAdapter;
     private AppCategories currentCategory = AppCategories.Movies;
-    private String showType;
+    private String showType = "";
     private Button btnFindDownload;
     private View clEmptyDownloadList;
 
