@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/more_bg"
+    tools:context=".ui.fragment.MoreFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_profiles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_manage_profile"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_button_main"
+        android:drawableStart="@drawable/icon_settings"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:text="Manage Profile"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rv_profiles" />
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@+id/btn_manage_profile">
+
+        <View
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_tab_selected" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tl_main_tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/shape_tab_unselected"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@null"
+            app:tabMaxWidth="0dp"
+            app:tabMinWidth="0dp"
+            app:tabMode="fixed"
+            app:tabPaddingEnd="25dp"
+            app:tabPaddingStart="25dp"
+            app:tabTextAppearance="@style/TabLayoutTextStyle"
+            app:tabTextColor="@color/white" />
+    </FrameLayout>
+
+    <com.gnusl.actine.ui.custom.NonScrollHomeViewPager
+        android:id="@+id/vp_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame">
+
+    </com.gnusl.actine.ui.custom.NonScrollHomeViewPager>
+
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_my_list"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginTop="50dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:drawableStart="@drawable/icon_list"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="My List"-->
+    <!--        android:textColor="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_manage_profile" />-->
+
+    <!--    <View-->
+    <!--        android:id="@+id/view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:visibility="invisible"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:background="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tv_my_list" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_app_setting"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:visibility="gone"-->
+    <!--        android:drawableStart="@drawable/icon_settings_grey"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="App Setting"-->
+    <!--        android:textColor="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view" />-->
+
+    <!--    <View-->
+    <!--        android:id="@+id/view2"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:background="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tv_app_setting" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_account"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:drawableStart="@drawable/icon_account"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="Account"-->
+    <!--        android:textColor="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view2" />-->
+
+    <!--    <View-->
+    <!--        android:id="@+id/view3"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:background="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tv_account" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_help"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:drawableStart="@drawable/icon_help"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="Help"-->
+    <!--        android:textColor="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view3" />-->
+
+    <!--    <View-->
+    <!--        android:id="@+id/view4"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="1dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:background="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/tv_help" />-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_logout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="40dp"-->
+    <!--        android:layout_marginStart="40dp"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginEnd="40dp"-->
+    <!--        android:drawableStart="@drawable/icon_sign_out"-->
+    <!--        android:drawablePadding="10dp"-->
+    <!--        android:gravity="center_vertical"-->
+    <!--        android:text="Sign Out"-->
+    <!--        android:textColor="@color/gray2"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/view4" />-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

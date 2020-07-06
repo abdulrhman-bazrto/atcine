@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.GenresClickEvents;
 import com.gnusl.actine.model.Category;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -151,6 +152,8 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
             tvType = itemView.findViewById(R.id.tv_genres_type);
             ivCategoryOverlay = itemView.findViewById(R.id.iv_category_overlay);
             imageView = itemView.findViewById(R.id.iv_category_image);
+
+            Utils.setOnFocusScale(itemView);
         }
     }
 }

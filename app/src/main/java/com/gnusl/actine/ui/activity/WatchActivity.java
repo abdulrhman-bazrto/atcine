@@ -38,14 +38,17 @@ import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsManifest;
-import com.google.android.exoplayer2.source.hls.HlsMediaSource;
 import com.google.android.exoplayer2.source.hls.playlist.HlsMasterPlaylist;
 import com.google.android.exoplayer2.text.CaptionStyleCompat;
 import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
@@ -57,6 +60,7 @@ import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
 
@@ -472,16 +476,27 @@ public class WatchActivity extends AppCompatActivity {
         //-----------------------------------------------
         //Create media source
 
-        String hls_url = show.getVideoUrl();
+        String hls_url = show.getDownloadVideoUrl();
 
         Uri uri = Uri.parse(hls_url);
         DataSource.Factory dataSourceFactory =
                 new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "app-name"));
         // Create a HLS media source pointing to a playlist uri.
-        mediaSource = new HlsMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+        mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                .setMinLoadableRetryCount(4)
+                .createMediaSource(uri);
 
 
-//        player.prepare(mediaSource);
+        if (show.getSubtitles() != null && show.getSubtitles().size() > 0 && !show.getSubtitles().get(0).getPath().equalsIgnoreCase("")) {
+            String sub = show.getSubtitles().get(0).getPath();
+
+            Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
+                    null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
+            MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
+                    .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
+
+            mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
+        }
 
         player.setPlayWhenReady(playWhenReady);
         playerView.setKeepScreenOn(true);
@@ -497,13 +512,23 @@ public class WatchActivity extends AppCompatActivity {
                 if (hlsManifest != null) {
                     if (hlsManifest.masterPlaylist.audios.size() <= 0) {
                         ivAudio.setVisibility(View.INVISIBLE);
+                    } else {
+                        ivAudio.setVisibility(View.VISIBLE);
                     }
                     if (hlsManifest.masterPlaylist.variants.size() <= 0) {
                         ivQuality.setVisibility(View.INVISIBLE);
+                    } else {
+                        ivQuality.setVisibility(View.VISIBLE);
                     }
                     if (hlsManifest.masterPlaylist.subtitles.size() <= 0) {
                         ivSubtitles.setVisibility(View.INVISIBLE);
+                    } else {
+                        ivSubtitles.setVisibility(View.VISIBLE);
                     }
+                } else {
+                    ivAudio.setVisibility(View.INVISIBLE);
+                    ivQuality.setVisibility(View.INVISIBLE);
+                    ivSubtitles.setVisibility(View.INVISIBLE);
                 }
                 if (player != null) {
                     String time = TimeUtils.formatMillis(player.getDuration());
@@ -566,8 +591,8 @@ public class WatchActivity extends AppCompatActivity {
 
             @Override
             public void onPlayerError(ExoPlaybackException error) {
-//                Toast.makeText(WatchActivity.this, error.getCause().getMessage(), Toast.LENGTH_LONG).show();
-                Toast.makeText(WatchActivity.this, "error happened", Toast.LENGTH_SHORT).show();
+                Toast.makeText(WatchActivity.this, error.getCause().getMessage(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(WatchActivity.this, "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override

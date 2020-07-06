@@ -2,16 +2,11 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,7 +14,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,23 +26,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.CommentLongClickEvent;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
-import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.model.Comment;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
-import com.gnusl.actine.ui.activity.AccountActivity;
-import com.gnusl.actine.ui.activity.AuthActivity;
-import com.gnusl.actine.ui.activity.MainActivity;
 import com.gnusl.actine.ui.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.ui.custom.MarginItemDecoration;
 import com.gnusl.actine.util.Constants;
-import com.gnusl.actine.util.SharedPreferencesUtils;
-import com.kaopiz.kprogresshud.KProgressHUD;
+import com.gnusl.actine.util.Utils;
 
 import org.json.JSONObject;
 
@@ -112,7 +100,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         rvComments.setLayoutManager(layoutManager);
         int dp1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                 getActivity().getResources().getDisplayMetrics());
-        rvComments.addItemDecoration(new MarginItemDecoration(20 * dp1,getActivity(), 0));
+        rvComments.addItemDecoration(new MarginItemDecoration(20 * dp1, getActivity(), 0));
         rvComments.setAdapter(commentsAdapter);
         String url = "";
         if (show.getIsMovie()) {
@@ -138,6 +126,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
         tvAddComment = inflatedView.findViewById(R.id.tv_add_comment);
         clRoot = inflatedView.findViewById(R.id.root_view);
 
+        Utils.setOnFocusScale(tvAddComment);
+
         tvLikesCount.setOnClickListener(this);
         ivSendComment.setOnClickListener(this);
         tvAddComment.setOnClickListener(this);
@@ -147,7 +137,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
         if (show.getIsMovie()) {
             DataLoader.getRequest(Urls.MovieComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
-        } else  {
+        } else {
             DataLoader.getRequest(Urls.SeriesComments.getLink().replaceAll("%id%", String.valueOf(show.getId())), this);
         }
     }
@@ -221,7 +211,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
                     @Override
                     public void onConnectionError(ANError anError) {
-                        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -235,7 +225,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             String url = "";
                             if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            } else  {
+                            } else {
                                 url = Urls.SeriesComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
@@ -255,7 +245,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
     @Override
     public void onConnectionError(ANError anError) {
 //        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -306,7 +296,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
 
                         @Override
                         public void onConnectionError(ANError anError) {
-                            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -314,7 +304,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             String url = "";
                             if (show.getIsMovie()) {
                                 url = Urls.MovieComments.getLink();
-                            } else  {
+                            } else {
                                 url = Urls.SeriesComments.getLink();
                             }
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
@@ -388,7 +378,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                     @Override
                     public void onConnectionError(ANError anError) {
                         LoaderPopUp.dismissLoader();
-                        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -409,7 +399,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                             DataLoader.getRequest(url.replaceAll("%id%", String.valueOf(show.getId())), ReviewsFragment.this);
                             addCommentDialog.dismiss();
                         } else {
-                            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
 
                         }
                     }

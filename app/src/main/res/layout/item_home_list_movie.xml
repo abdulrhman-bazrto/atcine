@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="125dp"
+    android:layout_width="100dp"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
     android:focusable="true">
@@ -24,7 +24,7 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="match_parent"
-                android:layout_height="175dp"
+                android:layout_height="125dp"
                 android:scaleType="fitXY"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -61,6 +61,7 @@
         android:layout_marginLeft="1dp"
         android:layout_marginTop="2dp"
         android:src="@drawable/ic_star"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/iv_imdb"
         app:layout_constraintTop_toBottomOf="@+id/cv_image" />
 
@@ -93,6 +94,7 @@
         android:layout_marginLeft="1dp"
         android:layout_marginTop="2dp"
         android:src="@drawable/ic_star"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/iv_tomato"
         app:layout_constraintTop_toBottomOf="@+id/cv_image" />
 

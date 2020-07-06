@@ -142,8 +142,8 @@ public class ComingSoonFragment extends Fragment implements View.OnClickListener
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
 
-        if (getActivity() != null)
-            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+//        if (getActivity() != null)
+            // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

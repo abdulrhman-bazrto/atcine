@@ -4,21 +4,18 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.transition.TransitionInflater;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,7 +24,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.error.ANError;
@@ -83,10 +79,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (inflatedView == null) {
+//        if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_login, container, false);
             init();
-        }
+//        }
         return inflatedView;
     }
 
@@ -146,6 +142,25 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
                 anim.setFillEnabled(true);
                 tvWelcome.startAnimation(anim);
                 tvTest.startAnimation(anim);
+
+                try {
+
+                    inflatedView.findViewById(R.id.iv_trianlge1).setVisibility(View.VISIBLE);
+                    Animation anim5 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_up12);
+                    anim5.setDuration(2000);
+                    anim5.setFillAfter(true);
+                    anim5.setFillEnabled(true);
+                    inflatedView.findViewById(R.id.iv_trianlge1).startAnimation(anim5);
+
+                    inflatedView.findViewById(R.id.iv_trianlge).setVisibility(View.VISIBLE);
+                    Animation anim6 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_down12);
+                    anim6.setDuration(2000);
+                    anim6.setFillAfter(true);
+                    anim6.setFillEnabled(true);
+                    inflatedView.findViewById(R.id.iv_trianlge).startAnimation(anim6);
+                }catch (Exception e){
+                    // view not found for screens
+                }
             }
 
             @Override

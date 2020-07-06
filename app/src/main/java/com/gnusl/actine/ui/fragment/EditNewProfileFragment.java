@@ -179,7 +179,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getErrorBody(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

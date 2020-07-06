@@ -29,9 +29,10 @@ public class DataLoader {
     public static Map<String, String> getHeaders() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", SharedPreferencesUtils.getToken());
-        headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
+//        headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
         headers.put("Accept", "application/json");
         headers.put("profile_id", String.valueOf(SharedPreferencesUtils.getCurrentProfile()));
+        headers.put("language", "en");
         headers.put("Token", SharedPreferencesUtils.getToken1());
 
         return headers;

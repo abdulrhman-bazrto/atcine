@@ -124,4 +124,12 @@ public class HomeContainerFragment extends Fragment {
     public Stack<Fragment> getFragmentStack() {
         return fragmentStack;
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mCurrentFragment != null)
+            mCurrentFragment.setUserVisibleHint(isVisibleToUser);
+    }
 }

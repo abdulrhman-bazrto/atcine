@@ -205,7 +205,7 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

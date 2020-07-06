@@ -5,6 +5,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -80,17 +82,41 @@ public class PlansNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public void bind() {
 
 //            Utils.setOnFocusScale(itemView);
-            Utils.setOnFocusScale1(itemView, rv, getAdapterPosition());
+//            Utils.setOnFocusScale1(itemView, rv, getAdapterPosition());
+
+            itemView.setOnFocusChangeListener((v, hasFocus) -> {
+                if (hasFocus) {
+                    // run scale animation and make it bigger
+                    Animation anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.scale_in1);
+                    rv.smoothScrollToPosition(getAdapterPosition());
+                    itemView.startAnimation(anim);
+                    anim.setFillAfter(true);
+
+                    if (getAdapterPosition() == 0) {
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("basic");
+                    } else if (getAdapterPosition() == 1) {
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("standard");
+                    } else if (getAdapterPosition() == 2) {
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("premium");
+                    }
+                } else {
+                    // run scale animation and make it smaller
+                    Animation anim = AnimationUtils.loadAnimation(itemView.getContext(), R.anim.scale_out1);
+                    itemView.startAnimation(anim);
+                    anim.setFillAfter(true);
+                }
+            });
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     itemView.requestFocus();
                     if (getAdapterPosition() == 0) {
-                        SharedPreferencesUtils.saveCurrentSelectedPlanPrice("basic");
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("basic");
                     } else if (getAdapterPosition() == 1) {
-                        SharedPreferencesUtils.saveCurrentSelectedPlanPrice("standard");
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("standard");
                     } else if (getAdapterPosition() == 2) {
-                        SharedPreferencesUtils.saveCurrentSelectedPlanPrice("premium");
+                        SharedPreferencesUtils.saveCurrentSelectedPlan("premium");
                     }
                 }
             });

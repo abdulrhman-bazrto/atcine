@@ -1,6 +1,8 @@
 package com.gnusl.actine.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import com.gnusl.actine.ui.custom.CustomAppBar;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -87,7 +90,13 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            Log.d("", "");
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (homeAdapter == null || homeAdapter.getItemCount() == 0)
+                        init(true);
+                }
+            }, 2000);
         }
     }
 
@@ -98,6 +107,13 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             inflatedView = inflater.inflate(R.layout.fragment_home, container, false);
             init(true);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (homeAdapter == null || homeAdapter.getItemCount() == 0)
+                    init(true);
+            }
+        }, 3000);
 
         return inflatedView;
     }
@@ -125,7 +141,20 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         if (isFirstInit) {
             genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), HomeFragment.this);
 
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+            GridLayoutManager gridLayoutManager;
+            if ((getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                // on a large screen device ...
+                gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+            } else if ((getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+                // on a large screen device ...
+                gridLayoutManager = new GridLayoutManager(getActivity(), 4);
+            } else {
+                gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+            }
             rvGenres.setLayoutManager(gridLayoutManager);
 
             rvGenres.setAdapter(genresAdapter);
@@ -195,6 +224,10 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         tvSeeAll = inflatedView.findViewById(R.id.tv_see_all);
         tvCategory = inflatedView.findViewById(R.id.tv_category);
 
+        Utils.setOnFocusScale(tvMovies);
+        Utils.setOnFocusScale(tvSeries);
+        Utils.setOnFocusScale(tvSeeAll);
+
     }
 
     @Override
@@ -241,7 +274,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         break;
                     }
                 }
-                if (rvCategory!= null){
+                if (rvCategory != null) {
                     bundle.putString("transition_rv", "transition_rv" + genres.getId());
                 }
 
@@ -269,21 +302,37 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     @Override
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
-        if (getActivity() != null)
-            Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+//        if (getActivity() != null)
+//            // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
         if (jsonObject.has("trend")) {
+
+            int count;
+            if ((getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                // on a large screen device ...
+                count = 8;
+            } else if ((getResources().getConfiguration().screenLayout &
+                    Configuration.SCREENLAYOUT_SIZE_MASK) ==
+                    Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+                // on a large screen device ...
+                count = 8;
+            } else {
+                count = 4;
+            }
+
             switch (Objects.requireNonNull(SharedPreferencesUtils.getCategory())) {
                 case TvShows: {
                     if (genresAdapter != null) {
                         categories = Category.newList(jsonObject.optJSONArray("series_categories"));
                         List<Category> categoriesTemp = new ArrayList<>();
                         for (int i = 0; i < categories.size(); i++) {
-                            if (i < 4)
+                            if (i < count)
                                 categoriesTemp.add(categories.get(i));
                             else
                                 break;
@@ -302,7 +351,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
                         categories = Category.newList(jsonObject.optJSONArray("movies_categories"));
                         List<Category> categoriesTemp = new ArrayList<>();
                         for (int i = 0; i < categories.size(); i++) {
-                            if (i < 4)
+                            if (i < count)
                                 categoriesTemp.add(categories.get(i));
                             else
                                 break;
@@ -350,7 +399,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
             @Override
             public void onConnectionError(ANError anError) {
-                Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+//                // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -362,5 +411,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         });
     }
+
+
 
 }

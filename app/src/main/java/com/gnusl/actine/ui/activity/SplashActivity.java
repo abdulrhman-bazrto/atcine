@@ -63,7 +63,10 @@ public class SplashActivity extends AppCompatActivity {
 //
 //                  startActivity(new Intent(getApplicationContext(), AuthActivity.class), activityOptionsCompat.toBundle());
                     Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
-                    startActivity(intent,ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this).toBundle());
+                    startActivity(intent
+//                            ,
+//                            ActivityOptions.makeSceneTransitionAnimation(SplashActivity.this).toBundle()
+                    );
 //                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 
 //                    startActivity(new Intent(getApplicationContext(), AuthActivity.class));

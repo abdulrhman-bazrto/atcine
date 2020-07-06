@@ -219,7 +219,7 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -267,7 +267,7 @@ public class PaymentLessFragment extends Fragment implements View.OnClickListene
                 public void onConnectionError(ANError anError) {
                     LoaderPopUp.dismissLoader();
 //                    Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

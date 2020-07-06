@@ -107,7 +107,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         @Override
                         public void onConnectionError(ANError anError) {
-                            Toast.makeText(mContext, "error happened", Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(mContext, "error happened", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

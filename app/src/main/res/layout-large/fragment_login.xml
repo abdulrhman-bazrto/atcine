@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".ui.fragment.LoginFragment">
-
 
 
     <ImageView
@@ -19,6 +20,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_trianlge"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:src="@drawable/icon_triangle"-->
+<!--        android:visibility="gone"-->
+<!--        app:layout_constraintBottom_toTopOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/iv_trianlge1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:rotation="180"-->
+<!--        android:scaleType="centerCrop"-->
+<!--        android:visibility="gone"-->
+<!--        android:src="@drawable/icon_triangle"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="parent" />-->
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="match_parent"
@@ -26,15 +52,32 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
+    <!--    <ImageView-->
+    <!--        android:id="@+id/tv_app_title"-->
+    <!--        android:layout_width="200dp"-->
+    <!--        android:layout_height="100dp"-->
+    <!--        android:layout_marginStart="20dp"-->
+    <!--        android:layout_marginEnd="20dp"-->
+    <!--        android:layout_marginTop="40dp"-->
+    <!--        android:gravity="center"-->
+    <!--        android:transitionName="imageMain"-->
+    <!--        android:src="@drawable/logo"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
     <ImageView
         android:id="@+id/tv_app_title"
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="40dp"
         android:gravity="center"
         android:src="@drawable/logo"
+        android:transitionName="imageMain"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,29 +86,32 @@
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:background="#0fff"
         android:layout_marginLeft="30dp"
+        android:layout_marginTop="30dp"
+        android:background="#0fff"
         android:text="Welcome Back"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="22sp"
         android:textStyle="bold"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_app_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/tv_app_title" />
 
     <TextView
+        android:id="@+id/tv_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="15dp"
         android:background="#0fff"
         android:text="we miss you from the last time."
-        android:layout_marginLeft="30dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcome"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
 
     <LinearLayout
         android:id="@+id/linear"
@@ -86,11 +132,12 @@
             android:background="@drawable/bg_auth_edit_text"
             android:hint="Email or Phone Number"
             android:inputType="textEmailAddress"
-            android:textColor="@color/white"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="15sp"
+            android:visibility="gone"
 
             />
 
@@ -103,14 +150,16 @@
             android:hint="Password"
             android:inputType="textPassword"
             android:paddingStart="15dp"
-            android:textColor="@color/white"
             android:paddingEnd="15dp"
+            android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="15sp"
+            android:visibility="gone"
 
             />
 
         <TextView
+            android:id="@+id/tv_forget_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -122,51 +171,61 @@
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="12sp"
+            android:visibility="gone"
 
             />
+
         <Button
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="40dp"
-            android:focusable="true"
             android:background="@drawable/bg_btn_auth"
+            android:focusable="true"
             android:hint="Sign In"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:textColorHint="@color/white"
             android:textSize="17sp"
+            android:visibility="gone"
 
             />
+
         <LinearLayout
+            android:id="@+id/linear1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
+
             <TextView
+                android:id="@+id/tv_test1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="#0fff"
+                android:focusable="true"
                 android:text="I don't have an account"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textColorHint="@color/white"
                 android:textSize="12sp"
-                android:focusable="true"
+                android:textStyle="bold"
+                android:visibility="gone"
 
                 />
+
             <TextView
                 android:id="@+id/tv_sign_up"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:background="#0fff"
+                android:focusable="true"
                 android:text="Sign up"
-                android:textStyle="bold"
                 android:textColor="@color/main_red_color"
                 android:textColorHint="@color/white"
                 android:textSize="12sp"
-                android:focusable="true"
+                android:textStyle="bold"
+                android:visibility="gone"
 
                 />
         </LinearLayout>

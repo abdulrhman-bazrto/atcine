@@ -155,7 +155,7 @@ public class ChoosePlanView extends ConstraintLayout implements View.OnClickList
 
     @Override
     public void onConnectionError(ANError anError) {
-        Toast.makeText(context, "error happened", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(context, "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

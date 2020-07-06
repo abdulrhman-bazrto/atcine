@@ -173,7 +173,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onConnectionError(ANError anError) {
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -173,7 +173,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onConnectionError(ANError anError) {
-                Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -358,7 +358,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
 //        Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -411,7 +411,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 public void onConnectionError(ANError anError) {
                     LoaderPopUp.dismissLoader();
 //                    Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
-                    Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

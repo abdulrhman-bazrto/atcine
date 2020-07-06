@@ -4,101 +4,124 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="1dp"
-    android:focusable="true"
-    android:background="@color/black">
+    android:focusable="true">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_thumbnail"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_image"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:scaleType="centerCrop"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/transparent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="175dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.gnusl.actine.ui.custom.GifImageView
+                android:id="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/tv_show_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textStyle="bold"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="Flasher D fighter"
         android:textColor="@color/white"
+        android:textSize="11sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_thumbnail" />
+        app:layout_constraintTop_toBottomOf="@+id/cv_image" />
 
     <ImageView
         android:id="@+id/iv_imdb"
-        android:layout_width="50dp"
+        android:layout_width="20dp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:src ="@drawable/ic_imdb"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_margin="2dp"
+        android:src="@drawable/ic_imdb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
     <ImageView
         android:id="@+id/iv_star1"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="1dp"
+        android:visibility="gone"
+        android:layout_marginTop="2dp"
         android:src="@drawable/ic_star"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintStart_toEndOf="@id/iv_imdb" />
+        app:layout_constraintStart_toEndOf="@id/iv_imdb"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
     <TextView
         android:id="@+id/tv_imdb_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="5dp"
         android:text="1.5"
-        android:textSize="20sp"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintStart_toEndOf="@+id/iv_star1" />
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_star1"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
     <ImageView
         android:id="@+id/iv_tomato"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="2dp"
         android:src="@drawable/ic_rotten_tomatoes"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintEnd_toStartOf="@id/iv_star2"/>
+        app:layout_constraintStart_toEndOf="@id/tv_imdb_rate"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
     <ImageView
         android:id="@+id/iv_star2"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="2dp"
+        android:visibility="gone"
         android:src="@drawable/ic_star"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintEnd_toStartOf="@id/tv_tomato_rate" />
+        app:layout_constraintStart_toEndOf="@id/iv_tomato"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
     <TextView
         android:id="@+id/tv_tomato_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginTop="2dp"
         android:text="1.5"
-        android:textSize="20sp"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@+id/tv_show_name"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:textSize="10sp"
+        app:layout_constraintStart_toEndOf="@+id/iv_star2"
+        app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
-
-    <com.gnusl.actine.ui.custom.GifImageView
-        android:id="@+id/pb_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
