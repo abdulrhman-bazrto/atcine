@@ -64,7 +64,7 @@ public class DownloadService extends Service {
                                 DecimalFormat df = new DecimalFormat("##.##");
                                 String formated = df.format(x).replaceAll("١", "1").replaceAll("٢", "2").replaceAll("٣", "3").replaceAll("٤", "4")
                                         .replaceAll("٥", "5").replaceAll("٦", "6").replaceAll("٧", "7").replaceAll("٨", "8")
-                                        .replaceAll("٩", "9").replaceAll("٠", "0").replaceAll("٫",",");
+                                        .replaceAll("٩", "9").replaceAll("٠", "0").replaceAll("٫",".");
 
                                 showProgressNotification(showId, fileName, Float.parseFloat(formated), true, false);
                             }
