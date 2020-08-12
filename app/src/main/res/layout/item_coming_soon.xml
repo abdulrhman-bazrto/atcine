@@ -110,7 +110,7 @@
                 android:drawablePadding="5dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
-                android:text="Remind Me"
+                android:text="@string/remind_me"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="12sp"

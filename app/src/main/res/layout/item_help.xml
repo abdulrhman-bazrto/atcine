@@ -9,7 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:gravity="center_vertical"
-        android:text="Help Center"
+        android:text="@string/help_center"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

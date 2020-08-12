@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="Watch on your TV"
+            android:text="@string/watch_on_your_tv"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Smart TVs, PlayStation, Xbox, Chromecast, Apple \n Tv, Blu-ray players and more."
+            android:text="@string/smart_tvs_playstation_xbox_chromecast_apple_n_tv_blu_ray_players_and_more"
             android:textColor="@color/white"
             android:textSize="13sp" />
     </LinearLayout>
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Watch instantly or download \n for later"
+            android:text="@string/watch_instantly_or_download_n_for_later"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Available on phone and tablets, wherever you go."
+            android:text="@string/available_on_phone_and_tablets_wherever_you_go"
             android:textColor="@color/white"
             android:textSize="13sp" />
 
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Use any computer"
+            android:text="@string/use_any_computer"
             android:textColor="@color/white"
             android:textSize="22sp"
             android:textStyle="bold" />
@@ -132,7 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Watch right on atcine.com."
+            android:text="@string/watch_right_on_atcine_com"
             android:textColor="@color/white"
             android:textSize="13sp" />
 
