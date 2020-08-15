@@ -105,10 +105,10 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
 
 
         if (type.equalsIgnoreCase("episode")) {
-            cubMyListWithBack.getTvTitle().setText("Episodes");
+            cubMyListWithBack.getTvTitle().setText(getActivity().getString(R.string.episodes));
             myListAdapter.setList(show.getEpisodes());
         } else if (type.equalsIgnoreCase("season")) {
-            cubMyListWithBack.getTvTitle().setText("Seasons");
+            cubMyListWithBack.getTvTitle().setText(getActivity().getString(R.string.seasons));
             LoaderPopUp.show(getActivity());
 
             DataLoader.getRequest(Urls.Series.getLink() + show.getId(), this);

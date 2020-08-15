@@ -149,7 +149,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             btnDownload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(mContext, "Downloading", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.downloading1, Toast.LENGTH_SHORT).show();
 
                     File internalStorage = mContext.getFilesDir();
 //                    String url = show.getVideoUrl();

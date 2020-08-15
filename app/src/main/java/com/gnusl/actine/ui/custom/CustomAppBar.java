@@ -51,8 +51,8 @@ public class CustomAppBar extends ConstraintLayout {
 
     private void initCategorySpinner() {
         final List<CategoryItem> list = new ArrayList<>();
-        CategoryItem movies = new CategoryItem("Movies");
-        CategoryItem tvShows = new CategoryItem("TV Shows");
+        CategoryItem movies = new CategoryItem(mContext.getString(R.string.movies));
+        CategoryItem tvShows = new CategoryItem(mContext.getString(R.string.tv_series));
         list.add(movies);
         list.add(tvShows);
 

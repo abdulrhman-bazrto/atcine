@@ -278,8 +278,8 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
     @Override
     public void onLongClickComment(Comment comment) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setMessage("Delete this Comment?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+        alertDialog.setMessage(getActivity().getString(R.string.delete_this_comment));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getString(R.string.ok),
                 (dialog, which) -> {
                     String url = "";
                     if (show.getIsMovie()) {
@@ -313,7 +313,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
                     dialog.dismiss();
                 });
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "cancel", (dialog, which) -> dialog.dismiss());
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getActivity().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
     }
@@ -354,7 +354,7 @@ public class ReviewsFragment extends Fragment implements View.OnClickListener, C
             public void onClick(View v) {
 
                 if (etComment.getText().toString().trim().isEmpty()) {
-                    etComment.setError("Field comment is required!");
+                    etComment.setError(getActivity().getString(R.string.cant_be_empty));
                     return;
                 }
 

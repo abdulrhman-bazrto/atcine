@@ -261,22 +261,22 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         switch (position) {
             case 0:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_home));
-                tvTitle.setText("Home");
+                tvTitle.setText(getString(R.string.home));
                 break;
 
             case 1:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_search));
-                tvTitle.setText("Search");
+                tvTitle.setText(getString(R.string.search));
                 break;
 
             case 2:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_downloads));
-                tvTitle.setText("My Downloads");
+                tvTitle.setText(getString(R.string.my_downloads));
                 break;
 
             case 3:
                 ivIcon.setImageDrawable(getResources().getDrawable(R.drawable.ic_empty_profile));
-                tvTitle.setText("Profile");
+                tvTitle.setText(getString(R.string.profile));
                 break;
 
         }

@@ -1,5 +1,9 @@
 package com.gnusl.actine.util;
 
+import android.content.Context;
+
+import com.gnusl.actine.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -10,7 +14,7 @@ public class TimeAgo {
     private static final int HOUR_MILLIS = 60 * MINUTE_MILLIS;
     private static final int DAY_MILLIS = 24 * HOUR_MILLIS;
 
-    public static String getTimeAgo(long time) {
+    public static String getTimeAgo(long time, Context mContext) {
         if (time < 1000000000000L) {
             time *= 1000;
         }
@@ -22,19 +26,19 @@ public class TimeAgo {
 
         final long diff = now - time;
         if (diff < MINUTE_MILLIS) {
-            return "just now";
+            return mContext.getString(R.string.just_now);
         } else if (diff < 2 * MINUTE_MILLIS) {
-            return "a minute ago";
+            return mContext.getString(R.string.minute_ago);
         } else if (diff < 50 * MINUTE_MILLIS) {
-            return diff / MINUTE_MILLIS + " minutes ago";
+            return diff / MINUTE_MILLIS + mContext.getString(R.string.minutes_ago);
         } else if (diff < 90 * MINUTE_MILLIS) {
-            return "an hour ago";
+            return mContext.getString(R.string.hour_ago);
         } else if (diff < 24 * HOUR_MILLIS) {
-            return diff / HOUR_MILLIS + " hours ago";
+            return diff / HOUR_MILLIS + mContext.getString(R.string.hours_ago);
         } else if (diff < 48 * HOUR_MILLIS) {
-            return "yesterday";
+            return mContext.getString(R.string.yesterday);
         } else if (diff < 96 * HOUR_MILLIS) {
-            return diff / DAY_MILLIS + " days ago";
+            return diff / DAY_MILLIS + mContext.getString(R.string.days_ago);
         } else {
             Date date = new Date(time);
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());

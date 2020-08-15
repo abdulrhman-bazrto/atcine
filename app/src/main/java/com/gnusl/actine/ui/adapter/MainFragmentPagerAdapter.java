@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import com.gnusl.actine.R;
 import com.gnusl.actine.ui.fragment.ComingSoonContainerFragment;
 import com.gnusl.actine.ui.fragment.DownloadFragment;
 import com.gnusl.actine.ui.fragment.HomeContainerFragment;
@@ -65,7 +66,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return "Home";
+        return context.getString(R.string.home);
     }
 
 }

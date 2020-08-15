@@ -112,11 +112,11 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
         if (showType.equalsIgnoreCase("series")) {
             dbShows = dbShowBox.query().equal(DBShow_.isMovie, false).build().find();
 //            DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
-            tvHint.setText("You don't have any series downloaded yet");
+            tvHint.setText(getActivity().getString(R.string.you_dont_have_any_series_downloaded_yet));
         } else {
             dbShows = dbShowBox.query().equal(DBShow_.isMovie, true).build().find();
 //            DataLoader.getRequest(Urls.MoviesMyList.getLink(), this);
-            tvHint.setText("You don't have any movies downloaded yet");
+            tvHint.setText(getActivity().getString(R.string.you_dont_have_any_movies_downloaded_yet));
 
         }
 
@@ -231,7 +231,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
             for (Show movie : movies) {
                 File file = new File(internalStorage, movie.getTitle() + ".mp4");
 //                if (file.exists())
-                    movie.setInStorage(true);
+                movie.setInStorage(true);
 //                else
 //                    movie.setInStorage(false);
             }
@@ -245,7 +245,7 @@ public class DownloadShowsFragment extends Fragment implements View.OnClickListe
             for (Show movie : movies) {
                 File file = new File(internalStorage, movie.getTitle() + ".mp4");
 //                if (file.exists())
-                    movie.setInStorage(true);
+                movie.setInStorage(true);
 //                else
 //                    movie.setInStorage(false);
             }

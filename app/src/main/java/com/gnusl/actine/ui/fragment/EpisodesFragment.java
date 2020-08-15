@@ -110,7 +110,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
                     episodes.add(dbShow);
                 }
 
-                tvEpisodes.setText(episodes.size() + " Episodes");
+                tvEpisodes.setText(episodes.size() + getActivity().getString(R.string.episodes));
                 episodeAdapter.setList(episodes);
             }
 
@@ -126,7 +126,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
         rvEpisodes.setLayoutManager(layoutManager);
         int dp1 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                 getActivity().getResources().getDisplayMetrics());
-        rvEpisodes.addItemDecoration(new MarginItemDecoration(20 * dp1,getActivity(), R.drawable.divider));
+        rvEpisodes.addItemDecoration(new MarginItemDecoration(20 * dp1, getActivity(), R.drawable.divider));
         rvEpisodes.setAdapter(episodeAdapter);
 //        sendGetCastRequest();
 
@@ -145,7 +145,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
         final List<CategoryItem> list = new ArrayList<>();
         if (show.getSeasons() != null) {
             for (int i = 0; i < show.getSeasons().size(); i++) {
-                CategoryItem season = new CategoryItem("Season " + (i + 1));
+                CategoryItem season = new CategoryItem(getActivity().getString(R.string.season) + (i + 1));
                 list.add(season);
             }
         }
