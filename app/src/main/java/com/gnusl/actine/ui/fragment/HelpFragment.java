@@ -122,7 +122,7 @@ public class HelpFragment extends Fragment implements View.OnClickListener, Conn
             }
         });
 
-        cubHelpWithBack.getTvTitle().setText("Help");
+        cubHelpWithBack.getTvTitle().setText(getActivity().getString(R.string.help));
 
     }
 

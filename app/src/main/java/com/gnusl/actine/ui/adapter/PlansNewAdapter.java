@@ -122,7 +122,7 @@ public class PlansNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
             if (getAdapterPosition() == 0) {
-                tvTitle.setText("Basic");
+                tvTitle.setText(mContext.getString(R.string.basic));
                 for (int i = 0; i < planDetails.size(); i++) {
                     if (planDetails.get(i).getTitle().equalsIgnoreCase("price")) {
                         tvPrice.setText(planDetails.get(i).getBasic() + "$");
@@ -146,7 +146,7 @@ public class PlansNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             }
             if (getAdapterPosition() == 1) {
-                tvTitle.setText("Standard");
+                tvTitle.setText(mContext.getString(R.string.standard));
                 for (int i = 0; i < planDetails.size(); i++) {
                     if (planDetails.get(i).getTitle().equalsIgnoreCase("price")) {
                         tvPrice.setText(planDetails.get(i).getStandard() + "$");
@@ -170,7 +170,7 @@ public class PlansNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             }
             if (getAdapterPosition() == 2) {
-                tvTitle.setText("Premium");
+                tvTitle.setText(mContext.getString(R.string.premium));
                 for (int i = 0; i < planDetails.size(); i++) {
                     if (planDetails.get(i).getTitle().equalsIgnoreCase("price")) {
                         tvPrice.setText(planDetails.get(i).getPremium() + "$");

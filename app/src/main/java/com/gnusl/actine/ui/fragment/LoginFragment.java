@@ -80,8 +80,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 //        if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_login, container, false);
-            init();
+        inflatedView = inflater.inflate(R.layout.fragment_login, container, false);
+        init();
 //        }
         return inflatedView;
     }
@@ -158,7 +158,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
                     anim6.setFillAfter(true);
                     anim6.setFillEnabled(true);
                     inflatedView.findViewById(R.id.iv_trianlge).startAnimation(anim6);
-                }catch (Exception e){
+                } catch (Exception e) {
                     // view not found for screens
                 }
             }
@@ -288,7 +288,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     @Override
     public void onConnectionError(ANError anError) {
         LoaderPopUp.dismissLoader();
-        Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.error_happened, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -311,7 +311,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
                     TextView tvMsg = confirmPaymentDialog.findViewById(R.id.tv_msg);
 
-                    tvMsg.setText("You Account has been expired!! would you like to re-activate it?");
+                    tvMsg.setText(getActivity().getString(R.string.expired_account));
 
                     confirmPaymentDialog.findViewById(R.id.btn_sign_out).setOnClickListener(new View.OnClickListener() {
                         @Override

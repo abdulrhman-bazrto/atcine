@@ -16,7 +16,7 @@
         android:background="@drawable/bg_app_bar"
         android:gravity="center"
         android:minWidth="250dp"
-        android:text="Select Your Profile"
+        android:text="@string/select_your_profile"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"

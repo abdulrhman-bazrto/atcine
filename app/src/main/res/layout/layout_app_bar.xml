@@ -41,7 +41,7 @@
         android:drawableEnd="@drawable/icon_arrow_drop_down"
         android:gravity="center"
         android:minWidth="100dp"
-        android:text="All Genres"
+        android:text="@string/all_genres"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

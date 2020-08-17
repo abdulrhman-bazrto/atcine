@@ -131,22 +131,22 @@ public class DownloadService extends Service {
             smallIcon = R.drawable.icon_download_white;
 
             if (isDownloading) {
-                message = "Download completed.";
+                message = getApplicationContext().getString(R.string.download_completed);
             } else {
-                message = "Upload completed.";
+                message = getApplicationContext().getString(R.string.upload_completed);
             }
         } else if (progress >= 0) {
             if (isDownloading) {
                 smallIcon = R.drawable.icon_download_gray;
-                message = "Downloading: " + progress + "%.";
+                message = getApplicationContext().getString(R.string.downloading) + progress + "%.";
             }
 //            builder.setProgress(100, progress, false);
         } else {
             smallIcon = R.drawable.icon_cancel_red;
             if (isDownloading)
-                message = "failed download.";
+                message = getApplicationContext().getString(R.string.failed_download);
             else
-                message = "Cancelled upload.";
+                message = getApplicationContext().getString(R.string.cancelled_upload);
         }
 
         Intent notificationIntent = new Intent(this, MainActivity.class);

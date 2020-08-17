@@ -58,7 +58,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
         Date parsed = null;
         try {
             parsed = simpleDateFormat.parse(comment.getCreatedAt());
-            holder.tvCommentTime.setText(TimeAgo.getTimeAgo(parsed.getTime()));
+            holder.tvCommentTime.setText(TimeAgo.getTimeAgo(parsed.getTime(),mContext));
         } catch (ParseException e) {
             holder.tvCommentTime.setText(comment.getCreatedAt());
         }

@@ -29,7 +29,7 @@
         android:drawableStart="@drawable/icon_settings"
         android:paddingStart="25dp"
         android:paddingEnd="25dp"
-        android:text="Manage Profile"
+        android:text="@string/manage_profile"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:visibility="gone"

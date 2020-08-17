@@ -239,10 +239,10 @@ public class DownloadFragment extends Fragment implements View.OnClickListener, 
         if (downloadShowsFragment == null)
             downloadShowsFragment = DownloadShowsFragment.newInstance();
         downloadShowsFragment.setShowType("Series");
-        adapter.addFragment(downloadShowsFragment, "TV Series");
+        adapter.addFragment(downloadShowsFragment, getActivity().getString(R.string.tv_series));
         DownloadShowsFragment fragment = new DownloadShowsFragment();
         fragment.setShowType("Movies");
-        adapter.addFragment(fragment, "Movies");
+        adapter.addFragment(fragment, getActivity().getString(R.string.movies));
         viewPager.setAdapter(adapter);
 
     }

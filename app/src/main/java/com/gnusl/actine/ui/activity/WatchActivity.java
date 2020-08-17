@@ -621,13 +621,13 @@ public class WatchActivity extends AppCompatActivity {
             confirmLoginDialog.setCancelable(true);
 
             TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
-            tvMsg.setText("Do you want to start from where you left?");
+            tvMsg.setText(getString(R.string.start_from_where_you_left));
 
             TextView tvResume = confirmLoginDialog.findViewById(R.id.btn_sign_out);
-            tvResume.setText("Resume");
+            tvResume.setText(getString(R.string.resume));
 
             TextView tvStartOver = confirmLoginDialog.findViewById(R.id.btn_cancel);
-            tvStartOver.setText("Start over");
+            tvStartOver.setText(getString(R.string.start_over));
 
             Utils.setOnFocusScale(tvResume);
             Utils.setOnFocusScale(tvStartOver);

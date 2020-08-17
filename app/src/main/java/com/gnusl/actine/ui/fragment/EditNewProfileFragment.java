@@ -141,7 +141,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
             }
             case R.id.btn_save: {
                 if (etProfileName.getText().toString().trim().isEmpty())
-                    etProfileName.setError(getString(R.string.hint_empty));
+                    etProfileName.setError(getString(R.string.cant_be_empty));
                 else {
                     if (profile != null) {
                         HashMap<String, String> body = new HashMap<>();
@@ -185,7 +185,7 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
         LoaderPopUp.dismissLoader();
-        Toast.makeText(getActivity(), "done", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), getActivity().getString(R.string.done), Toast.LENGTH_SHORT).show();
         getActivity().onBackPressed();
     }
 

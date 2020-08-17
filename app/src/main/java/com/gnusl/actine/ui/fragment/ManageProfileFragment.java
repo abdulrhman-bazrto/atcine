@@ -81,7 +81,7 @@ public class ManageProfileFragment extends Fragment implements View.OnClickListe
 
         ivAddProfile.setOnClickListener(this);
 
-        cubManageProfile.getTvTitle().setText("Manage Profile");
+        cubManageProfile.getTvTitle().setText(getString(R.string.manage_profile));
 
         cubManageProfile.getIvBack().setOnClickListener(new View.OnClickListener() {
             @Override

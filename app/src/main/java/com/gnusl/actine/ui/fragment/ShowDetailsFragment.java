@@ -88,6 +88,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     ArrayList<Cast> cast;
     View mIndicator;
     private int indicatorWidth;
+
     public ShowDetailsFragment() {
     }
 
@@ -174,10 +175,10 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float positionOffset, int positionOffsetPx) {
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mIndicator.getLayoutParams();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIndicator.getLayoutParams();
 
                 //Multiply positionOffset with indicatorWidth to get translation
-                float translationOffset =  (positionOffset+i) * indicatorWidth ;
+                float translationOffset = (positionOffset + i) * indicatorWidth;
                 params.leftMargin = (int) translationOffset;
                 mIndicator.setLayoutParams(params);
             }
@@ -186,14 +187,14 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             public void onPageSelected(int position) {
                 vpMainContainer.reMeasureCurrentPage(vpMainContainer.getCurrentItem());
                 Fragment fragment = (Fragment) adapter.instantiateItem(vpMainContainer, position);
-                if(fragment instanceof TrailerFragment)
-                    ((TrailerFragment)fragment).startAnimation();
-                else if(fragment instanceof OverviewFragment)
-                    ((OverviewFragment)fragment).startAnimation();
-                else if(fragment instanceof ReviewsFragment)
-                    ((ReviewsFragment)fragment).startAnimation();
+                if (fragment instanceof TrailerFragment)
+                    ((TrailerFragment) fragment).startAnimation();
+                else if (fragment instanceof OverviewFragment)
+                    ((OverviewFragment) fragment).startAnimation();
+                else if (fragment instanceof ReviewsFragment)
+                    ((ReviewsFragment) fragment).startAnimation();
                 else if (fragment instanceof EpisodesFragment)
-                    ((EpisodesFragment)fragment).startAnimation();
+                    ((EpisodesFragment) fragment).startAnimation();
 
             }
 
@@ -264,7 +265,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         }
 
         if (show.getIsDownloaded()) {
-            btnDownload.setText("Downloaded");
+            btnDownload.setText(getActivity().getString(R.string.downloaded));
         }
 
         if (show.getIsMovie())
@@ -510,7 +511,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 //                    } else {
 //                        url = url.replaceAll(".m3u8", ".mp4");
 //                    }
-                    Toast.makeText(getActivity(), "Downloading", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.downloading1, Toast.LENGTH_SHORT).show();
                     DataLoader.downloadRequest(getActivity(), show.getId(), url, internalStorage.getAbsolutePath(), show.getTitle() + ".mp4", this);
                 } else {
                     DataLoader.postRequest(Urls.MovieDownload.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
@@ -527,7 +528,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                         @Override
                         public void onConnectionSuccess(JSONObject jsonObject) {
-                            btnDownload.setText("Download");
+                            btnDownload.setText(getActivity().getString(R.string.download));
                             show.setIsDownloaded(false);
 
                             Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
@@ -626,7 +627,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             public void onConnectionError(ANError anError) {
 //                Toast.makeText(getActivity(), anError.getMessage(), Toast.LENGTH_SHORT).show();
 //                if (getActivity() != null)
-                    // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getActivity(), "error happened", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -746,7 +747,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
                 @Override
                 public void onConnectionSuccess(JSONObject jsonObject) {
-                    btnDownload.setText("Downloaded");
+                    btnDownload.setText(getActivity().getString(R.string.downloaded));
                     show.setIsDownloaded(true);
 
                     Box<DBShow> dbShowBox = ObjectBox.get().boxFor(DBShow.class);
@@ -760,8 +761,8 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     @Override
     public void onLongClickComment(Comment comment) {
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-        alertDialog.setMessage("Delete this Comment?");
-        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok",
+        alertDialog.setMessage(getActivity().getString(R.string.delete_this_comment));
+        alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getActivity().getString(R.string.ok),
                 (dialog, which) -> {
                     String url = "";
                     if (show.getIsMovie()) {
@@ -795,7 +796,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
                     dialog.dismiss();
                 });
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "cancel", (dialog, which) -> dialog.dismiss());
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getActivity().getString(R.string.cancel), (dialog, which) -> dialog.dismiss());
 
         alertDialog.show();
     }
@@ -812,9 +813,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         if (overviewFragment == null) {
             overviewFragment = OverviewFragment.newInstance(bundle);
         }
-        adapter.addFragment(trailerFragment, "Trailer");
-        adapter.addFragment(overviewFragment, "Overview");
-        adapter.addFragment(ReviewsFragment.newInstance(bundle), "Reviews");
+        adapter.addFragment(trailerFragment, getActivity().getString(R.string.trailer));
+        adapter.addFragment(overviewFragment, getActivity().getString(R.string.overview));
+        adapter.addFragment(ReviewsFragment.newInstance(bundle), getActivity().getString(R.string.reviews));
 
         viewPager.setAdapter(adapter);
 
@@ -833,9 +834,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
             overviewFragment = OverviewFragment.newInstance(bundle);
         }
 
-        adapter.addFragment(overviewFragment, "Overview");
-        adapter.addFragment(episodesFragment, "Episodes");
-        adapter.addFragment(ReviewsFragment.newInstance(bundle), "Reviews");
+        adapter.addFragment(overviewFragment, getActivity().getString(R.string.overview));
+        adapter.addFragment(episodesFragment, getActivity().getString(R.string.episodes));
+        adapter.addFragment(ReviewsFragment.newInstance(bundle), getActivity().getString(R.string.reviews));
 
         viewPager.setAdapter(adapter);
 

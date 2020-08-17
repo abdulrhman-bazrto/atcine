@@ -150,10 +150,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
         vpMainContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float positionOffset, int positionOffsetPx) {
-                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)mIndicator.getLayoutParams();
+                FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mIndicator.getLayoutParams();
 
                 //Multiply positionOffset with indicatorWidth to get translation
-                float translationOffset =  (positionOffset+i) * indicatorWidth ;
+                float translationOffset = (positionOffset + i) * indicatorWidth;
                 params.leftMargin = (int) translationOffset;
                 mIndicator.setLayoutParams(params);
             }
@@ -352,9 +352,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Prof
             myMoviesFragment = MyMoviesFragment.newInstance();
         if (mySeriesFragment == null)
             mySeriesFragment = MySeriesFragment.newInstance();
-        adapter.addFragment(myMoviesFragment, "My Movies");
-        adapter.addFragment(mySeriesFragment, "My Series");
-        adapter.addFragment(new SettingsFragment(), "Settings");
+        adapter.addFragment(myMoviesFragment, getActivity().getString(R.string.my_movies));
+        adapter.addFragment(mySeriesFragment, getActivity().getString(R.string.my_series));
+        adapter.addFragment(new SettingsFragment(), getActivity().getString(R.string.settings));
         viewPager.setAdapter(adapter);
 
     }

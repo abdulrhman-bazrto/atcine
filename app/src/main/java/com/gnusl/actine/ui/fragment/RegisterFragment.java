@@ -157,7 +157,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         tvAlreadyUser.setText(ss);
 
 
-        plansAdapter = new PlansNewAdapter(getActivity(), new ArrayList<>(),rvPlans);
+        plansAdapter = new PlansNewAdapter(getActivity(), new ArrayList<>(), rvPlans);
 
         CenterLayoutManager layoutManager = new CenterLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false);
 
@@ -168,7 +168,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         DataLoader.getRequest(Urls.UserType.getLink(), new ConnectionDelegate() {
             @Override
             public void onConnectionError(int code, String message) {
-                Toast.makeText(getActivity(), "error happened " + message, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.error_happened + message, Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -258,25 +258,25 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             }
             case R.id.btn_register: {
                 if (etUsername.getText().toString().isEmpty()) {
-                    etUsername.setError("can't be empty");
+                    etUsername.setError(getActivity().getString(R.string.cant_be_empty));
                     return;
                 }
                 Pattern p = Patterns.EMAIL_ADDRESS;
                 Matcher m = p.matcher(etUsername.getText().toString());
                 if (!m.matches()) {
-                    etUsername.setError("invalid email");
+                    etUsername.setError(getActivity().getString(R.string.invalid_email));
                     return;
                 }
                 if (etPassword.getText().toString().isEmpty()) {
-                    etUsername.setError("can't be empty");
+                    etUsername.setError(getActivity().getString(R.string.cant_be_empty));
                     return;
                 }
                 if (etPasswordConfirm.getText().toString().isEmpty()) {
-                    etUsername.setError("can't be empty");
+                    etUsername.setError(getActivity().getString(R.string.cant_be_empty));
                     return;
                 }
                 if (!etPasswordConfirm.getText().toString().equalsIgnoreCase(etPassword.getText().toString())) {
-                    etPasswordConfirm.setError("mismatch");
+                    etPasswordConfirm.setError(getActivity().getString(R.string.mismatch));
                     return;
                 }
                 viewStep0.setVisibility(View.GONE);
@@ -431,7 +431,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             });
 
         } else if (requestCode == 100 && resultCode == RESULT_CANCELED) {
-            Toast.makeText(getActivity(), "error", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.error_happened, Toast.LENGTH_LONG).show();
         }
     }
 }
