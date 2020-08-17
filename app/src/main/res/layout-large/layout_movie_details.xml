@@ -78,6 +78,7 @@
         android:text="Ken jeong you complete me"
         android:textColor="@color/white"
         android:textSize="20sp"
+        android:gravity="center"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

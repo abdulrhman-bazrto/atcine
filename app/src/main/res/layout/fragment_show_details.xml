@@ -30,7 +30,8 @@
             layout="@layout/layout_movie_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/cub_home_with_back" />
+            app:layout_constraintTop_toBottomOf="@+id/cub_home_with_back"
+            tools:layout_editor_absoluteX="0dp" />
 
         <View
             android:id="@+id/view"

@@ -100,8 +100,8 @@ public class Show implements Serializable {
             }
         }
 
-        if (jsonObject.has("subtitles")) {
-            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles"));
+        if (jsonObject.has("subtitles_srt")) {
+            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles_srt"));
         }
 
     }
@@ -162,8 +162,8 @@ public class Show implements Serializable {
             this.episodes = Show.newList(jsonObject.optJSONArray("episodes"), false, false, true, isFavourite, isLike, isDownloaded);
         }
 
-        if (jsonObject.has("subtitles")) {
-            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles"));
+        if (jsonObject.has("subtitles_srt")) {
+            this.subtitles = Subtitle.newList(jsonObject.optJSONArray("subtitles_srt"));
         }
 
     }

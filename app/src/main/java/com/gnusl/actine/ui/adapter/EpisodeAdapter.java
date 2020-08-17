@@ -70,7 +70,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class EpisodeViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView ivShowImage, ivPlay;
-        private TextView tvShowName, tvDate, tvDirector, tvWriter, tvDuration;
+        private TextView tvShowName, tvDate, tvDirector, tvWriter, tvDuration,tv_desc;
         private ImageButton btnDelete, btnDownload;
 
         EpisodeViewHolder(View itemView) {
@@ -84,6 +84,7 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvWriter = itemView.findViewById(R.id.tv_writer);
             tvDuration = itemView.findViewById(R.id.tv_duration);
             ivPlay = itemView.findViewById(R.id.iv_play_show);
+            tv_desc = itemView.findViewById(R.id.tv_desc);
         }
 
         public void bind() {
@@ -94,6 +95,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvShowName.setText(show.getTitle());
             tvDuration.setText(show.getWatchTime());
             tvDate.setText(show.getYear() + "");
+
+            tv_desc.setText(show.getDescription());
+
 //            tvDirector.setText(show.getImdbRate().toString());
 //            tvWriter.setText(show.getRottenTomatoes());
 //            File internalStorage = mContext.getFilesDir();

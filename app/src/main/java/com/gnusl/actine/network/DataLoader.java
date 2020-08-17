@@ -6,6 +6,7 @@ import android.content.Intent;
 import androidx.core.content.ContextCompat;
 
 import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.UploadProgressListener;
@@ -49,6 +50,7 @@ public class DataLoader {
         AndroidNetworking.post(url)
                 .addHeaders(getHeaders())
                 .addBodyParameter(body)
+                .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -90,6 +92,7 @@ public class DataLoader {
 
         AndroidNetworking.post(url)
                 .addHeaders(getHeaders())
+                .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -129,6 +132,7 @@ public class DataLoader {
 
         AndroidNetworking.get(url.getLink())
                 .addHeaders(getHeaders())
+                .setPriority(Priority.HIGH)
                 .addPathParameter(pathParameters)
                 .addQueryParameter(pathParameters)
                 .build()
@@ -178,6 +182,7 @@ public class DataLoader {
 
         AndroidNetworking.get(url)
                 .addHeaders(getHeaders())
+                .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
