@@ -57,6 +57,7 @@
     <string name="join_us">انضم لنا</string>
     <string name="ken_jeong_you_complete_me">" "</string>
     <string name="language">اللغة:</string>
+    <string name="language1">اللغة</string>
     <string name="legal">قانوني</string>
     <string name="login">تسجيل الدخول</string>
     <string name="manage_profile">ادارة الحساب</string>
@@ -170,4 +171,18 @@
     <string name="yesterday">بالأمس</string>
     <string name="you_dont_have_any_movies_downloaded_yet">لا يوجد أفلام تم نحميلها</string>
     <string name="you_dont_have_any_series_downloaded_yet">لا يوجد مسلسلات تم تحميلها</string>
+    <string name="choose_your_language">احتر اللغة</string>
+    <string name="arabic">Arabic</string>
+    <string name="use_your_email_and_create_password_to_watch_atcine_on_any_device_at_any_time">استخدم البريد الالكتروني في اي وقت للمشاهدة على ايا جهاز عبر atcine</string>
+    <string name="_0_0">0/0</string>
+    <string name="_0_episodes">0 حلقة</string>
+    <string name="tim_miller">.</string>
+    <string name="_12_february_2016_usa">.</string>
+    <string name="your_plan_nuunlimted_streaming_in_hd_and_ultra_hd_nat_11_99">خطتك غير محدودة وعالية الدقة</string>
+    <string name="your_plan_nunlimted_streaming_in_hd_and_ultra_hd_nat_11_99">خطتك غير محدودة وعالية الدقة</string>
+    <string name="_2_870_979_views">Arabic</string>
+    <string name="smart_tvs_playstation_xbox_chromecast_apple_n_tv_blu_ray_players_and_more">والمزيد</string>
+    <string name="action">Arabic</string>
+    <string name="monthly_price_after_free_month_ends_on_3_8_2019">Arabic</string>
+    <string name="video_playback">Arabic</string>
 </resources>

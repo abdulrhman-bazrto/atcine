@@ -69,13 +69,14 @@ public class Show implements Serializable {
         this.title = jsonObject.optString("title");
         this.size = jsonObject.optString("size");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
-        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/","/image/upload/w_500,h_700,c_scale/");
+        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/", "/image/upload/w_500,h_700,c_scale/");
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
         this.videoUrl = jsonObject.optString("video_url");
         this.episodeUrl = jsonObject.optString("episode_url");
-        this.rottenTomatoes = jsonObject.optString("rotten_tomatoes");
+        String rotten_tomatoes = jsonObject.optString("rotten_tomatoes");
+        this.rottenTomatoes = rotten_tomatoes;
         this.imdbRate = jsonObject.optString("imdb_rate");
         this.downloadVideoUrl = jsonObject.optString("download_video_url");
         this.downloadVideoUrl = jsonObject.optString("download_video_url");
@@ -136,7 +137,7 @@ public class Show implements Serializable {
         this.section = jsonObject.optString("section");
         this.title = jsonObject.optString("title");
         this.coverImageUrl = jsonObject.optString("cover_image_url");
-        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/","/image/upload/w_500,h_700,c_scale/");
+        this.thumbnailImageUrl = jsonObject.optString("thumbnail_image_url").replaceFirst("/image/upload/", "/image/upload/w_500,h_700,c_scale/");
         this.preWatch = jsonObject.optString("pre_watch");
         this.watchTime = jsonObject.optString("watch_time");
         this.year = jsonObject.optInt("year");
@@ -411,6 +412,9 @@ public class Show implements Serializable {
     }
 
     public String getRottenTomatoes() {
+        if (rottenTomatoes == null || rottenTomatoes.isEmpty() || rottenTomatoes.equalsIgnoreCase("null")) {
+            return "";
+        }
         return rottenTomatoes;
     }
 

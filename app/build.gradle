@@ -26,8 +26,8 @@ android {
         applicationId "com.gnusl.actine"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 46
-        versionName "4.0.6"
+        versionCode 48
+        versionName "4.0.8"
     }
     buildTypes {
         release {
@@ -80,5 +80,10 @@ dependencies {
 
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
 
+    implementation 'com.fasterxml.jackson.core:jackson-core:2.5.3'
+    implementation 'com.fasterxml.jackson.core:jackson-annotations:2.5.3'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
+
+//    implementation 'com.google.android.gms:play-services-cast-framework:19.0.0'
 }
 apply plugin: 'com.google.gms.google-services'

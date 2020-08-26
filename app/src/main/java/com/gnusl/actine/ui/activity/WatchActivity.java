@@ -2,7 +2,9 @@ package com.gnusl.actine.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -18,7 +20,6 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +75,7 @@ public class WatchActivity extends AppCompatActivity {
 
     PlayerView playerView;
     GifImageView loading;
-    private ImageView ivSubtitles, ivBack, ivQuality, ivAudio, ivFullScreen;
+    private ImageView ivSubtitles, ivBack, ivQuality, ivAudio, ivFullScreen, iv_cast_screen;
     private ImageButton ibPlay, ibPause;
     private TextView tvCurProgress, tvTotal;
     private PopupMenu menu;
@@ -95,10 +96,14 @@ public class WatchActivity extends AppCompatActivity {
     private int selectedAudio = 0;
     private int selectedQuality = 0;
     private int selectedSubtitle = 0;
+    private boolean isSubtitled = false;
+    private boolean isSubtitleAvailable = false;
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -242,66 +247,100 @@ public class WatchActivity extends AppCompatActivity {
         ivSubtitles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (hlsManifest != null) {
-                    ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
-                    PopupMenu menu = new PopupMenu(ctw, v);
+//                if (hlsManifest != null) {
+//                    ContextThemeWrapper ctw = new ContextThemeWrapper(WatchActivity.this, R.style.CustomPopupTheme);
+//                    PopupMenu menu = new PopupMenu(ctw, v);
+//
+//                    try {
+//                        Field[] fields = menu.getClass().getDeclaredFields();
+//                        for (Field field : fields) {
+//                            if ("mPopup".equals(field.getName())) {
+//                                field.setAccessible(true);
+//                                Object menuPopupHelper = field.get(menu);
+//                                Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
+//                                Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
+//                                setForceIcons.invoke(menuPopupHelper, true);
+//                                break;
+//                            }
+//                        }
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//
+//                    if (selectedSubtitle == -1) {
+//                        menu.getMenu().add("None").setIcon(R.drawable.icon_check_white);
+//                    } else {
+//                        menu.getMenu().add("None");
+//                    }
+//                    for (int i = 0; i < hlsManifest.masterPlaylist.subtitles.size(); i++) {
+//                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.subtitles.get(i);
+//                        if (i == selectedSubtitle) {
+//                            MenuItem sub = menu.getMenu().add(url.format.language).setIcon(R.drawable.icon_check_white);
+//                        } else {
+//                            MenuItem sub = menu.getMenu().add(url.format.language);
+//                        }
+//                    }
+//                    menu.show();
+//                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//                        @Override
+//                        public boolean onMenuItemClick(MenuItem item) {
+//                            if (String.valueOf(item.getTitle()).equalsIgnoreCase("None")) {
+//                                DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
+//                                        .setRendererDisabled(C.TRACK_TYPE_VIDEO, true)
+//                                        .build();
+//                                defaultTrackSelector.setParameters(build);
+//                                selectedSubtitle = -1;
+//                                return true;
+//                            }
+//                            for (int i = 0; i < hlsManifest.masterPlaylist.subtitles.size(); i++) {
+//                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.subtitles.get(i);
+//                                if (url.format.language.equalsIgnoreCase(String.valueOf(item.getTitle()))) {
+//                                    selectedSubtitle = i;
+//                                }
+//                            }
+//
+//                            DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
+//                                    .setRendererDisabled(C.TRACK_TYPE_VIDEO, false)
+//                                    .setPreferredTextLanguage(String.valueOf(item.getTitle()))
+//                                    .build();
+//                            defaultTrackSelector.setParameters(build);
+//                            return true;
+//                        }
+//                    });
+//                }
 
-                    try {
-                        Field[] fields = menu.getClass().getDeclaredFields();
-                        for (Field field : fields) {
-                            if ("mPopup".equals(field.getName())) {
-                                field.setAccessible(true);
-                                Object menuPopupHelper = field.get(menu);
-                                Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                                Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
-                                setForceIcons.invoke(menuPopupHelper, true);
-                                break;
-                            }
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                if (!isSubtitleAvailable)
+                    return;
 
-                    if (selectedSubtitle == -1) {
-                        menu.getMenu().add("None").setIcon(R.drawable.icon_check_white);
-                    } else {
-                        menu.getMenu().add("None");
-                    }
-                    for (int i = 0; i < hlsManifest.masterPlaylist.subtitles.size(); i++) {
-                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.subtitles.get(i);
-                        if (i == selectedSubtitle) {
-                            MenuItem sub = menu.getMenu().add(url.format.language).setIcon(R.drawable.icon_check_white);
-                        } else {
-                            MenuItem sub = menu.getMenu().add(url.format.language);
-                        }
-                    }
-                    menu.show();
-                    menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            if (String.valueOf(item.getTitle()).equalsIgnoreCase("None")) {
-                                DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
-                                        .setRendererDisabled(C.TRACK_TYPE_VIDEO, true)
-                                        .build();
-                                defaultTrackSelector.setParameters(build);
-                                selectedSubtitle = -1;
-                                return true;
-                            }
-                            for (int i = 0; i < hlsManifest.masterPlaylist.subtitles.size(); i++) {
-                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.subtitles.get(i);
-                                if (url.format.language.equalsIgnoreCase(String.valueOf(item.getTitle()))) {
-                                    selectedSubtitle = i;
-                                }
-                            }
+                if (isSubtitled) {
+                    String hls_url = show.getDownloadVideoUrl();
 
-                            DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
-                                    .setRendererDisabled(C.TRACK_TYPE_VIDEO, false)
-                                    .setPreferredTextLanguage(String.valueOf(item.getTitle()))
-                                    .build();
-                            defaultTrackSelector.setParameters(build);
-                            return true;
-                        }
-                    });
+                    Uri uri = Uri.parse(hls_url);
+                    DataSource.Factory dataSourceFactory =
+                            new DefaultHttpDataSourceFactory(Util.getUserAgent(WatchActivity.this, "app-name"));
+                    // Create a HLS media source pointing to a playlist uri.
+                    mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                            .setMinLoadableRetryCount(4)
+                            .createMediaSource(uri);
+                    player.setPlayWhenReady(playWhenReady);
+                    player.seekTo(currentWindow, playbackPosition);
+                    player.prepare(mediaSource, true, false);
+                } else {
+                    if (show.getSubtitles() != null && show.getSubtitles().size() > 0 && !show.getSubtitles().get(0).getPath().equalsIgnoreCase("")) {
+                        ivSubtitles.setVisibility(View.VISIBLE);
+
+                        String sub = show.getSubtitles().get(0).getPath();
+
+                        Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
+                                null, Format.NO_VALUE, Format.NO_VALUE, "en", null, Format.OFFSET_SAMPLE_RELATIVE);
+                        MediaSource textMediaSource = new SingleSampleMediaSource.Factory(dataSourceFactory)
+                                .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
+
+                        mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
+                        player.setPlayWhenReady(playWhenReady);
+                        player.seekTo(currentWindow, playbackPosition);
+                        player.prepare(mediaSource, true, false);
+                    }
                 }
             }
         });
@@ -357,6 +396,7 @@ public class WatchActivity extends AppCompatActivity {
         clForward = findViewById(R.id.skip_forward);
         ibPause = findViewById(R.id.exo_pause);
         ibPlay = findViewById(R.id.exo_play);
+        iv_cast_screen = findViewById(R.id.iv_cast_screen);
 
         Utils.setOnFocusScale(ivSubtitles);
         Utils.setOnFocusScale(ivBack);
@@ -365,6 +405,7 @@ public class WatchActivity extends AppCompatActivity {
         Utils.setOnFocusScale(ivFullScreen);
         Utils.setOnFocusScale(ibPause);
         Utils.setOnFocusScale(ibPlay);
+        Utils.setOnFocusScale(iv_cast_screen);
         ibPlay.clearAnimation();
         ibPause.clearAnimation();
         ibPlay.setOnClickListener(new View.OnClickListener() {
@@ -433,6 +474,25 @@ public class WatchActivity extends AppCompatActivity {
             }
         });
 
+        iv_cast_screen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    startActivity(new Intent("android.settings.WIFI_DISPLAY_SETTINGS"));
+                    return;
+                } catch (ActivityNotFoundException activitynotfoundexception) {
+                    activitynotfoundexception.printStackTrace();
+                }
+
+                try {
+                    startActivity(new Intent("android.settings.CAST_SETTINGS"));
+                    return;
+                } catch (Exception exception1) {
+                    Toast.makeText(getApplicationContext(), "Device not supported", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         playerView.getSubtitleView().setBackgroundResource(R.color.transparent);
 
@@ -488,6 +548,10 @@ public class WatchActivity extends AppCompatActivity {
 
 
         if (show.getSubtitles() != null && show.getSubtitles().size() > 0 && !show.getSubtitles().get(0).getPath().equalsIgnoreCase("")) {
+            ivSubtitles.setVisibility(View.VISIBLE);
+            isSubtitleAvailable = true;
+            isSubtitled = true;
+
             String sub = show.getSubtitles().get(0).getPath();
 
             Format textFormat = Format.createTextSampleFormat(null, MimeTypes.APPLICATION_SUBRIP,
@@ -496,6 +560,8 @@ public class WatchActivity extends AppCompatActivity {
                     .createMediaSource(Uri.parse(String.valueOf(sub)), textFormat, C.TIME_UNSET);
 
             mediaSource = new MergingMediaSource(mediaSource, textMediaSource);
+        } else {
+            ivSubtitles.setVisibility(View.GONE);
         }
 
         player.setPlayWhenReady(playWhenReady);

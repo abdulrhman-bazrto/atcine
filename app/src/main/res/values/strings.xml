@@ -10,7 +10,7 @@
     <string name="ok">Ok</string>
     <string name="sign_out_from_this_account">Sign Out from this account?</string>
     <string name="select_your_profile">Select Your Profile</string>
-    <string name="video_playback" translatable="false">Video Playback</string>
+    <string name="video_playback">Video Playback</string>
     <string name="cellular_data_usage">Cellular Data Usage</string>
     <string name="automatic">Automatic</string>
     <string name="notifications">Notifications</string>
@@ -29,8 +29,8 @@
     <string name="find_something_to_download">Find Something To Download</string>
     <string name="upload_user_image">Upload user image</string>
     <string name="save_changes">Save changes</string>
-    <string name="_0_0" translatable="false">0/0</string>
-    <string name="_0_episodes" translatable="false">0 Episodes.</string>
+    <string name="_0_0">0/0</string>
+    <string name="_0_episodes">0 Episodes.</string>
     <string name="see_what_s_next">See what\'s next</string>
     <string name="watch_the_cinema">Watch the cinema</string>
     <string name="in_your_home">in your home</string>
@@ -53,24 +53,25 @@
     <string name="forget_my_password">Forget my password</string>
     <string name="sign_up">Sign up</string>
     <string name="you_have_added_nothing_yet">You have added nothing yet</string>
-    <string name="tim_miller" translatable="false">Tim Miller.</string>
+    <string name="tim_miller">Tim Miller.</string>
     <string name="writers">Writers:</string>
     <string name="rhett_reese_paul_wernick">Rhett Reese, Paul Wernick.</string>
     <string name="release_date">Release Date:</string>
-    <string name="_12_february_2016_usa" translatable="false">12 February 2016 (USA).</string>
+    <string name="_12_february_2016_usa">12 February 2016 (USA).</string>
     <string name="type">Type:</string>
     <string name="family_fantasy_adventure">Family, Fantasy, Adventure.</string>
     <string name="language">Language:</string>
+    <string name="language1">Language</string>
     <string name="english">English.</string>
     <string name="cast">Cast</string>
     <string name="choose_a_plan_that_s_right_for_you">Choose a plan that\'s right for you.</string>
-    <string name="your_plan_nuunlimted_streaming_in_hd_and_ultra_hd_nat_11_99" translatable="false">your plan  UUnlimted Streaming in HD and Ultra HD  at 11.99$ .</string>
+    <string name="your_plan_nuunlimted_streaming_in_hd_and_ultra_hd_nat_11_99">your plan  Unlimited Streaming in HD and Ultra HD  at 11.99$ .</string>
     <string name="choose_your_plan">Choose your plan.</string>
     <string name="see_the_plans">See the Plans</string>
     <string name="step_1_of_3">Step 1 of 3</string>
     <string name="step_2_of_3">Step 2 of 3</string>
     <string name="create_your_account">Create your account</string>
-    <string name="use_your_email_and_create_password_to_watch_atcine_on_any_device_at_any_time" translatable="false">Use your email and create password to watch Atcine on any Device at any time.</string>
+    <string name="use_your_email_and_create_password_to_watch_atcine_on_any_device_at_any_time">Use your email and create password to watch Atcine on any Device at any time.</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -86,7 +87,7 @@
     <string name="continue_to_paypal">continue to PayPal</string>
     <string name="step_3_of_3">Step 3 of 3</string>
     <string name="setup_your_payment_gateway">Setup your Payment Gateway</string>
-    <string name="your_plan_nunlimted_streaming_in_hd_and_ultra_hd_nat_11_99" translatable="false">your plan  Unlimted Streaming in HD and Ultra HD  at 11.99$ .</string>
+    <string name="your_plan_nunlimted_streaming_in_hd_and_ultra_hd_nat_11_99">your plan  Unlimited Streaming in HD and Ultra HD  at 11.99$ .</string>
     <string name="change">Change</string>
     <string name="to_finish_sign_up_choose_the_payment_gateway">To finish sign-up, choose the payment gateway.</string>
     <string name="already_have_account_sign_in_now">Already have account? Sign in now.</string>
@@ -96,7 +97,7 @@
     <string name="account">Account</string>
     <string name="sign_out">Sign Out</string>
     <string name="more_like_this">More Like This</string>
-    <string name="_2_870_979_views" translatable="false">2,870,979 views</string>
+    <string name="_2_870_979_views">2,870,979 views</string>
     <string name="write_comment">Write Comment</string>
     <string name="choose_what_you_want_to_watch">Choose what you want to watch</string>
     <string name="downgrade_or_upgrade_anytime">Downgrade or upgrade anytime</string>
@@ -121,7 +122,7 @@
     <string name="help">Help</string>
     <string name="sign_in">Sign In</string>
     <string name="watch_on_your_tv">Watch on your TV</string>
-    <string name="smart_tvs_playstation_xbox_chromecast_apple_n_tv_blu_ray_players_and_more" translatable="false">Smart TVs, PlayStation, Xbox, Chromecast, Apple   Tv, Blu-ray players and more.</string>
+    <string name="smart_tvs_playstation_xbox_chromecast_apple_n_tv_blu_ray_players_and_more">Smart TVs, PlayStation, Xbox, Chromecast, Apple   Tv, Blu-ray players and more.</string>
     <string name="watch_instantly_or_download_n_for_later">Watch instantly or download   for later</string>
     <string name="available_on_phone_and_tablets_wherever_you_go">Available on phone and tablets, wherever you go.</string>
     <string name="use_any_computer">Use any computer</string>
@@ -129,12 +130,12 @@
     <string name="favorite">Favorite</string>
     <string name="reactions">Reactions</string>
     <string name="share">Share</string>
-    <string name="action" translatable="false">Action</string>
+    <string name="action">Action</string>
     <string name="monthly_price">Monthly price</string>
     <string name="basic">Basic</string>
     <string name="standard">Standard</string>
     <string name="premium">Premium</string>
-    <string name="monthly_price_after_free_month_ends_on_3_8_2019" translatable="false">Monthly price after free month ends on 3/8/2019</string>
+    <string name="monthly_price_after_free_month_ends_on_3_8_2019">Monthly price after free month ends on 3/8/2019</string>
     <string name="all_genres">All Genres</string>
     <string name="hd_available">HD available</string>
     <string name="movies">Movies</string>
@@ -181,4 +182,6 @@
     <string name="start_from_where_you_left">Do you want to start from where you left?</string>
     <string name="resume">Resume</string>
     <string name="start_over">Start over</string>
+    <string name="choose_your_language">Choose your language</string>
+    <string name="arabic">Arabic</string>
 </resources>

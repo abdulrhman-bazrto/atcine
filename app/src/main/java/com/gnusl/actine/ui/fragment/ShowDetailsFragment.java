@@ -72,6 +72,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private TextView tvCategory, tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvIMDBRate, tvTomatoRate;
     private ImageView ivShowImage, ivShowCover, ivPlayShow, ivSendComment, ivAddComment, ivBack, ivClock;
     private EditText etCommentText;
+    private View iv_tomato;
 
     private CommentsAdapter commentsAdapter;
     private HomeMovieListAdapter homeMovieListAdapter;
@@ -209,7 +210,12 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
         tvIMDBRate.setText(show.getImdbRate());
-        tvTomatoRate.setText(show.getRottenTomatoes());
+        if (!show.getRottenTomatoes().isEmpty()) {
+            tvTomatoRate.setText(show.getRottenTomatoes());
+        }else {
+            tvTomatoRate.setVisibility(View.GONE);
+            iv_tomato.setVisibility(View.GONE);
+        }
         tvCategory.setText(show.getCategory());
         Picasso.with(getActivity()).load(show.getCoverImageUrl()).into(ivShowCover);
         Picasso.with(getActivity()).load(show.getThumbnailImageUrl()).into(ivShowImage);
@@ -327,6 +333,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvTomatoRate = inflatedView.findViewById(R.id.tv_tomato_rate);
         ivShowImage.setTransitionName(imageTransitionName);
         mIndicator = inflatedView.findViewById(R.id.indicator);
+        iv_tomato = inflatedView.findViewById(R.id.iv_tomato);
 
 //        tvRate.setOnClickListener(new View.OnClickListener() {
 //            @Override

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.Profile;
@@ -56,6 +58,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -76,6 +79,13 @@ public class MainActivity extends AppCompatActivity implements SmartTabLayout.Ta
         getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
         getWindow().setEnterTransition(new Fade());
         super.onCreate(savedInstanceState);
+
+        String languageToLoad = SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance());
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
 
         setContentView(R.layout.activity_main);
 

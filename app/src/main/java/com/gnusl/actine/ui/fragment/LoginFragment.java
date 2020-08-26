@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import androidx.fragment.app.Fragment;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.User;
@@ -41,6 +43,7 @@ import com.gnusl.actine.util.Utils;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class LoginFragment extends Fragment implements View.OnClickListener, ConnectionDelegate {
@@ -49,7 +52,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 
     private Button btnLogin;
     private EditText etEmailPhone, etPassword;
-    private TextView tvSignUp, tvWelcome, tvForget, tvTest, tvTest1;
+    private TextView btn_language, tvSignUp, tvWelcome, tvForget, tvTest, tvTest1;
     private ImageView ivLogo;
     private ConstraintLayout clMain;
 
@@ -89,6 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
     private void init() {
 
         tvSignUp = inflatedView.findViewById(R.id.tv_sign_up);
+        btn_language = inflatedView.findViewById(R.id.btn_language);
 
         btnLogin = inflatedView.findViewById(R.id.btn_login);
         etEmailPhone = inflatedView.findViewById(R.id.et_email_phone);
@@ -98,6 +102,31 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
         tvTest = inflatedView.findViewById(R.id.tv_test);
         tvTest1 = inflatedView.findViewById(R.id.tv_test1);
         tvWelcome = inflatedView.findViewById(R.id.tv_welcome);
+
+        btn_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance()).equalsIgnoreCase("en")) {
+                    SharedPreferencesUtils.saveLanguage(getActivity(), "ar");
+                    btn_language.setText(getString(R.string.english));
+                    Locale locale = new Locale("ar");
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                    getActivity().recreate();
+                } else {
+                    SharedPreferencesUtils.saveLanguage(getActivity(), "en");
+                    btn_language.setText(getString(R.string.arabic));
+                    Locale locale = new Locale("en");
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                    getActivity().recreate();
+                }
+            }
+        });
 
         ///@@@@@@@@@@@@@
         clMain = inflatedView.findViewById(R.id.cl_main);

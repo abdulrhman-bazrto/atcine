@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebSettings;
@@ -9,10 +10,14 @@ import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.WebViewOnFinish;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.MyWebViewClient;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
+import com.gnusl.actine.util.SharedPreferencesUtils;
+
+import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -28,6 +33,14 @@ public class AccountActivity extends AppCompatActivity implements WebViewOnFinis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String languageToLoad = SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance());
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_payment);
 
         webView = findViewById(R.id.webview);

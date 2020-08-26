@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -32,13 +33,14 @@ import com.gnusl.actine.util.SharedPreferencesUtils;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class SettingsFragment extends Fragment implements View.OnClickListener {
 
     View inflatedView;
 
-    private TextView tvHelp, tvLogout, tvAppSetting, tvAccount;
+    private TextView tvHelp, tvLogout, tvAppSetting, tvAccount,tv_language;
     private ConstraintLayout clRoot;
     Animation animation;
 
@@ -83,11 +85,13 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         tvAppSetting = inflatedView.findViewById(R.id.tv_app_setting);
         tvAccount = inflatedView.findViewById(R.id.tv_account);
         clRoot = inflatedView.findViewById(R.id.root_view);
+        tv_language = inflatedView.findViewById(R.id.tv_language);
 
         tvHelp.setOnClickListener(this);
         tvLogout.setOnClickListener(this);
         tvAppSetting.setOnClickListener(this);
         tvAccount.setOnClickListener(this);
+        tv_language.setOnClickListener(this);
     }
 
     @Override
@@ -119,6 +123,10 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
             }
             case R.id.tv_logout: {
                 showLogoutDialog();
+                break;
+            }
+            case R.id.tv_language: {
+                showLanguageDialog();
                 break;
             }
 
@@ -166,6 +174,57 @@ public class SettingsFragment extends Fragment implements View.OnClickListener {
         });
 
         logoutDialog.show();
+    }
+    private void showLanguageDialog() {
+        final Dialog languageDialog = new Dialog(getActivity());
+        languageDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        if (languageDialog.getWindow() != null)
+            languageDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        languageDialog.setContentView(R.layout.dialog_logout);
+        languageDialog.setCancelable(true);
+
+        TextView btn_sign_out = languageDialog.findViewById(R.id.btn_sign_out);
+        TextView btn_cancel = languageDialog.findViewById(R.id.btn_cancel);
+        TextView tv_text = languageDialog.findViewById(R.id.tv_text);
+
+        tv_text.setText(getString(R.string.choose_your_language));
+        btn_cancel.setText(getString(R.string.arabic));
+        btn_sign_out.setText(getString(R.string.english));
+
+        btn_sign_out.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languageDialog.dismiss();
+
+                SharedPreferencesUtils.saveLanguage(getActivity(), "en");
+
+                Locale locale = new Locale("en");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                getActivity().recreate();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                languageDialog.dismiss();
+
+                SharedPreferencesUtils.saveLanguage(getActivity(), "ar");
+
+                Locale locale = new Locale("ar");
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                getActivity().recreate();
+
+            }
+        });
+
+        languageDialog.show();
     }
 
 //    @Override

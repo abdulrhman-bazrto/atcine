@@ -50,10 +50,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:extractNativeLibs">
+        tools:replace="android:extractNativeLibs,android:supportsRtl">
         <activity android:name=".ui.activity.TrailerActivity"></activity>
         <activity
             android:name=".ui.activity.WatchActivity"

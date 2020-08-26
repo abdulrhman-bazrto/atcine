@@ -232,5 +232,20 @@
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btn_language"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/bg_btn_auth"
+        android:focusable="true"
+        android:hint="@string/arabic"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textColorHint="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

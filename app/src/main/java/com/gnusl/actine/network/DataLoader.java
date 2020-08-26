@@ -2,6 +2,7 @@ package com.gnusl.actine.network;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 
 import androidx.core.content.ContextCompat;
 
@@ -33,7 +34,7 @@ public class DataLoader {
 //        headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
         headers.put("Accept", "application/json");
         headers.put("profile_id", String.valueOf(SharedPreferencesUtils.getCurrentProfile()));
-        headers.put("language", "en");
+        headers.put("language", SharedPreferencesUtils.getLanguage(Atcine.getAppContext()));
         headers.put("Token", SharedPreferencesUtils.getToken1());
 
         return headers;

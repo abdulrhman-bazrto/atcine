@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.transition.TransitionInflater;
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.ui.fragment.GuestFragment;
 import com.gnusl.actine.ui.fragment.HelpFragment;
@@ -19,6 +21,9 @@ import com.gnusl.actine.ui.fragment.LoginFragment;
 import com.gnusl.actine.ui.fragment.PaymentLessFragment;
 import com.gnusl.actine.ui.fragment.RegisterFragment;
 import com.gnusl.actine.ui.fragment.ToWatchFragment;
+import com.gnusl.actine.util.SharedPreferencesUtils;
+
+import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -41,6 +46,14 @@ public class AuthActivity extends AppCompatActivity {
 //                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 //                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
 //                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+
+        String languageToLoad = SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance());
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_auth_activiy);
 
         replaceFragment(FragmentTags.LoginFragment);

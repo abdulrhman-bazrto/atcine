@@ -2,6 +2,7 @@ package com.gnusl.actine.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,14 +12,18 @@ import android.webkit.WebView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.WebViewOnFinish;
 import com.gnusl.actine.network.MyWebViewClient;
 import com.gnusl.actine.ui.custom.LoaderPopUp;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.kaopiz.kprogresshud.KProgressHUD;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import io.github.inflationx.viewpump.ViewPumpContextWrapper;
 
@@ -34,6 +39,14 @@ public class PaymentActivity extends AppCompatActivity implements WebViewOnFinis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String languageToLoad = SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance());
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.activity_payment);
 
         webView = findViewById(R.id.webview);

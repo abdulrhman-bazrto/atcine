@@ -71,6 +71,7 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivThumbnail;
         GifImageView pbLoading;
         TextView tvTitle, tvImdb, tvTomato;
+        private View iv_tomato;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -80,6 +81,7 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTitle = itemView.findViewById(R.id.tv_show_name);
             tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
+            iv_tomato = itemView.findViewById(R.id.iv_tomato);
             Utils.setOnFocusScale(itemView);
         }
 
@@ -97,7 +99,12 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
             tvImdb.setText(movie.getImdbRate().toString());
-            tvTomato.setText(movie.getRottenTomatoes());
+            if (!movie.getRottenTomatoes().isEmpty()) {
+                tvTomato.setText(movie.getRottenTomatoes());
+            }else {
+                tvTomato.setVisibility(View.GONE);
+                iv_tomato.setVisibility(View.GONE);
+            }
             ViewCompat.setTransitionName(ivThumbnail,"transition" + movie.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {
