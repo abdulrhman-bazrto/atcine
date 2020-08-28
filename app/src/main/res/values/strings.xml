@@ -184,4 +184,8 @@
     <string name="start_over">Start over</string>
     <string name="choose_your_language">Choose your language</string>
     <string name="arabic">Arabic</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="sign_up_to_watch">Sign up to watch Atcine on any device at any time.</string>
 </resources>

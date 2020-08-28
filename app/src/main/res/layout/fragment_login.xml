@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.fragment.LoginFragment">
+    tools:context=".ui.Mobile.fragment.LoginFragment">
 
 
     <ImageView
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
+        app:layout_constraintGuide_end="438dp" />
 
     <!--    <ImageView-->
     <!--        android:id="@+id/tv_app_title"-->

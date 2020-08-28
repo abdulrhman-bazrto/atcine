@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.activity.MainActivity">
+    tools:context=".ui.Mobile.activity.MainActivity">
 
-    <com.gnusl.actine.ui.custom.NonScrollHomeViewPager
+    <com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager
         android:id="@+id/vp_home"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </com.gnusl.actine.ui.custom.NonScrollHomeViewPager>
+    </com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager>
 
 
     <!--// here we add the tab layout-->

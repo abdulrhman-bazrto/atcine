@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.MyMoviesFragment">
+    tools:context=".ui.Mobile.fragment.MyMoviesFragment">
 
-    <com.gnusl.actine.ui.custom.CustomAppBarWithBack
+    <com.gnusl.actine.ui.Mobile.custom.CustomAppBarWithBack
         android:id="@+id/cub_my_list_with_back"
         android:layout_width="match_parent"
         android:layout_height="35dp"

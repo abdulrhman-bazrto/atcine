@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.GuestFragment">
+    tools:context=".ui.Mobile.fragment.GuestFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -132,49 +132,49 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_monthly_price" />
 
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_hd_available"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/tv_standard_price" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_ultra_hd_available"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/fpr_hd_available" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_screen_count"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/fpr_ultra_hd_available" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_devices_available"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/fpr_screen_count" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_unlimited"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/fpr_devices_available" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_cancel_any_time"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:layout_marginTop="20dp"
         app:layout_constraintTop_toBottomOf="@+id/fpr_unlimited" />
 
-    <com.gnusl.actine.ui.custom.FeaturesSymbolRow
+    <com.gnusl.actine.ui.Mobile.custom.FeaturesSymbolRow
         android:id="@+id/fpr_first_month_free"
         android:layout_width="match_parent"
         android:layout_height="70dp"

@@ -16,7 +16,7 @@ import androidx.core.app.NotificationCompat;
 import com.gnusl.actine.R;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
-import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

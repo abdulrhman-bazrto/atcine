@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".ui.fragment.MoreContainerFragment">
+    tools:context=".ui.Mobile.fragment.MoreContainerFragment">
 
     <FrameLayout
         android:id="@+id/frame_container_more"

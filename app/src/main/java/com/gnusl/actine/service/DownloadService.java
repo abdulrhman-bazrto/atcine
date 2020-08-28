@@ -20,7 +20,7 @@ import com.androidnetworking.interfaces.DownloadListener;
 import com.androidnetworking.interfaces.DownloadProgressListener;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.DownloadDelegate;
-import com.gnusl.actine.ui.activity.MainActivity;
+import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 
 import java.text.DecimalFormat;
 

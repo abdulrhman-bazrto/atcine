@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/transparent"
     android:paddingTop="20dp"
-    tools:context=".ui.fragment.DownloadShowsFragment">
+    tools:context=".ui.Mobile.fragment.DownloadShowsFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView

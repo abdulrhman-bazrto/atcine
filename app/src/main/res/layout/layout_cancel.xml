@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.GuestFragment">
+    tools:context=".ui.Mobile.fragment.GuestFragment">
 
     <ImageView
         android:layout_width="300dp"

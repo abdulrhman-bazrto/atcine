@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.HomeFragment">
+    tools:context=".ui.Mobile.fragment.HomeFragment">
 
-    <com.gnusl.actine.ui.custom.CustomAppBar
+    <com.gnusl.actine.ui.Mobile.custom.CustomAppBar
         android:id="@+id/cub_home"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/rv_categories" />
 
-    <!--    <com.gnusl.actine.ui.custom.SelectGenresView-->
+    <!--    <com.gnusl.actine.ui.Mobile.custom.SelectGenresView-->
     <!--        android:id="@+id/sgv_home"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="0dp"-->

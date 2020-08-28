@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.DownloadFragment">
+    tools:context=".ui.Mobile.fragment.DownloadFragment">
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:src="@drawable/bg_movei"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.gnusl.actine.ui.custom.CustomAppBar
+    <com.gnusl.actine.ui.Mobile.custom.CustomAppBar
         android:id="@+id/cub_downloads"
         android:layout_width="match_parent"
         android:layout_height="35dp"
@@ -115,14 +115,14 @@
             app:tabTextAppearance="@style/TabLayoutTextStyle"
             app:tabTextColor="@color/white" />
 
-        <com.gnusl.actine.ui.custom.NonScrollHomeViewPager
+        <com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager
             android:id="@+id/vp_main_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tl_main_tab_layout">
 
-        </com.gnusl.actine.ui.custom.NonScrollHomeViewPager>
+        </com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_downloads"

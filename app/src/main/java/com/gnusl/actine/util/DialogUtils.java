@@ -11,7 +11,7 @@ import android.view.Window;
 import android.widget.TextView;
 
 import com.gnusl.actine.R;
-import com.gnusl.actine.ui.activity.AuthActivity;
+import com.gnusl.actine.ui.Mobile.activity.AuthActivity;
 
 
 public class DialogUtils {

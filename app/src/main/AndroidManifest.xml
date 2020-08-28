@@ -54,11 +54,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:replace="android:extractNativeLibs,android:supportsRtl">
-        <activity android:name=".ui.activity.TrailerActivity"></activity>
+        <activity android:name=".ui.TV.activity.TVAuthActivity"></activity>
+        <activity android:name=".ui.TV.activity.TVMainActivity"></activity>
+        <activity android:name=".ui.Mobile.activity.TrailerActivity" />
         <activity
-            android:name=".ui.activity.WatchActivity"
+            android:name=".ui.Mobile.activity.WatchActivity"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".ui.activity.SplashActivity">
+        <activity android:name=".ui.Mobile.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -68,10 +70,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.AuthActivity"
+            android:name=".ui.Mobile.activity.AuthActivity"
             android:theme="@style/AppTheme1" />
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.Mobile.activity.MainActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme1"
@@ -80,9 +82,9 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".ui.activity.VideoActivity" />
-        <activity android:name=".ui.activity.PaymentActivity" />
-        <activity android:name=".ui.activity.AccountActivity" />
+        <activity android:name=".ui.Mobile.activity.VideoActivity" />
+        <activity android:name=".ui.Mobile.activity.PaymentActivity" />
+        <activity android:name=".ui.Mobile.activity.AccountActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

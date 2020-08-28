@@ -2,7 +2,6 @@ package com.gnusl.actine.network;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import androidx.core.content.ContextCompat;
 
@@ -15,7 +14,7 @@ import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.interfaces.DownloadDelegate;
 import com.gnusl.actine.service.DownloadService;
-import com.gnusl.actine.ui.activity.AuthActivity;
+import com.gnusl.actine.ui.Mobile.activity.AuthActivity;
 import com.gnusl.actine.util.Connectivity;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 

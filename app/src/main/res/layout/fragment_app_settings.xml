@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.MoreContainerFragment">
+    tools:context=".ui.Mobile.fragment.MoreContainerFragment">
 
-    <com.gnusl.actine.ui.custom.CustomAppBarWithBack
+    <com.gnusl.actine.ui.Mobile.custom.CustomAppBarWithBack
         android:id="@+id/cub_app_setting_with_back"
         android:layout_width="match_parent"
         android:layout_height="35dp"

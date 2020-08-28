@@ -9,7 +9,7 @@
     android:id="@+id/root_view"
     android:paddingTop="10dp"
     android:paddingEnd="10dp"
-    tools:context=".ui.fragment.MyMoviesFragment">
+    tools:context=".ui.Mobile.fragment.MyMoviesFragment">
 
 
     <TextView

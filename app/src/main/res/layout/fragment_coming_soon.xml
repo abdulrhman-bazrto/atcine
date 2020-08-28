@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black"
-    tools:context=".ui.fragment.LoginFragment">
+    tools:context=".ui.Mobile.fragment.LoginFragment">
 
     <ImageView
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_app_title" />
 
-    <com.gnusl.actine.ui.custom.CustomAppBarWithSelect
+    <com.gnusl.actine.ui.Mobile.custom.CustomAppBarWithSelect
         android:id="@+id/cub_soon"
         android:layout_width="match_parent"
         android:layout_height="40dp"

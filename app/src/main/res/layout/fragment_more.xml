@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/more_bg"
-    tools:context=".ui.fragment.MoreFragment">
+    tools:context=".ui.Mobile.fragment.MoreFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -67,7 +67,7 @@
             app:tabTextColor="@color/white" />
     </FrameLayout>
 
-    <com.gnusl.actine.ui.custom.NonScrollHomeViewPager
+    <com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager
         android:id="@+id/vp_main_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -75,7 +75,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frame">
 
-    </com.gnusl.actine.ui.custom.NonScrollHomeViewPager>
+    </com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager>
 
 
     <!--    <TextView-->
