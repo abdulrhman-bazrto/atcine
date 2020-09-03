@@ -12,6 +12,8 @@ public class TabObject implements Serializable {
     private String text;
     private int iconRes;
 
+    private boolean isSelected = false;
+
     public String getText() {
         return text;
     }
@@ -31,5 +33,19 @@ public class TabObject implements Serializable {
     public TabObject(String text, int iconRes) {
         this.text = text;
         this.iconRes = iconRes;
+    }
+
+    public TabObject(String text, int iconRes, boolean isSelected) {
+        this.text = text;
+        this.iconRes = iconRes;
+        this.isSelected = isSelected;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

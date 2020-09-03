@@ -13,9 +13,12 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gnusl.actine.R;
+import com.gnusl.actine.interfaces.ProfileClick;
+import com.gnusl.actine.interfaces.TVTabClick;
 import com.gnusl.actine.model.Cast;
 import com.gnusl.actine.model.TabObject;
 import com.gnusl.actine.ui.Mobile.custom.GifImageView;
+import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -27,11 +30,13 @@ public class TabsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Context mContext;
     private List<TabObject> tabs = new ArrayList<>();
+    private TVTabClick tvTabClick;
 
 
-    public TabsAdapter(Context context, List<TabObject> tabs) {
+    public TabsAdapter(Context context, List<TabObject> tabs,TVTabClick tvTabClick) {
         this.mContext = context;
         this.tabs = tabs;
+        this.tvTabClick = tvTabClick;
     }
 
     @NonNull
@@ -39,7 +44,7 @@ public class TabsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_custom_tab_view, parent, false);
+        view = inflater.inflate(R.layout.item_tv_custom_tab_view, parent, false);
         return new TabViewHolder(view);
 
     }
@@ -76,7 +81,25 @@ public class TabsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             try {
                 tvTitle.setText(tab.getText());
                 imageView.setImageDrawable(mContext.getResources().getDrawable(tab.getIconRes()));
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(tab.isSelected())
+                            return;
+                        for (int i = 0; i < tabs.size(); i++) {
+                            tabs.get(i).setSelected(false);
+                        }
+                        tab.setSelected(true);
+                        tvTabClick.onClick(getAdapterPosition());
+                        notifyDataSetChanged();
 
+                    }
+                });
+                if (tab.isSelected()) {
+                    itemView.setBackgroundColor(mContext.getResources().getColor( R.color.tv_main_red_color));
+                } else {
+                    itemView.setBackgroundColor(mContext.getResources().getColor( R.color.transparent));
+                }
             } catch (Exception e) {
                 Log.e(e.getMessage(), e.getMessage());
             }

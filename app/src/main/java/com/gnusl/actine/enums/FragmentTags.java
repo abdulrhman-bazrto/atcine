@@ -24,6 +24,8 @@ public enum FragmentTags {
     CategoriesFragment(19),
     ToWatchFragment(20),
     MainAuthFragment(21),
+    TVSeriesFragment(22),
+    TVMoviesFragment(23),
     ;
 
 
