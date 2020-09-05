@@ -84,7 +84,7 @@ public class SeriesSeasonsFragment extends Fragment implements View.OnClickListe
             }
         });
 
-        myListAdapter = new MyListAdapter(getActivity(), this);
+        myListAdapter = new MyListAdapter(getActivity(), this,"Mobile");
         GridLayoutManager layoutManager;
         if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {

@@ -25,11 +25,13 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
     private List<Show> movies = new ArrayList<>();
+    private String type = "Mobile";
 
-
-    public MyListAdapter(Context context, HomeMovieClick homeMovieClick) {
+    public MyListAdapter(Context context, HomeMovieClick homeMovieClick, String type) {
         this.mContext = context;
         this.homeMovieClick = homeMovieClick;
+        this.type = type;
+
     }
 
     @NonNull
@@ -37,7 +39,10 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_series, parent, false);
+        if (type.equalsIgnoreCase("TV"))
+            view = inflater.inflate(R.layout.tv_item_series, parent, false);
+        else
+            view = inflater.inflate(R.layout.item_series, parent, false);
         return new MovieListViewHolder(view);
 
     }
@@ -78,13 +83,13 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             final Show show = movies.get(getAdapterPosition());
             Picasso.with(mContext).load(show.getThumbnailImageUrl()).into(ivThumbnail);
-            ViewCompat.setTransitionName(ivThumbnail,"transition" + show.getId());
+            ViewCompat.setTransitionName(ivThumbnail, "transition" + show.getId());
 
             tvTitle.setText(show.getTitle());
             tvImdb.setText(show.getImdbRate().toString());
             if (!show.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(show.getRottenTomatoes());
-            }else {
+            } else {
                 tvTomato.setVisibility(View.GONE);
                 iv_tomato.setVisibility(View.GONE);
             }
@@ -94,7 +99,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 public void onClick(View v) {
                     if (homeMovieClick != null)
 //                        if (show.getIsMovie()) {
-                            homeMovieClick.onClickMovie(show, ivThumbnail);
+                        homeMovieClick.onClickMovie(show, ivThumbnail);
 //                        } else if (!show.getIsMovie()) {
 //                            if (show.getIsEpisode()) {
 //                                homeMovieClick.onClickMovie(show, ivThumbnail);

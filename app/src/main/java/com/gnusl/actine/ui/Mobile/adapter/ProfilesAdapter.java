@@ -106,7 +106,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             tvProfileName.setText(profile.getName());
 
-            Picasso.with(mContext).load(profile.getImageUrl()).into(ivProfile);
+            Picasso.with(mContext).load(profile.getImageUrl()).placeholder(mContext.getDrawable(R.drawable.icon_account1)).into(ivProfile);
             ViewCompat.setTransitionName(ivProfile,"transition" + getAdapterPosition());
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +119,7 @@ public class ProfilesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     }
                     profile.setCurrentProfile(true);
                     SharedPreferencesUtils.saveCurrentProfile(profile.getId());
+                    SharedPreferencesUtils.saveCurrentProfileImageUrl(profile.getImageUrl());
                     profileClick.onClickProfile(profile,ivProfile,false);
                     notifyDataSetChanged();
 

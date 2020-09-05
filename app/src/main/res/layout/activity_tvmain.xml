@@ -17,14 +17,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tabs"
             android:layout_width="match_parent"
-            android:background="@color/black"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:focusable="true"
             android:layout_marginBottom="5dp"
+            android:background="@color/black"
+            android:focusable="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-             />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_log_out"
@@ -32,10 +31,10 @@
             android:layout_height="48dp"
             android:layout_marginBottom="25dp"
             android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:srcCompat="@drawable/icon_sign_out1" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/icon_sign_out_tv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -43,10 +42,66 @@
         android:id="@+id/frame_container_tv_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@+id/cl_nav"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
+        app:layout_constraintStart_toEndOf="@+id/cl_nav"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--        app:layout_constraintTop_toBottomOf="@+id/cl_top"-->
     </FrameLayout>
+
+    <EditText
+        android:id="@+id/et_search"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/transparent1"
+        android:drawableStart="@drawable/icon_search_gray"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:hint="@string/search"
+        android:imeOptions="actionSearch"
+        android:inputType="text"
+        android:padding="5dp"
+        android:textColor="@color/white"
+        android:textColorHint="#B8B8B8"
+        app:layout_constraintEnd_toStartOf="@+id/cl_top"
+        app:layout_constraintStart_toEndOf="@+id/cl_nav"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_top"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:paddingEnd="10dp"
+        android:background="@color/transparent1"
+        app:layout_constraintBottom_toBottomOf="@+id/et_search"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_notifications"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_notifications_white" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="3dp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/iv_notifications"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/icon_account1" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

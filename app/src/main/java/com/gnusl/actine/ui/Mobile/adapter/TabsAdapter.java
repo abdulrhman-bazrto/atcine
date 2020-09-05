@@ -84,8 +84,8 @@ public class TabsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(tab.isSelected())
-                            return;
+//                        if(tab.isSelected())
+//                            return;
                         for (int i = 0; i < tabs.size(); i++) {
                             tabs.get(i).setSelected(false);
                         }

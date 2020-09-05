@@ -88,7 +88,7 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
 
         clRoot = inflatedView.findViewById(R.id.root_view);
 
-        myListAdapter = new MyListAdapter(getActivity(), this);
+        myListAdapter = new MyListAdapter(getActivity(), this,"Mobile");
 
         GridLayoutManager layoutManager;
         if ((getResources().getConfiguration().screenLayout &
@@ -179,7 +179,7 @@ public class MyMoviesFragment extends Fragment implements View.OnClickListener, 
     }
 
     public void refreshData() {
-        myListAdapter = new MyListAdapter(getActivity(), this);
+        myListAdapter = new MyListAdapter(getActivity(), this,"Mobile");
         rvMyList.setAdapter(myListAdapter);
         myListAdapter.notifyDataSetChanged();
 
