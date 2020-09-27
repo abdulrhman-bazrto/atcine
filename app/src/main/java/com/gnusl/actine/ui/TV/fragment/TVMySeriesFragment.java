@@ -1,4 +1,4 @@
-package com.gnusl.actine.ui.Mobile.fragment;
+package com.gnusl.actine.ui.TV.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -28,6 +28,8 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.adapter.MyListAdapter;
 import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp1;
+import com.gnusl.actine.ui.Mobile.fragment.MoreContainerFragment;
+import com.gnusl.actine.ui.TV.activity.TVMainActivity;
 import com.gnusl.actine.util.Constants;
 
 import org.json.JSONObject;
@@ -35,21 +37,19 @@ import org.json.JSONObject;
 import java.util.List;
 
 
-public class MySeriesFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
+public class TVMySeriesFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate {
 
     View inflatedView;
-    private ConstraintLayout clRoot;
 
     private RecyclerView rvMyList;
     private MyListAdapter myListAdapter;
     LoaderPopUp1 loaderPopUp1 = new LoaderPopUp1();
-    private Animation animation;
 
-    public MySeriesFragment() {
+    public TVMySeriesFragment() {
     }
 
-    public static MySeriesFragment newInstance() {
-        MySeriesFragment fragment = new MySeriesFragment();
+    public static TVMySeriesFragment newInstance() {
+        TVMySeriesFragment fragment = new TVMySeriesFragment();
         Bundle args = new Bundle();
 
 
@@ -70,7 +70,7 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_my_list, container, false);
-            init();
+//            init();
         } else {
             ViewGroup parent = (ViewGroup) inflatedView.getParent();
             if (parent != null) {
@@ -81,28 +81,19 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
         return inflatedView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
     private void init() {
-        clRoot = inflatedView.findViewById(R.id.root_view);
 
         rvMyList = inflatedView.findViewById(R.id.rv_my_list);
-        myListAdapter = new MyListAdapter(getActivity(), this,"Mobile");
-        animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_left_side);
+        myListAdapter = new MyListAdapter(getActivity(), this, "TV");
 
-        GridLayoutManager layoutManager;
-        if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            // on a large screen device ...
-            layoutManager = new GridLayoutManager(getActivity(), 5);
-        } else if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            // on a large screen device ...
-            layoutManager = new GridLayoutManager(getActivity(), 5);
-        } else {
-            layoutManager = new GridLayoutManager(getActivity(), 3);
-        }
-
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 5);
         rvMyList.setLayoutManager(layoutManager);
-
         rvMyList.setAdapter(myListAdapter);
 
         loaderPopUp1.show1(getActivity());
@@ -124,26 +115,26 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClickMovie(Show show, ImageView ivThumbnail) {
         if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof MoreContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
-                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
-            }
+//            Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
+//            if (fragment instanceof MoreContainerFragment) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
+//                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
+//                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
+//            }
         }
     }
 
     @Override
     public void onClickSeries(Show series) {
         if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof MoreContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                bundle.putString("type", "season");
-                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
-            }
+//            Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
+//            if (fragment instanceof MoreContainerFragment) {
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
+//                bundle.putString("type", "season");
+//                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
+//            }
         }
     }
 
@@ -174,20 +165,4 @@ public class MySeriesFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-    public void refreshData() {
-        myListAdapter = new MyListAdapter(getActivity(), this,"Mobile");
-        rvMyList.setAdapter(myListAdapter);
-        myListAdapter.notifyDataSetChanged();
-        loaderPopUp1.show(getActivity());
-
-
-        DataLoader.getRequest(Urls.SeriesMyList.getLink(), this);
-    }
-
-    public void startanimation() {
-        animation.setDuration(1200);
-        animation.setFillAfter(true);
-        animation.setFillEnabled(true);
-        clRoot.startAnimation(animation);
-    }
 }

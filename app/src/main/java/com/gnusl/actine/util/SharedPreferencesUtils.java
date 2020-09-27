@@ -23,6 +23,7 @@ public class SharedPreferencesUtils {
     private final static String Language = "Language";
     private final static String Category = "Category";
     private final static String ProfileId = "ProfileId";
+    private final static String ProfileImageURL = "ProfileImageURL";
     private final static String SelectedPlan = "SelectedPlan";
     private final static String SelectedPlanPrice = "SelectedPlanPrice";
 
@@ -169,6 +170,17 @@ public class SharedPreferencesUtils {
 
     public static void clear() {
         PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit().clear().apply();
+    }
+
+    public static void saveCurrentProfileImageUrl(String imageUrl) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        sharedPreferences.putString(ProfileImageURL, imageUrl);
+        sharedPreferences.apply();
+    }
+
+    public static String getCurrentProfileImageUrl() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        return sharedPreferences.getString(ProfileImageURL, "");
     }
 }
 
