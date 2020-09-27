@@ -32,6 +32,7 @@ import com.gnusl.actine.ui.Mobile.fragment.HomeFragment;
 import com.gnusl.actine.ui.TV.fragment.TVHelpFragment;
 import com.gnusl.actine.ui.TV.fragment.TVLoginFragment;
 import com.gnusl.actine.ui.TV.fragment.TVMainAuthFragment;
+import com.gnusl.actine.ui.TV.fragment.TVMoviesFragment;
 import com.gnusl.actine.ui.TV.fragment.TVPaymentLessFragment;
 import com.gnusl.actine.ui.TV.fragment.TVRegisterFragment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
@@ -116,7 +117,7 @@ public class TVMainActivity extends AppCompatActivity implements TVTabClick {
 //                break;
             case TVMoviesFragment:
 
-                mCurrentFragment = TVMainAuthFragment.newInstance();
+                mCurrentFragment = TVMoviesFragment.newInstance();
                 transaction.replace(R.id.frame_container_tv_main, mCurrentFragment);
                 transaction.commit();
 

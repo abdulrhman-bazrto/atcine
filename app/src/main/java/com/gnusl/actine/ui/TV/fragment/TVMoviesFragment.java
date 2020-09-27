@@ -1,9 +1,10 @@
 package com.gnusl.actine.ui.TV.fragment;
 
-import android.content.res.Configuration;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.transition.TransitionInflater;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.azoft.carousellayoutmanager.CarouselLayoutManager;
+import com.azoft.carousellayoutmanager.CarouselZoomPostLayoutListener;
 import com.gnusl.actine.R;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
@@ -30,11 +32,13 @@ import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
-import com.gnusl.actine.ui.Mobile.adapter.GenresAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.HomeAdapter;
+import com.gnusl.actine.ui.Mobile.adapter.TVHomeAdapter;
 import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp;
 import com.gnusl.actine.ui.Mobile.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.TV.adapter.TVGenresAdapter;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.Helpers;
 
 import org.json.JSONObject;
 
@@ -47,9 +51,9 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
     View inflatedView;
 
     private RecyclerView rvHome, rvCategories;
-    private HomeAdapter homeAdapter;
+    private TVHomeAdapter homeAdapter;
 
-    private GenresAdapter genresAdapter;
+    private TVGenresAdapter genresAdapter;
     private List<Category> categories;
 
     public TVMoviesFragment() {
@@ -79,25 +83,10 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (homeAdapter == null || homeAdapter.getItemCount() == 0)
-                        init(true);
-                }
-            }, 2000);
-        }
-    }
-
-    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
             inflatedView = inflater.inflate(R.layout.fragment_tv_movies, container, false);
-            init(true);
         }
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -117,10 +106,16 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
         LoaderPopUp.show1(getActivity());
 
         if (isFirstInit) {
-            genresAdapter = new GenresAdapter(getActivity(), new ArrayList<>(), TVMoviesFragment.this);
+            genresAdapter = new TVGenresAdapter(getActivity(), new ArrayList<>(), TVMoviesFragment.this);
 
             CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
+            Display display = getActivity().getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
 
+            layoutManager.setPostLayoutListener(new CarouselZoomPostLayoutListener());
+            int max_visible_items = (int) Math.ceil(Helpers.convertPixelsToDp(size.x, getActivity()) / 500 * 2);
+            layoutManager.setMaxVisibleItems(max_visible_items);
             rvCategories.setLayoutManager(layoutManager);
 
             rvCategories.setAdapter(genresAdapter);
@@ -134,7 +129,7 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
 
         rvHome.setLayoutManager(layoutManager);
 
-        homeAdapter = new HomeAdapter(getActivity(), rvHome, this, this, this);
+        homeAdapter = new TVHomeAdapter(getActivity(), rvHome, this, this, this);
 
         rvHome.setAdapter(homeAdapter);
 
@@ -142,6 +137,7 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
 
     private void findViews() {
         rvHome = inflatedView.findViewById(R.id.rv_home);
+        rvCategories = inflatedView.findViewById(R.id.rv_categories);
 
     }
 
