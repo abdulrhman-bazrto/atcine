@@ -29,12 +29,15 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final LoadMoreDelegate loadMoreDelegate;
     private Context mContext;
     private List<Show> movies = new ArrayList<>();
+    private String type = "Mobile";
 
 
-    public MovieMoreLikeAdapter(Context context, HomeMovieClick homeMovieClick, LoadMoreDelegate loadMoreDelegate) {
+    public MovieMoreLikeAdapter(Context context, HomeMovieClick homeMovieClick, LoadMoreDelegate loadMoreDelegate, String type) {
         this.mContext = context;
         this.homeMovieClick = homeMovieClick;
         this.loadMoreDelegate = loadMoreDelegate;
+        this.type = type;
+
     }
 
     @NonNull
@@ -42,7 +45,10 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_more_list_movie, parent, false);
+        if (type.equalsIgnoreCase("TV"))
+            view = inflater.inflate(R.layout.item_tv_more_list_movie, parent, false);
+        else
+            view = inflater.inflate(R.layout.item_more_list_movie, parent, false);
         return new MovieListViewHolder(view);
 
     }
@@ -118,7 +124,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvImdb.setText(show.getImdbRate().toString());
             if (!show.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(show.getRottenTomatoes());
-            }else {
+            } else {
                 tvTomato.setVisibility(View.GONE);
                 iv_tomato.setVisibility(View.GONE);
             }

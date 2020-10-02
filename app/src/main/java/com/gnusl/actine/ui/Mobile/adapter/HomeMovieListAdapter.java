@@ -27,12 +27,14 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
     private final HomeMovieClick homeMovieClick;
     private Context mContext;
     private List<Show> movies = new ArrayList<>();
+    private String type = "Mobile";
 
 
-    public HomeMovieListAdapter(Context context, List<Show> movies, HomeMovieClick homeMovieClick) {
+    public HomeMovieListAdapter(Context context, List<Show> movies, HomeMovieClick homeMovieClick, String type) {
         this.mContext = context;
         this.movies = movies;
         this.homeMovieClick = homeMovieClick;
+        this.type = type;
     }
 
     @NonNull
@@ -40,7 +42,10 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view;
-        view = inflater.inflate(R.layout.item_home_list_movie, parent, false);
+        if (type.equalsIgnoreCase("TV"))
+            view = inflater.inflate(R.layout.item_tv_related_list_movie, parent, false);
+        else
+            view = inflater.inflate(R.layout.item_home_list_movie, parent, false);
         return new MovieListViewHolder(view);
 
     }
@@ -100,18 +105,18 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvImdb.setText(movie.getImdbRate().toString());
             if (!movie.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(movie.getRottenTomatoes());
-            }else {
+            } else {
                 tvTomato.setVisibility(View.GONE);
                 iv_tomato.setVisibility(View.GONE);
             }
-            ViewCompat.setTransitionName(ivThumbnail,"transition" + movie.getId());
+            ViewCompat.setTransitionName(ivThumbnail, "transition" + movie.getId());
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (homeMovieClick != null) {
 //                        if (movie.getIsMovie())
-                            homeMovieClick.onClickMovie(movie,ivThumbnail);
+                        homeMovieClick.onClickMovie(movie, ivThumbnail);
 //                        else
 //                            homeMovieClick.onClickSeries(movie);
                     }

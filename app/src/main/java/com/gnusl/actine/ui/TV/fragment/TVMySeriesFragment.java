@@ -115,13 +115,12 @@ public class TVMySeriesFragment extends Fragment implements View.OnClickListener
     @Override
     public void onClickMovie(Show show, ImageView ivThumbnail) {
         if (getActivity() != null) {
-//            Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
-//            if (fragment instanceof MoreContainerFragment) {
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
-//                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-//                ((MoreContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
-//            }
+            Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof TVMyListContainerFragment) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
+                ((TVMyListContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+            }
         }
     }
 

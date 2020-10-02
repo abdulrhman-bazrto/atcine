@@ -32,7 +32,6 @@ import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
-import com.gnusl.actine.ui.Mobile.adapter.HomeAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.TVHomeAdapter;
 import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp;
 import com.gnusl.actine.ui.Mobile.fragment.HomeContainerFragment;
@@ -47,7 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TVMoviesFragment extends Fragment implements HomeMovieClick, GenresClickEvents, ConnectionDelegate, LoadMoreCategoriesDelegate {
+public class TVSeriesFragment extends Fragment implements HomeMovieClick, GenresClickEvents, ConnectionDelegate, LoadMoreCategoriesDelegate {
 
     View inflatedView;
 
@@ -57,11 +56,11 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
     private TVGenresAdapter genresAdapter;
     private List<Category> categories;
 
-    public TVMoviesFragment() {
+    public TVSeriesFragment() {
     }
 
-    public static TVMoviesFragment newInstance() {
-        TVMoviesFragment fragment = new TVMoviesFragment();
+    public static TVSeriesFragment newInstance() {
+        TVSeriesFragment fragment = new TVSeriesFragment();
         Bundle args = new Bundle();
 
 
@@ -96,7 +95,6 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
                     init(true);
             }
         }, 100);
-//        init(true);
 
         return inflatedView;
     }
@@ -104,11 +102,11 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
     private void init(boolean isFirstInit) {
 
         findViews();
-        DataLoader.getRequest(Urls.MoviesGroups.getLink(), this);
+        DataLoader.getRequest(Urls.SeriesGroups.getLink(), this);
         LoaderPopUp.show1(getActivity());
 
         if (isFirstInit) {
-            genresAdapter = new TVGenresAdapter(getActivity(), new ArrayList<>(), TVMoviesFragment.this);
+            genresAdapter = new TVGenresAdapter(getActivity(), new ArrayList<>(), TVSeriesFragment.this);
 
             CarouselLayoutManager layoutManager = new CarouselLayoutManager(CarouselLayoutManager.HORIZONTAL, true);
             Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -147,10 +145,10 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
     public void onClickMovie(Show movie, ImageView ivThumbnail) {
         if (getActivity() != null) {
             Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof TVMoviesContainerFragment) {
+            if (fragment instanceof TVSeriesContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
-                ((TVMoviesContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+                ((TVSeriesContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             }
         }
     }
@@ -164,14 +162,14 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
 
         if (getActivity() != null) {
             Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof TVMoviesContainerFragment) {
+            if (fragment instanceof TVSeriesContainerFragment) {
 
                 Bundle bundle = new Bundle();
-                bundle.putString("searchFor", "movies");
+                bundle.putString("searchFor", "series");
                 bundle.putString("title", genres.getTitle());
                 bundle.putString("searchType", "category");
                 bundle.putString("key", String.valueOf(genres.getId()));
-                ((TVMoviesContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
+                ((TVSeriesContainerFragment) fragment).replaceFragment(FragmentTags.SearchResultFragment, bundle);
             }
         }
     }
@@ -201,7 +199,7 @@ public class TVMoviesFragment extends Fragment implements HomeMovieClick, Genres
         if (jsonObject.has("trend")) {
 
             if (genresAdapter != null) {
-                categories = Category.newList(jsonObject.optJSONArray("movies_categories"));
+                categories = Category.newList(jsonObject.optJSONArray("series_categories"));
                 genresAdapter.setList(categories);
 
             }

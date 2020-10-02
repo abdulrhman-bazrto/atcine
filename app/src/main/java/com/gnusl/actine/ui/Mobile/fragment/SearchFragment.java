@@ -105,7 +105,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener, Ho
         initCategorySpinner();
         spCategory.setSelection(0);
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this);
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this,"Mobile");
         GridLayoutManager gridLayoutManager;
         if ((getResources().getConfiguration().screenLayout &
                 Configuration.SCREENLAYOUT_SIZE_MASK) ==

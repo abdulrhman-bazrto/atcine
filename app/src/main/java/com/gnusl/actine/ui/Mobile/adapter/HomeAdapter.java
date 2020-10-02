@@ -262,7 +262,7 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             rvMovieList.setRecycledViewPool(recycledViewPool);
 
-            HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, movies, homeMovieClick);
+            HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, movies, homeMovieClick,"Mobile");
 
 //            homeMovieListAdapter.setHasStableIds(false);
 

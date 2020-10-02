@@ -61,7 +61,7 @@ dependencies {
     // crop images
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.0'
-
+    implementation 'com.google.android.material:material:1.1.0'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.8.3'
 

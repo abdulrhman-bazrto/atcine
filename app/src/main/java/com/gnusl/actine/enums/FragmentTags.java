@@ -26,6 +26,9 @@ public enum FragmentTags {
     MainAuthFragment(21),
     TVSeriesFragment(22),
     TVMoviesFragment(23),
+    TVMoviesContainerFragment(24),
+    TVSeriesContainerFragment(25),
+    TVMyListContainerFragment(26),
     ;
 
 

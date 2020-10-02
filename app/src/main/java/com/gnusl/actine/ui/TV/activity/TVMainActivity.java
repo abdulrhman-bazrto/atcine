@@ -7,25 +7,19 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.transition.Fade;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatImageView;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
@@ -36,22 +30,23 @@ import com.gnusl.actine.interfaces.TVTabClick;
 import com.gnusl.actine.model.TabObject;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
-import com.gnusl.actine.ui.Mobile.activity.AuthActivity;
-import com.gnusl.actine.ui.Mobile.adapter.GenresAdapter;
-import com.gnusl.actine.ui.Mobile.adapter.MainFragmentPagerAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.TabsAdapter;
+import com.gnusl.actine.ui.Mobile.fragment.DownloadFragment;
+import com.gnusl.actine.ui.Mobile.fragment.HomeContainerFragment;
 import com.gnusl.actine.ui.Mobile.fragment.HomeFragment;
-import com.gnusl.actine.ui.TV.fragment.TVHelpFragment;
-import com.gnusl.actine.ui.TV.fragment.TVLoginFragment;
-import com.gnusl.actine.ui.TV.fragment.TVMainAuthFragment;
+import com.gnusl.actine.ui.Mobile.fragment.MoreContainerFragment;
+import com.gnusl.actine.ui.Mobile.fragment.SearchContainerFragment;
+import com.gnusl.actine.ui.Mobile.fragment.SearchResultFragment;
 import com.gnusl.actine.ui.TV.fragment.TVManageProfileFragment;
+import com.gnusl.actine.ui.TV.fragment.TVMoviesContainerFragment;
+import com.gnusl.actine.ui.TV.fragment.TVMyListContainerFragment;
 import com.gnusl.actine.ui.TV.fragment.TVMyListFragment;
 import com.gnusl.actine.ui.TV.fragment.TVMoviesFragment;
-import com.gnusl.actine.ui.TV.fragment.TVPaymentLessFragment;
-import com.gnusl.actine.ui.TV.fragment.TVRegisterFragment;
+import com.gnusl.actine.ui.TV.fragment.TVSearchResultFragment;
+import com.gnusl.actine.ui.TV.fragment.TVSeriesContainerFragment;
+import com.gnusl.actine.ui.TV.fragment.TVSeriesFragment;
+import com.gnusl.actine.ui.TV.fragment.TVShowDetailsFragment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
-import com.gnusl.actine.util.Utils;
-import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -90,18 +85,8 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
 
         findViews();
         changeSelectedProfileImg();
+        setFragmentView();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
-        ArrayList<TabObject> tabs = new ArrayList<>();
-//        tabs.add(new TabObject("Home",R.drawable.icon_account));
-        tabs.add(new TabObject("Movies", R.drawable.ic_movies, true));
-        tabs.add(new TabObject("Series", R.drawable.ic_series, false));
-        tabs.add(new TabObject("MyList", R.drawable.ic_empty_heart, false));
-        tabsAdapter = new TabsAdapter(TVMainActivity.this, tabs, this);
-
-        rvTabs.setLayoutManager(gridLayoutManager);
-        rvTabs.setAdapter(tabsAdapter);
-        replaceFragment(FragmentTags.TVMoviesFragment);
 
     }
 
@@ -121,18 +106,18 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(int position) {
         switch (position) {
             case 0:
-                replaceFragment(FragmentTags.TVMoviesFragment);
+                replaceFragment(FragmentTags.TVMoviesContainerFragment, null);
                 break;
             case 1:
-                replaceFragment(FragmentTags.TVSeriesFragment);
+                replaceFragment(FragmentTags.TVSeriesContainerFragment, null);
                 break;
             case 2:
-                replaceFragment(FragmentTags.MyListFragment);
+                replaceFragment(FragmentTags.TVMyListContainerFragment, null);
                 break;
         }
     }
 
-    public void replaceFragment(FragmentTags fragmentTags) {
+    public void replaceFragment(FragmentTags fragmentTags, Bundle bundle) {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -148,9 +133,25 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
 
+            case TVMoviesContainerFragment:
+
+                mCurrentFragment = TVMoviesContainerFragment.newInstance();
+                transaction.replace(R.id.frame_container_tv_main, mCurrentFragment);
+                transaction.commit();
+
+                break;
+
             case TVSeriesFragment:
 
-                mCurrentFragment = TVLoginFragment.newInstance();
+                mCurrentFragment = TVSeriesFragment.newInstance();
+                transaction.replace(R.id.frame_container_tv_main, mCurrentFragment);
+                transaction.commit();
+
+                break;
+
+            case TVSeriesContainerFragment:
+
+                mCurrentFragment = TVSeriesContainerFragment.newInstance();
                 transaction.replace(R.id.frame_container_tv_main, mCurrentFragment);
                 transaction.commit();
 
@@ -163,6 +164,15 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
                 transaction.commit();
 
                 break;
+
+            case TVMyListContainerFragment:
+
+                mCurrentFragment = TVMyListContainerFragment.newInstance();
+                transaction.replace(R.id.frame_container_tv_main, mCurrentFragment).addToBackStack(null);
+                transaction.commit();
+
+                break;
+
             case ManageProfileFragment:
 
                 mCurrentFragment = TVManageProfileFragment.newInstance();
@@ -171,14 +181,34 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
 
                 break;
 
+            case SearchResultFragment:
+
+                mCurrentFragment = TVSearchResultFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_tv_main, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
+            case ShowDetailsFragment:
+
+                mCurrentFragment = TVShowDetailsFragment.newInstance(bundle);
+                transaction.replace(R.id.frame_container_tv_main, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.commit();
+
+                break;
+
         }
+    }
+
+    public Fragment getmCurrentFragment() {
+        return mCurrentFragment;
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_profile:
-                replaceFragment(FragmentTags.ManageProfileFragment);
+                replaceFragment(FragmentTags.ManageProfileFragment, null);
                 break;
             case R.id.iv_log_out:
                 showLogoutDialog();
@@ -200,7 +230,7 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
     private void changeSelectedProfileImg() {
         if (!SharedPreferencesUtils.getCurrentProfileImageUrl().isEmpty()) {
             Picasso.with(TVMainActivity.this).load(SharedPreferencesUtils.getCurrentProfileImageUrl()).placeholder(getDrawable(R.drawable.icon_account1)).into(ivProfile);
-        }else
+        } else
             ivProfile.setImageDrawable(getDrawable(R.drawable.icon_account1));
     }
 
@@ -246,4 +276,60 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
 
         logoutDialog.show();
     }
+
+    @Override
+    public void onBackPressed() {
+        try {
+            Fragment fragment = getmCurrentFragment();
+            if (fragment instanceof TVMoviesContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                    ((TVMoviesContainerFragment) fragment).getFragmentStack().pop();
+                    if (((TVMoviesContainerFragment) fragment).getFragmentStack().peek() instanceof HomeFragment) {
+                        if (!((TVMoviesContainerFragment) fragment).getFragmentStack().empty()) {
+                            HomeFragment homeFragment = (HomeFragment) ((TVMoviesContainerFragment) fragment).getFragmentStack().peek();
+                            homeFragment.refreshTrendShow();
+                        }
+                    }
+                } else {
+                    super.onBackPressed();
+                }
+            }
+            if (fragment instanceof TVSeriesContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    setFragmentView();
+                }
+            }
+            if (fragment instanceof TVMyListContainerFragment) {
+                FragmentManager fm = fragment.getChildFragmentManager();
+                if (fm.getBackStackEntryCount() > 0) {
+                    fm.popBackStack();
+                } else {
+                    setFragmentView();
+                }
+            }
+//            if (fragment instanceof TVManageProfileFragment) {
+//                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+//            }
+        } catch (Exception e) {
+
+        }
+    }
+
+    private void setFragmentView() {
+        ArrayList<TabObject> tabs = new ArrayList<>();
+        tabs.add(new TabObject("Movies", R.drawable.ic_movies, true));
+        tabs.add(new TabObject("Series", R.drawable.ic_series, false));
+        tabs.add(new TabObject("MyList", R.drawable.ic_empty_heart, false));
+        tabsAdapter = new TabsAdapter(TVMainActivity.this, tabs, this);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 1);
+        rvTabs.setLayoutManager(gridLayoutManager);
+        rvTabs.setAdapter(tabsAdapter);
+        replaceFragment(FragmentTags.TVMoviesContainerFragment, null);
+    }
+
 }

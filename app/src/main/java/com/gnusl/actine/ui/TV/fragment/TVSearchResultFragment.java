@@ -1,4 +1,4 @@
-package com.gnusl.actine.ui.Mobile.fragment;
+package com.gnusl.actine.ui.TV.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -28,6 +28,9 @@ import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.adapter.MovieMoreLikeAdapter;
 import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp;
+import com.gnusl.actine.ui.Mobile.fragment.HomeContainerFragment;
+import com.gnusl.actine.ui.Mobile.fragment.SearchContainerFragment;
+import com.gnusl.actine.ui.TV.activity.TVMainActivity;
 import com.gnusl.actine.util.Constants;
 
 import org.json.JSONObject;
@@ -36,7 +39,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class SearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate, LoadMoreDelegate {
+public class TVSearchResultFragment extends Fragment implements View.OnClickListener, HomeMovieClick, ConnectionDelegate, LoadMoreDelegate {
 
     View inflatedView;
 
@@ -46,17 +49,15 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private String searchType;
     private String searchFor;
     private String key;
-    private String tvTransitionName;
     private TextView tvTitle;
     private String txtTitle;
-    private String rvTransitionName;
     private ImageView ivBack;
 
-    public SearchResultFragment() {
+    public TVSearchResultFragment() {
     }
 
-    public static SearchResultFragment newInstance(Bundle bundle) {
-        SearchResultFragment fragment = new SearchResultFragment();
+    public static TVSearchResultFragment newInstance(Bundle bundle) {
+        TVSearchResultFragment fragment = new TVSearchResultFragment();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -69,8 +70,8 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
             this.searchType = getArguments().getString("searchType");
 
             this.key = getArguments().getString("key");
-            this.tvTransitionName = Objects.toString(getArguments().getString("transition"), "");
-            this.rvTransitionName = Objects.toString(getArguments().getString("transition_rv"), "");
+//            this.tvTransitionName = Objects.toString(getArguments().getString("transition"), "");
+//            this.rvTransitionName = Objects.toString(getArguments().getString("transition_rv"), "");
             this.txtTitle = Objects.toString(getArguments().getString("title"), "");
 
         }
@@ -83,7 +84,7 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         if (inflatedView == null) {
-            inflatedView = inflater.inflate(R.layout.fragment_search_result, container, false);
+            inflatedView = inflater.inflate(R.layout.fragment_tv_search_result, container, false);
             init();
         }
         return inflatedView;
@@ -94,32 +95,12 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
         findViews();
         tvTitle.setText(txtTitle);
 
-        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this,"Mobile");
+        movieMoreLikeAdapter = new MovieMoreLikeAdapter(getActivity(), this, this, "TV");
         GridLayoutManager gridLayoutManager;
-        int count = 3;
-        if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) ==
-                Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            // on a large screen device ...
-            gridLayoutManager = new GridLayoutManager(getActivity(), 5);
-            count = 5;
-        } else if ((getResources().getConfiguration().screenLayout &
-                Configuration.SCREENLAYOUT_SIZE_MASK) ==
-                Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            // on a large screen device ...
-            gridLayoutManager = new GridLayoutManager(getActivity(), 5);
-            count = 5;
-        } else {
-            gridLayoutManager = new GridLayoutManager(getActivity(), 3);
-            count = 4;
-        }
+        gridLayoutManager = new GridLayoutManager(getActivity(), 5);
         rvSearchResult.setLayoutManager(gridLayoutManager);
-
         rvSearchResult.setAdapter(movieMoreLikeAdapter);
-
-
 //        rvSearchResult.showShimmerAdapter();
-
 
         String url = "";
         if (searchFor.equalsIgnoreCase("series"))
@@ -155,10 +136,6 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     private void findViews() {
         rvSearchResult = inflatedView.findViewById(R.id.rv_search_result);
         tvTitle = inflatedView.findViewById(R.id.tv_title);
-        tvTitle.setTransitionName(tvTransitionName);
-        if (!rvTransitionName.isEmpty()) {
-            rvSearchResult.setTransitionName(rvTransitionName);
-        }
         ivBack = inflatedView.findViewById(R.id.iv_back);
 
     }
@@ -174,39 +151,21 @@ public class SearchResultFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClickMovie(Show movie, ImageView ivThumbnail) {
         if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof SearchContainerFragment) {
+            Fragment fragment = ((TVMainActivity) getActivity()).getmCurrentFragment();
+            if (fragment instanceof TVMoviesContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
-                ViewCompat.setTransitionName(ivThumbnail, "transition" + movie.getId());
-                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail);
-            }
-            if (fragment instanceof HomeContainerFragment) {
+                ((TVMoviesContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
+            }else if (fragment instanceof TVSeriesContainerFragment) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), movie);
-                bundle.putString("transition", ViewCompat.getTransitionName(ivThumbnail));
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle, ivThumbnail, null, null);
+                ((TVSeriesContainerFragment) fragment).replaceFragment(FragmentTags.ShowDetailsFragment, bundle);
             }
         }
     }
 
     @Override
     public void onClickSeries(Show series) {
-        if (getActivity() != null) {
-            Fragment fragment = ((MainActivity) getActivity()).getmCurrentFragment();
-            if (fragment instanceof SearchContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                bundle.putString("type", "season");
-                ((SearchContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null);
-            }
-            if (fragment instanceof HomeContainerFragment) {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), series);
-                bundle.putString("type", "season");
-                ((HomeContainerFragment) fragment).replaceFragment(FragmentTags.ShowSeasonsFragment, bundle, null, null, null);
-            }
-        }
     }
 
     @Override
