@@ -189,4 +189,5 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="sign_up_to_watch">Sign up to watch Atcine on any device at any time.</string>
     <string name="play_trailer">Play trailer</string>
+    <string name="no_data_available">No data available</string>
 </resources>

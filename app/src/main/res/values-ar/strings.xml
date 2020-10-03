@@ -187,4 +187,5 @@
     <string name="video_playback">Arabic</string>
     <string name="sign_up_to_watch">سجل حسابك للمشاهدة في كل مكان</string>
     <string name="play_trailer">تشغيل اعلان الفيلم</string>
+    <string name="no_data_available">لا يوجد معلومات</string>
 </resources>

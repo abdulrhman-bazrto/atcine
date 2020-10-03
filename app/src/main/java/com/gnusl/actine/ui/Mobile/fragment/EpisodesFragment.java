@@ -107,7 +107,7 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
                     episodes.add(dbShow);
                 }
 
-                tvEpisodes.setText(episodes.size() + getActivity().getString(R.string.episodes));
+                tvEpisodes.setText(episodes.size() + " " + getActivity().getString(R.string.episodes));
                 episodeAdapter.setList(episodes);
             }
 

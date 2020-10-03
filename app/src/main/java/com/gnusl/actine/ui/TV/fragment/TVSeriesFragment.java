@@ -203,14 +203,13 @@ public class TVSeriesFragment extends Fragment implements HomeMovieClick, Genres
                 genresAdapter.setList(categories);
 
             }
-            Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), true, false, false);
+            Show trendMovie = Show.newInstance(jsonObject.optJSONObject("trend"), false, false, false);
 
-            List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), true);
+            List<Category> categories = Category.newList(jsonObject.optJSONArray("categories"), false);
             homeAdapter.setData(trendMovie, categories);
 
             LoaderPopUp.dismissLoader();
         }
-
     }
 
     @Override

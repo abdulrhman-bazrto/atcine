@@ -296,13 +296,65 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_series"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cl_top">
+
+        <FrameLayout
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:id="@+id/indicator"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_tab_selected" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tl_main_tab_layout"
+                android:layout_width="600dp"
+                android:layout_height="40dp"
+                android:background="@drawable/shape_tab_unselected"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@null"
+                app:tabMaxWidth="0dp"
+                app:tabMinWidth="0dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="25dp"
+                app:tabPaddingStart="25dp"
+                app:tabTextAppearance="@style/TVTabLayoutTextStyle"
+                app:tabTextColor="@color/white" />
+        </FrameLayout>
+
+        <com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager1
+            android:id="@+id/vp_main_container"
+            android:layout_width="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frame">
+
+        </com.gnusl.actine.ui.Mobile.custom.NonScrollHomeViewPager1>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cl_cast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cl_top">
+        app:layout_constraintTop_toBottomOf="@+id/cl_series">
 
         <TextView
             android:id="@+id/tv_cast"

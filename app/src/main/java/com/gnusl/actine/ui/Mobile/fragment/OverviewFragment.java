@@ -32,13 +32,14 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
 
     View inflatedView;
 
-    private TextView tvDirector, tvWriters, tvReleaseDate, tvType, tvLanguage;
+    private TextView tvDirector, tvWriters, tvReleaseDate, tvType, tvLanguage, tvCast;
     private Show show;
     RecyclerView rvCast;
     CastAdapter castAdapter;
     ArrayList<Cast> cast;
     Animation animation;
-    private ConstraintLayout clRoot;
+    private String device;
+    private ConstraintLayout clRoot, clMain;
 
     public OverviewFragment() {
     }
@@ -54,6 +55,7 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             show = (Show) getArguments().getSerializable(Constants.HomeDetailsExtra.getConst());
+            device = getArguments().getString("Device");
 //            cast = getArguments().getParcelableArrayList("crew");
         }
     }
@@ -80,6 +82,10 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         else
             animation = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_right_side);
 
+        if (device.equalsIgnoreCase("TV")) {
+            clMain.setVisibility(View.GONE);
+            tvCast.setVisibility(View.GONE);
+        }
 //        tvDirector.setText(show.getDirector());
 //        tvWriters.setText(show.getWriters());
         tvReleaseDate.setText(show.getYear() + "");
@@ -114,7 +120,8 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         tvLanguage = inflatedView.findViewById(R.id.tv_language);
         rvCast = inflatedView.findViewById(R.id.rv_cast);
         clRoot = inflatedView.findViewById(R.id.root_view);
-
+        clMain = inflatedView.findViewById(R.id.cl_main);
+        tvCast = inflatedView.findViewById(R.id.tv_cast);
     }
 
     @Override
@@ -161,6 +168,11 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
     public void setCastList(ArrayList<Cast> cast1) {
         this.cast = cast1;
         castAdapter.setList(cast);
+        if (cast.isEmpty()) {
+            inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
+        } else {
+            inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+        }
     }
 
     public void startAnimation() {
