@@ -29,6 +29,7 @@ public enum FragmentTags {
     TVMoviesContainerFragment(24),
     TVSeriesContainerFragment(25),
     TVMyListContainerFragment(26),
+    Register1Fragment(27),
     ;
 
 

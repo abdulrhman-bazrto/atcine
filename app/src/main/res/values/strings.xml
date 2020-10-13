@@ -48,7 +48,7 @@
     <string name="see_all">See All</string>
     <string name="i_don_t_have_an_account">I don\'t have an account</string>
     <string name="welcome_back">Welcome Back</string>
-    <string name="we_miss_you_from_the_last_time">we miss you from the last time.</string>
+        <string name="we_miss_you_from_the_last_time">we miss you from the last time.</string>
     <string name="email_or_phone_number">Email or Phone Number</string>
     <string name="forget_my_password">Forget my password</string>
     <string name="sign_up">Sign up</string>

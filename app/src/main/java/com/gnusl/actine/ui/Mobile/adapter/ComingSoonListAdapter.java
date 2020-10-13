@@ -18,6 +18,7 @@ import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -75,6 +76,7 @@ public class ComingSoonListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvShowTitle = itemView.findViewById(R.id.tv_show_title);
             ivShowImage = itemView.findViewById(R.id.iv_movie_image);
             ivPlayShow = itemView.findViewById(R.id.iv_play_show);
+            Utils.setOnFocusScale(itemView);
         }
 
         public void bind() {

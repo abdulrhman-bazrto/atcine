@@ -23,6 +23,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.VideoActivity;
 import com.gnusl.actine.util.ObjectBox;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -84,6 +85,9 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             iv_tomato = itemView.findViewById(R.id.iv_tomato);
             ivPlay = itemView.findViewById(R.id.iv_play);
+            Utils.setOnFocusScale(btnDelete);
+            Utils.setOnFocusScale(btnDownload);
+            Utils.setOnFocusScale(ivPlay);
         }
 
         public void bind() {

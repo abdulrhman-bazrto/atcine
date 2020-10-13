@@ -23,6 +23,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.WatchActivity;
 import com.gnusl.actine.util.ObjectBox;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -84,6 +85,9 @@ public class EpisodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             tvDuration = itemView.findViewById(R.id.tv_duration);
             ivPlay = itemView.findViewById(R.id.iv_play_show);
             tv_desc = itemView.findViewById(R.id.tv_desc);
+
+            Utils.setOnFocusScale(itemView);
+
         }
 
         public void bind() {

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.HelpItemClickEvents;
 import com.gnusl.actine.model.Help;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -79,6 +80,9 @@ public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.CommentsViewHo
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_title);
             ivIcon = itemView.findViewById(R.id.iv_icon);
+
+            Utils.setOnFocusScale(itemView);
+
         }
     }
 }

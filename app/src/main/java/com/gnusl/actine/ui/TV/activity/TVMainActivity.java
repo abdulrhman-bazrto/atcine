@@ -47,6 +47,7 @@ import com.gnusl.actine.ui.TV.fragment.TVSeriesContainerFragment;
 import com.gnusl.actine.ui.TV.fragment.TVSeriesFragment;
 import com.gnusl.actine.ui.TV.fragment.TVShowDetailsFragment;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -97,6 +98,9 @@ public class TVMainActivity extends AppCompatActivity implements View.OnClickLis
         ivProfile = findViewById(R.id.iv_profile);
         ivLogout = findViewById(R.id.iv_log_out);
         etSearch = findViewById(R.id.et_search);
+
+        Utils.setOnFocusScale(ivLogout);
+        Utils.setOnFocusScale(ivProfile);
 
         ivProfile.setOnClickListener(this);
         ivLogout.setOnClickListener(this);

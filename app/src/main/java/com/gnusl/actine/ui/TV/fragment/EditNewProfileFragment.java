@@ -28,6 +28,7 @@ import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.MediaUtils;
 import com.gnusl.actine.util.PermissionsUtils;
+import com.gnusl.actine.util.Utils;
 import com.iceteck.silicompressorr.SiliCompressor;
 import com.squareup.picasso.Picasso;
 import com.yalantis.ucrop.UCrop;
@@ -112,6 +113,11 @@ public class EditNewProfileFragment extends Fragment implements View.OnClickList
         etProfileName = inflatedView.findViewById(R.id.et_profile_name);
         ivProfile = inflatedView.findViewById(R.id.iv_add_profile);
         ivProfile.setTransitionName(imageTransitionName);
+
+        Utils.setOnFocusScale(btnUpload);
+        Utils.setOnFocusScale(ivProfile);
+        Utils.setOnFocusScale(btnSave);
+        Utils.setOnFocusScale(btnCancel);
 
         btnCancel.setOnClickListener(this);
         btnSave.setOnClickListener(this);

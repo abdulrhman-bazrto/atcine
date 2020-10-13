@@ -62,6 +62,7 @@ import com.gnusl.actine.ui.Mobile.fragment.TrailerFragment;
 import com.gnusl.actine.ui.TV.activity.TVMainActivity;
 import com.gnusl.actine.util.Constants;
 import com.gnusl.actine.util.ObjectBox;
+import com.gnusl.actine.util.Utils;
 import com.google.android.material.tabs.TabLayout;
 import com.squareup.picasso.Picasso;
 
@@ -264,6 +265,12 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
 
         tvLikesCount.setOnClickListener(this);
         tvAddComment.setOnClickListener(this);
+
+        Utils.setOnFocusScale(ivPlayTrailer);
+        Utils.setOnFocusScale(btnShare);
+        Utils.setOnFocusScale(btnAddToMyList);
+        Utils.setOnFocusScale(btnPlayShow);
+        Utils.setOnFocusScale(tvAddComment);
     }
 
     @Override

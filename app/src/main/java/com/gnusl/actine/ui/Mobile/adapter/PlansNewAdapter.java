@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.model.PlanDetails;
 import com.gnusl.actine.util.SharedPreferencesUtils;
+import com.gnusl.actine.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +76,8 @@ public class PlansNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             tvPrice = itemView.findViewById(R.id.tv_price);
             llTexts = itemView.findViewById(R.id.ll_texts);
             background = itemView.findViewById(R.id.background);
+
+            Utils.setOnFocusScale(itemView);
 
         }
 

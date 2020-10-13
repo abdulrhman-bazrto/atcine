@@ -1,17 +1,18 @@
 package com.gnusl.actine.ui.TV.activity;
 
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.view.Window;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.Window;
-
 import com.gnusl.actine.R;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.FragmentTags;
+import com.gnusl.actine.ui.Mobile.fragment.RegisterFragment1;
 import com.gnusl.actine.ui.TV.fragment.TVHelpFragment;
 import com.gnusl.actine.ui.TV.fragment.TVLoginFragment;
 import com.gnusl.actine.ui.TV.fragment.TVMainAuthFragment;
@@ -67,7 +68,7 @@ public class TVAuthActivity extends AppCompatActivity {
             case LoginFragment:
 
                 mCurrentFragment = TVLoginFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment);
+                transaction.replace(R.id.frame_container_tv_auth, mCurrentFragment);
                 transaction.commit();
 
                 break;
@@ -75,15 +76,23 @@ public class TVAuthActivity extends AppCompatActivity {
             case RegisterFragment:
 
                 mCurrentFragment = TVRegisterFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
+                transaction.replace(R.id.frame_container_tv_auth, mCurrentFragment).addToBackStack(null);
                 transaction.commit();
 
                 break;
 
+//            case Register1Fragment:
+//
+//                mCurrentFragment = RegisterFragment1.newInstance();
+//                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);
+//                transaction.commit();
+//
+//                break;
+
             case HelpFragment:
 
                 mCurrentFragment = TVHelpFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.replace(R.id.frame_container_tv_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;
@@ -91,7 +100,7 @@ public class TVAuthActivity extends AppCompatActivity {
             case PaymentLessFragment:
 
                 mCurrentFragment = TVPaymentLessFragment.newInstance();
-                transaction.replace(R.id.frame_container_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
+                transaction.replace(R.id.frame_container_tv_auth, mCurrentFragment).addToBackStack(null);// newInstance() is a static factory method.
                 transaction.commit();
 
                 break;
@@ -103,5 +112,13 @@ public class TVAuthActivity extends AppCompatActivity {
 //
 //                break;
         }
+    }
+
+    public void openRegister1Fragment(Bundle bundle){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        mCurrentFragment = RegisterFragment1.newInstance(bundle);
+        transaction.replace(R.id.frame_container_tv_auth, mCurrentFragment).addToBackStack(null);
+        transaction.commit();
     }
 }

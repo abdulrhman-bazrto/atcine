@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.ProfileClick;
 import com.gnusl.actine.model.Profile;
+import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -70,6 +71,8 @@ public class ManageProfileAdapter extends RecyclerView.Adapter<RecyclerView.View
             super(itemView);
             tvProfileName = itemView.findViewById(R.id.tv_profile_name);
             ivProfile = itemView.findViewById(R.id.iv_profile);
+
+            Utils.setOnFocusScale(itemView);
 
         }
 

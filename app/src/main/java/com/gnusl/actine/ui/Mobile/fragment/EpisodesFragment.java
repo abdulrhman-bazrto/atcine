@@ -27,6 +27,7 @@ import com.gnusl.actine.ui.Mobile.adapter.CategorySpinnerAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.EpisodeAdapter;
 import com.gnusl.actine.ui.Mobile.custom.MarginItemDecoration;
 import com.gnusl.actine.util.Constants;
+import com.gnusl.actine.util.Utils;
 
 import org.json.JSONObject;
 
@@ -136,6 +137,9 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
         clRoot = inflatedView.findViewById(R.id.root_view);
 
         spSeasons = inflatedView.findViewById(R.id.sp_seasons);
+
+        Utils.setOnFocusScale(spSeasons);
+
     }
 
     private void initCategorySpinner() {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gnusl.actine.R;
 import com.gnusl.actine.interfaces.PaymentMethodItemClickEvents;
 import com.gnusl.actine.model.PaymentMethods;
+import com.gnusl.actine.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,6 +116,9 @@ public class PaymentMethodsAdapter extends RecyclerView.Adapter<PaymentMethodsAd
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tv_method_name);
             ivMethodLogo = itemView.findViewById(R.id.iv_method_logo);
+
+            Utils.setOnFocusScale(itemView);
+
         }
     }
 }
