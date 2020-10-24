@@ -1,6 +1,7 @@
 package com.gnusl.actine.ui.Mobile.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -36,6 +37,7 @@ import com.gnusl.actine.model.User;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.AuthActivity;
+import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.custom.LoaderPopUp;
 import com.gnusl.actine.util.SharedPreferencesUtils;
 import com.gnusl.actine.util.Utils;
@@ -377,7 +379,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
 //            getActivity().finish();
 //        }
         if (getActivity() != null) {
-            ((AuthActivity) getActivity()).replaceFragment(FragmentTags.ToWatchFragment);
+//            ((AuthActivity) getActivity()).replaceFragment(FragmentTags.ToWatchFragment);
+            startActivity(new Intent(getActivity(), MainActivity.class));
+            getActivity().finish();
         }
     }
 

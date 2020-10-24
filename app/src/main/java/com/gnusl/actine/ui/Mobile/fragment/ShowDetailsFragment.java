@@ -813,6 +813,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
 //        bundle.putParcelableArrayList("crew", cast);
+        bundle.putString("Device", "Mobile");
 
         if (trailerFragment == null) {
             trailerFragment = TrailerFragment.newInstance(bundle);
@@ -833,6 +834,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         Bundle bundle = new Bundle();
         bundle.putSerializable(Constants.HomeDetailsExtra.getConst(), show);
 //        bundle.putParcelableArrayList("crew", cast);
+        bundle.putString("Device", "Mobile");
 
         if (episodesFragment == null) {
             episodesFragment = EpisodesFragment.newInstance(bundle);

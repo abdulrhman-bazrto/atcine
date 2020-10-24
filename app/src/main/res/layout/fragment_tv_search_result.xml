@@ -37,7 +37,6 @@
         android:visibility="gone"
         android:layout_marginTop="20dp"
         android:src="@drawable/icon_arrow_back"
-        android:background="@drawable/bg_shape_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
