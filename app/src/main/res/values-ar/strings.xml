@@ -38,7 +38,7 @@
     <string name="downloads">التنزيلات</string>
     <string name="email">البريد الالكتروني</string>
     <string name="email_or_phone_number">البريد الالكتروني او رقم الهاتف</string>
-    <string name="english">انكليزي</string>
+    <string name="english">EN</string>
     <string name="family_fantasy_adventure">" "</string>
     <string name="favorite">المفضلة</string>
     <string name="find_help_online">"ابحث عن المساعدة عبر الإنترنت "</string>
@@ -172,7 +172,7 @@
     <string name="you_dont_have_any_movies_downloaded_yet">لا يوجد أفلام تم نحميلها</string>
     <string name="you_dont_have_any_series_downloaded_yet">لا يوجد مسلسلات تم تحميلها</string>
     <string name="choose_your_language">احتر اللغة</string>
-    <string name="arabic">Arabic</string>
+    <string name="arabic">ع</string>
     <string name="use_your_email_and_create_password_to_watch_atcine_on_any_device_at_any_time">استخدم البريد الالكتروني في اي وقت للمشاهدة على ايا جهاز عبر atcine</string>
     <string name="_0_0">0/0</string>
     <string name="_0_episodes">0 حلقة</string>
@@ -188,4 +188,6 @@
     <string name="sign_up_to_watch">سجل حسابك للمشاهدة في كل مكان</string>
     <string name="play_trailer">تشغيل اعلان الفيلم</string>
     <string name="no_data_available">لا يوجد معلومات</string>
+    <string name="none">بدون ترجمة</string>
+    <string name="no_subtitle">الترجمة غير متوفرة حاليا</string>
 </resources>

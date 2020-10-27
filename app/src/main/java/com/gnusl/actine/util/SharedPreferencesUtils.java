@@ -8,6 +8,7 @@ import android.util.Log;
 import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.model.LatestPlayedPosition;
+import com.gnusl.actine.model.Show;
 import com.gnusl.actine.model.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,7 @@ public class SharedPreferencesUtils {
     private final static String ProfileImageURL = "ProfileImageURL";
     private final static String SelectedPlan = "SelectedPlan";
     private final static String SelectedPlanPrice = "SelectedPlanPrice";
+    private final static String LatestPlayedShow = "LatestPlayedShow";
 
     public static void saveUser(User user) {
         SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
@@ -66,6 +68,27 @@ public class SharedPreferencesUtils {
             Type type = (new TypeToken<LatestPlayedPosition>() {
             }).getType();
             return (LatestPlayedPosition) gson.fromJson(json, type);
+        }
+    }
+
+    public static void saveLatestPlayedShow(Show latestPlayedShow) {
+        SharedPreferences.Editor sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext()).edit();
+        Gson gson = new Gson();
+        sharedPreferences.putString(LatestPlayedShow, gson.toJson(latestPlayedShow));
+        sharedPreferences.apply();
+
+    }
+
+    public static Show getLatestPlayedShow() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(Atcine.getAppContext());
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString(LatestPlayedShow, "");
+        if (json == null || json.isEmpty()) {
+            return null;
+        } else {
+            Type type = (new TypeToken<Show>() {
+            }).getType();
+            return (Show) gson.fromJson(json, type);
         }
     }
 

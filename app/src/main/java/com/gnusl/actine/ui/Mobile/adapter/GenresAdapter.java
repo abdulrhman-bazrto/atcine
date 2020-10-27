@@ -45,16 +45,19 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     @Override
     public void onBindViewHolder(@NonNull final GenresAdapter.GenresViewHolder holder, int position) {
-        holder.tvGenresName.setText(genres.get(holder.getAdapterPosition()).getTitle());
-        holder.tvGenresName.setTransitionName("transition" +genres.get(holder.getAdapterPosition()).getId());
-        holder.tvCount.setText(genres.get(holder.getAdapterPosition()).getCount());
-        holder.tvType.setText(genres.get(holder.getAdapterPosition()).getType());
-        Picasso.with(mContext).load(genres.get(holder.getAdapterPosition()).getImageURL()).into(holder.imageView);
+
+        Category category = genres.get(position);
+
+        holder.tvGenresName.setText(category.getTitle());
+        holder.tvGenresName.setTransitionName("transition" +category.getId());
+        holder.tvCount.setText(category.getCount());
+        holder.tvType.setText(category.getType());
+        Picasso.with(mContext).load(category.getImageURL()).into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (genresClickEvents != null)
-                    genresClickEvents.onSelectGenres(genres.get(holder.getAdapterPosition()), holder.tvGenresName, null);
+                    genresClickEvents.onSelectGenres(category, holder.tvGenresName, null);
             }
         });
         switch (position) {

@@ -62,7 +62,7 @@
     <string name="family_fantasy_adventure">Family, Fantasy, Adventure.</string>
     <string name="language">Language:</string>
     <string name="language1">Language</string>
-    <string name="english">English.</string>
+    <string name="english">EN</string>
     <string name="cast">Cast</string>
     <string name="choose_a_plan_that_s_right_for_you">Choose a plan that\'s right for you.</string>
     <string name="your_plan_nuunlimted_streaming_in_hd_and_ultra_hd_nat_11_99">your plan  Unlimited Streaming in HD and Ultra HD  at 11.99$ .</string>
@@ -183,11 +183,13 @@
     <string name="resume">Resume</string>
     <string name="start_over">Start over</string>
     <string name="choose_your_language">Choose your language</string>
-    <string name="arabic">Arabic</string>
+    <string name="arabic">ع</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="sign_up_to_watch">Sign up to watch Atcine on any device at any time.</string>
     <string name="play_trailer">Play trailer</string>
     <string name="no_data_available">No data available</string>
+    <string name="none">None</string>
+    <string name="no_subtitle">no subtitle available for this show yet</string>
 </resources>

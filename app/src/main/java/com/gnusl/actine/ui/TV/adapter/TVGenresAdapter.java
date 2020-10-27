@@ -54,16 +54,20 @@ public class TVGenresAdapter extends RecyclerView.Adapter<TVGenresAdapter.Genres
 
     @Override
     public void onBindViewHolder(@NonNull final TVGenresAdapter.GenresViewHolder holder, int position) {
-        holder.tvGenresName.setText(genres.get(holder.getAdapterPosition()).getTitle());
-        holder.tvGenresName.setTransitionName("transition" +genres.get(holder.getAdapterPosition()).getId());
-        holder.tvCount.setText(genres.get(holder.getAdapterPosition()).getCount());
-        holder.tvType.setText(genres.get(holder.getAdapterPosition()).getType());
+
+        Category category = genres.get(position);
+
+
+        holder.tvGenresName.setText(category.getTitle());
+        holder.tvGenresName.setTransitionName("transition" +category.getId());
+        holder.tvCount.setText(category.getCount());
+        holder.tvType.setText(category.getType());
 //        Picasso with = Picasso.with(mContext);
 //        with.setLoggingEnabled(true);
 //        with.load(genres.get(holder.getAdapterPosition()).getImageURL()).memoryPolicy(MemoryPolicy.NO_STORE)
 //                .networkPolicy(NetworkPolicy.NO_STORE).into(holder.imageView);
 
-        Glide.with(mContext).load(genres.get(holder.getAdapterPosition()).getImageURL()).addListener(new RequestListener<Drawable>() {
+        Glide.with(mContext).load(category.getImageURL()).addListener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 return false;
@@ -79,7 +83,7 @@ public class TVGenresAdapter extends RecyclerView.Adapter<TVGenresAdapter.Genres
             @Override
             public void onClick(View v) {
                 if (genresClickEvents != null)
-                    genresClickEvents.onSelectGenres(genres.get(holder.getAdapterPosition()), holder.tvGenresName, null);
+                    genresClickEvents.onSelectGenres(category, holder.tvGenresName, null);
             }
         });
         switch (position) {

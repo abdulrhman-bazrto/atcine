@@ -152,13 +152,45 @@
             android:layout_marginStart="10dp"
             android:layout_marginBottom="10dp"
             android:background="#0000"
-            android:nextFocusRight="@id/iv_audio"
+            android:nextFocusRight="@id/exo_fast_backward"
             android:nextFocusUp="@id/exo_progress"
             android:padding="10dp"
             android:scaleType="fitXY"
             android:src="@drawable/icon_pause"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/exo_fast_backward"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginBottom="10dp"
+            android:background="#0000"
+            android:nextFocusRight="@id/exo_fast_forward"
+            android:nextFocusLeft="@id/exo_pause"
+            android:nextFocusUp="@id/exo_progress"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_fast_backward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/exo_fast_forward"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="#0000"
+            android:nextFocusRight="@id/iv_audio"
+            android:nextFocusLeft="@id/exo_fast_backward"
+            android:nextFocusUp="@id/exo_progress"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_fast_forward"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/exo_fast_backward" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -57,6 +57,9 @@ public enum Urls {
     LocationCheck(API.getLink() + "location/check"),
     Logout(API.getLink() + "user/logout"),
 
+    SaveContinue(API.getLink() + "movie/continue"),
+    GetContinue(API.getLink() + "movie/%id%/continue"),
+
     ;
 
     private String link;

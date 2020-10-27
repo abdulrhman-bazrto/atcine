@@ -51,6 +51,8 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static int HOLDER_MOVIE = 0;
     private static int HOLDER_MOVIE_LIST = 1;
 
+    HomeMovieListAdapter continueToWatchAdapter;
+
 
     public HomeAdapter(Context context, RecyclerView homeRecycler, HomeMovieClick homeMovieClick, GenresClickEvents genresClickEvents, LoadMoreCategoriesDelegate loadMoreCategoriesDelegate) {
         this.mContext = context;
@@ -114,6 +116,22 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.trendShow = trendMovie;
         this.categories = categories;
         notifyDataSetChanged();
+    }
+
+    public void addNewContinueToWatch(Show latestPlayedShow) {
+        if (continueToWatchAdapter != null){
+            List<Show> list = continueToWatchAdapter.getList();
+            boolean alreadyAdded = false;
+            for (Show show : list) {
+                if (show.getId() == latestPlayedShow.getId()){
+                    alreadyAdded = true;
+                }
+            }
+            if (!alreadyAdded) {
+                list.add(0,latestPlayedShow);
+                continueToWatchAdapter.setList(list);
+            }
+        }
     }
 
 
@@ -263,6 +281,10 @@ public class HomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rvMovieList.setRecycledViewPool(recycledViewPool);
 
             HomeMovieListAdapter homeMovieListAdapter = new HomeMovieListAdapter(mContext, movies, homeMovieClick,"Mobile");
+
+            if (name.equalsIgnoreCase("متابعة مشاهدة") || name.equalsIgnoreCase("Continue To Watch")){
+                continueToWatchAdapter =  homeMovieListAdapter;
+            }
 
 //            homeMovieListAdapter.setHasStableIds(false);
 

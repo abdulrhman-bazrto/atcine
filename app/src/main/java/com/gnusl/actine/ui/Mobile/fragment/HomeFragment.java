@@ -7,6 +7,7 @@ import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
+import com.gnusl.actine.application.Atcine;
 import com.gnusl.actine.enums.AppCategories;
 import com.gnusl.actine.enums.FragmentTags;
 import com.gnusl.actine.interfaces.ConnectionDelegate;
@@ -44,6 +46,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 
@@ -54,10 +57,12 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     private RecyclerView rvHome, rvGenres;
     private HomeAdapter homeAdapter;
     private CustomAppBar cubHome;
+    private Button btn_language;
 
     private TextView tvMovies, tvSeries, tvSeeAll, tvCategory;
     private GenresAdapter genresAdapter;
     private List<Category> categories;
+
 
     public HomeFragment() {
     }
@@ -211,6 +216,36 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         });
 
+        btn_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance()).equalsIgnoreCase("en")) {
+                    SharedPreferencesUtils.saveLanguage(getActivity(), "ar");
+                    Locale locale = new Locale("ar");
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                    getActivity().recreate();
+                    btn_language.setText(getString(R.string.english));
+                } else {
+                    SharedPreferencesUtils.saveLanguage(getActivity(), "en");
+                    Locale locale = new Locale("en");
+                    Locale.setDefault(locale);
+                    Configuration config = new Configuration();
+                    config.locale = locale;
+                    getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
+                    getActivity().recreate();
+                    btn_language.setText(getString(R.string.arabic));
+                }
+            }
+        });
+
+        if (SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance()).equalsIgnoreCase("en")) {
+            btn_language.setText(getString(R.string.arabic));
+        } else {
+            btn_language.setText(getString(R.string.english));
+        }
     }
 
     private void findViews() {
@@ -222,10 +257,13 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
         rvGenres = inflatedView.findViewById(R.id.rv_genres);
         tvSeeAll = inflatedView.findViewById(R.id.tv_see_all);
         tvCategory = inflatedView.findViewById(R.id.tv_category);
+        btn_language = inflatedView.findViewById(R.id.btn_language);
+
 
         Utils.setOnFocusScale(tvMovies);
         Utils.setOnFocusScale(tvSeries);
         Utils.setOnFocusScale(tvSeeAll);
+        Utils.setOnFocusScale(btn_language);
 
     }
 
@@ -377,6 +415,12 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     }
 
     public void refreshTrendShow() {
+
+        Show latestPlayedShow = SharedPreferencesUtils.getLatestPlayedShow();
+        if (latestPlayedShow != null){
+            homeAdapter.addNewContinueToWatch(latestPlayedShow);
+        }
+
         Show show = homeAdapter.getTrendShow();
 
         if (show == null)

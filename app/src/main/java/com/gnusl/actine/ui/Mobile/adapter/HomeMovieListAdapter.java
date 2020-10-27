@@ -70,6 +70,10 @@ public class HomeMovieListAdapter extends RecyclerView.Adapter<RecyclerView.View
         notifyDataSetChanged();
     }
 
+    public List<Show> getList() {
+        return this.movies;
+    }
+
     class MovieListViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivThumbnail;

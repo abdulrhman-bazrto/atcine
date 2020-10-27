@@ -271,6 +271,21 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
         Utils.setOnFocusScale(btnAddToMyList);
         Utils.setOnFocusScale(btnPlayShow);
         Utils.setOnFocusScale(tvAddComment);
+
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sharedText = "watch " + show.getTitle() + " on the following link: \n";
+                sharedText += "https://atcine.com/movie/" + show.getId() + "/watch";
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedText);
+                startActivity(Intent.createChooser(shareIntent, "choose.."));
+            }
+        });
     }
 
     @Override

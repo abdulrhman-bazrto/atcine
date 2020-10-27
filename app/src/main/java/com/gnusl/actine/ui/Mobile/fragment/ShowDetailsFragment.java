@@ -212,7 +212,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvIMDBRate.setText(show.getImdbRate());
         if (!show.getRottenTomatoes().isEmpty()) {
             tvTomatoRate.setText(show.getRottenTomatoes());
-        }else {
+        } else {
             tvTomatoRate.setVisibility(View.GONE);
             iv_tomato.setVisibility(View.GONE);
         }
@@ -229,7 +229,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         btnReactions.setOnClickListener(this);
 
-        homeMovieListAdapter = new HomeMovieListAdapter(getActivity(), new ArrayList<>(), this,"Mobile");
+        homeMovieListAdapter = new HomeMovieListAdapter(getActivity(), new ArrayList<>(), this, "Mobile");
 
 //        GridLayoutManager gridLayoutManager;
 //        if ((getResources().getConfiguration().screenLayout &
@@ -295,6 +295,20 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         Utils.setOnFocusScale(ivPlayShow);
         Utils.setOnFocusScale(btnShare);
         ivPlayShow.requestFocus();
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String sharedText = "watch " + show.getTitle() + " on the following link: \n";
+                sharedText += "https://atcine.com/movie/" + show.getId() + "/watch";
+
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, sharedText);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, sharedText);
+                startActivity(Intent.createChooser(shareIntent, "choose.."));
+            }
+        });
 
     }
 
