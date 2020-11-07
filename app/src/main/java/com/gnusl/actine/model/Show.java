@@ -423,6 +423,9 @@ public class Show implements Serializable {
     }
 
     public String getImdbRate() {
+        if (imdbRate == null || imdbRate.isEmpty() || imdbRate.equalsIgnoreCase("null")) {
+            return "";
+        }
         return imdbRate;
     }
 

@@ -24,8 +24,6 @@
         android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:stl_clickable="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
         android:background="@color/black"
         app:stl_defaultTabBackground="@color/colorPrimaryDark"
         app:stl_defaultTabTextMinWidth="0dp"

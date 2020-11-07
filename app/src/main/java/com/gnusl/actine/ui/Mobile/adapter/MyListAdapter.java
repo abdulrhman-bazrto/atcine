@@ -67,7 +67,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         ImageView ivThumbnail;
         TextView tvTitle, tvImdb, tvTomato;
-        private View iv_tomato;
+        private View iv_tomato,iv_imdb;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -76,6 +76,7 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             iv_tomato = itemView.findViewById(R.id.iv_tomato);
+            iv_imdb = itemView.findViewById(R.id.iv_imdb);
             Utils.setOnFocusScale(itemView);
         }
 
@@ -86,7 +87,12 @@ public class MyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ViewCompat.setTransitionName(ivThumbnail, "transition" + show.getId());
 
             tvTitle.setText(show.getTitle());
-            tvImdb.setText(show.getImdbRate().toString());
+            if (!show.getImdbRate().isEmpty()) {
+                tvImdb.setText(show.getImdbRate());
+            }else {
+                tvImdb.setVisibility(View.GONE);
+                iv_imdb.setVisibility(View.GONE);
+            }
             if (!show.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(show.getRottenTomatoes());
             } else {

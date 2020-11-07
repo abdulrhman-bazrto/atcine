@@ -11,6 +11,8 @@ import com.gnusl.actine.R;
 public class Utils {
 
     public static void setOnFocusScale(View view) {
+        if (view == null)
+            return;
         view.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 // run scale animation and make it bigger

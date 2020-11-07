@@ -72,7 +72,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
         private ImageView ivShowImage,ivPlay;
         private TextView tvShowName, tvShowSize, tvImdb, tvTomato;
         private ImageButton btnDelete, btnDownload;
-        private View iv_tomato;
+        private View iv_tomato,iv_imdb;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -84,6 +84,7 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             iv_tomato = itemView.findViewById(R.id.iv_tomato);
+            iv_imdb = itemView.findViewById(R.id.iv_imdb);
             ivPlay = itemView.findViewById(R.id.iv_play);
             Utils.setOnFocusScale(btnDelete);
             Utils.setOnFocusScale(btnDownload);
@@ -98,7 +99,14 @@ public class DownloadsListAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvShowName.setText(show.getTitle());
 
             tvShowSize.setText(show.getSize());
-            tvImdb.setText(show.getImdbRate().toString());
+
+            if (!show.getImdbRate().isEmpty()) {
+                tvImdb.setText(show.getImdbRate());
+            }else {
+                tvImdb.setVisibility(View.GONE);
+                iv_imdb.setVisibility(View.GONE);
+            }
+
             if (!show.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(show.getRottenTomatoes());
             }else {

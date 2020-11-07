@@ -44,6 +44,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.activity.WatchActivity;
+import com.gnusl.actine.ui.Mobile.activity.WatchActivity2;
 import com.gnusl.actine.ui.Mobile.adapter.CastAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.HomeMovieListAdapter;
@@ -85,7 +86,7 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
     private Button btnPlayShow, btnShare, btnAddToMyList;
     private RecyclerView rvCast;
     private TextView tvCategory, tvWatchTime, tvShowTitle, tvShowCaption, tvIMDBRate, tvTomatoRate, tvPlayTrailer;
-    private ImageView ivShowCover, ivPlayTrailer, iv_tomato, ivClock, ivStar;
+    private ImageView ivShowCover, ivPlayTrailer, iv_tomato,iv_imdb, ivClock, ivStar;
     CastAdapter castAdapter;
     private HomeMovieListAdapter homeMovieListAdapter;
     private Show show;
@@ -158,6 +159,14 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
         tvIMDBRate.setText(show.getImdbRate());
+
+        if (!show.getImdbRate().isEmpty()) {
+            tvIMDBRate.setText(show.getImdbRate());
+        }else {
+            tvIMDBRate.setVisibility(View.GONE);
+            iv_imdb.setVisibility(View.GONE);
+        }
+
         if (!show.getRottenTomatoes().isEmpty()) {
             tvTomatoRate.setText(show.getRottenTomatoes());
         } else {
@@ -241,6 +250,7 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
         rvCast = inflatedView.findViewById(R.id.rv_cast);
         rvSuggest = inflatedView.findViewById(R.id.rv_suggest);
         iv_tomato = inflatedView.findViewById(R.id.iv_tomato);
+        iv_imdb = inflatedView.findViewById(R.id.iv_imdb);
         ivClock = inflatedView.findViewById(R.id.iv_clock);
         ivStar = inflatedView.findViewById(R.id.iv_star2);
 
@@ -375,9 +385,7 @@ public class TVShowDetailsFragment extends Fragment implements HomeMovieClick, V
                 break;
             }
             case R.id.iv_play_trailer: {
-//                Intent intent = new Intent(getActivity(), WatchActivity.class);
-//                intent.putExtra("show", show);
-//                startActivity(intent);
+
                 break;
             }
             case R.id.tv_likes_count: {

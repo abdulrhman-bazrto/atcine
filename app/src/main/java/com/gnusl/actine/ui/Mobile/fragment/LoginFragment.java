@@ -110,25 +110,31 @@ public class LoginFragment extends Fragment implements View.OnClickListener, Con
             public void onClick(View v) {
                 if (SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance()).equalsIgnoreCase("en")) {
                     SharedPreferencesUtils.saveLanguage(getActivity(), "ar");
-                    btn_language.setText(getString(R.string.english));
                     Locale locale = new Locale("ar");
                     Locale.setDefault(locale);
                     Configuration config = new Configuration();
                     config.locale = locale;
                     getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
                     getActivity().recreate();
+                    btn_language.setText(getString(R.string.english));
                 } else {
                     SharedPreferencesUtils.saveLanguage(getActivity(), "en");
-                    btn_language.setText(getString(R.string.arabic));
                     Locale locale = new Locale("en");
                     Locale.setDefault(locale);
                     Configuration config = new Configuration();
                     config.locale = locale;
                     getActivity().getBaseContext().getResources().updateConfiguration(config, getActivity().getBaseContext().getResources().getDisplayMetrics());
                     getActivity().recreate();
+                    btn_language.setText(getString(R.string.arabic));
                 }
             }
         });
+
+        if (SharedPreferencesUtils.getLanguage(Atcine.getApplicationInstance()).equalsIgnoreCase("en")) {
+            btn_language.setText(getString(R.string.arabic));
+        } else {
+            btn_language.setText(getString(R.string.english));
+        }
 
         ///@@@@@@@@@@@@@
         clMain = inflatedView.findViewById(R.id.cl_main);

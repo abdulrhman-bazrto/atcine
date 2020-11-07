@@ -38,6 +38,7 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.activity.WatchActivity;
+import com.gnusl.actine.ui.Mobile.activity.WatchActivity2;
 import com.gnusl.actine.ui.Mobile.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.HomeMovieListAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.ViewPagerAdapter;
@@ -72,7 +73,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private TextView tvCategory, tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvIMDBRate, tvTomatoRate;
     private ImageView ivShowImage, ivShowCover, ivPlayShow, ivSendComment, ivAddComment, ivBack, ivClock;
     private EditText etCommentText;
-    private View iv_tomato;
+    private View iv_tomato,iv_imdb;
 
     private CommentsAdapter commentsAdapter;
     private HomeMovieListAdapter homeMovieListAdapter;
@@ -210,6 +211,14 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
         tvIMDBRate.setText(show.getImdbRate());
+
+        if (!show.getImdbRate().isEmpty()) {
+            tvIMDBRate.setText(show.getImdbRate());
+        }else {
+            tvIMDBRate.setVisibility(View.GONE);
+            iv_imdb.setVisibility(View.GONE);
+        }
+
         if (!show.getRottenTomatoes().isEmpty()) {
             tvTomatoRate.setText(show.getRottenTomatoes());
         } else {
@@ -348,6 +357,7 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         ivShowImage.setTransitionName(imageTransitionName);
         mIndicator = inflatedView.findViewById(R.id.indicator);
         iv_tomato = inflatedView.findViewById(R.id.iv_tomato);
+        iv_imdb = inflatedView.findViewById(R.id.iv_imdb);
 
 //        tvRate.setOnClickListener(new View.OnClickListener() {
 //            @Override

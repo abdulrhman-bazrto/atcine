@@ -22,6 +22,7 @@ import com.gnusl.actine.model.Show;
 import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.WatchActivity;
+import com.gnusl.actine.ui.Mobile.activity.WatchActivity2;
 import com.gnusl.actine.util.ObjectBox;
 import com.gnusl.actine.util.Utils;
 import com.squareup.picasso.Picasso;

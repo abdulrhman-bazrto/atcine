@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="120dp"
-    android:layout_height="wrap_content"
+    android:layout_height="170dp"
     android:layout_margin="1dp"
     android:focusable="true">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cv_image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:backgroundTint="@color/transparent"
         app:cardCornerRadius="8dp"
@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -46,17 +46,17 @@
     <TextView
         android:id="@+id/tv_show_name"
         android:layout_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_height="wrap_content"
+        android:layout_height="15dp"
         android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:maxLines="1"
         android:text="Flasher D fighter"
         android:textColor="@color/white"
         android:textSize="11sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv_image" />
 
@@ -74,9 +74,9 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginLeft="1dp"
-        android:visibility="gone"
         android:layout_marginTop="2dp"
         android:src="@drawable/ic_star"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/iv_imdb"
         app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 
@@ -108,8 +108,8 @@
         android:layout_height="15dp"
         android:layout_marginLeft="1dp"
         android:layout_marginTop="2dp"
-        android:visibility="gone"
         android:src="@drawable/ic_star"
+        android:visibility="gone"
         app:layout_constraintStart_toEndOf="@id/iv_tomato"
         app:layout_constraintTop_toBottomOf="@+id/tv_show_name" />
 

@@ -136,7 +136,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/hardware/ic_cast_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_fast_rewind_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -147,7 +147,7 @@
                         <option name="values">
                           <map>
                             <entry key="color" value="fdfdfe" />
-                            <entry key="outputName" value="icon_cast" />
+                            <entry key="outputName" value="icon_fast_backward" />
                             <entry key="sourceFile" value="C:\Users\Hamooda-PC\Desktop\New folder (4)\tablayout\Rectangle 93.svg" />
                           </map>
                         </option>

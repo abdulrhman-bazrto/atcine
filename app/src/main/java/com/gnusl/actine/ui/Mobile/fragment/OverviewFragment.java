@@ -167,11 +167,13 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
 
     public void setCastList(ArrayList<Cast> cast1) {
         this.cast = cast1;
-        castAdapter.setList(cast);
-        if (cast.isEmpty()) {
-            inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
-        } else {
-            inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+        if (castAdapter != null && cast != null) {
+            castAdapter.setList(cast);
+            if (cast.isEmpty()) {
+//            inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
+            } else {
+//            inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+            }
         }
     }
 

@@ -346,6 +346,8 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
 
     @Override
     public void onConnectionSuccess(JSONObject jsonObject) {
+        if (getActivity() == null)
+            return;
         if (jsonObject.has("trend")) {
 
             int count;
@@ -417,7 +419,7 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
     public void refreshTrendShow() {
 
         Show latestPlayedShow = SharedPreferencesUtils.getLatestPlayedShow();
-        if (latestPlayedShow != null){
+        if (latestPlayedShow != null) {
             homeAdapter.addNewContinueToWatch(latestPlayedShow);
         }
 
@@ -454,7 +456,6 @@ public class HomeFragment extends Fragment implements HomeMovieClick, GenresClic
             }
         });
     }
-
 
 
 }

@@ -85,6 +85,7 @@
         <activity android:name=".ui.Mobile.activity.VideoActivity" />
         <activity android:name=".ui.Mobile.activity.PaymentActivity" />
         <activity android:name=".ui.Mobile.activity.AccountActivity" />
+        <activity android:name=".ui.Mobile.activity.WatchActivity2" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

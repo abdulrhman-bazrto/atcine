@@ -56,7 +56,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-        ((MovieListViewHolder) holder).bind();
+        ((MovieListViewHolder) holder).bind(position);
 
         if (position == getItemCount() - 3)
             if (loadMoreDelegate != null)
@@ -92,7 +92,7 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
         ImageView ivThumbnail;
         GifImageView pbLoading;
         TextView tvTitle, tvImdb, tvTomato;
-        private View iv_tomato;
+        private View iv_tomato,iv_imdb;
 
         MovieListViewHolder(View itemView) {
             super(itemView);
@@ -102,13 +102,14 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
             tvImdb = itemView.findViewById(R.id.tv_imdb_rate);
             tvTomato = itemView.findViewById(R.id.tv_tomato_rate);
             iv_tomato = itemView.findViewById(R.id.iv_tomato);
+            iv_imdb = itemView.findViewById(R.id.iv_imdb);
             pbLoading.setGifImageResource(R.drawable.loader);
             Utils.setOnFocusScale(itemView);
         }
 
-        public void bind() {
+        public void bind(int position) {
 
-            final Show show = movies.get(getAdapterPosition());
+            final Show show = movies.get(position);
             Picasso.with(mContext).load(show.getThumbnailImageUrl()).into(ivThumbnail, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -121,7 +122,12 @@ public class MovieMoreLikeAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
             });
             tvTitle.setText(show.getTitle());
-            tvImdb.setText(show.getImdbRate().toString());
+            if (!show.getImdbRate().isEmpty()) {
+                tvImdb.setText(show.getImdbRate());
+            }else {
+                tvImdb.setVisibility(View.GONE);
+                iv_imdb.setVisibility(View.GONE);
+            }
             if (!show.getRottenTomatoes().isEmpty()) {
                 tvTomato.setText(show.getRottenTomatoes());
             } else {

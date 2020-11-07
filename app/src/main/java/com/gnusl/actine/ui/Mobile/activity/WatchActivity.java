@@ -1,24 +1,20 @@
 package com.gnusl.actine.ui.Mobile.activity;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,9 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.PopupMenu;
 
-import com.androidnetworking.error.ANError;
 import com.gnusl.actine.R;
-import com.gnusl.actine.interfaces.ConnectionDelegate;
 import com.gnusl.actine.model.Show;
 import com.gnusl.actine.model.Subtitle;
 import com.gnusl.actine.network.DataLoader;
@@ -41,17 +35,15 @@ import com.gnusl.actine.util.TimeUtils;
 import com.gnusl.actine.util.Utils;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
-import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.Timeline;
-import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.MergingMediaSource;
+import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.source.SingleSampleMediaSource;
 import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.source.hls.HlsManifest;
@@ -69,8 +61,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import com.google.android.exoplayer2.video.VideoListener;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -108,6 +98,13 @@ public class WatchActivity extends AppCompatActivity {
     private boolean isSubtitleAvailable = false;
     private Subtitle selectedSubtitleObject = null;
 
+//    private static final CookieManager DEFAULT_COOKIE_MANAGER;
+//    static
+//    {
+//        DEFAULT_COOKIE_MANAGER = new CookieManager();
+//        DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ALL);
+//    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase));
@@ -116,6 +113,13 @@ public class WatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        if (CookieHandler.getDefault() != DEFAULT_COOKIE_MANAGER)
+//        {
+//            CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
+//        }
+
+//        HlsMediaSource hlsMediaSource =
 
         setContentView(R.layout.activity_watch);
 
@@ -129,6 +133,7 @@ public class WatchActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("show")) {
             this.show = (Show) getIntent().getSerializableExtra("show");
+            this.show.setDownloadVideoUrl("https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4");
         }
 
         init();
@@ -164,7 +169,7 @@ public class WatchActivity extends AppCompatActivity {
                     }
 
                     for (int i = 0; i < hlsManifest.masterPlaylist.variants.size(); i++) {
-                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.variants.get(i);
+                        HlsMasterPlaylist.Variant url = hlsManifest.masterPlaylist.variants.get(i);
                         if (i == selectedQuality) {
                             MenuItem sub = menu.getMenu().add(String.valueOf(url.format.height)).setIcon(R.drawable.icon_check_white);
                         } else {
@@ -175,7 +180,7 @@ public class WatchActivity extends AppCompatActivity {
                     menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem item) {
-                            for (HlsMasterPlaylist.HlsUrl url : hlsManifest.masterPlaylist.variants) {
+                            for (HlsMasterPlaylist.Variant url : hlsManifest.masterPlaylist.variants) {
                                 if (String.valueOf(item.getTitle()).equalsIgnoreCase(String.valueOf(url.format.height))) {
 
                                     DefaultTrackSelector.Parameters build = defaultTrackSelector.getParameters().buildUpon()
@@ -186,7 +191,7 @@ public class WatchActivity extends AppCompatActivity {
                             }
 
                             for (int i = 0; i < hlsManifest.masterPlaylist.variants.size(); i++) {
-                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.variants.get(i);
+                                HlsMasterPlaylist.Variant url = hlsManifest.masterPlaylist.variants.get(i);
                                 if (String.valueOf(item.getTitle()).equalsIgnoreCase(String.valueOf(url.format.height))) {
                                     selectedQuality = i;
                                 }
@@ -224,7 +229,7 @@ public class WatchActivity extends AppCompatActivity {
                     }
 
                     for (int i = 0; i < hlsManifest.masterPlaylist.audios.size(); i++) {
-                        HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.audios.get(i);
+                        HlsMasterPlaylist.Rendition url = hlsManifest.masterPlaylist.audios.get(i);
                         if (i == selectedAudio) {
                             MenuItem sub = menu.getMenu().add(url.format.language).setIcon(R.drawable.icon_check_white);
                         } else {
@@ -237,7 +242,7 @@ public class WatchActivity extends AppCompatActivity {
                         public boolean onMenuItemClick(MenuItem item) {
 
                             for (int i = 0; i < hlsManifest.masterPlaylist.audios.size(); i++) {
-                                HlsMasterPlaylist.HlsUrl url = hlsManifest.masterPlaylist.audios.get(i);
+                                HlsMasterPlaylist.Rendition url = hlsManifest.masterPlaylist.audios.get(i);
                                 if (url.format.language.equalsIgnoreCase(String.valueOf(item.getTitle()))) {
                                     selectedAudio = i;
                                 }
@@ -314,10 +319,10 @@ public class WatchActivity extends AppCompatActivity {
 
                             Uri uri = Uri.parse(hls_url);
                             DataSource.Factory dataSourceFactory =
-                                    new DefaultHttpDataSourceFactory(Util.getUserAgent(WatchActivity.this, "app-name"));
+                                    new DefaultHttpDataSourceFactory("curl/7.64.1");
                             // Create a HLS media source pointing to a playlist uri.
-                            mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                                    .setMinLoadableRetryCount(4)
+                            mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+//                                    .setMinLoadableRetryCount(4)
                                     .createMediaSource(uri);
                             player.setPlayWhenReady(playWhenReady);
                             player.prepare(mediaSource, true, false);
@@ -469,7 +474,6 @@ public class WatchActivity extends AppCompatActivity {
                 if (doubleForward) {
                     if (player != null) {
                         player.seekTo(player.getCurrentPosition() + 3300);
-//                        Toast.makeText(WatchActivity.this, "+10 s", Toast.LENGTH_SHORT).show();
                     }
                     return true;
                 }
@@ -527,7 +531,6 @@ public class WatchActivity extends AppCompatActivity {
 
         int defaultSubtitleColor = Color.argb(255, 218, 218, 218);
         int outlineColor = Color.argb(255, 43, 43, 43);
-//        Typeface subtitleTypeface = Typeface.createFromAsset(getAssets(), "fonts/droid.ttf");
         CaptionStyleCompat style =
                 new CaptionStyleCompat(defaultSubtitleColor,
                         Color.TRANSPARENT, Color.TRANSPARENT,
@@ -544,10 +547,12 @@ public class WatchActivity extends AppCompatActivity {
         DefaultTrackSelector.Parameters build = new DefaultTrackSelector.ParametersBuilder().build();
 
         defaultTrackSelector.setParameters(build);
-        player = ExoPlayerFactory.newSimpleInstance(
-                new DefaultRenderersFactory(this),
-                defaultTrackSelector,
-                defaultLoadControl);
+//        player = ExoPlayerFactory.newSimpleInstance(this,
+//                new DefaultRenderersFactory(this),
+//                defaultTrackSelector,
+//                defaultLoadControl);
+
+        player = new SimpleExoPlayer.Builder(this).build();
 
 
         //init the player
@@ -558,7 +563,7 @@ public class WatchActivity extends AppCompatActivity {
 
         // Produces DataSource instances through which media data is loaded.
         dataSourceFactory = new DefaultDataSourceFactory(this,
-                Util.getUserAgent(this, "Exo2"), defaultBandwidthMeter);
+                "curl/7.64.1", defaultBandwidthMeter);
 
         //-----------------------------------------------
         //Create media source
@@ -566,11 +571,10 @@ public class WatchActivity extends AppCompatActivity {
         String hls_url = show.getDownloadVideoUrl();
 
         Uri uri = Uri.parse(hls_url);
-        DataSource.Factory dataSourceFactory =
-                new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "app-name"));
+
         // Create a HLS media source pointing to a playlist uri.
-        mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
-                .setMinLoadableRetryCount(4)
+        mediaSource = new ProgressiveMediaSource.Factory(dataSourceFactory)
+//                .setMinLoadableRetryCount(4)
                 .createMediaSource(uri);
 
 
@@ -706,68 +710,87 @@ public class WatchActivity extends AppCompatActivity {
         });
 
 
-        DataLoader.getRequest(Urls.GetContinue.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
-            @Override
-            public void onConnectionError(int code, String message) {
-                Log.d("", "");
-            }
+//        DataLoader.getRequest(Urls.GetContinue.getLink().replaceAll("%id%", String.valueOf(show.getId())), new ConnectionDelegate() {
+//            @Override
+//            public void onConnectionError(int code, String message) {
+//                Log.d("", "");
+//            }
+//
+//            @Override
+//            public void onConnectionError(ANError anError) {
+//                Log.d("", "");
+//            }
+//
+//            @Override
+//            public void onConnectionSuccess(JSONObject jsonObject) {
+//                if (jsonObject.has("duration") && jsonObject.has("window")) {
+//
+//
+//                    final Dialog confirmLoginDialog = new Dialog(WatchActivity.this);
+//                    confirmLoginDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+//                    if (confirmLoginDialog.getWindow() != null)
+//                        confirmLoginDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                    confirmLoginDialog.setContentView(R.layout.dialog_another_login);
+//                    confirmLoginDialog.setCancelable(true);
+//
+//                    TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
+//                    tvMsg.setText(getString(R.string.start_from_where_you_left));
+//
+//                    TextView tvResume = confirmLoginDialog.findViewById(R.id.btn_sign_out);
+//                    tvResume.setText(getString(R.string.resume));
+//
+//                    TextView tvStartOver = confirmLoginDialog.findViewById(R.id.btn_cancel);
+//                    tvStartOver.setText(getString(R.string.start_over));
+//
+//                    Utils.setOnFocusScale(tvResume);
+//                    Utils.setOnFocusScale(tvStartOver);
+//                    tvResume.requestFocus();
+//                    tvResume.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    player.seekTo(jsonObject.optInt("window"), jsonObject.optInt("duration") * 1000);
+//                                    player.prepare(mediaSource, false, false);
+//                                    confirmLoginDialog.dismiss();
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//
+//                    tvStartOver.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    player.seekTo(currentWindow, playbackPosition);
+//                                    player.prepare(mediaSource, true, false);
+//                                    confirmLoginDialog.dismiss();
+//                                }
+//                            });
+//
+//                        }
+//                    });
+//
+//                    confirmLoginDialog.show();
+//                } else {
+//                    runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            player.seekTo(currentWindow, playbackPosition);
+//                            player.prepare(mediaSource, true, false);
+//                        }
+//                    });
+//
+//                }
+//            }
+//        });
 
-            @Override
-            public void onConnectionError(ANError anError) {
-                Log.d("", "");
-            }
-
-            @Override
-            public void onConnectionSuccess(JSONObject jsonObject) {
-                if (jsonObject.has("duration") && jsonObject.has("window")) {
-
-
-                    final Dialog confirmLoginDialog = new Dialog(WatchActivity.this);
-                    confirmLoginDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    if (confirmLoginDialog.getWindow() != null)
-                        confirmLoginDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    confirmLoginDialog.setContentView(R.layout.dialog_another_login);
-                    confirmLoginDialog.setCancelable(true);
-
-                    TextView tvMsg = confirmLoginDialog.findViewById(R.id.tv_msg);
-                    tvMsg.setText(getString(R.string.start_from_where_you_left));
-
-                    TextView tvResume = confirmLoginDialog.findViewById(R.id.btn_sign_out);
-                    tvResume.setText(getString(R.string.resume));
-
-                    TextView tvStartOver = confirmLoginDialog.findViewById(R.id.btn_cancel);
-                    tvStartOver.setText(getString(R.string.start_over));
-
-                    Utils.setOnFocusScale(tvResume);
-                    Utils.setOnFocusScale(tvStartOver);
-                    tvResume.requestFocus();
-                    tvResume.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            player.seekTo(jsonObject.optInt("window"), jsonObject.optInt("duration") * 1000);
-                            player.prepare(mediaSource, false, false);
-                            confirmLoginDialog.dismiss();
-                        }
-                    });
-
-                    tvStartOver.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            player.seekTo(currentWindow, playbackPosition);
-                            player.prepare(mediaSource, true, false);
-                            confirmLoginDialog.dismiss();
-                        }
-                    });
-
-                    confirmLoginDialog.show();
-                } else {
-                    player.seekTo(currentWindow, playbackPosition);
-                    player.prepare(mediaSource, true, false);
-                }
-            }
-        });
-
-        player.getAudioAttributes();
+        player.seekTo(currentWindow, playbackPosition);
+        player.prepare(mediaSource, true, false);
 
     }
 
