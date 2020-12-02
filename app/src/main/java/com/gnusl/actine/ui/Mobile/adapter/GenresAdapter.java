@@ -49,10 +49,11 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
         Category category = genres.get(position);
 
         holder.tvGenresName.setText(category.getTitle());
-        holder.tvGenresName.setTransitionName("transition" +category.getId());
+        holder.tvGenresName.setTransitionName("transition" + category.getId());
         holder.tvCount.setText(category.getCount());
         holder.tvType.setText(category.getType());
-        Picasso.with(mContext).load(category.getImageURL()).into(holder.imageView);
+        if (!(category.getImageURL() == null || category.getImageURL().equalsIgnoreCase("")))
+            Picasso.with(mContext).load(category.getImageURL()).into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,7 +147,7 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     class GenresViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tvGenresName,tvCount,tvType;
+        TextView tvGenresName, tvCount, tvType;
         View ivCategoryOverlay;
         ImageView imageView;
 

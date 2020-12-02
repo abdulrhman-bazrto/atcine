@@ -143,6 +143,8 @@ public class EpisodesFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void initCategorySpinner() {
+        if (getActivity() == null)
+            return;
         final List<CategoryItem> list = new ArrayList<>();
         if (show.getSeasons() != null) {
             for (int i = 0; i < show.getSeasons().size(); i++) {

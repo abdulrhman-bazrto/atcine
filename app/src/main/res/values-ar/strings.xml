@@ -190,4 +190,6 @@
     <string name="no_data_available">لا يوجد معلومات</string>
     <string name="none">بدون ترجمة</string>
     <string name="no_subtitle">الترجمة غير متوفرة حاليا</string>
+
+    <string name="track_selection_title">Select tracks</string>
 </resources>

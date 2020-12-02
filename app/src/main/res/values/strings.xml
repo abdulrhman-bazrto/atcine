@@ -192,4 +192,7 @@
     <string name="no_data_available">No data available</string>
     <string name="none">None</string>
     <string name="no_subtitle">no subtitle available for this show yet</string>
+
+    <string name="track_selection_title">Select tracks</string>
+
 </resources>

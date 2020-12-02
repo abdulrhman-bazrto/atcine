@@ -88,7 +88,10 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         }
 //        tvDirector.setText(show.getDirector());
 //        tvWriters.setText(show.getWriters());
-        tvReleaseDate.setText(show.getYear() + "");
+        if (show.getYear() != 0)
+            tvReleaseDate.setText(show.getYear() + "");
+        else
+            tvReleaseDate.setText("");
         tvType.setText(show.getCategory());
 //        tvLanguage.setText(show.getLanguage());
 
@@ -170,10 +173,12 @@ public class OverviewFragment extends Fragment implements View.OnClickListener, 
         if (castAdapter != null && cast != null) {
             castAdapter.setList(cast);
             if (cast.isEmpty()) {
-//            inflatedView.findViewById(R.id.hint).setVisibility(View.VISIBLE);
-            } else {
-//            inflatedView.findViewById(R.id.hint).setVisibility(View.GONE);
+                tvCast.setVisibility(View.GONE);
+                rvCast.setVisibility(View.GONE);
             }
+        } else {
+            tvCast.setVisibility(View.GONE);
+            rvCast.setVisibility(View.GONE);
         }
     }
 

@@ -21,13 +21,13 @@ android {
         }
     }
 
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.gnusl.actine"
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 54
-        versionName "5.4.0"
+        targetSdkVersion 29
+        versionCode 57
+        versionName "5.7.0"
     }
     buildTypes {
         release {
@@ -89,6 +89,9 @@ dependencies {
     implementation 'com.azoft.carousellayoutmanager:carousel:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
+//    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
+    compileOnly 'org.checkerframework:checker-qual:3.3.0'
+    implementation 'com.google.android.exoplayer:extension-cronet:2.12.1'
+
 }
 apply plugin: 'com.google.gms.google-services'

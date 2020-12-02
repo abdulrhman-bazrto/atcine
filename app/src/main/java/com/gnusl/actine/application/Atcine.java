@@ -41,7 +41,7 @@ public class Atcine extends Application {
                                 .setFontAttrId(R.attr.fontPath)
                                 .build()))
                 .build());
-//        AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BODY); // enabling logging with level
+        AndroidNetworking.enableLogging(HttpLoggingInterceptor.Level.BASIC); // enabling logging with level
 
     }
 

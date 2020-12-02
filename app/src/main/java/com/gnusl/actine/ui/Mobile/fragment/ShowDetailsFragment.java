@@ -38,7 +38,6 @@ import com.gnusl.actine.network.DataLoader;
 import com.gnusl.actine.network.Urls;
 import com.gnusl.actine.ui.Mobile.activity.MainActivity;
 import com.gnusl.actine.ui.Mobile.activity.WatchActivity;
-import com.gnusl.actine.ui.Mobile.activity.WatchActivity2;
 import com.gnusl.actine.ui.Mobile.adapter.CommentsAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.HomeMovieListAdapter;
 import com.gnusl.actine.ui.Mobile.adapter.ViewPagerAdapter;
@@ -71,9 +70,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
     private View clMoreLikeThis, clReactions, clInputLayout;
     private RecyclerView rvComments;
     private TextView tvCategory, tvWatchTime, tvYear, tvShowTitle, tvShowCaption, tvCommentsCount, tvLikesCount, tvViewsCount, tvIMDBRate, tvTomatoRate;
-    private ImageView ivShowImage, ivShowCover, ivPlayShow, ivSendComment, ivAddComment, ivBack, ivClock;
+    private ImageView ivShowImage, ivShowCover, ivPlayShow, ivSendComment, ivAddComment, ivBack, ivClock, iv_star1, iv_star2;
     private EditText etCommentText;
-    private View iv_tomato,iv_imdb;
+    private View iv_tomato, iv_imdb;
 
     private CommentsAdapter commentsAdapter;
     private HomeMovieListAdapter homeMovieListAdapter;
@@ -207,14 +206,23 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
         });
 
         tvShowTitle.setText(show.getTitle());
-        tvYear.setText(String.valueOf(show.getYear()));
+        if (show.getYear() != 0)
+            tvYear.setText(String.valueOf(show.getYear() + ""));
+        else
+            tvYear.setText(String.valueOf(""));
         tvWatchTime.setText(show.getWatchTime());
         tvShowCaption.setText(show.getDescription());
+        if (show.getImdbRate().isEmpty()) {
+            iv_star1.setVisibility(View.GONE);
+        }
+        if (show.getRottenTomatoes().isEmpty()) {
+            iv_star2.setVisibility(View.GONE);
+        }
         tvIMDBRate.setText(show.getImdbRate());
 
         if (!show.getImdbRate().isEmpty()) {
             tvIMDBRate.setText(show.getImdbRate());
-        }else {
+        } else {
             tvIMDBRate.setVisibility(View.GONE);
             iv_imdb.setVisibility(View.GONE);
         }
@@ -379,6 +387,9 @@ public class ShowDetailsFragment extends Fragment implements HomeMovieClick, Vie
 
         tlMainTabLayout = inflatedView.findViewById(R.id.tl_main_tab_layout);
         vpMainContainer = inflatedView.findViewById(R.id.vp_main_container);
+
+        iv_star1 = inflatedView.findViewById(R.id.iv_star1);
+        iv_star2 = inflatedView.findViewById(R.id.iv_star2);
 
         ivPlayShow.setOnClickListener(this);
         btnDownload.setOnClickListener(this);
