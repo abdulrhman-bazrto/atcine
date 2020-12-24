@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.objectbox'
-apply plugin: 'io.fabric'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
 
@@ -43,9 +43,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
 
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     // smart tabLayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
@@ -61,16 +61,17 @@ dependencies {
     // crop images
     implementation 'com.github.yalantis:ucrop:2.2.2'
     implementation 'com.iceteck.silicompressorr:silicompressor:2.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.11.3'
 
-    implementation 'com.google.firebase:firebase-core:17.5.1'
+    implementation 'com.google.firebase:firebase-core:18.0.0'
     // crash analytics
-    implementation 'com.google.firebase:firebase-analytics:17.6.0'
-    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-crashlytics'
     // notifications
-    implementation 'com.google.firebase:firebase-messaging:20.3.0'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
 
     implementation 'com.daimajia.easing:library:2.0@aar'
     implementation 'com.daimajia.androidanimations:library:2.3@aar'
@@ -79,17 +80,16 @@ dependencies {
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
     implementation 'io.github.inflationx:calligraphy3:3.1.1'
+    implementation 'io.github.inflationx:viewpump:2.0.3'
 
     implementation 'com.fasterxml.jackson.core:jackson-core:2.5.3'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.5.3'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.5.3'
 
-//    implementation 'com.google.android.gms:play-services-cast-framework:19.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.azoft.carousellayoutmanager:carousel:1.2.4'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
 
-//    implementation 'de.mrmaffen:libvlc-android:2.1.12@aar'
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
     implementation 'com.google.android.exoplayer:extension-cronet:2.12.1'
 
