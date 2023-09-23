@@ -13,12 +13,7 @@ android {
     }
 
     signingConfigs {
-        config {
-            keyAlias 'atcine-key'
-            keyPassword 'atcine-key-123'
-            storeFile file('F:/android projects/ATCINE-Android/atcine-key.jks')
-            storePassword 'atcine-key-123'
-        }
+        
     }
 
     compileSdkVersion 29
